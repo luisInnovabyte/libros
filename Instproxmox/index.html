@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+<head>
+     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+     <title>Instalación Servidor WEB completo</title>
+     <link rel="stylesheet" href="styles.css" type="text/css" />
+</head>
+
+<body>
+
+
+     <div class="content">
+
+          <h1>Instalación de un servidor WEB en UBUNTU</h1>
+
+          <!-- Campo de búsqueda -->
+
+
+          <div class="index">
+               <h2>Índice</h2>
+               <ul>
+                    <li><a href="#section1">1. Instalación de PROXMOX</a></li>
+
+
+               </ul>
+          </div>
+
+          <!-- <h2 id="section24">24 - VISTAS - CREACION -->
+
+
+  
+          <h2 id="section1">1. Instalación de Proxmox</h2>
+          <pre>
+He creado un ride 0 por cada uno de los discos pero sigue sin arrancar el instalador. Hay alguna opción?
+
+
+Si ya configuraste los discos en RAID 0 y el instalador de Proxmox VE sigue sin arrancar, el problema puede estar
+relacionado con otros factores como el controlador, el modo de arranque, el firmware del HP Smart Array o incluso con el
+instalador en sí. Aquí te dejo algunas soluciones adicionales que puedes intentar:
+
+<h3>1. Verifica el Controlador y la Compatibilidad</h3>
+El HP Smart Array P410i puede tener problemas con sistemas modernos como Proxmox debido a su enfoque en RAID por
+hardware. Si sigue sin funcionar con RAID 0, intenta lo siguiente:
+
+Actualizar el Firmware del Controlador:
+
+Descarga y aplica las actualizaciones de firmware más recientes para el HP Smart Array P410i desde el sitio oficial de
+HP.
+Usa el HP Service Pack for ProLiant (SPP) para aplicar la actualización fácilmente.
+Desactiva el HP Smart Array (Temporalmente):
+
+Si tienes una opción de conectar directamente los discos al Intel SATA Controller, prueba desactivar el controlador HP
+en la BIOS y usar directamente los puertos SATA.
+Configura los discos en modo AHCI (no RAID).
+
+<h3>2. Fuerza el Arranque del Instalador con Opciones de Kernel</h3>
+Si el instalador de Proxmox se detiene o no se inicia, prueba modificar las opciones del kernel en el menú de arranque:
+
+Cuando arranques desde el USB de instalación, selecciona la opción "Install Proxmox VE", pero no presiones Enter.
+
+Pulsa la tecla e para editar las opciones de arranque.
+
+Añade las siguientes opciones al final de la línea que empieza con linux:
+
+nomodeset noapic noacpi
+
+Esto desactiva algunas configuraciones avanzadas que podrían estar causando conflictos con el hardware.
+Pulsa Ctrl+X para iniciar con las opciones modificadas.
+
+<h3>3. Configura el USB Booteable Correctamente</h3>
+El problema podría estar en cómo se creó el USB de instalación. Revisa lo siguiente:
+
+Herramientas recomendadas para crear el USB:
+Usa Rufus en modo DD Image (no ISO) o Balena Etcher para asegurar una copia fiel de la ISO.
+Revisión del formato del USB:
+Asegúrate de que el USB esté formateado en FAT32 antes de grabar la ISO.
+Usa la última versión de la ISO de Proxmox y verifica su integridad comparando el hash.
+
+<h3>4. Configuración de Modo de Arranque</h3>
+Asegúrate de que el modo de arranque sea correcto:
+
+Si usaste GPT al crear el USB, asegúrate de que el BIOS esté configurado para arrancar en UEFI Mode.
+Si usaste MBR, configura el BIOS para arrancar en Legacy Mode.
+Desactiva opciones innecesarias en el BIOS:
+
+Desactiva cualquier característica de Secure Boot o Fast Boot.
+Si hay una opción de compatibilidad con UEFI/Legacy, selecciona Legacy First.
+
+<h3>5. Verifica los Discos Detectados por el BIOS</h3>
+Entra al BIOS del servidor (usualmente con F9 o F10).
+Asegúrate de que los discos configurados en RAID 0 sean detectados como volúmenes independientes.
+Si el BIOS no detecta correctamente los discos, prueba:
+Reasignar los discos al Intel SATA Controller.
+Reconstruir los volúmenes RAID desde cero.
+
+<h3>6. Usa Instalación Alternativa vía Red</h3>
+Si el USB sigue sin arrancar correctamente:
+
+Configura un entorno PXE Boot (arranque por red) en tu red local.
+Usa un servidor PXE para iniciar el instalador de Proxmox de forma remota.
+Esto puede ser útil si el problema es específico del USB booteable.
+
+<h3>7. Como Último Recurso: Sustituye el Controlador HP</h3>
+El controlador P410i es conocido por presentar problemas con sistemas operativos modernos. Si nada de lo anterior
+funciona, considera sustituir el controlador RAID por un HBA (Host Bus Adapter) que permita un acceso directo a los
+discos (modo passthrough). Algunas opciones económicas y compatibles son:
+
+LSI 9211-8i (flash en modo IT).
+Dell H310 (reflasheado en modo IT).
+
+<h3>Resumen</h3>
+Intenta deshabilitar el HP Smart Array y usar el Intel SATA Controller con AHCI.
+Modifica las opciones del kernel al iniciar el instalador.
+Revisa el USB booteable y la configuración del BIOS.
+Considera usar PXE Boot o cambiar el controlador RAID por un HBA.
+
+                </pre>
+
+
+
+
+  
+
+     </div>
+     <!-- Del content general -->
+
+     <!-- Botón para ir arriba -->
+     <button id="boton-arriba" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">↑</button>
+
+</body>
+
+</html>

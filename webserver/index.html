@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+<head>
+     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+     <title>Instalación Servidor WEB completo</title>
+     <link rel="stylesheet" href="styles.css" type="text/css" />
+</head>
+
+<body>
+
+
+     <div class="content">
+
+          <h1>Instalación de un servidor WEB en UBUNTU</h1>
+
+          <!-- Campo de búsqueda -->
+
+
+          <div class="index">
+               <h2>Índice</h2>
+               <ul>
+                    <li><a href="#section1">1. Actualización del sistema</a></li>
+
+                    <li><a href="#section2">2. Instalación de APACHE</a></li>
+                    <li><a href="#section3">3. Instalación de MYSQL</a></li>
+                    <li><a href="#section4">4. Integración Apache + MySQL + PHP (LAMP stack)</a></li>
+                    <li><a href="#section5">5. PHPMYADMIN</a></li>
+                    <li><a href="#section6">6. Servidor FTP</a></li>
+                    <li><a href="#section7">7. Instalar servidor Samba</a></li>
+                    <li><a href="#section8">8. Como dar acceso al WORKBENCH en remoto</a></li>
+
+               </ul>
+          </div>
+
+          <!-- <h2 id="section24">24 - VISTAS - CREACION -->
+
+
+          <h2 id="section1">1. Actualización del sistema</h2>
+          <br>
+          <pre>
+                sudo apt update 
+                sudo apt upgrade -y
+                </pre>
+
+          <h2 id="section2">2. Instalación de APACHE</h2>
+          <pre>
+<h3>🛠 2. Instala Apache</h3>
+Ubuntu incluye Apache en sus repositorios predeterminados, por lo que puedes instalarlo fácilmente con el comando:
+
+    <b>sudo apt install apache2 -y</b>
+Este comando instala Apache y todos los paquetes relacionados.
+
+<h3>🛠 3. Habilita y arranca el servicio</h3>
+Una vez instalado, es necesario asegurarte de que Apache esté funcionando y configurado para iniciarse automáticamente al arrancar el sistema.
+
+Habilita Apache para que inicie al encender el sistema:
+  <b>sudo systemctl enable apache2</b>
+
+Inicia el servicio de Apache:
+     <b>sudo systemctl start apache2</b>
+
+Verifica el estado del servicio:
+     <b>sudo systemctl status apache2</b>
+
+<h3>🛠 4. Verifica que Apache está funcionando</h3>
+Abre un navegador web y accede a la dirección IP de tu servidor o localhost si estás probando localmente:
+
+<h3>🛠 5. El acceso es:</h3>
+http://**tu-ip-del-servidor**
+Si Apache está funcionando, verás una página de bienvenida predeterminada de Apache que dice algo como "Apache2
+        Ubuntu Default Page".
+
+Si no conoces la IP del servidor, puedes obtenerla con:
+
+        <b>hostname -I ó ip a</b>
+
+Los ficheros se deberán colgar en: 
+
+          <b>/var/www/html</b>
+
+        <h3>🛠 6. Versión de apache</h3>
+Para asegurarte de que Apache está instalado correctamente, verifica su versión:
+
+           <b>apache2 -v</b>
+
+Esto debería mostrarte algo como:
+
+Server version: Apache/2.4.41 (Ubuntu)
+Server built: YYYY-MM-DD
+
+                </pre>
+
+
+
+
+          <h2 id="section3">3. Instalación de MYSQL</h2>
+          <pre>
+<h3>🛠 2. Instala MYSQL</h3>
+Ejecuta el siguiente comando para instalar MySQL desde los repositorios oficiales de Ubuntu:
+     <b>sudo apt install mysql-server -y</b>
+Esto instalará el servidor de MySQL y los paquetes necesarios para que funcione correctamente.
+
+<h3>🛠 3. Verifica e inicia el servicio de MySQL</h3>
+Una vez instalado, asegúrate de que el servicio de MySQL esté activo y configurado para iniciarse automáticamente al arrancar el sistema.
+
+           Inicia el servicio de MySQL:
+           <b>sudo systemctl start mysql</b>
+           
+           Habilita el servicio para que arranque automáticamente:
+           <b>sudo systemctl enable mysql</b>
+           
+           Verifica el estado del servicio:
+           <b>sudo systemctl status mysql</b>
+
+<h3>🛠 4. Configura MySQL (recomendado)</h3>
+Después de instalar MySQL, es buena práctica ejecutar el script de configuración segura:
+
+    <b>sudo mysql_secure_installation</b>
+Este script te guiará a través de varios pasos para asegurar tu instalación de MySQL, como:
+
+* Establecer una contraseña para el usuario root.
+* Si te pregunta sobre el uso del plugin de autenticación, puedes elegir "Sí" para usar el plugin de autenticación por socket (recomendado en muchos casos) o "No" para utilizar contraseñas tradicionales.
+* Eliminar usuarios anónimos.
+* Deshabilitar el acceso remoto para el usuario root.
+* Eliminar la base de datos de prueba.
+* Recargar los privilegios para aplicar los cambios.
+
+<h3>🛠 5. Accede a MySQL</h3>
+Para verificar que MySQL está funcionando correctamente, puedes acceder a la consola de MySQL con el usuario root:
+
+   <b>sudo mysql</b>
+
+Deberías ver el prompt de MySQL:
+mysql>
+
+Desde aquí, puedes ejecutar comandos SQL.
+
+Para salir, escribe:
+exit;
+
+<h3>🛠 6. Opcional: Instala herramientas adicionales</h3>
+Si necesitas herramientas cliente para interactuar con bases de datos MySQL desde otro servidor o scripts PHP, puedes
+instalar:
+
+    <b>sudo apt install mysql-client -y</b>
+
+                </pre>
+
+
+          <h2 id="section4">4. Integración Apache + MySQL + PHP (LAMP stack)</h2>
+          <pre>
+Si estás configurando un servidor completo LAMP (Linux, Apache, MySQL, PHP), deberías instalar también PHP:
+<h3>Instala PHP y los módulos necesarios:</h3>
+     <b>sudo apt install php libapache2-mod-php php-mysql -y</b>
+
+<h3>Verifica la instalación de PHP:</h3>
+     <b>php -v</b>
+
+<h3>Reinicia Apache para aplicar los cambios:</h3>
+     <b>sudo systemctl restart apache2</b>
+
+     Ahora tendrás Apache sirviendo páginas PHP y MySQL como base de datos.
+
+                </pre>
+
+
+
+          <h2 id="section5">5. Instala phpMyAdmin</h2>
+          <pre>
+Ejecuta el siguiente comando para instalar phpMyAdmin junto con sus dependencias:
+
+sudo apt install phpmyadmin -y
+Durante la instalación se te pedirá que configures algunas opciones:
+
+Selecciona el servidor web:
+Durante la instalación, te preguntará qué servidor web deseas configurar con phpMyAdmin. Selecciona Apache2 usando las
+teclas de flecha y presiona Enter.
+
+Configurar la base de datos:
+Te pedirá si deseas configurar phpMyAdmin con dbconfig-common. Selecciona Sí y presiona Enter.
+
+Establecer una contraseña para phpMyAdmin:
+Te pedirá que ingreses una contraseña para el usuario de phpMyAdmin. Elige una contraseña segura y confirma.
+
+🛠 3. Habilita el módulo de PHP (si es necesario)
+Para que phpMyAdmin funcione correctamente con Apache, asegúrate de que el módulo de PHP esté habilitado:
+
+sudo phpenmod mysqli
+Luego reinicia Apache para aplicar los cambios:
+
+sudo systemctl restart apache2
+
+🛠 4. Verifica que phpMyAdmin esté accesible
+Abre tu navegador web y accede a phpMyAdmin utilizando la dirección IP de tu servidor seguido de /phpmyadmin:
+
+
+http://**tu-ip-del-servidor**/phpmyadmin
+        Si estás probando localmente, puedes usar:
+
+        Deberías ver la pantalla de inicio de sesión de phpMyAdmin.
+
+
+Eliminar el paquete phpMyAdmin
+Primero, elimina el paquete instalado de phpMyAdmin:
+sudo apt remove --purge phpmyadmin -y
+sudo systemctl restart apache2
+
+
+
+El error Access denied for user 'root'@'localhost' ocurre porque el usuario root de MySQL está configurado para
+autenticarse mediante el plugin de autenticación por socket y no con una contraseña. Esto es una configuración por
+defecto en las versiones recientes de MySQL y MariaDB para mejorar la seguridad.
+
+A continuación te muestro cómo solucionarlo dependiendo de tus necesidades:
+
+🛠 Solución 1: Cambiar el método de autenticación de root a contraseña
+Si prefieres que el usuario root se autentique con una contraseña (por ejemplo, para usarlo con phpMyAdmin), sigue estos
+pasos:
+
+1. Accede a MySQL usando autenticación por socket
+En la mayoría de los casos, puedes acceder a MySQL como root desde el terminal sin contraseña utilizando el siguiente
+comando:
+
+sudo mysql
+Esto abrirá la consola de MySQL como usuario root.
+
+2. Cambia el plugin de autenticación
+Ejecuta este comando dentro de la consola de MySQL para configurar el usuario root para que utilice la autenticación
+basada en contraseña:
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'tu_contraseña_segura';
+Reemplaza tu_contraseña_segura con una contraseña fuerte.
+
+Luego, aplica los cambios:
+FLUSH PRIVILEGES;
+
+3. Prueba el acceso
+Cierra la consola de MySQL:
+
+exit;
+Ahora intenta conectarte a MySQL con la nueva contraseña:
+
+mysql -u root -p
+Deberías poder acceder con la contraseña que configuraste.
+
+                </pre>
+
+          <h2 id="section6">6. Instalación servidor FTP</h2>
+          <pre>
+<h3>1. Instala el servidor FTP (vsftpd)</h3>
+Instala vsftpd, un servidor FTP seguro y fácil de usar:
+
+                <b>apt install vsftpd -y</b>
+
+<h3>2. Configura vsftpd</h3>
+Edita el archivo de configuración principal de vsftpd:
+      <b>nano /etc/vsftpd.conf</b>
+
+<h3>3. Busca y ajusta las siguientes configuraciones:</h3>
+Permitir acceso local: Descomenta o añade esta línea para permitir a los usuarios locales iniciar sesión:
+       <b>local_enable=YES</b>
+
+Permitir escritura: Descomenta o añade esta línea para permitir subir archivos:
+       <b>write_enable=YES</b>
+
+<h3>4. Opcional: Habilitar carga de archivos grandes (recomendado):</h3>
+       <b>pasv_enable=YES
+       pasv_min_port=10000
+       pasv_max_port=10100</b>
+
+<h3>5. Crea un usuario para FTP</h3>
+Crea un usuario específico para el acceso FTP:
+
+En el ejemplo se ha creado ftpuser como usuario
+
+      <b>adduser ftpuser</b>
+
+Se te pedirá que configures una contraseña y otra información
+
+<span class="comentario">Comando es para que el usuario creado tome posesión del directorio en el que vamos a colgar las páginas</span>
+      <b>chown -R ftpuser:ftpuser /ruta/de/tu/carpeta</b>
+
+
+<span class="comentario">Vamos a darle permiso para poder leer escribir y ejecutar a todos los usuarios</span>
+     <b>sudo chmod -R o+rwx /var/www</b>
+
+     El -R es para que sea recursivo
+     El o+rwx es para que sea a todo el mundo.
+
+     Si quiero solo permisos de ejecución a todo el mundo sería solo o+x
+
+     Para verifcar los permisos ls -ld /ruta/al/directorio
+
+                </pre>
+
+          <h2 id="section7">7. Instalación servidor SAMBA</h2>
+          <pre>
+
+<h3>1. Instalar Samba</h3>
+Ejecuta el siguiente comando para instalar Samba en tu sistema Ubuntu:
+    <b>sudo apt update
+    sudo apt install samba -y</b>
+
+    Verifica que el servicio esté activo:
+    <b>sudo systemctl status smbd</b>
+
+<h3>2. Configurar Samba</h3>
+El archivo de configuración principal de Samba está en 
+
+/etc/samba/smb.conf. 
+
+Vamos a editarlo para compartir la carpeta
+
+/var/www/html:
+
+Abre el archivo de configuración:
+
+<b>sudo nano /etc/samba/smb.conf</b>
+Añade la configuración del recurso compartido al final del archivo:
+
+<b>
+[www]
+comment = directorio servidor web
+path = /var/www/html
+browseable = yes
+writable = yes
+valid users = ftpuser
+create mask = 0755
+directory mask = 0755
+</b>
+Explicación:
+[www]: El nombre que aparecerá como recurso compartido en la red.
+path: La ruta real de la carpeta que quieres compartir.
+browseable: Permite que la carpeta sea visible en la red.
+writable: Permite a los usuarios autorizados escribir en la carpeta.
+valid users: Especifica qué usuarios tienen acceso (en este caso, ftpuser).
+create mask y directory mask: Ajustan los permisos de los archivos y carpetas creados desde Samba.
+
+Guarda los cambios (Ctrl + O, luego Enter y Ctrl + X).
+
+<h3>3. Crear un usuario Samba</h3>
+Samba necesita usuarios propios para autenticar conexiones. Si el usuario ftpuser ya existe en tu sistema:
+
+Añádelo como usuario de Samba:
+   <b>sudo smbpasswd -a ftpuser</b>
+Se te pedirá que configures una contraseña para este usuario.
+
+Habilita el usuario en Samba:
+     <b>sudo smbpasswd -e ftpuser</b>
+
+<h3>4. Ajustar permisos de la carpeta</h3>
+Asegúrate de que ftpuser tenga acceso a la carpeta /var/www/html:
+
+Cambia la propiedad del directorio para el usuario:
+     <b>sudo chown -R ftpuser:ftpuser /var/www/html</b>
+
+Asegúrate de que los permisos sean correctos:
+     <b>sudo chmod -R 755 /var/www/html</b>
+
+<h3>5. Reiniciar el servicio Samba</h3>
+Después de realizar los cambios, reinicia el servicio Samba para aplicarlos:
+     <b>sudo systemctl restart smbd</b>
+
+
+<h3>6. Acceder al recurso compartido desde otra máquina</h3>
+Desde Windows:
+Abre el explorador de archivos y escribe la dirección IP del servidor en la barra de direcciones:
+
+\\*IP_DEL_SERVIDOR*\www
+
+   Por ejemplo:
+   Copiar código
+   \\192.168.1.100\www
+   Introduce las credenciales del usuario ftpuser cuando se te solicite.
+
+Desde Linux:
+
+   Usa un gestor de archivos como Nautilus o Dolphin.
+   En la barra de direcciones, escribe:
+   arduino
+   Copiar código
+   smb://**IP_DEL_SERVIDOR**/www
+     Introduce las credenciales cuando se te pidan.
+
+
+                </pre>
+
+
+          <h2 id="section8">8. Acceso workbench</h2>
+          <pre>
+
+Para solucionar el problema del acceso remoto y asegurar que se pueda conectar correctamente MySQL Workbench a la máquina virtual,
+hacer los siguientes pasos y configuraciones:
+
+<h3>Permitir conexiones remotas en MySQL</h3>
+En tu máquina virtual, verifica que MySQL permita conexiones remotas. Para hacerlo:
+
+Accede a tu máquina virtual vía SSH.
+Edita el archivo de configuración de MySQL:
+     sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+Busca la línea que dice:
+     bind-address = 127.0.0.1
+Cámbiala por:
+     bind-address = 0.0.0.0
+Guarda y cierra el archivo (Ctrl+O, Ctrl+X).
+
+Si tienes acceso a phpMyAdmin, puedes realizar los mismos cambios desde su interfaz gráfica. Aquí te dejo los pasos
+detallados para solucionar este problema:
+
+<h3>Acceder a phpMyAdmin</h3>
+Inicia sesión en phpMyAdmin usando el usuario root y su contraseña.
+En la pestaña "Usuarios" en el menú principal:
+<span class="comentario">a. Editar los Privilegios del Usuario root</span>
+   Busca el usuario root en la lista de usuarios.
+   habrá una columna llamada "Host", que probablemente diga localhost.
+   si necesitas acceso remoto, edita el usuario o crea uno nuevo que permita acceso desde '% (cualquier IP) o desde una IP
+   específica.
+   Haz clic en "Editar privilegios" al lado del usuario root.
+<span class="comentario">b. Permitir Acceso Remoto</span>
+     Si el usuario root está limitado a localhost, puedes crear un nuevo usuario root que permita conexiones desde cualquier
+     IP:
+     Vuelve a la pestaña de "Usuarios" y haz clic en "Añadir usuario".
+     Llena los campos:
+     Nombre de usuario: root
+     Host: % (para cualquier IP) o ingresa la IP desde la que te conectas (ejemplo: 192.168.31.130).
+     Contraseña: 27979699 (o la que uses).
+     Marca la opción "Conceder todos los privilegios".
+     Haz clic en "Continuar".
+<span class="comentario">c. Verificar los Cambios</span>
+    Después de crear o modificar el usuario, regresa a la lista de usuarios y verifica que root tenga permisos globales y
+    que el host sea correcto (% o la IP específica).
+<span class="comentario">d. Probar la Conexión</span>
+      Intenta nuevamente conectar desde MySQL Workbench usando las credenciales actualizadas:
+      Hostname: 192.168.31.35
+      Port: 3306
+      Username: root
+      Password: 27979699
+      Si la conexión sigue fallando, verifica también que:
+      
+      El puerto 3306 esté abierto en el firewall de la máquina virtual.
+      El archivo de configuración de MySQL (/etc/mysql/mysql.conf.d/mysqld.cnf) tenga la línea bind-address = 0.0.0.0.
+                               </pre>
+
+     </div>
+     <!-- Del content general -->
+
+     <!-- Botón para ir arriba -->
+     <button id="boton-arriba" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">↑</button>
+
+</body>
+
+</html>

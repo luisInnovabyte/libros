@@ -1,0 +1,130 @@
+/* Estilo general */
+body {
+  font-family: Calibri, sans-serif;
+  font-size: 1em;
+  line-height: 1.5;
+  color: #333;
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 20px;
+}
+
+/* Encabezado principal */
+h1 {
+  font-size: 2.5em;
+  text-align: center;
+  color: #0056b3;
+  margin-bottom: 20px;
+}
+
+/* Encabezados secundarios */
+h2 {
+  font-size: 1.8em;
+  color: #0056b3;
+  margin-top: 30px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
+}
+
+/* Encabezados terciarios, dentro de los secundarios */
+h3 {
+  font-size: 1em;
+  color: #0056b3;
+  margin-top: 5px;
+  /* border-bottom: 2px solid #ccc; */
+  /* padding-bottom: 5px; */
+}
+
+.destacar {
+  font-size: 1.2em;
+  color: blue;
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* Estilo del contenedor */
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Bloques de código */
+pre {
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.9em;
+  background-color: #f4f4f4;
+  border-left: 4px solid #0056b3;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin-bottom: 20px;
+}
+
+.highlight {
+  background-color: yellow;
+}
+
+/* Bloques de código */
+pre.modelo {
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.9em;
+  background-color: #f4f4f4;
+  border-left: 4px solid #008f39;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin-bottom: 20px;
+}
+
+/* Bloques de código */
+.comentario {
+  color: #0056b3;
+}
+
+a {
+  text-decoration: none; /* Elimina el subrayado */
+  color: #333; /* Color del texto del enlace por defecto */
+  font-size: 1.2em;
+  line-height: 1.6em;
+}
+
+a:hover {
+  color: #007bff; /* Color del texto del enlace por defecto */
+}
+
+.enlace {
+  text-decoration: none; /* Elimina el subrayado */
+  color: #333; /* Color del texto del enlace por defecto */
+  font-size: 0.5em;
+}
+
+.enlace:hover {
+  color: #007bff; /* Color del texto del enlace por defecto */
+}
+
+#boton-arriba {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+#boton-arriba:hover {
+  background-color: #45a049;
+}

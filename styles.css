@@ -1,0 +1,179 @@
+/* Estilo general */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1em;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Encabezado principal */
+h1 {
+    font-size: 2.8em;
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    padding: 20px 0;
+}
+
+/* Estilo del contenedor principal */
+.content {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+}
+
+/* Introducción */
+.intro {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 5px solid #3498db;
+}
+
+.intro p {
+    font-size: 1.2em;
+    color: #555;
+    margin: 0;
+}
+
+/* Contenedor del menú */
+.menu-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+}
+
+/* Items del menú */
+.menu-item {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #e0e0e0;
+}
+
+.menu-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* Cabecera del item */
+.item-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    color: white;
+}
+
+.item-header h2 {
+    margin: 0;
+    font-size: 1.4em;
+    font-weight: 600;
+}
+
+/* Contenido del item */
+.item-content {
+    padding: 25px;
+}
+
+.item-content h3 {
+    color: #2c3e50;
+    margin: 0 0 15px 0;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.item-content p {
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* Botones de enlace */
+.btn-link {
+    display: inline-block;
+    padding: 12px 25px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9em;
+}
+
+.btn-link:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-top: 3px solid #3498db;
+}
+
+.footer p {
+    margin: 0;
+    color: #666;
+    font-style: italic;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .menu-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .content {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    h1 {
+        font-size: 2.2em;
+    }
+    
+    .item-content {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 1.8em;
+    }
+    
+    .intro p {
+        font-size: 1em;
+    }
+    
+    .btn-link {
+        padding: 10px 20px;
+        font-size: 0.8em;
+    }
+}

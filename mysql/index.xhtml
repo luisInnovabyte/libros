@@ -1,0 +1,1838 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Libro SQL</title>
+        <link rel="stylesheet" href="styles.css" type="text/css" />
+</head>
+
+<body>
+
+
+        <div class="content">
+
+                <h1>Manual SQL para Base de Datos</h1>
+
+
+
+                <div class="index">
+                        <h2>Índice</h2>
+                        <ul>
+                                <li><a href="#section1">1. Creación de Base de Datos y Tablas</a></li>
+                                <ul>
+                                        <li><a href="#section1_1">1.1 Valores por defecto en la creación</a></li>
+                                </ul>
+                                <li><a href="#section2">2. ALTER TABLE</a>
+                                        <ul>
+                                                <li><a href="#section2_1">2.1 DROP COLUMN</a></li>
+                                                <li><a href="#section2_2">2.2 CHANGE/MODIFY</a></li>
+                                                <li><a href="#section2_3">2.3 ADD</a></li>
+                                        </ul>
+                                </li>
+                                <li><a href="#section3">3. Insertar datos</a>
+                                        <ul>
+                                                <li><a href="#section3_1">3.1 Insertar datos - Implicitos</a></li>
+                                                <li><a href="#section3_2">3.2 Insertar multiples datos</a></li>
+                                                <li><a href="#section3_3">3.3 Insertar datos de una tabla en otra</a>
+                                                </li>
+                                        </ul>
+                                </li>
+                                <li><a href="#section4">4. Actualizar datos</a>
+                                        <ul>
+                                                <li><a href="#section4_1">4.1 Actualizar datos de forma masiva (IN)</a>
+                                                </li>
+                                        </ul>
+                                </li>
+                                <li><a href="#section5">5. Borrar registros</a></li>
+                                <li><a href="#section6">6. Tipos de datos</a>
+                                        <ul>
+                                                <li><a href="#section6_1">6.1 Numéricos</a></li>
+                                                <li><a href="#section6_2">6.2 Decimal, Float, Double</a></li>
+                                                <li><a href="#section6_3">6.3 Cadenas (Char, Varchar, Text, Enum)</a>
+                                                </li>
+                                                <li><a href="#section6_4">6.4 Fechas (Date, Time, Datetime)</a></li>
+                                                <li><a href="#section6_5">6.5 Enum</a></li>
+                                                <li><a href="#section6_6">6.6 Json</a></li>
+                                                <li><a href="#section6_7">6.7 Boolean</a></li>
+
+                                        </ul>
+                                </li>
+
+                                <li><a href="#section7">7. Consultas (Select)</a>
+                                        <ul>
+                                                <li><a href="#section7_1">7.1 Alias</a></li>
+                                                <li><a href="#section7_2">7.2 Order by</a></li>
+                                                <li><a href="#section7_3">7.3 Limit</a></li>
+                                                <li><a href="#section7_4">7.4 Where</a></li>
+                                                <li><a href="#section7_5">7.5 Distinc</a></li>
+                                        </ul>
+                                </li>
+
+                                <li><a href="#section8">8. Operadores de comparación</a>
+                                        <ul>
+                                                <li><a href="#section8_1">8.1 Mayor que, Menor que</a></li>
+                                                <li><a href="#section8_2">8.2 Between</a></li>
+                                                <li><a href="#section8_3">8.3 COALESCE, GREATEST, LEAST</a></li>
+                                                <li><a href="#section8_4">8.4 IS NULL IS NOT NULL</a></li>
+                                                <li><a href="#section8_5">8.5 LIKE</a></li>
+                                                <li><a href="#section8_6">8.6 IN, NOT IN</a></li>
+                                        </ul>
+                                </li>
+
+
+                                <li><a href="#section9">9. Funciones numéricas (Sum, Min, Max, Truncate, Round, Floor,
+                                                Ceil)</a></li>
+                                <li><a href="#section10">10. Funciones de agrupación (Count, Group By, Group_concat, AVG
+                                                y Having)</a></li>
+                                <li><a href="#section11">11. Funciones de string (Concat, Substring, Left, Right,
+                                                Replace, Position, Char_length, Trim, Lower, Ucase)</a></li>
+                                <li><a href="#section12">12. Funciones de fecha</a>
+                                        <ul>
+                                                <li> <a href="#section12_1">12.1 - Funciones de fecha - OPERACIONES</a>
+                                                </li>
+                                        </ul>
+                                </li>
+                                <li><a href="#section13">13. Foreign Keys</a></li>
+                                <li><a href="#section14">14. Inner Join</a></li>
+                                <li><a href="#section15">15. Left Join</a></li>
+                                <li><a href="#section16">16. Right Join</a></li>
+                                <li><a href="#section17">17. Union</a></li>
+                                <li><a href="#section18">18. Self Join</a></li>
+                                <li><a href="#section19">19. Subquerys</a></li>
+                                <li><a href="#section20">20. ANY, ALL</a></li>
+                                <li><a href="#section21">21. SUBQUERYS en clausulas WHERE</a></li>
+                                <li><a href="#section22">22. SUBQUERYS en SELECT</a></li>
+                                <li><a href="#section23">23. SUBQUERYS en FROM</a></li>
+                                <li><a href="#section24">24. CREACIÓN de VISTAS</a></li>
+                                <li><a href="#section25">25. PROCEDIMIENTOS ALMACENADOS</a></li>
+                                <li><a href="#section26">26. FUNCIONES ALMACENADAS</a></li>
+                                <li><a href="#section27">27. TRIGGERS (Disparadores)</a></li>
+                                <li><a href="#section28">28. Eventos</a></li>
+                                <li><a href="#section29">29. Ejemplo propio</a></li>
+                        </ul>
+                </div>
+
+                <!-- <h2 id="section24">24 - VISTAS - CREACION -->
+
+
+                <h2 id="section1">1. Creación de Base de Datos y Tablas</h2>
+                <pre>
+CREATE DATABASE IF NOT EXISTS Tienda;
+
+USE Tienda;
+
+CREATE TABLE IF NOT EXISTS empleados (
+    id_empleados INT <a href="https://www.w3schools.com/mysql/mysql_autoincrement.asp" target="_blank">AUTO_INCREMENT</a> NOT NULL PRIMARY KEY,
+    nombre VARCHAR(120) NOT NULL,
+    apellido VARCHAR(120) NOT NULL,
+    edad INT NOT NULL,
+    estado VARCHAR(20) NOT NULL DEFAULT 'Empleado'
+) ENGINE = INNODB;
+
+
+TRUNCATE TABLE empleados - <span class="comentario">#Borra los datos de la tabla, pero la tabla permanece</span>
+                </pre>
+
+
+                <h2 id="section1_1">1.1 Valores por defecto en la creación de una tabla</h2>
+                <pre>
+<span class="comentario"># Valor por defecto para una columna en caso de que no se envíe, al crear la tabla.</span>
+DROP TABLE IF EXISTS test_defecto;
+CREATE TABLE IF NOT EXISTS test_defecto (
+id_test int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+descr varchar(120) DEFAULT 'Descripción',
+precio float(8,2)
+) ENGINE=INNODB;
+
+INSERT INTO test_defecto (precio) VALUES (25);
+                </pre>
+
+                <h2 id="section2">2. ALTER TABLE <span class="enlace"><a
+                                        href="https://www.w3schools.com/sql/sql_alter.asp" target="_blank"> -
+                                        W3SCHOOLS</a></span>
+                </h2>
+                <pre>
+<span class="comentario"># Cambia el motor</span>
+ALTER TABLE empleados ENGINE='INNODB';
+<span class="comentario">#Cambiar el nombre de la tabla</span>
+ALTER TABLE empleados RENAME empleado;
+<span class="comentario">#Cambiar una propiedad de un campo</span>
+ALTER TABLE empleado AUTO_INCREMENT=1000;
+<span class="comentario"># Cambia el motor</span>
+ALTER TABLE empleado COMMENT = 'Es una tabla de muestra renombrada del original - empleados';
+                </pre>
+
+                <h2 id="section2_1">2.1 ALTER TABLE - DROP COLUMN</h2>
+                <pre>
+ALTER TABLE empleado3 DROP COLUMN edad, DROP COLUMN estado;
+<span class="comentario">#Eliminar el indice primario de una tabla</span>
+ALTER TABLE empleado3 DROP PRIMARY KEY;
+                </pre>
+
+                <h2 id="section2_2">2.2 ALTER TABLE - CHANGE</h2>
+                <pre>
+USE TIENDA;
+ALTER TABLE empleado RENAME productos;
+
+<span class="comentario">#Vamos a cambiar la edad por precio con un float(8,2)</span>
+ALTER TABLE productos CHANGE edad precio float(8,2);
+ALTER TABLE productos MODIFY precio float(10,3) DEFAULT 100;
+ALTER TABLE productos CHANGE precio precios float(10,2);
+                </pre>
+
+                <h2 id="section2_3">2.3 ALTER TABLE - ADD</h2>
+                <pre>
+<span class="comentario"># Añade la columna fecha al final de la tabla</span>
+ALTER TABLE productos ADD fecha DATE;
+
+<span class="comentario"># Añade la columna id despues de id_empleados</span>
+ALTER TABLE productos ADD id INT NOT NULL AFTER id_empleados;
+DESCRIBE productos;
+                </pre>
+
+
+                <h2 id="section3">3. Insertar Datos <span class="enlace"><a
+                                        href="https://www.w3schools.com/mysql/mysql_insert.asp" target="_blank"> -
+                                        W3SCHOOLS</a> </span> </h2>
+                <pre>
+INSERT INTO empleados (nombre, apellido, edad, estado) VALUES ('Luis Carlos', 'Pérez Mataix', 61, 'Retirado');
+SELECT * FROM empleados;
+                </pre>
+
+
+                <h2 id="section3_1">3.1 Insertar Datos - IMPLICITOS </h2>
+                <pre>
+INSERT INTO empleados VALUES(0,'Alicia', 'Botella', 58, 'Activa');
+<span class="comentario">#Hay que insertar todos los datos, los autoincrementales hay que ponerles un 0</span>
+                </pre>
+
+
+                <h2 id="section3_2">3.2 Insertar multiples Datos </h2>
+                <pre>
+<span class="comentario"># Se puede hacer la inserción tanto explicita (con nombres de los campos) como implicita (sin nombre de los campos)</span>
+INSERT INTO empleados VALUES(0,'Luis Carlos', 'Pérez Botella', 26, 'Activo'), (0,'Rubén', 'Pérez Botella', 26, 'Activo');
+                </pre>
+
+                <h2 id="section3_3">3.3 Insertar Datos de una tabla en otra</h2>
+                <pre>
+<span class="comentario"># Vamos a copiar de la tabla de empleados a copia_empleados (pues la estructura tiene que ser la misma)</span>
+CREATE TABLE copia_empleados LIKE empleados;
+INSERT INTO copia_empleados (SELECT* FROM empleados);
+                </pre>
+
+
+                <h2 id="section4">4 Actualizar valores <span class="enlace"><a
+                                        href="https://www.w3schools.com/mysql/mysql_update.asp" target="_blank"> -
+                                        W3SCHOOLS</a> </span></h2>
+                <pre>
+SELECT * FROM test_defecto;
+UPDATE test_defecto set descr="descrip", precio=30 WHERE id_test=1;
+                </pre>
+
+                <h2 id="section4_1">4.1 Actualizar valores de forma masiva (IN)</h2>
+                <pre>
+UPDATE test_defecto set precio=precio*1.21 WHERE id_test IN (1,3, 4);
+                </pre>
+
+                <h2 id="section5">5 Borrar registros <span class="enlace"><a
+                                        href="https://www.w3schools.com/mysql/mysql_delete.asp" target="_blank"> -
+                                        W3SCHOOLS</a> </span></h2>
+                <pre>
+DELETE FROM test_defecto WHERE id_test=1;
+DELETE FROM test_defecto WHERE id_test in (2,4);
+                </pre>
+
+                <h2 id="section6">6. Tipos de Datos</h2>
+                <pre>
+              # NUMÉRICOS
+              # tinyint, boolean, smallint, mediumint, int, bigint
+
+<span id="section6_1" class="comentario">
+<b>#tinyint:</b> DE -128 A 127 (Unsigned DE 0 a 255)
+<b>#boolean, bool:</b> El 0 es FALSE, cualquier otro número entero es TRUE
+<b>#smallint:</b> DE -32768 a 32767 (Unsigned de 0 a 65535)
+<b>#Mediumint:</b> de -8388608 a 8388607 (Unsigned de 0 a 16777215)
+<b>#int:</b> de -2147483648 a 2147483647 (Unsigned de 0 a 4294967295)
+<b>#bigint:</b> de -9223372036854775808 a 9223372036854775807 (Unsigned de 0 a 18446744073709551615)
+</span>
+
+
+                #DECIMAL, FLOAT y DOUBLE
+
+<span id="section6_2" class="comentario">
+<b>#DECIMAL: M,D </b>- (M) es el número total de dígitos, incluidos los decimales, mientras que (D) son la cantidad de dígitos que van detras de la coma decimal
+<b># ZEROFILL </b>, se rellenará con 0 hasta el valor de M
+# Si se permiten negativos el simbolo - no cuenta para M
+<b>#FLOAT: M,D </b>- (M) es el número total de dígitos, incluidos los decimales, mientras que (D) son la cantidad de dígitos que van detras de la coma decimal
+# Utiliza 32 bits para la precisión
+<b>#DOUBLE: M,D </b>- (M) es el número total de dígitos, incluidos los decimales, mientras que (D) son la cantidad de dígitos que van detras de la coma decimal
+# Utiliza 64 bits para la precisión
+</span>
+
+
+                # CADENAS
+                # CHAR, VARCHAR, TEXT, ENUM
+
+<span id="section6_3" class="comentario">
+<b>#CHAR:</b>- Es una cadena de longitud fija de hasta 255 caracteres, al almacenar se rellena con espacios hasta la longitud especificada.
+        # Optimo para Si/NO, M/F (Masculino/Femenino).ALTER
+        # Cuando se recupera se eliminan los caracteres en blanco.
+<b>#VARCHAR</b>- Es una cadena de longitud variable (a la hora de guardar se va a limitar a guardar los datos que realmente lleguen, independientemente de la M que se le haya colocado).
+<b>#TEXT </b>- En este caso es opcional y el valor máximo es de 65.535 caracteres. (El M no se suele utilizar).
+<b>#MEDIUMTEXT</b>- Es identico a TEXT pero de mayor capacidad.
+</span>
+
+
+                # FECHAS
+                # DATE, TIME, DATETIME
+
+<span id="section6_4" class="comentario">
+#DATE: YYYY-MM-DD
+#TIME: HH:MM:SS
+#DATETIME YYYY-MM-DD HH:MM:SS
+</span>
+
+CREATE TABLE IF NOT EXISTS tipo_datos_date (
+   nombre VARCHAR(50),
+   fecha_nac DATE,
+   hora_nac TIME,
+   fecha_hora_nac DATETIME
+) ENGINE=INNODB;
+
+INSERT INTO tipo_datos_date (nombre, fecha_nac, hora_nac, fecha_hora_nac) VALUES ('Luis Carlos', '1964-05-03', '10:00:01', '1964-05-03 10:00:01');
+INSERT INTO tipo_datos_date (nombre, fecha_nac, hora_nac, fecha_hora_nac) VALUES ('Luis hijo', '1998-08-13', '02:00:20', '1998-08-13 02:00:20');
+
+
+
+<span class="comentario">
+#CURDATE, CURTIME, NOW
+# Son funciones para CURDATE() - Fecha actual, CURTIME() - Hora actual y NOW() - Fecha y hora actual
+</span>
+
+INSERT INTO tipo_datos_date (nombre, fecha_nac, hora_nac, fecha_hora_nac) VALUES ('Alicia', CURDATE(), CURTIME(), NOW());
+
+
+                # ENUM
+
+        <span id="section6_5" class="comentario">
+# Es un objeto de cadena cuyo valor se elige de una lista de valores permitido
+# Los ENUM utilizan una serie de indices numéricos para cada uno de los strings.
+        </span>
+        
+CREATE TABLE IF NOT EXISTS producto_enums (
+    id_producto INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    descr VARCHAR(100),
+    tipo ENUM ('Pequeño','Mediano', 'Grande', 'Extra Grande')
+) ENGINE=INNODB;
+
+INSERT INTO producto_enums (descr, tipo) VALUES ('Coca Cola', 'Pequeño');
+<span class="comentario">## No detecta mayúsculas ni minúsculas</span>
+INSERT INTO producto_enums (descr, tipo) VALUES ('Coca Cola', 'Extra grande');
+INSERT INTO producto_enums (descr, tipo) VALUES ('Coca Cola', 2); <span class="comentario">## Empieza por el 1</span>
+
+                # JSON
+
+<span id="section6_6" class="comentario">
+# Es tratado con un tipo LONGTEXT
+</span>
+        
+CREATE TABLE IF NOT EXISTS datos_json(
+id_auto INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+marca VARCHAR(100),
+cantidad INT,
+propiedades JSON
+) ENGINE=INNODB;
+
+INSERT INTO datos_json (marca, cantidad, propiedades) VALUE ('Mazda', 2, '{"Color":"Rojo", "Modelo":"2019", "kilometraje":"20000"}');
+
+
+                # BOOLEAN
+<span id="section6_7" class="comentario">
+Es tratado con un tipo TINYINT(1)
+# 0 = FALSE, un valor distinto de 0 = TRUE
+</span>
+         
+CREATE TABLE IF NOT EXISTS tipo_boolean(
+id_empleado INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+nombre_empleado VARCHAR(100),
+activo BOOLEAN DEFAULT 0
+) ENGINE=INNODB;
+
+INSERT INTO tipo_boolean (nombre_empleado) VALUES ('Luis Padre');
+INSERT INTO tipo_boolean (nombre_empleado, activo) VALUES ('Luis Hijo', 1);
+
+</pre> <!-- Del conjunto de los tipos de datos-->
+
+
+
+
+                <h2 id="section7">7. Ejemplos de Consultas</h2>
+                <pre>
+<span class="comentario"># Leer todos los datos de una tabla con todas sus columna</span>
+SELECT * FROM copia_empleados;
+<span class="comentario"># solo una columna</span>
+SELECT apellido FROM copia_empleados;
+<span class="comentario"># Todas las columnas trayendo varios campos</span>
+SELECT DISTINCT nombre FROM copia_empleados;
+
+</pre>
+
+
+                <h2 id="section7_1">7.1 Ejemplos de Consultas - Alias</h2>
+                <pre>
+<span class="comentario">#Nos permite especificar los nombres de las cabeceras de los campos sin varias la definición de las tablas</span>
+SELECT nombre as NOMBRE, apellido as APELLIDO FROM copia_empleados;
+</pre>
+
+                <h2 id="section7_2">7.2 Ejemplos de Consultas - Order by <span class="enlace"><a
+                                        href="https://www.w3schools.com/mysql/mysql_orderby.asp" target="_blank"> -
+                                        W3SCHOOLS</a> </span></h2>
+                <pre>
+<span class="comentario">#Nos permite especificar el orden en los que va a mostrar los datos traidos</span>
+SELECT * FROM copia_empleados ORDER BY id_empleados ASC;
+SELECT * FROM copia_empleados ORDER BY apellido, id_empleados DESC;
+</pre>
+
+                <h2 id="section7_3">7.3 Ejemplos de Consultas - LIMIT <span class="enlace"><a
+                                        href="https://www.w3schools.com/mysql/mysql_limit.asp" target="_blank"> -
+                                        W3SCHOOLS</a>
+                        </span></h2>
+                <pre>
+<span class="comentario">#Nos permite especificar la cantidad de registros que nos va a traer</span>
+SELECT * FROM copia_empleados ORDER BY nombre LIMIT 3;
+</pre>
+
+
+                <h2 id="section7_4">7.4 Ejemplos de Consultas - WHERE</h2>
+                <pre>
+<span class="comentario"># Condicionar los registros que va a traer una tabla</span>
+SELECT * FROM copia_empleados WHERE nombre="Luis Carlos";
+</pre>
+
+
+                <h2 id="section7_5">7.5 Ejemplos de Consultas - DISTINC</h2>
+                <pre>
+<span class="comentario">
+# Elimina la vista de los registros duplicados
+# Va siempre detrás del SELECT, tiene en cuenta los campos que nos traemos, porEjem. En el siguiente caso está
+comparando todos los campos</span>
+SELECT DISTINCT * FROM copia_empleados;
+<span class="comentario"># En el caso siguiente nos comparará solo los campos nombre.</span>
+SELECT DISTINCT nombre FROM copia_empleados;
+</pre>
+
+                <h2 id="section8">8 - Operadores de comparación - Igual y no igual</h2>
+                <pre>
+
+CREATE TABLE IF NOT EXISTS personas(
+   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+   nombre VARCHAR(100) NOT NULL,
+   apellidos VARCHAR(100),
+   email VARCHAR(100),
+   pais VARCHAR(100),
+   edad INT NOT NULL
+) ENGINE=INNODB;
+
+
+INSERT INTO personas(nombre, apellidos, email, pais, edad) VALUES
+('Alcia', 'Abrego Fierro', 'Alciaabregofierro@gmail.com', 'Peru', 34),
+('Loana', 'Sanches Altamirano', 'LoanaSanchesAltamirano@yahoo.com', 'Argentina', 24),
+('Mateos', 'Jasso Gómez', 'MateosJassoGomez@altavista.com', 'Ecuador', 37),
+('Morgan', 'Mora Aguilar', 'MorganMoraAguilar@hotmail.com', 'Colombia', 41),
+('Alulay', 'Lozano Cavazos', 'AlulayLozanoCavazos@gustr.com', 'Paraguay', 44),
+('Amalio', 'Roldán Guerrero', 'AmalioRoldanGuerrero@yahoo.com', 'Ecuador', 37),
+('Carola', 'Preciado Guevara', 'CarolaPreciadoGuevara@gmail.com', 'Uruguay', 53),
+('Mauli', 'Nazario Candelaria', 'MauliNazarioCandelaria@gustr.com', 'Brasil', 37);
+
+<span class="comentario, destacar">#Igual</span>
+    SELECT * FROM personas WHERE pais = "Argentina";
+<span class="comentario, destacar">#No igual</span>
+    SELECT * FROM personas WHERE pais != "Argentina";
+
+</pre>
+
+
+
+                <h2 id="section8_1">8.1 Mayor o menor que..</h2>
+                <pre>
+SELECT * FROM personas WHERE edad>=41;
+</pre>
+
+
+                <h2 id="section8_2">8.2 #between y not between (entre un rago de valores)</h2>
+                <pre>
+SELECT * FROM personas WHERE edad BETWEEN 24 AND 41;
+SELECT * FROM personas WHERE edad NOT BETWEEN 24 AND 41;
+</pre>
+
+                <h2 id="section8_3">8.3 COALESCE, GREATEST, LEAST</h2>
+                <pre>
+<span class="comentario">
+<span class="comentario, destacar">#COALESCE</span> - Obtener el primer valor despues de NULL
+<span class="comentario, destacar">#GREATEST</span> - Obtener el mayor valort dentro del rango
+<span class="comentario, destacar">#LEAST</span> - Obtener en menor valor dentro del RANGO
+</span>
+     
+SELECT COALESCE(23, NULL, 58, 1);
+SELECT GREATEST (23,58, 1);
+SELECT LEAST (23,58,1);
+</pre>
+
+
+                <h2 id="section8_4">8.4 IS NULL IS NOT NULL</h2>
+                <pre>
+CREATE TABLE IF NOT EXISTS pagos(
+id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+nombre VARCHAR(100) NOT NULL,
+valor INT,
+estado VARCHAR(100)
+);
+
+INSERT INTO pagos(nombre, valor, estado)VALUES
+('José Montoya', 35000, 'Pagado'),
+('Alejandro Lopez', 47000, NULL),
+('Juan Perez', 145000, 'Pagado'),
+('Angelica Montes', 8300, NULL);
+
+SELECT * FROM pagos WHERE estado IS NULL;
+SELECT * FROM pagos WHERE estado IS NOT NULL;
+</pre>
+
+
+                <h2 id="section8_5">8.5 LIKE</h2>
+                <pre>
+CREATE TABLE IF NOT EXISTS ciudades(
+   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+   nombre VARCHAR(120),
+   fecha datetime
+);
+
+INSERT INTO ciudades(nombre, fecha)VALUES('Armenia', NOW());
+INSERT INTO ciudades(nombre, fecha)VALUES('Barrancabermeja', NOW());
+INSERT INTO ciudades(nombre, fecha)VALUES('Barranquilla', NOW());
+INSERT INTO ciudades(nombre, fecha)VALUES('Bogotá', NOW());
+INSERT INTO ciudades(nombre, fecha)VALUES('Bucaramanga', NOW());
+INSERT INTO ciudades(nombre, fecha)VALUES('Buga', NOW());
+INSERT INTO ciudades(nombre, fecha)VALUES('Cali', NOW());
+INSERT INTO ciudades(nombre, fecha)VALUES('Cartagena', NOW());
+INSERT INTO ciudades(nombre, fecha)VALUES('Chía', NOW());
+INSERT INTO ciudades(nombre, fecha)VALUES('Cúcuta', NOW());
+INSERT INTO ciudades(nombre, fecha)VALUES('Duitama', NOW());
+
+<span class="comentario"># Tienen que terminar en la. el simbolo % equivale a cualquier letra y cantidad</span>
+SELECT * FROM ciudades WHERE nombre LIKE "%la";
+
+<span class="comentario"># Tienen que empezar en la. el simbolo % equivale a cualquier letra y cantidad</span>
+SELECT * FROM ciudades WHERE nombre LIKE "a%";
+
+<span class="comentario"># Tienen que tener la en cualquier zona del campo, no importan los acentos ni las mayusculas.</span>
+SELECT * FROM ciudades WHERE nombre LIKE "%i%";
+
+<span class="comentario">#Hay otro simbolo que es el _, que equivale a una sola letra. En el ejemplo es una solo letra seguida de una a</span>
+SELECT * FROM ciudades WHERE nombre like "_r%";
+<span class="comentario"># En este caso : Lo que sea la primera letra, despues la r y después la cantidad de letras que sean.</span>
+
+        </pre>
+
+
+                <h2 id="section8_6">8.6 IN, NOT IN</h2>
+                <pre>
+<span class="comentario"><span class="comentario, destacar">#IN</span> - Nos permite traernos los registros que cumplan la condicion de estar en una lista que le pasamos. En este caso nos
+lo traerá si están en la lista.
+<span class="comentario, destacar">#NOT IN</span> - Nos traerá los registros que no están en la lista.</span>
+
+<span class="comentario"># Vamos a traernos los registros que están en la lista. (IN) - Me va a traer los dos registros solcitados</span>
+SELECT * FROM ciudades WHERE nombre in ('Armenia', 'Bogota');
+                
+<span class="comentario">#Quiero que me traigas todos menos los dos mencionados.</span>
+SELECT * FROM ciudades WHERE nombre NOT IN ('Armenia', 'Bogotá');
+                
+                        </pre>
+
+                <h2 id="section9">9 - FUNCIONES NUMÉRICAS</h2>
+
+                <pre>
+CREATE TABLE IF NOT EXISTS pagos(
+id_pago INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+cliente VARCHAR(255) NOT NULL,
+dni INT NOT NULL,
+valor FLOAT(8,3) NOT NULL
+) ENGINE='INNODB';
+
+INSERT INTO pagos(cliente, dni, valor)
+VALUES('José Montoya', 11235441, 52369.56),
+('José Montoya', 11012554, 3369.82),
+('Carlos Tevez', 11023547, 85669.112),
+('Gabriela Gomez', 11023546, 32569.2),
+('Juan Perez', 21025484, 98562.23),
+('Angelica Lopez', 2359411, 8954.213);
+
+<span class="comentario"><span class="comentario, destacar">#SUM</span> es una función</span>
+SELECT sum(valor) FROM pagos;
+
+<span class="comentario">#Valor absoluto <span class="comentario, destacar">(ABS)</span></span>
+SELECT abs(-sum(valor)) FROM pagos;
+
+<span class="comentario"><span class="destacar">#MIN<span class="enlace"><a href="https://www.w3schools.com/mysql/mysql_min_max.asp" target="_blank"> - W3SCHOOLS</a>
+</span></span> - Valor mínimo de una columna</span>
+SELECT MIN(valor) as 'Valor mínimo' FROM pagos;
+
+<span class="comentario"><span class="destacar">#MAX<span class="enlace"><a href="https://www.w3schools.com/mysql/mysql_min_max.asp" target="_blank"> - W3SCHOOLS</a></span>
+</span> - Valor máximo de una columna</span>
+SELECT MAX(valor) FROM pagos;
+
+<span class="comentario"><span class="comentario, destacar">#TRUNCATE</span> - Trunca un valor decimal a los decimales que consideremos.</span>
+SELECT truncate(valor, 2) FROM pagos;
+
+<span class="comentario"><span class="comentario, destacar">#ROUND()</span> - Redondea un número a un determinado número de decimales</span>
+SELECT ROUND(135.375, 2);
+SELECT ROUND(PI(), 2);
+SELECT round(valor, 2) FROM pagos;
+
+<span class="comentario"><span class="comentario, destacar">#FLOOR()</span> - Devuelve el número entero más grande que es menor o igual que el número.</span>
+SELECT floor(18.75);
+
+<span class="comentario"><span class="comentario, destacar">#CEIL()</span> - Devuelve el número entero más pequeño que es mayor o igual que el numero dado.</span>
+SELECT ceil(18.75);
+
+<span class="comentario"><span class="comentario, destacar">#CEILING()</span> - Devuelve el valor entero más pequeño que es mayor o igual que el número.</span>
+SELECT ceil(18.75);
+</pre>
+
+
+
+                <h2 id="section10">10 - FUNCIONES AGRUPACION</h2>
+
+                <pre>
+CREATE TABLE IF NOT EXISTS clientes(
+dni INT PRIMARY KEY NOT NULL,
+nombre VARCHAR(255) NOT NULL,
+email VARCHAR(255) NOT NULL,
+pais VARCHAR(120) NOT NULL,
+importe FLOAT(8,3) NOT NULL
+);
+
+INSERT INTO clientes(dni, nombre, email, pais, importe)
+VALUES(11235441, 'José Montoya', 'jose@gmail.com', 'Colombia', 89369.56),
+(542892423, 'Gildardo Lopez', 'gillo@gmail.com', 'Colombia', 21369.56),
+(12458455, 'Carlos Velez', 'carlove@gmail.com', 'Argentina', 52369.56),
+(23556812, 'Juan Gomez', 'juango@gmail.com', 'Perú', 85369.56),
+(1245781, 'Carla Giraldo', 'carlagi@gmail.com', 'Colombia', 12369.56),
+(325689, 'Alberto Lopez', 'albertlo@gmail.com', 'Argentina', 55369.56),
+(1289415, 'Diana Puentes', 'dianapuen@gmail.com', 'Colombia', 62369.56),
+(1254896, 'Angelica García', 'angelicagar@gmail.com', 'Ecuador', 93369.56),
+(12536644, 'Mariana Tellez', 'marianate@gmail.com', 'Argentina', 2369.56),
+(74541244, 'Alberto Lopez', 'albertolop@gmail.com', 'Perú', 4369.56),
+(81541222, 'Carlos Mayorca', 'carlosmay@gmail.com', 'Argentina', 44369.56);
+
+<span class="comentario, destacar">#COUNT</span>
+SELECT COUNT(dni) FROM clientes WHERE pais IN ('Colombia');
+
+<span class="comentario"><span class="comentario, destacar">#GROUP BY</span>
+#La declaración GROUP BY agrupa filas que tienen los mismos valores en filas de resumen,
+#como "encontrar la cantidad de clientes en cada país".
+#La declaración GROUP BY se usa a menudo con funciones agregadas (COUNT(), MAX(), MIN(), SUM(), AVG())
+#para agrupar el conjunto de resultados por una o más columnas.</span>
+
+SELECT pais, count(pais) FROM clientes GROUP BY pais ORDER BY pais ;
+SELECT pais, count(pais) FROM clientes WHERE pais in ('Argentina', 'Colombia') GROUP BY pais ORDER BY pais;
+<span class="comentario"># Por lo que queremos que agrupe (lo que va en el GROUP BY) debe estar en el select</span>
+
+
+<span class="comentario"><span class="comentario, destacar">#GROUP_CONCAT</span> - Agrupa y devuelve otra columna con los datos agrupados separados por comas.</span>
+SELECT pais, GROUP_CONCAT(dni) as 'Concatenados' FROM clientes GROUP BY pais;
+
+
+<span class="comentario"><span class="comentario, destacar">#AVG</span> - Promedio</span>
+SELECT pais, truncate(avg(importe),2) as 'Promedio' FROM clientes GROUP BY pais;
+
+<span class="comentario"><span class="comentario, destacar">#HAVING</span> - Especifica las condiciones para un filtro de un GRUPO de filas. Primero hace el GROUP BY y despues aplica el
+HAVING como filtro (un WHERE de los GROUP BY)</span>
+SELECT pais, sum(importe) as importe FROM clientes GROUP BY pais having importe>90000 order by importe ASC;
+
+<span class="comentario"><span class="comentario, destacar">#ROLLUP</span> - Es un modificador que se utiliza par producir la salida del resumen. En este caso agrega una linea con el
+total de los importes.</span>
+SELECT pais, sum(importe) as TOTAL FROM clientes GROUP BY pais WITH ROLLUP;
+</pre>
+
+
+                <h2 id="section11">11 - FUNCIONES STRING</h2>
+
+                <pre>
+CREATE TABLE IF NOT EXISTS estudiantes(
+id_estudiante INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+nombres VARCHAR(255),
+apellidos VARCHAR(255),
+edad INT,
+pasatiempo VARCHAR(100)
+);
+
+INSERT INTO estudiantes(nombres, apellidos, edad, pasatiempo)
+VALUES('Jaime Alberto', 'Grajales Melo', 15, 'Fútbol'),
+('Arley', 'Jimenez Castro', 16, 'Baloncesto'),
+('Mariana Estella', 'Montes García', 14, 'Natación'),
+('Roland Andrés', 'Velez Mazo', 17, 'Fútbol'),
+('Jhon Fredy', 'López García', 16, 'Volleybol');
+
+<span class="comentario, destacar">#CONCAT</span>
+SELECT nombres, CONCAT(nombres, " ", apellidos) as 'Nombre Completo' FROM estudiantes;
+
+<span class="comentario">
+<span class="destacar">#SUBSTRING("CADENA ORIGINAL", inicio, número de caracteres)</span> - Es igual que SUBSTR
+<span class="destacar">#LEFT ('CADENA ORIGINAL', numero de caracteres a devolver)</span> - devuelve N caracteres por delante
+<span class="destacar">#RIGHT ('CADENA ORIGINAL', numero de caracteres a devolver)</span> - devuelve N caracteres por detrás
+</span>
+SELECT nombres, apellidos, SUBSTRING(apellidos, 1, 4) FROM estudiantes;
+
+<span class="comentario">
+<span class="destacar">#REPLACE</span> - Reemplaza todas las apariciones de una subcadena dentro de una cadena
+<span class="destacar">#REPLACE ('Cadena original, la subcadena que debo buscar', 'La cadena que quiero colocar')</span>
+</span>
+select nombres, apellidos, substring(apellidos, 1, 4), REPLACE(apellidos, 'Jimenez', 'JJ') from estudiantes;
+
+<span class="comentario">
+<span class="destacar">#POSITION ('cadena a buscar', CADENA ORIGINAL Y COMPLETA)</span> - Busca la primera concurrencia - Es igual que LOCATE
+# Si no lo encuentra retorna 0
+</span>
+SELECT POSITION('u' IN'Luis Carlos');
+
+<span class="comentario">
+<span class="destacar">#CHAR_LENGTH()</span> - Devuelve la longitud de una cadena en caracteres.
+<span class="destacar">#TRIM</span> - Para quitar los espacios en cualquier posición
+<span class="destacar">#RTRIM</span> - Para quitar los espacios al final de la cadena.
+<span class="destacar">#LTRIM</span> - Quita los espacios al comienzo de la cadena
+</span>
+SELECT nombres, apellidos, SUBSTRING(apellidos, 1, 4), REPLACE(apellidos, 'Jimenez', 'JJ'), CHAR_LENGTH(TRIM(apellidos))
+FROM estudiantes;
+
+<span class="comentario">
+<span class="destacar">#LOWER()</span> - Pasar a minúsculas
+<span class="destacar">#UCASE()</span> - Pasa a MAYÚSCULAS
+</span>
+
+                </pre>
+                <!-- ********************************************** -->
+                <!-- ********  FUNCIONES DE FECHA  **************** -->
+                <!-- ********************************************** -->
+                <h2 id="section12">12 - FUNCIONES DE FECHA
+                        <span class="enlace"><a href="https://www.w3schools.com/sql/func_mysql_adddate.asp"
+                                        target="_blank"> -
+                                        W3SCHOOLS</a> </span>
+                </h2>
+                <pre>
+<span class="comentario">
+#DATE: YYYY-MM-DD 
+#TIME: HH:MM:SS
+#DATETIME YYYY-MM-DD HH:MM:SS
+</span>
+<span class="comentario">#Obtener fecha y hora actual</span>
+SELECT now(); #2024-12-03 07:23:25
+SELECT current_timestamp(); #2024-12-03 07:23:25
+SELECT localtimestamp(); #2024-12-03 07:23:25
+<span class="comentario">
+#La marca de tiempo de Unix es una forma de rastrear el tiempo como un total acumulado de segundos.
+#Este recuento comienza en la época de Unix el 1 de enero de 1970</span>
+SELECT unix_timestamp(); <span class="comentario"> Son segundos pasados desde 01-01-1970</span>
+
+<span class="comentario">#Fecha actual</span>
+SELECT CURDATE(); <span class="comentario">#2024-12-03</span>
+
+<span class="comentario">#Hora actual</span>
+SELECT CURTIME(); <span class="comentario">#07:26:58</span>
+
+<span class="comentario">#Dia de la semana en literal (Ingles)</span>
+SELECT DAYNAME(CURDATE()); <span class="comentario">#Tuesday</span>
+
+<span class="comentario">#Dia de la semana en número</span>
+SELECT DAYOFWEEK(CURDATE()); <span class="comentario"># 3 - Para martes - Empieza el domingo con 1</span>
+
+<span class="comentario">#Dia del mes</span>
+SELECT dayofmonth(now()); <span class="comentario">#dia 03</span>
+
+<span class="comentario">#dia del mes en nombre</span>
+SELECT monthname(now()); <span class="comentario">#December</span>
+
+<span class="comentario">#Obtener el día del año</span>
+SELECT dayofyear(now()); <span class="comentario">#338</span>
+
+<span class="comentario">#Ultimo día del mes</span>
+SELECT LAST_DAY('2021-10-04'); <span class="comentario">#2021-10-31</span>
+
+<span class="comentario">#Convertir un string en DATE</span>
+#https://www.w3schools.com/sql/func_mysql_str_to_date.asp
+SELECT str_to_date("2024-10-27", '%Y-%m-%d'); #Resultado: 2024-10-27
+SELECT str_to_date("27-10-2024", '%d-%m-%Y'); #Resultado: 2024-10-27
+
+<span class="comentario">#Formatear fecha</span>
+SELECT DATE_FORMAT('2024-10-04 22:23:00', '%W %M %Y'); #Friday October 2024
+SELECT DATE_FORMAT ('2024-10-04 22:30:00', '%d-%m-%Y') as 'Fecha Europea'; # 04-10-2024
+SELECT DATE_FORMAT ('2024-10-04 22:30:00', '%H:%i:%S') as 'Hora Europea'; # 22:30:00
+
+<span class="comentario">
+# %a Abbreviated weekday name (Sun to Sat)
+# %b Abbreviated month name (Jan to Dec)
+# %c Numeric month name (0 to 12)
+# %D Day of the month as a numeric value, followed by suffix (1st, 2nd, 3rd, ...)
+# %d Day of the month as a numeric value (01 to 31)
+# %e Day of the month as a numeric value (0 to 31)
+# %f Microseconds (000000 to 999999)
+# %H Hour (00 to 23)
+# %h Hour (00 to 12)
+# %I Hour (00 to 12)
+# %i Minutes (00 to 59)
+# %j Day of the year (001 to 366)
+# %k Hour (0 to 23)
+# %l Hour (1 to 12)
+# %M Month name in full (January to December)
+# %m Month name as a numeric value (00 to 12)
+# %p AM or PM
+# %r Time in 12 hour AM or PM format (hh:mm:ss AM/PM)
+# %S Seconds (00 to 59)
+# %s Seconds (00 to 59)
+# %T Time in 24 hour format (hh:mm:ss)
+# %U Week where Sunday is the first day of the week (00 to 53)
+# %u Week where Monday is the first day of the week (00 to 53)
+# %V Week where Sunday is the first day of the week (01 to 53). Used with %X
+# %v Week where Monday is the first day of the week (01 to 53). Used with %x
+# %W Weekday name in full (Sunday to Saturday)
+# %w Day of the week where Sunday=0 and Saturday=6
+# %X Year for the week where Sunday is the first day of the week. Used with %V
+# %x Year for the week where Monday is the first day of the week. Used with %v
+# %Y Year as a numeric, 4-digit value
+# %y Year as a numeric, 2-digit value
+</span>
+</pre>
+
+
+                <h2 id="section12_1">12.1 - FUNCIONES DE FECHA - OPERACIONES
+                        <span class="enlace"><a href="https://www.w3schools.com/sql/func_mysql_adddate.asp"
+                                        target="_blank"> -
+                                        W3SCHOOLS</a> </span>
+                </h2>
+                <pre>
+
+<span class="comentario">#Nos va a dar una fecha si le pasamos los días que han pasado desde 0000-00-00.</span>
+SELECT date_format(from_days(725669), '%d-%m-%Y'); <span class="comentario">#La fecha que nos resulta de sumar 725669 días al 0000-00-00.Resultado: 1986-10-25 (Con el dateformat 25-10-1986).</span>
+
+
+<span class="comentario">#Añadir días, horas, minutos a una fecha dada - Solo sirve para date y datetime</span>
+#https://www.w3schools.com/sql/func_mysql_adddate.asp
+SELECT ADDDATE('2024-10-25', INTERVAL 10 DAY); <span class="comentario">#2024-11-04</span>
+SELECT ADDDATE('2024-10-25 09:34:21', INTERVAL 10 MINUTE); <span class="comentario">#2024-10-25 09:44:21</span>
+SELECT ADDDATE('2024-10-25 09:34:21', INTERVAL 3 HOUR); <span class="comentario">#2024-10-25 12:34:21</span>
+SELECT ADDDATE('2024-10-25 09:34:21', INTERVAL -3 HOUR); <span class="comentario">#2024-10-25 06:34:21</span>
+
+<span class="comentario">
+# MICROSECOND
+# SECOND
+# MINUTE
+# HOUR
+# DAY
+# WEEK
+# MONTH
+# QUARTER
+# YEAR
+# SECOND_MICROSECOND
+# MINUTE_MICROSECOND
+# MINUTE_SECOND
+# HOUR_MICROSECOND
+# HOUR_SECOND
+# HOUR_MINUTE
+# DAY_MICROSECOND
+# DAY_SECOND
+# DAY_MINUTE
+# DAY_HOUR
+# YEAR_MONTH
+</span>
+
+<span class="comentario">#Añadir horas minutos y segundo a una hora dada - solo funciona con TIME </span>
+SELECT ADDTIME('12:00:00', '02:00:00'); <span class="comentario">#Resultado: 14:00:00</span>
+SELECT SUBTIME('12:00:00', '02:00:00'); <span class="comentario">#Resultado: 10:00:00</span>
+
+<span class="comentario">#Diferencia entre dos expresiones dadas</span>
+# https://www.w3schools.com/sql/func_mysql_timediff.asp
+SELECT TIMEDIFF('13:10:11', '13:10:10'); <span class="comentario">#Resultado:00:00:01</span>
+SELECT TIMEDIFF("2017-06-25 13:10:11", "2017-06-15 13:10:10"); <span class="comentario">#Resultado: 240:00:01</span>
+SELECT HOUR(TIMEDIFF("2017-06-25 13:10:11", "2017-06-15 13:10:10")),
+MINUTE(TIMEDIFF("2017-06-25 13:10:11", "2017-06-15 13:10:10")),
+SECOND(TIMEDIFF("2017-06-25 13:10:11", "2017-06-15 13:10:10")); <span class="comentario">#Resultado: 240, 0, 1</span>
+
+<span class="comentario">#Diferencia entre fecha a segundos</span>
+SELECT time_to_sec(TIMEDIFF("2017-06-25 13:10:11", "2017-06-15 13:10:10")); <span class="comentario">#Resultado: 864001</span>
+
+<span class="comentario">#Dados unos segundos pasarlo a formato de tiempo</span>
+SELECT sec_to_time('864001'); <span class="comentario">#Resultado: 240:00:01.000000</span>
+
+<span class="comentario">#Diferencia entre fechas en días</span>
+SELECT DATEDIFF("2017-06-25 13:10:11", "2017-06-15 14:10:10"); <span class="comentario">#Resultado: 10, Omite la diferencias entre horas.</span>
+</pre>
+
+                <!-- ********************************************** -->
+                <!-- **************  FOREIGN KEYS  **************** -->
+                <!-- ********************************************** -->
+                <h2 id="section13">13 - CONSTRAINT - FOREIGN KEYS
+                        <span class="enlace"><a href="https://www.w3schools.com/mysql/mysql_foreignkey.asp"
+                                        target="_blank"> -
+                                        W3SCHOOLS</a> </span>
+                </h2>
+                <pre>
+USE Tienda;
+CREATE TABLE IF NOT EXISTS cliente (
+id_cliente INT PRIMARY KEY NOT NULL,
+nombre VARCHAR(255) NOT NULL,
+apellidos VARCHAR(255) NOT NULL,
+fecha_creacion DATE NOT NULL
+) ENGINE='INNODB';
+
+CREATE TABLE IF NOT EXISTS detalle_cliente (
+id_detalle INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+email varchar(100) NOT NULL,
+telefono int NOT NULL,
+direccion VARCHAR(255) NOT NULL,
+ciudad VARCHAR(255) NOT NULL,
+pais VARCHAR(255) NOT NULL,
+#Esta es la clave que va a relacionar con la tabla PADRE
+cliente_id INT ,
+<span class="comentario">#FOREIGN KEY (cliente_id) REFERENCES cliente(id_cliente),</span>
+CONSTRAINT FK_DetalleCliente FOREIGN KEY (cliente_id) REFERENCES cliente(id_cliente),
+<span class="comentario">#CONSTRAINT FK_DetalleCliente FOREIGN KEY (cliente_id) REFERENCES cliente(id_cliente) ON DELETE CASCADE ON UPDATE</span>
+CASCADE,
+#########################################################
+fecha_nacimiento DATE NOT NULL,
+fecha_creacion DATE NOT NULL
+) ENGINE='INNODB';
+
+#Insertamos datos en la tabla padre.
+#Insertar datos demo en las tabla clientes
+INSERT INTO cliente(id_cliente, nombre, apellidos, fecha_creacion)
+VALUES(123645, 'José', 'Montoya', CURDATE()),
+(133444, 'Juan', 'Gonzales', CURDATE()),
+(235647, 'Maria', 'Yepez', CURDATE()),
+(256894, 'Marcela', 'Gomez', CURDATE());
+
+
+INSERT INTO detalle_cliente(email, telefono, direccion, ciudad, pais, cliente_id, fecha_nacimiento, fecha_creacion)
+VALUES('jose@gmail.com', 32323232, 'Calle 24 # 3-56', 'Pereira', 'Colombia', 123645, '1978-09-30', CURDATE()),
+('juan@gmail.com', 36985412, 'Carrera 23 # 12-20', 'Lima', 'Peru', 133444, '1987-10-10', CURDATE());
+
+<span class="comentario">
+### Estamos probando una relación 1 a 1
+## https://www.w3schools.com/mysql/mysql_foreignkey.asp
+
+## EL FK actua en la tabla padre, sin embargo se define en la tabla hijo -- por defecto el comportamiento es el NO
+ACTION
+
+#Para permitir el nombramiento de una restricción FOREIGN KEY y para definir una restricción FOREIGN KEY
+#en varias columnas, utilice la siguiente sintaxis SQL:
+#CONSTRAINT FK_ClienteDetalle FOREIGN KEY(cliente_id) REFERENCES clientes(id_cliente)
+#CONSTRAINT ##Nombre del FK## FOREIGN KEY (##nombre del campo de la tabla hija##) REFERENCES ##nombre de la tabla
+padre##(##nombre del campo en la tabla padre##)
+
+#Acciones referenciales
+#La restricción "foreign key" tiene las cláusulas "ON DELETE" y "ON UPDATE" que son opcionales.
+#Estas cláusulas especifican cómo debe actuar Mysql frente a eliminaciones y modificaciones
+#de las tablas referenciadas en la restricción.
+#Las opciones para estas cláusulas son las siguientes:
+
+#- "NO ACTION": indica que si intentamos eliminar o actualizar un valor de la clave primaria de la tabla referenciada
+#(TABLA2) que tengan referencia en la tabla principal (TABLA1),
+#se genere un error y la acción no se realice; es la opción predeterminada.
+
+#- "CASCADE": indica que si eliminamos o actualizamos un valor de la clave primaria en la tabla referenciada (TABLA2),
+#los registros coincidentes en la tabla principal (TABLA1), también se eliminen o modifiquen; es decir,
+#si eliminamos o modificamos un valor de campo definido con una restricción "primary key" o "unique",
+#dicho cambio se extiende al valor de clave externa de la otra tabla (integridad referencial en cascada).
+
+#-"SET NULL": establece las filas de la tabla secundaria en NULL si se eliminan las filas correspondientes
+#de la tabla primaria. Para ejecutar esta acción, las columnas de clave foránea deben aceptar valores nulos.
+</span>
+
+</pre>
+
+                <!-- ********************************************** -->
+                <!-- **************  JOIN de TABLAS **************** -->
+                <!-- ********************************************** -->
+                <h2 id="section14">14 - INNER JOIN
+                        <span class="enlace"><a href="https://www.w3schools.com/mysql/mysql_join_inner.asp"
+                                        target="_blank"> -
+                                        W3SCHOOLS</a> </span>
+                </h2>
+                <table>
+                        <tr>
+                                <td><img src="./img/img_inner_join.png" alt="Imagen Inner" /></td>
+                                <td>La palabra clave INNER JOIN selecciona registros que tienen valores coincidentes en
+                                        ambas tablas.</td>
+                        </tr>
+                </table>
+
+
+
+
+
+                <pre class="modelo">
+<span class="comentario">SELECT</span> column_name(s)
+<span class="comentario">FROM</span> table1
+<span class="comentario">INNER JOIN</span> table2
+<span class="comentario">ON</span> table1.column_name = table2.column_name;
+</pre>
+
+
+                <pre>
+CREATE TABLE libros(
+id_libro INT PRIMARY KEY NOT NULL,
+titulo VARCHAR(120) NOT NULL,
+descripcion VARCHAR(255) NOT NULL,
+paginas INT NOT NULL,
+idioma VARCHAR(100) NOT NULL,
+fecha_lanzamiento DATE NOT NULL,
+fecha_creacion DATE NOT NULL
+);
+
+CREATE TABLE resenias(
+id_resenia INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+calificacion INT NOT NULL,
+mensaje VARCHAR(255) NOT NULL,
+usuario VARCHAR(255) NOT NULL,
+#La siguiente es la llave foranea
+libro_id INT,
+#No estamos indicando el comportamiento para UPDATE y DELETE, así que será el por defecto: NO ACTION
+CONSTRAINT FK_ReseniaLibro FOREIGN KEY(libro_id) REFERENCES libros(id_libro),
+fecha_creacion DATE NOT NULL
+);
+
+<span class="comentario">SELECT</span> libros.*, resenias.* <span class="comentario">FROM</span> libros <span class="comentario">INNER JOIN</span> resenias <span class="comentario">ON</span> resenias.libro_id=libros.id_libro;
+                <table>
+                        <tr>
+                                <td><img src="./img/result_inner_join.png" alt="Imagen Inner" style="width: 770px" /></td>
+                        </tr>
+                        <tr>
+La combinación de los registros de las dos tablas
+                        </tr>
+                </table>
+<span class="comentario">
+Vamos a combinar tres tablas, dos de ellas maestras y la tercera que las realaciona.
+</span>
+
+CREATE TABLE autores(
+id_autor INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+nombre VARCHAR(120) NOT NULL,
+apellidos VARCHAR(120) NOT NULL,
+email VARCHAR(120) NOT NULL,
+telefono INT NOT NULL,
+fecha_creacion DATE NOT NULL
+);
+
+CREATE TABLE libros_autores(
+id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+libro_id INT,
+autor_id INT,
+#Los constraint como ya se explico no son obligatorios pero si recomendados para mantener la
+#integridad de los datos y no permitir por ejemplo insertar aqui un id de un libro o de un autor
+#que no existen en esas tablas.
+CONSTRAINT FK_LibroAutores_Libros FOREIGN KEY(libro_id) REFERENCES libros(id_libro),
+CONSTRAINT FK_LibroAutores_Autores FOREIGN KEY(autor_id) REFERENCES autores(id_autor),
+fecha_creacion DATE NOT NULL
+);
+
+<span class="comentario">
+Debemos realacionar las tres tablas LIBROS, AUTORES y LIBROS AUTORES.
+en Libros está el id_libro
+en Autores está el id_autor
+en Libros Autores están ambos, libro_id y autor_id
+</span>
+
+Select * from libros;
+Select * from autores;
+Select * from libros_autores;
+
+select li.*, a.*, la.* from libros li Inner Join libros_autores la on li.id_libro = la.libro_id
+Inner Join autores a on la.autor_id = a.id_autor;
+        </pre>
+
+
+
+                <!-- ********************************************** -->
+                <!-- **************  JOIN de TABLAS **************** -->
+                <!-- ********************************************** -->
+                <h2 id="section15">15 - LEFT JOIN
+                        <span class="enlace"><a href="https://www.w3schools.com/mysql/mysql_join_left.asp"
+                                        target="_blank"> -
+                                        W3SCHOOLS</a> </span>
+                </h2>
+                <table>
+                        <tr>
+                                <td><img src="./img/img_left_join.png" alt="Imagen left join" /></td>
+                                <td>La palabra clave LEFT JOIN devuelve todos los registros de la tabla izquierda
+                                        (tabla1) y los registros coincidentes (si
+                                        los hay) de la tabla derecha (tabla2).</td>
+                        </tr>
+                </table>
+
+                <pre class="modelo">
+<span class="comentario">SELECT</span> column_name(s)
+<span class="comentario">FROM</span> table1
+<span class="comentario">LEFT JOIN</span> table2
+<span class="comentario">ON</span> table1.column_name = table2.column_name;
+</pre>
+
+
+                <pre>
+<span class="comentario">SELECT</span> libros.*, resenias.* <span class="comentario">FROM</span> libros <span class="comentario">LEFT JOIN</span> resenias <span class="comentario">ON</span> resenias.libro_id=libros.id_libro;
+                <table>
+                        <tr>
+                                <td><img src="./img/result_left_join.png" alt="Imagen Left" style="width: 770px" /></td>
+                        </tr>
+                        <tr>
+Aparecen todos los registros de la tabla libros con sus reseñas
+                        </tr>
+                </table>
+</pre>
+
+
+                <!-- ********************************************** -->
+                <!-- **************  JOIN de TABLAS **************** -->
+                <!-- ********************************************** -->
+                <h2 id="section15">16 - RIGHT JOIN
+                        <span class="enlace"><a href="https://www.w3schools.com/mysql/mysql_join_right.asp"
+                                        target="_blank"> -
+                                        W3SCHOOLS</a> </span>
+                </h2>
+                <table>
+                        <tr>
+                                <td><img src="./img/img_right_join.png" alt="Imagen right join" /></td>
+                                <td>La palabra clave RIGHT JOIN devuelve todos los registros de la tabla derecha
+                                        (tabla2) y los registros coincidentes (si
+                                        los hay) de la tabla izquierda (tabla1).</td>
+                        </tr>
+                </table>
+
+                <pre class="modelo">
+<span class="comentario">SELECT</span> column_name(s)
+<span class="comentario">FROM</span> table1
+<span class="comentario">RIGHT JOIN</span> table2
+<span class="comentario">ON</span> table1.column_name = table2.column_name;
+</pre>
+
+
+                <pre>
+<span class="comentario">SELECT</span> libros.*, resenias.* <span class="comentario">FROM</span> libros <span class="comentario">LEFT JOIN</span> resenias <span class="comentario">ON</span> resenias.libro_id=libros.id_libro;
+                <table>
+                        <tr>
+                                <td><img src="./img/result_right_join.png" alt="Imagen Left" style="width: 770px" /></td>
+                        </tr>
+                        <tr>
+Aparecen todas las reseñas tengan o no libros asociados.
+                        </tr>
+                </table>
+</pre>
+
+                <!-- ********************************************** -->
+                <!-- **************  UNION TABLAS **************** -->
+                <!-- ********************************************** -->
+                <h2 id="section17">17 - UNION
+                        <span class="enlace"><a href="https://www.w3schools.com/mysql/mysql_union.asp" target="_blank">
+                                        -
+                                        W3SCHOOLS</a> </span>
+                </h2>
+                <span class="comentario">
+                        El operador UNION se utiliza para combinar el conjunto de resultados de dos o más
+                        instrucciones SELECT. <br />
+
+                        # Cada instrucción SELECT dentro de UNION debe tener el mismo número de
+                        columnas.<br />
+                        # Las columnas también deben tener tipos de datos similares.<br />
+                        # Las columnas de cada instrucción SELECT también deben estar en el mismo
+                        orden.<br />
+                </span>
+                <pre class="modelo">
+<span class="comentario">SELECT</span> column_name(s)<span class="comentario"> WHERE </span>condition1;
+<span class="comentario">FROM</span> table1
+<span class="comentario">UNION [All]</span> 
+<span class="comentario">SELECT</span> column_name(s)<span class="comentario"> WHERE </span>condition2;
+<span class="comentario">FROM</span> table2
+</pre>
+
+
+                <!-- ********************************************** -->
+                <!-- **************  SELF JOIN TABLAS **************** -->
+                <!-- ********************************************** -->
+                <h2 id="section18">18 - SELF JOIN
+                        <span class="enlace"><a href="https://www.w3schools.com/mysql/mysql_join_self.asp"
+                                        target="_blank">
+                                        -
+                                        W3SCHOOLS</a> </span>
+                </h2>
+                <span class="comentario">
+                        Una autounión es una unión normal, pero la tabla se une consigo misma.
+                </span>
+                <pre class="modelo">
+<span class="comentario">SELECT</span> column_name(s);
+<span class="comentario">FROM</span> table1 T1, table2 T2
+<span class="comentario">WHERE </span>condition;
+
+T1 y T2 son alias de tabla diferentes para la misma tabla.
+        </pre>
+
+
+                <!-- ********************************************** -->
+                <!-- **************  SUBQUERYS **************** -->
+                <!-- ********************************************** -->
+                <h2 id="section19">19 - SUBQUERYS
+
+                </h2>
+                <span class="comentario">
+                        Son SQL dentro de otras SQL
+                </span>
+                <pre>
+#Crear tabla directores
+CREATE TABLE IF NOT EXISTS directores(
+id_director INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+nombre VARCHAR(120),
+pais VARCHAR(120),
+categoria VARCHAR(120)
+);
+
+#Crear tabla peliculas
+CREATE TABLE IF NOT EXISTS peliculas(
+id_pelicula INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+titulo VARCHAR(120),
+director_id INT NOT NULL,
+CONSTRAINT FK_PelicuaAutor FOREIGN KEY(director_id) REFERENCES directores(id_director),
+ventas DECIMAL(9,2)
+);
+
+#Insertar datos demo de directores
+INSERT INTO directores(nombre, pais, categoria)VALUES
+('Juan Perez', 'Perú', 'Acción'),
+('Marcela Reyes', 'Argentina', 'Aventura'),
+('Manuel Gomez', 'Perú', 'Comedia'),
+('Andrés Castro', 'Colombia', 'Suspenso'),
+('Margarita Parra', 'Ecuador', 'Terror'),
+('Jesica Hernández', 'Ecuador', 'Suspenso'),
+('Jorge Marín', 'Perú', 'Comedia'),
+('Alison Peña', 'Paraguay', 'Terror'),
+('Johan Amaya', 'Colombia', 'Aventura');
+
+#Mostrar directores creados
+SELECT * FROM directores;
+
+#Insertar datos demo de peliculas
+INSERT INTO peliculas(titulo, director_id, ventas)VALUES
+('Leyendas de Otoño', 4, 45231.54),
+('Chicos Malos', 1, 14632.54),
+('Memoria', 2, 8523.54),
+('Batman', 3, 3231.54),
+('Terminator', 6, 4231.54),
+('Ciudad Perdida', 5, 62231.54),
+('Sonic', 7, 3331.54);
+
+SELECT * FROM peliculas;
+<span class="comentario">
+#Promedio de ventas - Solo es para apoyar</span>
+SELECT avg(ventas) from peliculas;
+
+<table>
+        <tr>
+                <td><img src="./img/Subquery_1.png" alt="Imagen Left" style="width: 770px" /></td>
+        </tr>
+       
+</table>
+
+<span class="comentario">
+#Traer los registros mayores que el promedio de ventas</span>
+select * from peliculas where ventas > (select avg(ventas) from peliculas);
+
+<table>
+        <tr>
+                <td><img src="./img/Subquery_2.png" alt="Imagen Left" style="width: 770px" /></td>
+        </tr>
+
+</table>
+
+<span class="comentario">
+#Traer el máximo de las ventas - Solo es para apoyar</span>
+select max(pe.ventas) as mayor from peliculas pe;
+
+<table>
+        <tr>
+                <td><img src="./img/Subquery_3.png" alt="Imagen Left" style="width: 770px" /></td>
+        </tr>
+
+</table>
+
+<span class="comentario">
+#Traer toda la información de la película que tenga el mayor dato en ventas.</span>
+select * from peliculas where ventas = (select max(pe.ventas) as mayor from peliculas pe);
+
+<table>
+        <tr>
+                <td><img src="./img/Subquery_4.png" alt="Imagen Left" style="width: 770px" /></td>
+        </tr>
+
+</table>
+
+<span class="comentario">
+#Mostrar todos los directores que sean de Perú</span>
+Select * from directores where pais="Perú";
+
+<table>
+        <tr>
+                <td><img src="./img/Subquery_5.png" alt="Imagen Left" style="width: 770px" /></td>
+        </tr>
+
+</table>
+
+<span class="comentario">
+#Traer toda la información de los directores con sus peliculas - pero solo el que supere la media de ventas</span>
+Select di.*, pe.* from directores di left join peliculas pe on di.id_director = pe.director_id where ventas >= (SELECT
+avg(ventas) from peliculas);
+
+<table>
+        <tr>
+                <td><img src="./img/Subquery_6.png" alt="Imagen Left" style="width: 770px" /></td>
+        </tr>
+
+</table>
+        </pre>
+
+                <!-- ********************************************** -->
+                <!-- **************  ANY ALL  **************** -->
+                <!-- ********************************************** -->
+                <h2 id="section20">20 - ANY, ALL </h2>
+                <span class="comentario">
+                        El ANY y ALL los operadores le permiten realizar una comparación entre un solo valor de columna
+                        y un rango de otros
+                        valores.
+                        <br />
+
+                        #La palabra clave ANY es un operador de MySQL que devuelve el valor booleano VERDADERO si la
+                        comparación es #VERDADERA para CUALQUIERA de las condiciones de la subconsulta. En otras
+                        palabras, esta palabra
+                        clave devuelve verdadero si alguna de las condiciones de la subconsulta se cumple cuando se
+                        ejecuta
+                        la consulta SQL.
+                        #La palabra clave ANY debe seguir al operador de comparación. <br />
+
+                </span>
+
+                <span class="comentario">
+                        <pre>
+                        SELECT column_name(s)
+                        FROM table_name
+                        WHERE column_name operator ANY
+                        (SELECT column_name
+                        FROM table_name
+                        WHERE condition);
+                </pre>
+                </span>
+                <span class="comentario">
+                        #Contrario al ejemplo anterior el operador ALL retorna true si todos los registros coinciden con
+                        >= 4500, si hay alguna que no lo sea entonces sera false
+                </span>
+
+
+                <span class="comentario">
+                        <pre>
+                SELECT column_name(s)
+                FROM table_name
+                WHERE column_name operator ALL
+                (SELECT column_name
+                FROM table_name
+                WHERE condition);
+                 
+
+                
+select * from directores where id_director=(SELECT director_id from peliculas where ventas>=4500); <br />
+Aquí estoy tratando de buscar los datos de directores que tengan ventas de más de 4500, pero la condición es el campo id de directores. Tal y como está daría error pues el subquery se traera más de un id de director que cumpla la condición. Para ello se utiliza el ANY: <br />
+select * from directores where id_director=ANY (SELECT director_id from peliculas where ventas>=4500); 
+                        </pre>
+                </span>
+
+                <!-- ******************************************************** -->
+                <!-- **************  SUBQUERYS RELACIONADOS  **************** -->
+                <!-- **************  CON CLAUSULAS WHERE     **************** -->
+                <!-- ******************************************************** -->
+                <h2 id="section21">21 - SUBQUERYS en clausulas WHERE
+
+                </h2>
+
+                <pre>
+USE renta_peliculas;
+
+CREATE TABLE IF NOT EXISTS empleados(
+id_empleado INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+nombre VARCHAR(120),
+email VARCHAR(120),
+departamento VARCHAR(120),
+salario INT
+);
+
+#Insertar datos demo en la tabla empleados
+INSERT INTO empleados(nombre, email, departamento, salario)VALUES
+('Ruth Usma', 'usmar@gmail.com', 'Contabilidad', 2000),
+('Estela Lopez', 'lopezeste@gmail.com', 'Contabilidad', 100),
+('Guillermo Carmona', 'gui@hotmail.com', 'Sistemas', 1800),
+('Fabio Castro', 'fabcast@yahoo.es', 'Recursos Humanos', 1600),
+('Margarita Parra', 'marga@gmail.com', 'Recursos Humanos', 900),
+('Jesica Hernández', 'jes@hotmail.com', 'Sistemas', 1800),
+('Paola Reyes', 'pao@hotmail.com', 'Cartera', 800),
+('Francisco Gaviria', 'gavir@hotmail.com', 'Calidad', 500),
+('Julio García', 'juliogar@hotmail.com', 'Cartera', 300),
+('Ismael Toro', 'isma@hotmail.com', 'Calidad', 900);
+
+select * from empleados;
+<span class="comentario">## Sacar promedio por departamento ##</span>
+select departamento, avg(salario) as media from empleados GROUP BY departamento;
+
+<span class="comentario">
+# Vamos a ver los empleados que están por encima de ese salario (siempre dentro de la misma tabla)
+# No hay que hacer un GROUP BY, hay que tener cuidado con darle un alias a la tabla del FROM principal.</span>
+SELECT nombre, email, departamento, salario
+FROM empleados e
+WHERE salario >= (select avg(salario) from empleados where departamento = e.departamento);
+</pre>
+
+
+                <!-- ***************************************************** -->
+                <!-- **************  SUBQUERYS en SELECT  **************** -->
+                <!-- **************************************************** -->
+                <h2 id="section22">22 - SUBQUERYS en SELECT
+
+                </h2>
+
+                <pre>
+<span class="comentario"># Siempre ponerles un alias y si quiero utilizarlo dentro del propios Select deberé colocarle delante la palabra reservada (SELECT), siempre entre parentesis.</span>
+
+SELECT 
+    id_empleado, 
+    nombre, 
+    salario,
+    (SELECT avg(salario) from empleados) as promedio_salario,
+     salario-(SELECT promedio_salario) as diferencia
+FROM empleados;
+        </pre>
+
+                <!-- ***************************************************** -->
+                <!-- **************  SUBQUERYS en FROM  ****************** -->
+                <!-- ***************************************************** -->
+                <h2 id="section23">23 - SUBQUERYS en FROM
+
+                </h2>
+
+                <pre>
+SELECT 
+   e.id_empleado,
+   e.nombre,
+   e.departamento,
+   (select sum(salario) from empleados where e.nombre = nombre) as total_salarios,
+   (select avg(salario) from empleados where e.departamento=departamento) as media,
+   (SELECT total_salarios - media) as diferencia
+FROM
+   empleados e;
+
+
+## Se puede hacer también así:
+SELECT * FROM
+   (SELECT
+   e.id_empleado,
+   e.nombre,
+   e.departamento,
+   (SELECT SUM(salario) FROM empleados WHERE e.nombre = nombre) as total_salarios,
+   (select AVG(salario) FROM empleados WHERE e.departamento=departamento) as media,
+   (SELECT total_salarios - media) as diferencia
+FROM
+   empleados e
+) AS reporte_salario
+WHERE 
+   diferencia>0;
+                
+<span class="comentario">
+# Aqui la ventaja es que se pueden filtrar los resultados
+# Hay que tener en cuenta que siempre hay que ponerle un ALIAS al query que está embebido en el FROM.ALTER
+</span>
+
+</pre>
+
+                <!-- ***************************************************** -->
+                <!-- **************  VISTAS CREACION  ******************** -->
+                <!-- ***************************************************** -->
+                <h2 id="section24">24 - VISTAS - CREACION
+
+                </h2>
+
+                <pre>
+CREATE OR REPLACE VIEW informe_ventas AS
+select
+c.*,
+i.*,
+o.*
+from (clientes c inner join ordenes o on c.id_cliente=o.cliente_id)
+inner join inventarios i on o.inventario_id = i.id_inventario;
+        <span class="comentario">
+# Se utiliza el <b>CREATE OR REPLACE VIEW</b> >>>NOMBRE DE LA VISTA>>>> AS >>y a continuación la definicion de la SQL que deseamos guardar>>
+        </span>
+        
+        </pre>
+
+
+                <!-- ********************************************* -->
+                <!-- *****  PROCEDIMIENTOS ALMACENADOS  ********** -->
+                <!-- ********************************************* -->
+                <h2 id="section25">25 - PROCEDIMIENTOS ALMACENADOS
+
+                </h2>
+
+                <pre>
+<span class="comentario">####################</span>
+<span class="comentario">## SIN PARAMETROS ##</span>
+<span class="comentario">####################</span>
+<b>DELIMITER //
+CREATE PROCEDURE</b> sp_listar_clientes()
+<b>BEGIN
+   SELECT</b> * <b>FROM</b> clientes
+<b>END
+//</b>
+<span class="comentario">########### Como se llama #############</span>
+<b>CALL</b> sp_listar_clientes();
+
+
+<span class="comentario">####################</span>
+<span class="comentario">## CON PARAMETROS ##</span>
+<span class="comentario">####################</span>
+<b>DELIMITER //
+CREATE PROCEDURE</b> sp_listar_clientes(id_cliente INT)
+<b>BEGIN
+    SELECT</b> * <b>FROM</b> clientes c <b>WHERE</b> c.id_cliente = id_cliente 
+<b>END
+//</b>
+<span class="comentario">########### Como se llama #############</span>
+<b>CALL</b> sp_listar_clientes(2);
+
+
+<span class="comentario">################################</span>
+<span class="comentario">## CON PARAMETROS POR DEFECTO ##</span>
+<span class="comentario">################################</span>
+
+<span class="comentario">#Con parametros por defecto</span>
+<b>DELIMITER //
+        CREATE PROCEDURE</b> sp_listar_clientes(id_cliente INT)
+<b>BEGIN
+        IF id_cliente IS NULL THEN id_cliente=1;
+        END IF;
+        SELECT</b> * <b>FROM</b> clientes c <b>WHERE</b> c.id_cliente = id_cliente;
+<b>END
+        //
+</b>
+<span class="comentario">########### Como se llama #############</span>
+<b>CALL</b> sp_listar_clientes(NULL);
+<span class="comentario"># En este caso tomará por defecto el valor 1 que es de defecto.</span>
+
+
+<span class="comentario">#############################</span>
+<span class="comentario">## CON PARAMETROS IN y OUT ##</span>
+<span class="comentario">#############################</span>
+<span class="comentario">#Vamos a montar un procedimiento que nos cuente el numero de ordenes que hay. Con un parametro OUT</span>
+<b>DELIMITER //
+CREATE PROCEDURE</b> sp_contar_ordenes(<b>IN</b> pais <b>varchar(30)</b>, <b>OUT</b> total <b>INT</b>)
+<b>BEGIN
+    SET</b> total = (select count(iv.pais) from informe_ventas iv where iv.pais = pais);
+<b>END
+//</b>
+<span class="comentario">########### Como se llama #############</span>
+<b>CALL</b> sp_contar_ordenes('Venezuela', @total);
+<b>select @total</b>;
+</pre>
+
+
+
+                <!-- **************************************** -->
+                <!-- *****  FUNCIONES ALMACENADOS  ********** -->
+                <!-- **************************************** -->
+                <h2 id="section26">26 - FUNCIONES ALMACENADAS
+
+                </h2>
+
+                <pre>
+
+<span class="comentario">#Vamos a montar una funcion que nos cuente el numero de ordenes que hay</span>
+<b>DELIMITER //
+CREATE FUNCTION</b> sp_contar_paises(pais <b>varchar(30)</b>)
+  <b>RETURNS INT
+  DETERMINISTIC
+BEGIN
+  DECLARE</b> contar <b>INT DEFAULT 0</b>;
+  <b>SET</b> contar=(select count(pais) from informe_ventas iv where iv.pais=pais);
+  <b>RETURN</b> contar;
+<b>END
+//</b>
+
+<span class="comentario">########### Como se llama #############</span>
+select sp_contar_paises('Venezuela');
+</pre>
+
+
+                <!-- **************************************** -->
+                <!-- *****  TRIGGERS  ********** -->
+                <!-- **************************************** -->
+                <h2 id="section27">27 - TRIGGERS (Disparadores)
+
+                </h2>
+
+                <pre>
+<span class="comentario">
+#Cuando insertemos un pago en la tabla pago, el sistema se debe ir a la tabla factura y actualizar el campo pago_total</span>
+<span class="comentario">
+#Lo llamaremos como >>>tabla que inicia el disparador>>>_>>BEFORE O AFTER>>_>>INSERT o UPDATE o DELETE>><br/>
+Los triggers no se ven en el WORKBENCH, para eso hay una instrucción especial que se ve más abajo
+</span>
+
+<b>DELIMITER //
+CREATE TRIGGER</b> pagos_after_insert
+<b>AFTER INSERT</b> ON pagos #La tabla que va a disparar el trigger
+<b>FOR EACH ROW
+ BEGIN
+    UPDATE</b> facturas <b>SET</b> pago_total = pago_total+<b>>NEW.</b>cantidad
+ <b>WHERE</b> Id_factura = <b>NEW</b>.factura_id;
+<b>END
+//</b>
+<span class="comentario">
+#Para ver los Triggers</span>
+SHOW triggers;
+SHOW triggers like "%pagos%";
+<span class="comentario">
+#Borrar los triggers</span>
+DROP trigger IF EXISTS pagos_after_insert;
+
+
+</pre>
+
+                <!-- **************************************** -->
+                <!-- *****  EVENTOS  ********** -->
+                <!-- **************************************** -->
+                <h2 id="section28">28 - Eventos - <span class="enlace"><a
+                                        href="https://codigofacilito.com/articulos/eventos-mysql">Codigofacilito</a></span>
+                </h2>
+                <pre>
+<span class="comentario">
+Lo primero que debemos de hacer es habilitar nuestro servidor para que pueda ejecutar eventos.</span>
+SET GLOBAL event_scheduler = ON;
+
+<span class="comentario">Para ejecutar un evento en un minuto</span>
+CREATE EVENT insertion_event
+ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 MINUTE
+DO 
+   INSERT INTO test VALUES ('Evento 1', NOW());
+
+<span class="comentario">Si quiero en una fecha determinada</span>
+ON SCHEDULE AT '2018-12-31 12:00:00'
+
+<span class="comentario">
+Si nuestro evento ejecutará más de una sentencia SQL debemos de apoyarnos de BEGIN y END.
+</span>
+DELIMITER //
+CREATE EVENT insertion_event
+ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 MINUTE
+DO
+BEGIN
+   INSERT INTO test VALUES ('Evento 1', NOW());
+   INSERT INTO test VALUES ('Evento 2', NOW());
+   INSERT INTO test VALUES ('Evento 3', NOW());
+END 
+//
+
+<span class="comentario">
+Algo común con los eventos es trabajar con store procedures.</span>
+CREATE EVENT nombre_evento
+ON SCHEDULE AT '2018-12-31 12:00:00'
+DO
+  CALL store_procedure();
+
+<span class="comentario">
+Los eventos los podemos programar para que se ejecuten de forma periódica.</span>
+CREATE EVENT insertion_event
+ON SCHEDULE EVERY 1 MINUTE 
+   STARTS '2018-07-07 18:30:00'
+DO 
+   INSERT INTO test VALUES ('Evento 1', NOW());
+
+<span class="comentario">
+Si queremos que el evento se ejecute entre un rango de fechas debemos de apoyarnos de ENDS.</span>
+CREATE EVENT insertion_event
+ON SCHEDULE EVERY 1 MINUTE 
+   STARTS '2018-07-07 18:30:00'
+   ENDS '2018-07-07 19:00:00'
+DO 
+   INSERT INTO test VALUES ('Evento 1', NOW());
+
+<span class="comentario">
+Una vez el evento se haya creado, nosotros podemos listarlo.</span>
+SHOW events\G;
+
+<span class="comentario">
+Si queremos eliminar un evento haremos uso de DROP.</span>
+DROP EVENT nombre_evento;
+
+<span class="comentario">
+Es importante mencionar que una vez el evento haya expirado, este, será eliminado de forma automática. Si nosotros no
+queremos que esto ocurra debemos de apoyarnos de ON COMPLETION.</span>
+ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 MINUTE
+ON COMPLETION PRESERVE
+
+<span class="comentario">
+Si por alguna razón necesitamos detener un evento, lo que debemos de hacer es deshabilitarlo.</span>
+ALTER EVENT nombre_evento
+DISABLE;
+
+<span class="comentario">
+Para habilitar nuevamente un evento colocamos ENABLE.</span>
+ALTER EVENT nombre_evento
+ENABLE;
+
+</pre>
+
+                <!-- **************************************** -->
+                <!-- ********   EJEMPLO PROPIO     ********** -->
+                <!-- **************************************** -->
+                <h2 id="section29">29 - EJEMPLO PROPIO</h2>
+                <div>
+                        <pre>
+    CREATE DATABASE IF NOT EXISTS prueba;
+   USE prueba;
+
+   CREATE TABLE clientes (
+    id_cliente INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    nombre varchar(100),
+    fec_nuevo DATETIME
+    ) ENGINE = 'INNODB';
+   
+    CREATE TABLE IF NOT EXISTS articulos (
+    id_articulo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    descr_articulo VARCHAR(100),
+    precio_articulo float(8,2),
+    fec_nuevo DATETIME
+    ) ENGINE='INNODB';
+   
+    CREATE TABLE IF NOT EXISTS ordenes (
+    id_ordenes INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    cliente_id INT NOT NULL,
+    articulo_id INT NOT NULL,
+    nombre varchar(100) DEFAULT 'Sin nombre',
+    cantidad INT,
+    kk varchar(100),
+    fecha DATE,
+    CONSTRAINT FK_CLIENTE FOREIGN KEY (cliente_id) REFERENCES clientes(id_cliente) ON UPDATE NO ACTION ON DELETE NO ACTION,
+    CONSTRAINT FK_ARTICULO FOREIGN KEY (articulo_id) REFERENCES articulos(id_articulo) ON UPDATE NO ACTION ON DELETE NO ACTION
+    ) ENGINE = 'INNODB';
+   
+    <span class="comentario">
+            # Vamos a quitar la columna kk</span>
+    ALTER TABLE ordenes DROP COLUMN kk;
+    ALTER TABLE ordenes DROP COLUMN nombre;
+   
+    <span class="comentario">
+            #Vamos a meter una columna llamada HORA</span>
+    ALTER TABLE ordenes ADD hora TIME;
+   
+    <span class="comentario">
+            # Insertar datos clientes</span>
+    INSERT INTO clientes (nombre, fec_nuevo) VALUES ('Efeuno', now()), ('Key, S.A.', now()),
+    ('Servifot', now());
+   
+    <span class="comentario">
+            #Insertar datos de articulos</span>
+    INSERT INTO articulos (descr_articulo, precio_articulo, fec_nuevo)
+    VALUES
+    ('Tablet IPAD 12', 324.89, now()),
+    ('Teclado mecánico', 52.36, now()),
+    ('Ratón inalambrico', 45.87, now()),
+    ('Monitor HP 21 pulgdadas', 125.63, '2024-12-12 11:00:00');
+   
+    <span class="comentario">
+            #Insert ordenes</span>
+    INSERT INTO ordenes (cliente_id, articulo_id, cantidad, fecha, hora)
+    VALUES
+    (1,5, 1,CURDATE(), CURTIME()),
+    (1,7,2, '2023-11-12', CURTIME()),
+    (2,5, 4, '2024-12-12', '11:00:00'),
+    (2,7, 6, CURDATE(), CURTIME()),
+    (2,8, 1, '2024-11-01', CURTIME()),
+    (3,8, 3, '2024-10-25', CURTIME()),
+    (3,6, 5, '2023-05-25', CURTIME());
+   
+    <span class="comentario">
+            #VISTAS PARA COLOCAR LA FECHA DE CLIENTES AL DERECHO</span>
+    CREATE OR REPLACE VIEW v_clientes AS (
+    SELECT id_cliente, nombre, DATE_FORMAT(fec_nuevo, '%d-%m-%Y') as fecha, DATE_FORMAT(fec_nuevo,
+    '%H:%i:%S') as hora
+    FROM clientes
+    );
+   
+    <span class="comentario">
+            #VISTAS PARA COLOCAR LA FECHA DE ARTICULOS AL DERECHO</span>
+    CREATE OR REPLACE VIEW v_articulos AS (
+    SELECT
+    id_articulo,
+    CONCAT(UPPER(left(ltrim(descr_articulo),1)), SUBSTRING(ltrim(descr_articulo),2,
+    CHAR_LENGTH(ltrim(descr_articulo)))) as
+    descr_articulo,
+    precio_articulo,
+    DATE_FORMAT(fec_nuevo, '%d-%m-%Y %h:%i:%s') as fec_nuevo
+    FROM articulos
+    );
+   
+    <span class="comentario">
+            #VISTAS DE ORDENES</span>
+    CREATE OR REPLACE VIEW v_ordenes AS (
+    SELECT
+    c.id_cliente, c.nombre as nombre_cliente,
+    a.id_articulo, a.descr_articulo, a.precio_articulo,
+    o.cantidad , o.articulo_id, o.cliente_id
+    FROM
+    (ordenes o left join articulos a on o.articulo_id=a.id_articulo)
+    left join clientes c on id_cliente=cliente_id
+    );
+   
+    <span class="comentario">
+            ## Vamos a agrupar las cantidades de Euros que han consumido cada cliente.</span>
+    select id_cliente, nombre_cliente, sum(precio_articulo*cantidad) as gasto from v_ordenes GROUP
+    BY id_cliente,
+    nombre_cliente;
+   
+    <span class="comentario">
+            #Vamos a calcular la media de precio que han consumido por cliente</span>
+    select avg(precio_articulo*cantidad) as media from v_ordenes;
+   select * from
+    (select
+    id_cliente,
+    nombre_cliente,
+    sum(precio_articulo*cantidad) as gasto
+    from v_ordenes
+    GROUP BY id_cliente, nombre_cliente) as orde
+    WHERE orde.gasto >= (select avg(precio_articulo*cantidad) as media from v_ordenes);
+
+
+
+
+    
+</pre>
+
+                </div>
+
+        </div>
+        <!-- Del content general -->
+
+        <!-- Botón para ir arriba -->
+        <button id="boton-arriba" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">↑</button>
+
+
+
+
+
+
+</body>
+
+</html>

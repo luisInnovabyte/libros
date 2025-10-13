@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+<head>
+     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+     <title>Traspasar Backups de un servidor a otro</title>
+     <link rel="stylesheet" href="styles.css" type="text/css" />
+</head>
+
+<body>
+
+
+     <div class="content">
+
+          <h1>RSYNC de BACKUPS en PROXMOX</h1>
+
+          <span class="comentario"> los servicios que están funcionando en ubuntu <br />
+               <b>systemctl list-units --type=service</b></span>
+          <!-- Campo de búsqueda -->
+
+
+          <div class="index">
+               <h2>Índice</h2>
+               <ul>
+                    <li><a href="#section1">1. RSYNC de los Backups de PROXMOX</a></li>
+                    <pre>
+<h3>Los backups de Proxmox generalmente están en:</h3>
+     /var/lib/vz/dump,
+en el caso del HP PROLIANT DL380 G6 (proxmox) están en :
+     /mnt/pve/Isos/dump
+
+Desde la consola del NODO:
+     rsync -avz -e "ssh -p 2222 -v" /mnt/pve/Isos/dump root@192.168.31.248:/Familiar_SS/LuisCarlos/CS_Apache
+
+Esto sincronizará todos los archivos del backup de proxmox a la carpeta de Familiar_ss/LuisCarlos/CS_Apache
+
+La parte de "ssh -p 2222 -v" hay que ponerla por que el SSH del Ra-82 se accede por el puerto 2222
+La clave (siempre la va a pedir es: 27979699$C)
+Hará la sincronización con el directorio mencionado.
+
+<h3>Pasos para crear un archivo ejecutable con rsync:</h3>
+1️⃣ Crear el script
+Crea un archivo de script con cualquier editor de texto. Por ejemplo, usa nano:
+
+nano rsync_backup.sh
+Escribe tu comando rsync dentro del archivo. Por ejemplo:
+
+#!/bin/bash
+# Script para hacer backup con rsync
+rsync -avz -e "ssh -p 2222" /var/lib/vz/dump/ usuario@servidor_remoto:/ruta/destino/
+
+Guarda el archivo (Ctrl+O y luego Ctrl+X en nano).
+
+2️⃣ Hacerlo ejecutable
+Dale permisos de ejecución al archivo para que se pueda ejecutar como un programa:
+    chmod +x rsync_backup.sh
+
+3️⃣ Ejecutar el script
+Ejecuta el script usando:
+    ./rsync_backup.sh
+
+Opcional: Colocar el script en el PATH
+Si quieres ejecutar el script desde cualquier lugar sin tener que escribir la ruta completa:
+Mueve el archivo a un directorio que esté en tu variable $PATH. Por ejemplo, /usr/local/bin:
+   sudo mv rsync_backup.sh /usr/local/bin/rsync_backup
+
+Ahora puedes ejecutarlo desde cualquier lugar simplemente escribiendo:
+<b>rsync_backup.sh</b>
+
+
+5️⃣ Verificar con rsync en modo de solo comparación
+Una opción es usar rsync en modo de solo comparación con la opción --dry-run:
+
+rsync -avz --checksum -e "ssh -p 2222" /mnt/pve/Isos/dump root@192.168.31.248:/Familiar_SS/LuisCarlos/CS_Apache
+
+Esto no copia ni modifica nada, pero lista los archivos que son diferentes entre el origen y el destino.
+
+
+
+</pre>
+
+               </ul>
+          </div>
+
+
+
+     </div>
+     <!-- Del content general -->
+
+     <!-- Botón para ir arriba -->
+     <button id="boton-arriba" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">↑</button>
+
+</body>
+
+</html>

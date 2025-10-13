@@ -1,0 +1,5 @@
+# Archivos comprimidos
+*.zip
+
+# Archivos de log
+*.log

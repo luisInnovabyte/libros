@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Manual de Git y GitHub</title>
+        <link rel="stylesheet" href="styles.css" type="text/css" />
+</head>
+
+<body>
+        <div class="content">
+
+                <h1>Manual de GIT y GITHUB</h1>
+
+                <div class="index">
+                        <h2>Índice</h2>
+                        <ul>
+                                <li><a href="#section1">1. Esquema del flujo de trabajo de Git</a></li>
+                                <li><a href="#section2">2. Comandos básicos por espacio</a></li>
+                                <li><a href="#section3">3. Configuración inicial de Git</a></li>
+                                <li><a href="#section4">4. Trabajando con el Working Directory</a></li>
+                                <li><a href="#section5">5. Gestión del Staging Area</a></li>
+                                <li><a href="#section6">6. Commits al Local Repository</a></li>
+                                <li><a href="#section7">7. Sincronización con GitHub</a></li>
+                                <li><a href="#section8">8. Ramas y merging</a></li>
+                                <li><a href="#section9">9. Resolución de conflictos</a></li>
+                                <li><a href="#section10">10. Comandos avanzados</a></li>
+                        </ul>
+                </div>
+
+                <h2 id="section1">1. Esquema del flujo de trabajo de Git</h2>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                        <svg width="800" height="500" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Working Directory -->
+                                <circle cx="150" cy="150" r="80" fill="#ffeb3b" stroke="#f57f17" stroke-width="3"/>
+                                <text x="150" y="140" text-anchor="middle" font-size="12" font-weight="bold">Working</text>
+                                <text x="150" y="155" text-anchor="middle" font-size="12" font-weight="bold">Directory</text>
+                                <text x="150" y="175" text-anchor="middle" font-size="10">(Archivos modificados)</text>
+                                
+                                <!-- Staging Area -->
+                                <circle cx="350" cy="150" r="80" fill="#4caf50" stroke="#2e7d32" stroke-width="3"/>
+                                <text x="350" y="140" text-anchor="middle" font-size="12" font-weight="bold">Staging</text>
+                                <text x="350" y="155" text-anchor="middle" font-size="12" font-weight="bold">Area</text>
+                                <text x="350" y="175" text-anchor="middle" font-size="10">(Preparados para commit)</text>
+                                
+                                <!-- Local Repository -->
+                                <circle cx="550" cy="150" r="80" fill="#2196f3" stroke="#1565c0" stroke-width="3"/>
+                                <text x="550" y="140" text-anchor="middle" font-size="12" font-weight="bold">Local</text>
+                                <text x="550" y="155" text-anchor="middle" font-size="12" font-weight="bold">Repository</text>
+                                <text x="550" y="175" text-anchor="middle" font-size="10">(Historial local)</text>
+                                
+                                <!-- GitHub / Remote Repository -->
+                                <circle cx="350" cy="350" r="80" fill="#9c27b0" stroke="#6a1b9a" stroke-width="3"/>
+                                <text x="350" y="340" text-anchor="middle" font-size="12" font-weight="bold">GitHub</text>
+                                <text x="350" y="355" text-anchor="middle" font-size="12" font-weight="bold">(Remote)</text>
+                                <text x="350" y="375" text-anchor="middle" font-size="10">(Repositorio remoto)</text>
+                                
+                                <!-- Flechas y comandos -->
+                                <!-- Working Directory -> Staging Area -->
+                                <path d="M 230 150 L 270 150" stroke="#333" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+                                <text x="250" y="135" text-anchor="middle" font-size="10" font-weight="bold" fill="#d32f2f">git add</text>
+                                
+                                <!-- Staging Area -> Local Repository -->
+                                <path d="M 430 150 L 470 150" stroke="#333" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+                                <text x="450" y="135" text-anchor="middle" font-size="10" font-weight="bold" fill="#d32f2f">git commit</text>
+                                
+                                <!-- Local Repository -> GitHub -->
+                                <path d="M 520 220 L 380 320" stroke="#333" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+                                <text x="470" y="280" text-anchor="middle" font-size="10" font-weight="bold" fill="#d32f2f">git push</text>
+                                
+                                <!-- GitHub -> Local Repository -->
+                                <path d="M 380 280 L 520 190" stroke="#333" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+                                <text x="430" y="220" text-anchor="middle" font-size="10" font-weight="bold" fill="#388e3c">git pull</text>
+                                
+                                <!-- GitHub -> Working Directory -->
+                                <path d="M 280 320 L 180 220" stroke="#333" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+                                <text x="210" y="280" text-anchor="middle" font-size="10" font-weight="bold" fill="#388e3c">git clone</text>
+                                
+                                <!-- Flecha reversa: Staging -> Working -->
+                                <path d="M 270 170 L 230 170" stroke="#ff5722" stroke-width="2" fill="none" marker-end="url(#arrowhead2)"/>
+                                <text x="250" y="185" text-anchor="middle" font-size="9" fill="#ff5722">git reset</text>
+                                
+                                <!-- Definición de puntas de flecha -->
+                                <defs>
+                                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                                        </marker>
+                                        <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                                <polygon points="0 0, 10 3.5, 0 7" fill="#ff5722"/>
+                                        </marker>
+                                </defs>
+                        </svg>
+                </div>
+                
+                <div style="background-color: #f5f5f5; padding: 15px; margin: 20px 0; border-left: 4px solid #2196f3;">
+                        <h3>🔄 Flujo de trabajo típico:</h3>
+                        <ol>
+                                <li><strong>Modificar archivos</strong> en el <span style="color: #f57f17; font-weight: bold;">Working Directory</span></li>
+                                <li><strong>Agregar cambios</strong> al <span style="color: #2e7d32; font-weight: bold;">Staging Area</span> con <code>git add</code></li>
+                                <li><strong>Confirmar cambios</strong> al <span style="color: #1565c0; font-weight: bold;">Local Repository</span> con <code>git commit</code></li>
+                                <li><strong>Subir cambios</strong> a <span style="color: #6a1b9a; font-weight: bold;">GitHub</span> con <code>git push</code></li>
+                        </ol>
+                </div>
+                
+                <h3>📝 Descripción de los espacios:</h3>
+                <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                        <tr style="background-color: #e3f2fd;">
+                                <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">Espacio</th>
+                                <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">Descripción</th>
+                                <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">Estado de archivos</th>
+                        </tr>
+                        <tr>
+                                <td style="border: 1px solid #ccc; padding: 8px;"><strong>Working Directory</strong></td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">Tu carpeta de trabajo donde modificas los archivos</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">Modified, Untracked</td>
+                        </tr>
+                        <tr style="background-color: #f9f9f9;">
+                                <td style="border: 1px solid #ccc; padding: 8px;"><strong>Staging Area</strong></td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">Área intermedia donde preparas los cambios para el commit</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">Staged</td>
+                        </tr>
+                        <tr>
+                                <td style="border: 1px solid #ccc; padding: 8px;"><strong>Local Repository</strong></td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">Base de datos local con el historial de commits</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">Committed</td>
+                        </tr>
+                        <tr style="background-color: #f9f9f9;">
+                                <td style="border: 1px solid #ccc; padding: 8px;"><strong>GitHub (Remote)</strong></td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">Servidor remoto donde se almacena y comparte el proyecto</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">Pushed</td>
+                        </tr>
+                </table>
+
+                <h2 id="section2">2. Comandos básicos por espacio</h2>
+                
+
+<!-- ***************** -->
+<!-- WORKING DIRECTORY -->
+<!-- ***************** -->
+
+<h3>🔧 Working Directory (Directorio de trabajo)</h3>
+                <pre>
+<span class="comentario"># Inicializar un nuevo repositorio</span>
+git init
+<span class="comentario"># Ver el estado de los archivos (entre working directory y staging area)</span>
+git status
+<span class="comentario"># 📝 NOTA: En git status, los archivos en ROJO están en Working Directory</span>
+<span class="comentario">#          Los archivos en VERDE ya están en Staging Area</span>
+
+<span class="comentario"># Ver diferencias en archivos modificados</span>
+git diff
+
+<span class="comentario"># Ver diferencias de un archivo específico</span>
+git diff archivo.txt
+</pre>
+<!-- <span class="comentario"># Pasar archivos del staging area al working directory de nuevo</span>
+git rm --cached <archivo.txt> -->
+
+<!-- ********************* -->
+<!-- FIN WORKING DIRECTORY -->
+<!-- ********************* -->
+
+
+
+<!-- ************ -->
+<!-- STAGING AREA -->
+<!-- ************ -->
+
+<h3>📝 Staging Area (Área de preparación)</h3>
+                <pre>
+<span class="comentario"># Agregar archivos del working directory al staging area</span>
+git add archivo.txt                <span class="comentario"># Un archivo específico</span>
+git add .                          <span class="comentario"># Todos los archivos modificados</span>
+git add *.js                       <span class="comentario"># Todos los archivos .js</span>
+git add carpeta/                   <span class="comentario"># Toda una carpeta</span>
+
+<span class="comentario"># Ver archivos en staging area</span>
+git status                         <span class="comentario"># Estado general</span>
+git diff --cached                  <span class="comentario"># Diferencias de archivos staged</span>
+
+<span class="comentario"># Remover archivos del staging area y pasarlos de nuevo al working directory</span>
+git reset archivo.txt              <span class="comentario"># Quitar un archivo específico</span>
+git reset                          <span class="comentario"># Quitar todos los archivos</span>
+                </pre>
+
+<!-- **************** -->
+<!-- FIN STATING AREA -->
+<!-- **************** -->
+
+
+
+<!-- **************** -->
+<!-- LOCAL REPOSITORY -->
+<!-- **************** -->
+<h3>💾 Local Repository (Repositorio local)</h3>
+                <pre>
+<span class="comentario"># Hacer commit de los cambios (pasar los cambios del staging area al repositorio local)</span>
+git commit -m "Mensaje descriptivo del commit"
+
+<!-- <span class="comentario"># Commit y add en un solo comando (solo archivos ya tracked)</span>
+git commit -am "Mensaje del commit" -->
+
+<span class="comentario"># Ver historial de commits</span>
+git log                            <span class="comentario"># Historial completo</span>
+git log --oneline                  <span class="comentario"># Historial resumido</span>
+git log --graph                    <span class="comentario"># Con representación gráfica</span>
+
+<span class="comentario"># Ver diferencias entre commits</span>
+git show                           <span class="comentario"># Último commit</span>
+git show [hash-commit]             <span class="comentario"># Commit específico</span>
+
+<span class="comentario"># Deshacer commits</span>
+git revert <id del commit al que cambiar>  <span class="comentario"># Deshacer cambios hasta un commit específico</span>
+
+
+<!-- <span class="comentario"># Deshacer commits</span>
+git reset --soft HEAD~1            <span class="comentario"># Mantiene cambios en staging</span>
+git reset --hard HEAD~1            <span class="comentario"># ⚠️ Elimina cambios completamente</span> -->
+                </pre>
+
+<!-- **************** -->
+<!-- LOCAL REPOSITORY -->
+<!-- **************** -->
+
+
+<!-- **************** -->
+<!--     GITHUB       -->
+<!-- **************** -->
+
+<h3>🌐 GitHub/Remote Repository (Repositorio remoto)</h3>
+                <pre>
+<span class="comentario"># Conectar con repositorio remoto</span>
+git remote add origin https://github.com/usuario/repo.git
+
+<span class="comentario"># Ver repositorios remotos</span>
+git remote -v
+
+<span class="comentario"># Subir cambios al repositorio remoto</span>
+git push origin main               <span class="comentario"># Primera vez</span>
+<!-- git push                          <span class="comentario"># Subsiguientes pushes</span> -->
+
+<span class="comentario"># Descargar cambios del repositorio remoto</span>
+git pull                          <span class="comentario"># Fetch + merge</span>
+git fetch                         <span class="comentario"># Solo descargar sin mergear</span>
+
+<span class="comentario"># Clonar un repositorio</span>
+git clone https://github.com/usuario/repo.git
+                </pre>
+
+<!-- **************** -->
+<!--   FIN GITHUB     -->
+<!-- **************** -->
+
+
+<!-- ************************************** -->
+<!--     CONFIGURACION INICIAL GITHUB       -->
+<!-- ************************************** -->
+
+<h2 id="section3">3. Configuración inicial de Git</h2>
+             <pre>
+<span class="comentario"># Configurar nombre y email (obligatorio)</span>
+git config --global user.name "Tu Nombre"
+git config --global user.email "tu.email@ejemplo.com"
+
+<span class="comentario"># Ver configuración actual</span>
+git config --list
+git config user.name
+git config user.email
+
+<span class="comentario"># Configurar editor por defecto</span>
+git config --global core.editor "code --wait"  <span class="comentario"># Para VS Code</span>
+git config --global core.editor "nano"         <span class="comentario"># Para nano</span>
+
+<span class="comentario"># Configurar colores</span>
+git config --global color.ui auto
+             </pre>
+<!-- ************************************** -->
+<!--   FIN CONFIGURACION INICIAL GITHUB     -->
+<!-- ************************************** -->
+
+
+<!-- ************************************** -->
+<!--  TRABAJANDO CON EL WORKING DIRECTORY   -->
+<!-- ************************************** -->
+
+<h2 id="section4">4. Trabajando con el Working Directory</h2>
+                <pre>
+<span class="comentario"># Estados de archivos en Git</span>
+<span class="comentario"># Untracked: Archivos nuevos que Git no rastrea</span>
+<span class="comentario"># Modified: Archivos rastreados que han sido modificados</span>
+<span class="comentario"># Staged: Archivos preparados para commit</span>
+<span class="comentario"># Committed: Archivos guardados en el repositorio</span>
+
+<span class="comentario"># Comandos útiles para working directory</span>
+git status -s                      <span class="comentario"># Status resumido</span>
+git diff HEAD                      <span class="comentario"># Diferencias con último commit</span>
+git checkout HEAD~1 archivo.txt    <span class="comentario"># Restaurar versión anterior</span>
+
+<span class="comentario"># Ignorar archivos</span>
+<span class="comentario"># Crear archivo .gitignore</span>
+*.log
+node_modules/
+.env
+*.tmp
+                </pre>
+
+<!-- ****************************************** -->
+<!--  FIN TRABAJANDO CON EL WORKING DIRECTORY   -->
+<!-- ****************************************** -->
+
+
+
+<!-- *********************** -->
+<!--  GESTION STAGING AREA   -->
+<!-- *********************** -->
+<h2 id="section5">5. Gestión del Staging Area</h2>
+                <pre>
+<span class="comentario"># Agregar por partes (interactive)</span>
+git add -i                         <span class="comentario"># Modo interactivo</span>
+git add -p                         <span class="comentario"># Agregar por chunks</span>
+
+<span class="comentario"># Ver que hay en staging vs working directory</span>
+git diff                           <span class="comentario"># Working vs Staging</span>
+git diff --staged                  <span class="comentario"># Staging vs Repository</span>
+
+<span class="comentario"># Deshacer cambios en staging</span>
+git reset HEAD archivo.txt         <span class="comentario"># Quitar de staging</span>
+git reset archivo.txt              <span class="comentario"># Quitar de staging</span>
+</pre>
+<!-- git restore --staged archivo.txt   <span class="comentario"># Comando más nuevo</span> -->
+<!-- *************************** -->
+<!--  FIN GESTION STAGING AREA   -->
+<!-- *************************** -->
+
+
+<!-- *************************** -->
+<!--  COMMITS LOCAL REPOSITORY   -->
+<!-- *************************** -->
+<h2 id="section6">6. Commits al Local Repository</h2>
+                <pre>
+<span class="comentario"># Buenas prácticas para commits</span>
+<span class="comentario"># - Usa mensajes descriptivos</span>
+<span class="comentario"># - Haz commits pequeños y frecuentes</span>
+<span class="comentario"># - Un commit por funcionalidad</span>
+
+<span class="comentario"># Modificar el último commit</span>
+git commit --amend -m "Nuevo mensaje"
+git commit --amend                  <span class="comentario"># Abrir editor</span>
+
+<span class="comentario"># Ver información detallada de commits</span>
+git log                            <span class="comentario"># Con estadísticas</span>
+git log --stat                     <span class="comentario"># Con estadísticas</span>
+git log --pretty=format:"%h - %an, %ar : %s"
+                </pre>
+<!-- <span class="comentario"># Tipos de commit</span>
+git commit -m "feat: agregar nueva funcionalidad"
+git commit -m "fix: corregir bug en login"
+git commit -m "docs: actualizar documentación"
+git commit -m "style: mejorar formato del código" -->
+<!-- ******************************* -->
+<!--  FIN COMMITS LOCAL REPOSITORY   -->
+<!-- ******************************* -->
+
+
+<!-- ********* -->
+<!--  GITHUB   -->
+<!-- ********* -->
+<h2 id="section7">7. Sincronización con GitHub</h2>
+                <pre>
+<span class="comentario"># Crear repositorio en GitHub y conectar</span>
+git remote add origin https://github.com/usuario/repositorio.git
+git branch -M main                 <span class="comentario"># Renombrar rama a main</span>
+git push -u origin main            <span class="comentario"># Primera subida</span>
+
+<span class="comentario"># Workflow típico con GitHub</span>
+git pull                          <span class="comentario"># 1. Actualizar (descargar desde github al local) desde remoto</span>
+<span class="comentario"># 2. Hacer cambios locales</span>
+git add .                         <span class="comentario"># 3. Stagear cambios</span>
+git commit -m "mensaje"           <span class="comentario"># 4. Commit local</span>
+git push                          <span class="comentario"># 5. Subir a GitHub</span>
+
+<span class="comentario"># Gestión de remotos</span>
+git remote rename origin upstream  <span class="comentario"># Renombrar remoto</span>
+git remote remove upstream        <span class="comentario"># Eliminar remoto</span>
+git remote set-url origin nueva-url  <span class="comentario"># Cambiar URL</span>
+                </pre>
+<!-- ************* -->
+<!--  FIN GITHUB   -->
+<!-- ************* -->
+
+
+
+<!-- ********* -->
+<!--  RAMAS    -->
+<!-- ********* -->
+<h2 id="section8">8. Ramas y merging</h2>
+                <pre>
+<span class="comentario"># Crear y gestionar ramas</span>
+git branch                        <span class="comentario"># Ver ramas</span>
+git branch nueva-rama             <span class="comentario"># Crear rama</span>
+git checkout nueva-rama           <span class="comentario"># Cambiar a rama</span>
+git checkout -b nueva-rama        <span class="comentario"># Crear y cambiar</span>
+----
+git switch nueva-rama             <span class="comentario"># Comando más nuevo</span>
+git switch -c nueva-rama          <span class="comentario"># Crear y cambiar (nuevo)</span>
+
+<span class="comentario"># Mergear ramas</span>
+git checkout main                 <span class="comentario"># Cambiar a rama principal</span>
+git merge nueva-rama              <span class="comentario"># Mergear rama</span>
+
+<span class="comentario"># Eliminar ramas</span>
+git branch -d nueva-rama          <span class="comentario"># Eliminar rama (seguro)</span>
+git branch -D nueva-rama          <span class="comentario"># Forzar eliminación</span>
+git push origin --delete nueva-rama  <span class="comentario"># Eliminar rama remota</span>
+
+<span class="comentario"># Ver historial de ramas</span>
+git log --oneline --graph --all
+                </pre>
+<!-- ************* -->
+<!--  FIN RAMAS    -->
+<!-- ************* -->
+
+
+<!-- ************** -->
+<!--  CONFLICTOS    -->
+<!-- ************** -->
+<h2 id="section9">9. Resolución de conflictos</h2>
+                <pre>
+<span class="comentario"># Cuando ocurre un conflicto durante merge</span>
+git status                        <span class="comentario"># Ver archivos en conflicto</span>
+
+<span class="comentario"># Los archivos en conflicto tendrán marcadores como:</span>
+<span class="comentario"># <<<<<<< HEAD</span>
+<span class="comentario"># Código de la rama actual</span>
+<span class="comentario"># =======</span>
+<span class="comentario"># Código de la otra rama</span>
+<span class="comentario"># >>>>>>> nombre-rama</span>
+
+<span class="comentario"># Después de resolver manualmente:</span>
+git add archivo-resuelto.txt      <span class="comentario"># Marcar como resuelto</span>
+git commit                        <span class="comentario"># Completar el merge</span>
+
+<span class="comentario"># Herramientas para resolver conflictos</span>
+git mergetool                     <span class="comentario"># Abrir herramienta gráfica</span>
+git config --global merge.tool vimdiff  <span class="comentario"># Configurar herramienta</span>
+
+<span class="comentario"># Cancelar merge en curso</span>
+git merge --abort                 <span class="comentario"># Volver al estado previo</span>
+                </pre>
+<!-- ****************** -->
+<!--  FIN CONFLICTOS    -->
+<!-- ****************** -->
+
+<!-- *********************** -->
+<!--  COMANDOS  AVANZADOS    -->
+<!-- *********************** -->
+
+                <h2 id="section10">10. Comandos avanzados</h2>
+                <pre>
+<span class="comentario"># Stashing (guardar cambios temporalmente)</span>
+git stash                         <span class="comentario"># Guardar cambios</span>
+git stash list                    <span class="comentario"># Ver stashes</span>
+git stash pop                     <span class="comentario"># Recuperar último stash</span>
+git stash apply stash@{0}         <span class="comentario"># Aplicar stash específico</span>
+git stash drop                    <span class="comentario"># Eliminar último stash</span>
+
+<span class="comentario"># Cherry-pick (aplicar commit específico)</span>
+git cherry-pick hash-commit       <span class="comentario"># Aplicar commit a rama actual</span>
+
+<span class="comentario"># Rebase (reescribir historial)</span>
+git rebase main                   <span class="comentario"># Rebase rama actual sobre main</span>
+git rebase -i HEAD~3              <span class="comentario"># Rebase interactivo</span>
+
+<span class="comentario"># Bisect (encontrar commit problemático)</span>
+git bisect start
+git bisect bad                    <span class="comentario"># Marcar commit actual como malo</span>
+git bisect good hash-commit       <span class="comentario"># Marcar commit conocido bueno</span>
+
+<span class="comentario"># Tagging (etiquetas)</span>
+git tag                          <span class="comentario"># Ver tags</span>
+git tag v1.0.0                   <span class="comentario"># Crear tag ligero</span>
+git tag -a v1.0.0 -m "Version 1.0.0"  <span class="comentario"># Tag anotado</span>
+git push origin v1.0.0           <span class="comentario"># Subir tag</span>
+git push origin --tags           <span class="comentario"># Subir todos los tags</span>
+
+<span class="comentario"># Alias útiles</span>
+git config --global alias.st status
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.unstage 'reset HEAD --'
+git config --global alias.visual '!gitk'
+                </pre>
+<!-- *************************** -->
+<!--  FIN COMANDOS  AVANZADOS    -->
+<!-- *************************** -->
+
+
+
+
+                <div style="background-color: #fff3e0; padding: 15px; margin: 20px 0; border-left: 4px solid #ff9800;">
+                        <h3>⚠️ Comandos peligrosos (usar con cuidado):</h3>
+                        <ul>
+                                <li><code>git reset --hard</code> - Elimina cambios permanentemente</li>
+                                <li><code>git push --force</code> - Sobrescribe historial remoto</li>
+                                <li><code>git rebase</code> en ramas compartidas</li>
+                                <li><code>git branch -D</code> - Elimina rama sin confirmar merge</li>
+                        </ul>
+                </div>
+
+        </div>
+</body>
+</html>
