@@ -152,6 +152,17 @@ git status
 <span class="comentario"># Ver diferencias en archivos modificados</span>
 git diff
 
+<span class="comentario"># EXPLICACIÓN DE COLORES EN GIT DIFF:</span>
+<span class="comentario"># Líneas en ROJO (precedidas por -): Contenido eliminado en el original (Lo que vas a quitar del archivo)</span>
+<span class="comentario"># Líneas en VERDE (precedidas por +): Contenido añadido/nuevo (contenido nuevo agragado al archivo)</span>
+<span class="comentario"># Líneas sin color (precedidas por espacio): No han cambiado (contexto)</span>
+
+<span class="comentario" style="font-weight: bold;"># Ejemplo de salida de git diff:</span>
+<span class="comentario"> Esta línea no cambió</span>
+<span class="comentario" style="color: #dc3545; font-weight: bold;">-Línea original que se eliminó</span>
+<span class="comentario" style="color: #28a745; font-weight: bold;">+Línea nueva que se añadió</span>
+<span class="comentario"> Otra línea sin cambios</span>
+
 <span class="comentario"># Ver diferencias de un archivo específico</span>
 git diff archivo.txt
 </pre>
@@ -169,7 +180,7 @@ git rm --cached <archivo.txt> -->
 <!-- ************ -->
 
 <h3>📝 Staging Area (Área de preparación)</h3>
-                <pre>
+<pre>
 <span class="comentario"># Agregar archivos del working directory al staging area</span>
 git add archivo.txt                <span class="comentario"># Un archivo específico</span>
 git add .                          <span class="comentario"># Todos los archivos modificados</span>
@@ -183,7 +194,7 @@ git diff --cached                  <span class="comentario"># Diferencias de arc
 <span class="comentario"># Remover archivos del staging area y pasarlos de nuevo al working directory</span>
 git reset archivo.txt              <span class="comentario"># Quitar un archivo específico</span>
 git reset                          <span class="comentario"># Quitar todos los archivos</span>
-                </pre>
+</pre>
 
 <!-- **************** -->
 <!-- FIN STATING AREA -->
@@ -195,12 +206,9 @@ git reset                          <span class="comentario"># Quitar todos los a
 <!-- LOCAL REPOSITORY -->
 <!-- **************** -->
 <h3>💾 Local Repository (Repositorio local)</h3>
-                <pre>
+<pre>
 <span class="comentario"># Hacer commit de los cambios (pasar los cambios del staging area al repositorio local)</span>
 git commit -m "Mensaje descriptivo del commit"
-
-<!-- <span class="comentario"># Commit y add en un solo comando (solo archivos ya tracked)</span>
-git commit -am "Mensaje del commit" -->
 
 <span class="comentario"># Ver historial de commits</span>
 git log                            <span class="comentario"># Historial completo</span>
@@ -213,13 +221,12 @@ git show [hash-commit]             <span class="comentario"># Commit específico
 
 <span class="comentario"># Deshacer commits</span>
 git revert <id del commit al que cambiar>  <span class="comentario"># Deshacer cambios hasta un commit específico</span>
-
-
+</pre>
+<!-- <span class="comentario"># Commit y add en un solo comando (solo archivos ya tracked)</span>
+git commit -am "Mensaje del commit" -->
 <!-- <span class="comentario"># Deshacer commits</span>
 git reset --soft HEAD~1            <span class="comentario"># Mantiene cambios en staging</span>
 git reset --hard HEAD~1            <span class="comentario"># ⚠️ Elimina cambios completamente</span> -->
-                </pre>
-
 <!-- **************** -->
 <!-- LOCAL REPOSITORY -->
 <!-- **************** -->
@@ -228,9 +235,8 @@ git reset --hard HEAD~1            <span class="comentario"># ⚠️ Elimina cam
 <!-- **************** -->
 <!--     GITHUB       -->
 <!-- **************** -->
-
 <h3>🌐 GitHub/Remote Repository (Repositorio remoto)</h3>
-                <pre>
+<pre>
 <span class="comentario"># Conectar con repositorio remoto</span>
 git remote add origin https://github.com/usuario/repo.git
 
@@ -247,7 +253,7 @@ git fetch                         <span class="comentario"># Solo descargar sin 
 
 <span class="comentario"># Clonar un repositorio</span>
 git clone https://github.com/usuario/repo.git
-                </pre>
+</pre>
 
 <!-- **************** -->
 <!--   FIN GITHUB     -->
@@ -259,7 +265,7 @@ git clone https://github.com/usuario/repo.git
 <!-- ************************************** -->
 
 <h2 id="section3">3. Configuración inicial de Git</h2>
-             <pre>
+<pre>
 <span class="comentario"># Configurar nombre y email (obligatorio)</span>
 git config --global user.name "Tu Nombre"
 git config --global user.email "tu.email@ejemplo.com"
@@ -275,7 +281,7 @@ git config --global core.editor "nano"         <span class="comentario"># Para n
 
 <span class="comentario"># Configurar colores</span>
 git config --global color.ui auto
-             </pre>
+</pre>
 <!-- ************************************** -->
 <!--   FIN CONFIGURACION INICIAL GITHUB     -->
 <!-- ************************************** -->
@@ -286,7 +292,7 @@ git config --global color.ui auto
 <!-- ************************************** -->
 
 <h2 id="section4">4. Trabajando con el Working Directory</h2>
-                <pre>
+<pre>
 <span class="comentario"># Estados de archivos en Git</span>
 <span class="comentario"># Untracked: Archivos nuevos que Git no rastrea</span>
 <span class="comentario"># Modified: Archivos rastreados que han sido modificados</span>
@@ -304,8 +310,7 @@ git checkout HEAD~1 archivo.txt    <span class="comentario"># Restaurar versión
 node_modules/
 .env
 *.tmp
-                </pre>
-
+</pre>
 <!-- ****************************************** -->
 <!--  FIN TRABAJANDO CON EL WORKING DIRECTORY   -->
 <!-- ****************************************** -->
@@ -316,7 +321,7 @@ node_modules/
 <!--  GESTION STAGING AREA   -->
 <!-- *********************** -->
 <h2 id="section5">5. Gestión del Staging Area</h2>
-                <pre>
+<pre>
 <span class="comentario"># Agregar por partes (interactive)</span>
 git add -i                         <span class="comentario"># Modo interactivo</span>
 git add -p                         <span class="comentario"># Agregar por chunks</span>
@@ -339,7 +344,7 @@ git reset archivo.txt              <span class="comentario"># Quitar de staging<
 <!--  COMMITS LOCAL REPOSITORY   -->
 <!-- *************************** -->
 <h2 id="section6">6. Commits al Local Repository</h2>
-                <pre>
+<pre>
 <span class="comentario"># Buenas prácticas para commits</span>
 <span class="comentario"># - Usa mensajes descriptivos</span>
 <span class="comentario"># - Haz commits pequeños y frecuentes</span>
@@ -353,7 +358,7 @@ git commit --amend                  <span class="comentario"># Abrir editor</spa
 git log                            <span class="comentario"># Con estadísticas</span>
 git log --stat                     <span class="comentario"># Con estadísticas</span>
 git log --pretty=format:"%h - %an, %ar : %s"
-                </pre>
+</pre>
 <!-- <span class="comentario"># Tipos de commit</span>
 git commit -m "feat: agregar nueva funcionalidad"
 git commit -m "fix: corregir bug en login"
@@ -368,7 +373,7 @@ git commit -m "style: mejorar formato del código" -->
 <!--  GITHUB   -->
 <!-- ********* -->
 <h2 id="section7">7. Sincronización con GitHub</h2>
-                <pre>
+<pre>
 <span class="comentario"># Crear repositorio en GitHub y conectar</span>
 git remote add origin https://github.com/usuario/repositorio.git
 git branch -M main                 <span class="comentario"># Renombrar rama a main</span>
@@ -385,7 +390,7 @@ git push                          <span class="comentario"># 5. Subir a GitHub</
 git remote rename origin upstream  <span class="comentario"># Renombrar remoto</span>
 git remote remove upstream        <span class="comentario"># Eliminar remoto</span>
 git remote set-url origin nueva-url  <span class="comentario"># Cambiar URL</span>
-                </pre>
+</pre>
 <!-- ************* -->
 <!--  FIN GITHUB   -->
 <!-- ************* -->
@@ -396,7 +401,7 @@ git remote set-url origin nueva-url  <span class="comentario"># Cambiar URL</spa
 <!--  RAMAS    -->
 <!-- ********* -->
 <h2 id="section8">8. Ramas y merging</h2>
-                <pre>
+<pre>
 <span class="comentario"># Crear y gestionar ramas</span>
 git branch                        <span class="comentario"># Ver ramas</span>
 git branch nueva-rama             <span class="comentario"># Crear rama</span>
@@ -417,7 +422,7 @@ git push origin --delete nueva-rama  <span class="comentario"># Eliminar rama re
 
 <span class="comentario"># Ver historial de ramas</span>
 git log --oneline --graph --all
-                </pre>
+</pre>
 <!-- ************* -->
 <!--  FIN RAMAS    -->
 <!-- ************* -->
@@ -427,16 +432,59 @@ git log --oneline --graph --all
 <!--  CONFLICTOS    -->
 <!-- ************** -->
 <h2 id="section9">9. Resolución de conflictos</h2>
-                <pre>
+<pre>
 <span class="comentario"># Cuando ocurre un conflicto durante merge</span>
 git status                        <span class="comentario"># Ver archivos en conflicto</span>
 
-<span class="comentario"># Los archivos en conflicto tendrán marcadores como:</span>
-<span class="comentario"># <<<<<<< HEAD</span>
-<span class="comentario"># Código de la rama actual</span>
-<span class="comentario"># =======</span>
-<span class="comentario"># Código de la otra rama</span>
-<span class="comentario"># >>>>>>> nombre-rama</span>
+<span class="comentario"># 🔍 EXPLICACIÓN DETALLADA DE MARCADORES DE CONFLICTO:</span>
+
+<span class="comentario"># 📖 EJEMPLO REAL DE CONFLICTO EN ARCHIVO:</span>
+
+<span style="background-color: #2d2d2d; color: #ffffff; padding: 10px; display: block; font-family: 'Courier New', monospace; margin: 10px 0;">
+<span style="color: #ff6b6b; font-weight: bold;"><<<<<<< HEAD</span><br/>
+<span style="color: #f8f8f8;">Vamos a añadir una para la rama archivo_6</span><br/>
+<span style="color: #f8f8f8;">Vamos a añadir una línea más para ver el conflicto - archivo_6</span><br/>
+<span style="color: #4ecdc4; font-weight: bold;">=======</span><br/>
+<span style="color: #f8f8f8;">Vamos a añadir una para la rama archivo_6</span><br/>
+<span style="color: #45b7d1; font-weight: bold;">>>>>>>> parent of e9f309e (archivo4.txt - 2 lineas extras en archivo4.txt)</span>
+</span>
+
+<span class="comentario"># 🔍 EXPLICACIÓN DE MARCADORES:</span>
+<span class="comentario" style="color: #ff6b6b; font-weight: bold;"><<<<<<< HEAD</span> <span class="comentario"># ← INICIO del conflicto (rama actual)</span>
+<span class="comentario" style="color: #4ecdc4; font-weight: bold;">=======</span> <span class="comentario"># ← SEPARADOR entre versiones</span>
+<span class="comentario" style="color: #45b7d1; font-weight: bold;">>>>>>>> commit</span> <span class="comentario"># ← FINAL del conflicto (otra rama/commit)</span>
+
+<span class="comentario"># � EXPLICACIÓN DETALLADA:</span>
+
+<span class="comentario" style="color: #ff6b6b; font-weight: bold;"><<<<<<< HEAD</span>
+<span class="comentario">Marca el inicio del conflicto</span>
+<span class="comentario">Todo lo que está después de esta línea hasta ======= es el contenido de tu rama actual (HEAD)</span>
+<span class="comentario">En tu caso: 2 líneas que incluyen la línea original más una línea adicional sobre el conflicto</span>
+
+<span class="comentario" style="color: #4ecdc4; font-weight: bold;">=======</span>
+<span class="comentario">Separador que divide las dos versiones en conflicto</span>
+<span class="comentario">Marca el final del contenido de HEAD y el inicio del contenido de la otra rama</span>
+
+<span class="comentario" style="color: #45b7d1; font-weight: bold;">>>>>>>> parent of e9f309e (...)</span>
+<span class="comentario">Marca el final del conflicto</span>
+<span class="comentario">Indica que el contenido anterior viene del commit e9f309e</span>
+<span class="comentario">Solo tiene 1 línea (la línea original sin la línea adicional)</span>
+
+<span class="comentario"># �📋 PASOS PARA RESOLVER EL CONFLICTO:</span>
+<span class="comentario"># 1. Decidir qué contenido mantener (o combinar ambos)</span>
+<span class="comentario"># 2. Eliminar los marcadores de conflicto (<<<<<<<, =======, >>>>>>>)</span>
+<span class="comentario"># 3. Guardar el archivo</span>
+<span class="comentario"># 4. Agregar el archivo resuelto al staging area</span>
+<span class="comentario"># 5. Hacer commit del resultado</span>
+
+<span class="comentario"># 💡 DESPUÉS DE RESOLVER (eliminando marcadores, manteniendo ambas líneas):</span>
+
+<span style="background-color: #1e3a1e; color: #ffffff; padding: 10px; display: block; font-family: 'Courier New', monospace; margin: 10px 0; border-left: 4px solid #28a745;">
+<span style="color: #90ee90;">Vamos a añadir una para la rama archivo_6</span><br/>
+<span style="color: #90ee90;">Vamos a añadir una línea más para ver el conflicto - archivo_6</span>
+</span>
+
+<span class="comentario"># ✅ Archivo resuelto: sin marcadores, con el contenido final deseado</span>
 
 <span class="comentario"># Después de resolver manualmente:</span>
 git add archivo-resuelto.txt      <span class="comentario"># Marcar como resuelto</span>
@@ -448,7 +496,7 @@ git config --global merge.tool vimdiff  <span class="comentario"># Configurar he
 
 <span class="comentario"># Cancelar merge en curso</span>
 git merge --abort                 <span class="comentario"># Volver al estado previo</span>
-                </pre>
+</pre>
 <!-- ****************** -->
 <!--  FIN CONFLICTOS    -->
 <!-- ****************** -->
@@ -457,8 +505,8 @@ git merge --abort                 <span class="comentario"># Volver al estado pr
 <!--  COMANDOS  AVANZADOS    -->
 <!-- *********************** -->
 
-                <h2 id="section10">10. Comandos avanzados</h2>
-                <pre>
+<h2 id="section10">10. Comandos avanzados</h2>
+<pre>
 <span class="comentario"># Stashing (guardar cambios temporalmente)</span>
 git stash                         <span class="comentario"># Guardar cambios</span>
 git stash list                    <span class="comentario"># Ver stashes</span>
@@ -492,13 +540,10 @@ git config --global alias.br branch
 git config --global alias.ci commit
 git config --global alias.unstage 'reset HEAD --'
 git config --global alias.visual '!gitk'
-                </pre>
+</pre>
 <!-- *************************** -->
 <!--  FIN COMANDOS  AVANZADOS    -->
 <!-- *************************** -->
-
-
-
 
                 <div style="background-color: #fff3e0; padding: 15px; margin: 20px 0; border-left: 4px solid #ff9800;">
                         <h3>⚠️ Comandos peligrosos (usar con cuidado):</h3>
