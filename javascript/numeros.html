@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Números en JavaScript - Tutorial Completo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="two-column">
+            <!-- Navegación lateral -->
+            <nav class="navigation">
+                <h3>📚 Índice de Contenidos</h3>
+                <ul>
+                    <li><a href="#introduccion" class="nav-link">🎯 Introducción</a></li>
+                    <li><a href="#declaracion-tipos" class="nav-link">📋 Declaración y Tipos</a></li>
+                    <li><a href="#conversion" class="nav-link">🔄 Conversión a Números</a></li>
+                    <li><a href="#metodos" class="nav-link">🔧 Métodos de Números</a></li>
+                    <li><a href="#operaciones" class="nav-link">➕ Operaciones Aritméticas</a></li>
+                    <li><a href="#constantes" class="nav-link">📊 Constantes de Number</a></li>
+                    <li><a href="#objeto-math" class="nav-link">🧮 El Objeto Math</a></li>
+                    <li><a href="#trigonometria" class="nav-link">📐 Funciones Trigonométricas</a></li>
+                    <li><a href="#aleatorios" class="nav-link">🎲 Números Aleatorios</a></li>
+                    <li><a href="#bigint" class="nav-link">🔢 BigInt</a></li>
+                    <li><a href="#casos-practicos" class="nav-link">💼 Casos Prácticos</a></li>
+                    <li><a href="#buenas-practicas" class="nav-link">✅ Buenas Prácticas</a></li>
+                    <li><a href="#demo-interactivo" class="nav-link">🎮 Demo Interactivo</a></li>
+                </ul>
+            </nav>
+
+            <!-- Contenido principal -->
+            <main class="content">
+                <header class="header">
+                    <h1>🔢 Números en JavaScript</h1>
+                    <p class="header-description">
+                        Guía completa sobre números - Domina todos los aspectos numéricos en JavaScript
+                    </p>
+                </header>
+
+                <div class="content-sections">
+                    <section id="introduccion" class="section">
+                        <h2>🎯 ¿Qué son los Números en JavaScript?</h2>
+                        <p>JavaScript tiene un <strong>único tipo numérico</strong> que representa tanto números enteros como decimales usando el estándar <strong>IEEE 754 de doble precisión</strong> (64 bits).</p>
+                        
+                        <div class="feature-card">
+                            <h3>🔢 Características importantes:</h3>
+                            <ul>
+                                <li><strong>Todos los números son de tipo `number`</strong></li>
+                                <li><strong>Precisión limitada:</strong> aproximadamente 15-17 dígitos decimales</li>
+                                <li><strong>Rango limitado:</strong> desde -(2^53 - 1) hasta (2^53 - 1)</li>
+                                <li><strong>Incluye valores especiales:</strong> `Infinity`, `-Infinity`, `NaN`</li>
+                            </ul>
+                        </div>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const entero = 42;
+const decimal = 3.14159;
+const negativo = -17;
+const cientifico = 2.5e10; // 25000000000
+
+console.log(typeof entero);    // "number"
+console.log(typeof decimal);   // "number"
+console.log(typeof negativo);  // "number"
+console.log(typeof cientifico); // "number"</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="declaracion-tipos" class="section">
+                        <h2>📋 Declaración y Tipos de Números</h2>
+
+                        <h3>1. Números literales</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Enteros
+const edad = 25;
+const temperatura = -5;
+
+// Decimales
+const precio = 19.99;
+const pi = 3.14159;
+
+// Notación científica
+const distancia = 1.5e8;     // 150000000
+const pequeno = 2.5e-4;      // 0.00025
+
+// Diferentes bases
+const binario = 0b1010;      // 10 en decimal
+const octal = 0o755;         // 493 en decimal
+const hexadecimal = 0xFF;    // 255 en decimal
+
+console.log(binario);        // 10
+console.log(octal);          // 493
+console.log(hexadecimal);    // 255</code></pre>
+                        </div>
+
+                        <h3>2. Constructor Number</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const numero1 = new Number(42);    // Objeto Number
+const numero2 = Number(42);        // Primitivo number
+const numero3 = Number("123");     // Conversión de string
+
+console.log(typeof numero1); // "object"
+console.log(typeof numero2); // "number"
+console.log(typeof numero3); // "number"
+
+// Comparación
+console.log(numero1 == numero2);  // true (conversión)
+console.log(numero1 === numero2); // false (tipos diferentes)</code></pre>
+                        </div>
+
+                        <h3>3. Valores especiales</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Infinity
+console.log(1 / 0);          // Infinity
+console.log(-1 / 0);         // -Infinity
+console.log(Number.POSITIVE_INFINITY); // Infinity
+console.log(Number.NEGATIVE_INFINITY); // -Infinity
+
+// NaN (Not a Number)
+console.log(0 / 0);          // NaN
+console.log("texto" * 2);    // NaN
+console.log(Number.NaN);     // NaN
+
+// Verificar estos valores
+console.log(isFinite(42));   // true
+console.log(isFinite(1/0));  // false
+console.log(isNaN(NaN));     // true
+console.log(isNaN("texto")); // true (convierte y evalúa)</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="conversion" class="section">
+                        <h2>🔄 Conversión a Números</h2>
+
+                        <h3>Métodos de conversión</h3>
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <h4>Number() - Conversión estricta</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>console.log(Number("123"));      // 123
+console.log(Number("123.45"));   // 123.45
+console.log(Number("123abc"));   // NaN
+console.log(Number(true));       // 1
+console.log(Number(false));      // 0
+console.log(Number(null));       // 0
+console.log(Number(undefined));  // NaN</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>parseInt() - Enteros</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>console.log(parseInt("123"));      // 123
+console.log(parseInt("123.45"));   // 123
+console.log(parseInt("123abc"));   // 123
+console.log(parseInt("abc123"));   // NaN
+console.log(parseInt("FF", 16));   // 255 (base 16)
+console.log(parseInt("1010", 2));  // 10 (base 2)</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// parseFloat() - convierte a decimal
+console.log(parseFloat("123.45"));   // 123.45
+console.log(parseFloat("123.45abc")); // 123.45
+console.log(parseFloat("abc123.45")); // NaN
+
+// Operador unario + (más rápido)
+console.log(+"123");         // 123
+console.log(+"123.45");      // 123.45
+console.log(+"123abc");      // NaN</code></pre>
+                        </div>
+
+                        <h3>Verificación de tipos</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Verificar si es número válido
+function esNumero(valor) {
+    return typeof valor === 'number' && !isNaN(valor) && isFinite(valor);
+}
+
+console.log(esNumero(42));       // true
+console.log(esNumero("42"));     // false
+console.log(esNumero(NaN));      // false
+console.log(esNumero(Infinity)); // false
+
+// Number.isInteger() - ES6
+console.log(Number.isInteger(42));    // true
+console.log(Number.isInteger(42.0));  // true
+console.log(Number.isInteger(42.5));  // false
+
+// Number.isNaN() - más estricto que isNaN()
+console.log(Number.isNaN(NaN));     // true
+console.log(Number.isNaN("NaN"));   // false
+console.log(isNaN("NaN"));          // true (convierte primero)</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="metodos" class="section">
+                        <h2>🔧 Métodos de Números</h2>
+
+                        <h3>Formateo y redondeo</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const numero = 123.456789;
+
+// toFixed() - dígitos decimales fijos
+console.log(numero.toFixed(2));     // "123.46"
+console.log(numero.toFixed(0));     // "123"
+console.log((1.005).toFixed(2));    // "1.00" (cuidado con la precisión)
+
+// toPrecision() - dígitos significativos
+console.log(numero.toPrecision(5)); // "123.46"
+console.log(numero.toPrecision(3)); // "123"
+console.log((0.001234).toPrecision(3)); // "0.00123"
+
+// toExponential() - notación científica
+console.log(numero.toExponential(2)); // "1.23e+2"
+console.log((0.000123).toExponential(2)); // "1.23e-4"
+
+// toString() - convertir a string con base
+console.log((255).toString(16));    // "ff" (hexadecimal)
+console.log((10).toString(2));      // "1010" (binario)
+console.log((493).toString(8));     // "755" (octal)</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="operaciones" class="section">
+                        <h2>➕ Operaciones Aritméticas</h2>
+
+                        <h3>Operadores básicos</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const a = 10;
+const b = 3;
+
+// Operaciones básicas
+console.log(a + b);    // 13 (suma)
+console.log(a - b);    // 7 (resta)
+console.log(a * b);    // 30 (multiplicación)
+console.log(a / b);    // 3.3333333333333335 (división)
+console.log(a % b);    // 1 (módulo/resto)
+console.log(a ** b);   // 1000 (exponenciación ES2016)
+
+// Operadores de incremento y decremento
+let contador = 5;
+console.log(contador++);  // 5 (post-incremento)
+console.log(++contador);  // 7 (pre-incremento)
+console.log(contador--);  // 7 (post-decremento)
+console.log(--contador);  // 5 (pre-decremento)</code></pre>
+                        </div>
+
+                        <h3>Problemas de precisión</h3>
+                        <div class="alert">
+                            <strong>⚠️ Problema de punto flotante:</strong> Los números decimales pueden tener problemas de precisión debido a la representación binaria.
+                        </div>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Problema clásico de punto flotante
+console.log(0.1 + 0.2);              // 0.30000000000000004
+console.log(0.1 + 0.2 === 0.3);      // false
+
+// Solución 1: toFixed()
+function sumarDecimales(a, b, decimales = 2) {
+    return Number((a + b).toFixed(decimales));
+}
+console.log(sumarDecimales(0.1, 0.2)); // 0.3
+
+// Solución 2: Number.EPSILON para comparaciones
+function sonIguales(a, b) {
+    return Math.abs(a - b) < Number.EPSILON;
+}
+console.log(sonIguales(0.1 + 0.2, 0.3)); // true
+
+// Solución 3: Para cálculos monetarios
+function calcularConCentavos(cantidad1, cantidad2) {
+    return (cantidad1 * 100 + cantidad2 * 100) / 100;
+}
+console.log(calcularConCentavos(0.1, 0.2)); // 0.3</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="constantes" class="section">
+                        <h2>📊 Constantes de Number</h2>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Valores máximos y mínimos
+console.log(Number.MAX_VALUE);          // 1.7976931348623157e+308
+console.log(Number.MIN_VALUE);          // 5e-324 (más pequeño positivo)
+console.log(Number.MAX_SAFE_INTEGER);   // 9007199254740991
+console.log(Number.MIN_SAFE_INTEGER);   // -9007199254740991
+
+// Verificar enteros seguros
+console.log(Number.isSafeInteger(9007199254740991));  // true
+console.log(Number.isSafeInteger(9007199254740992));  // false
+
+// Epsilon - diferencia más pequeña entre 1 y el siguiente número
+console.log(Number.EPSILON);            // 2.220446049250313e-16
+
+// Infinitos y NaN
+console.log(Number.POSITIVE_INFINITY);  // Infinity
+console.log(Number.NEGATIVE_INFINITY);  // -Infinity
+console.log(Number.NaN);                // NaN</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="objeto-math" class="section">
+                        <h2>🧮 El Objeto Math</h2>
+
+                        <h3>Constantes matemáticas</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Constantes importantes
+console.log(Math.PI);       // 3.141592653589793
+console.log(Math.E);        // 2.718281828459045 (Euler)
+console.log(Math.LN2);      // 0.6931471805599453 (ln(2))
+console.log(Math.LN10);     // 2.302585092994046 (ln(10))
+console.log(Math.SQRT2);    // 1.4142135623730951 (√2)
+console.log(Math.SQRT1_2);  // 0.7071067811865476 (√(1/2))</code></pre>
+                        </div>
+
+                        <h3>Métodos de redondeo</h3>
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <h4>Redondeo básico</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>// Math.round() - redondeo normal
+console.log(Math.round(4.4));      // 4
+console.log(Math.round(4.5));      // 5
+console.log(Math.round(4.6));      // 5
+console.log(Math.round(-4.5));     // -4
+
+// Math.floor() - hacia abajo
+console.log(Math.floor(4.9));      // 4
+console.log(Math.floor(-4.1));     // -5</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>Redondeo direccional</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>// Math.ceil() - hacia arriba
+console.log(Math.ceil(4.1));       // 5
+console.log(Math.ceil(-4.9));      // -4
+
+// Math.trunc() - elimina decimales
+console.log(Math.trunc(4.9));      // 4
+console.log(Math.trunc(-4.9));     // -4
+
+// Math.abs() - valor absoluto
+console.log(Math.abs(-42));        // 42</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>Potencias y raíces</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Potencias
+console.log(Math.pow(2, 3));        // 8 (2^3)
+console.log(Math.pow(9, 0.5));      // 3 (√9)
+console.log(2 ** 3);                // 8 (operador de exponenciación ES2016)
+
+// Raíces
+console.log(Math.sqrt(16));         // 4 (raíz cuadrada)
+console.log(Math.cbrt(27));         // 3 (raíz cúbica ES6)
+
+// Logaritmos
+console.log(Math.log(Math.E));      // 1 (logaritmo natural)
+console.log(Math.log10(100));      // 2 (logaritmo base 10)
+console.log(Math.log2(8));          // 3 (logaritmo base 2 ES6)</code></pre>
+                        </div>
+
+                        <h3>Máximo y mínimo</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Math.max() y Math.min()
+console.log(Math.max(1, 3, 2, 8, 5));     // 8
+console.log(Math.min(1, 3, 2, 8, 5));     // 1
+
+// Con arrays (usando spread operator)
+const numeros = [1, 3, 2, 8, 5];
+console.log(Math.max(...numeros));        // 8
+console.log(Math.min(...numeros));        // 1
+
+// Sin argumentos
+console.log(Math.max());                  // -Infinity
+console.log(Math.min());                  // Infinity</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="trigonometria" class="section">
+                        <h2>📐 Funciones Trigonométricas</h2>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Nota: todas las funciones trigonométricas usan radianes
+const grados45 = 45 * Math.PI / 180; // Convertir grados a radianes
+
+// Funciones básicas
+console.log(Math.sin(Math.PI / 2));  // 1 (seno de 90°)
+console.log(Math.cos(0));            // 1 (coseno de 0°)
+console.log(Math.tan(Math.PI / 4));  // 1 (tangente de 45°)
+
+// Funciones inversas
+console.log(Math.asin(1));           // 1.5707963267948966 (π/2 radianes)
+console.log(Math.acos(1));           // 0
+console.log(Math.atan(1));           // 0.7853981633974483 (π/4 radianes)
+
+// Funciones de conversión
+function gradosARadianes(grados) {
+    return grados * Math.PI / 180;
+}
+
+function radianesAGrados(radianes) {
+    return radianes * 180 / Math.PI;
+}
+
+console.log(gradosARadianes(45));    // 0.7853981633974483
+console.log(radianesAGrados(Math.PI)); // 180</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="aleatorios" class="section">
+                        <h2>🎲 Números Aleatorios</h2>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Math.random() - número entre 0 (incluido) y 1 (excluido)
+console.log(Math.random());          // Ej: 0.7234567891234567
+
+// Número aleatorio entre min y max (excluye max)
+function aleatorioEntre(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+console.log(aleatorioEntre(5, 10));  // Ej: 7.234567891234567
+
+// Entero aleatorio entre min y max (incluye ambos)
+function enteroAleatorioEntre(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+console.log(enteroAleatorioEntre(1, 6)); // Simular dado: 1-6
+
+// Seleccionar elemento aleatorio de array
+function elementoAleatorio(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}
+
+const colores = ['rojo', 'azul', 'verde', 'amarillo'];
+console.log(elementoAleatorio(colores)); // Ej: "verde"</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="bigint" class="section">
+                        <h2>🔢 BigInt para Números Grandes (ES2020)</h2>
+
+                        <div class="alert">
+                            <strong>💡 BigInt:</strong> Para números que exceden el rango seguro de JavaScript (±2^53 - 1)
+                        </div>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Problema con números grandes
+console.log(Number.MAX_SAFE_INTEGER);     // 9007199254740991
+console.log(Number.MAX_SAFE_INTEGER + 1); // 9007199254740992
+console.log(Number.MAX_SAFE_INTEGER + 2); // 9007199254740992 (¡igual!)
+
+// Solución: BigInt
+const numeroGrande = BigInt(9007199254740991);
+const numeroGrande2 = 9007199254740991n; // Literal BigInt
+
+console.log(numeroGrande + 1n);          // 9007199254740992n
+console.log(numeroGrande + 2n);          // 9007199254740993n
+
+// Operaciones con BigInt
+const a = 123n;
+const b = 456n;
+
+console.log(a + b);    // 579n
+console.log(a * b);    // 56088n
+console.log(b / a);    // 3n (división entera)
+console.log(b % a);    // 87n
+
+// Conversiones
+console.log(Number(123n));        // 123
+console.log(BigInt(123));         // 123n
+console.log(String(123n));        // "123"</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="casos-practicos" class="section">
+                        <h2>💼 Casos Prácticos</h2>
+
+                        <h3>1. Formateo de números</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Formatear números con separadores de miles
+function formatearNumero(numero, decimales = 2) {
+    return numero.toLocaleString('es-ES', {
+        minimumFractionDigits: decimales,
+        maximumFractionDigits: decimales
+    });
+}
+
+console.log(formatearNumero(1234567.89)); // "1.234.567,89"
+
+// Formatear como moneda
+function formatearMoneda(cantidad, moneda = 'EUR') {
+    return new Intl.NumberFormat('es-ES', {
+        style: 'currency',
+        currency: moneda
+    }).format(cantidad);
+}
+
+console.log(formatearMoneda(1234.56));    // "1.234,56 €"
+
+// Formatear como porcentaje
+function formatearPorcentaje(decimal) {
+    return new Intl.NumberFormat('es-ES', {
+        style: 'percent',
+        minimumFractionDigits: 1
+    }).format(decimal);
+}
+
+console.log(formatearPorcentaje(0.1234)); // "12,3 %"</code></pre>
+                        </div>
+
+                        <h3>2. Cálculos matemáticos</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Calcular distancia entre dos puntos
+function distancia(x1, y1, x2, y2) {
+    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+}
+
+console.log(distancia(0, 0, 3, 4)); // 5
+
+// Calcular área de círculo
+function areaCirculo(radio) {
+    return Math.PI * Math.pow(radio, 2);
+}
+
+console.log(areaCirculo(5)); // 78.53981633974483
+
+// Generar secuencia de Fibonacci
+function fibonacci(n) {
+    if (n <= 1) return n;
+    
+    let a = 0, b = 1;
+    for (let i = 2; i <= n; i++) {
+        [a, b] = [b, a + b];
+    }
+    return b;
+}
+
+console.log(fibonacci(10)); // 55</code></pre>
+                        </div>
+
+                        <h3>3. Validaciones numéricas</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Validar rango
+function estaEnRango(numero, min, max) {
+    return typeof numero === 'number' && 
+           !isNaN(numero) && 
+           numero >= min && 
+           numero <= max;
+}
+
+console.log(estaEnRango(5, 1, 10));   // true
+console.log(estaEnRango(15, 1, 10));  // false
+
+// Validar si es entero positivo
+function esEnteroPositivo(numero) {
+    return Number.isInteger(numero) && numero > 0;
+}
+
+console.log(esEnteroPositivo(5));     // true
+console.log(esEnteroPositivo(5.5));   // false
+console.log(esEnteroPositivo(-5));    // false
+
+// Redondear a múltiplo más cercano
+function redondearAMultiplo(numero, multiplo) {
+    return Math.round(numero / multiplo) * multiplo;
+}
+
+console.log(redondearAMultiplo(23, 5)); // 25
+console.log(redondearAMultiplo(22, 5)); // 20</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="buenas-practicas" class="section">
+                        <h2>✅ Buenas Prácticas</h2>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <h4>❌ Errores comunes</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>// Comparación directa de decimales
+if (0.1 + 0.2 === 0.3) {
+    console.log("Son iguales"); // No se ejecuta
+}
+
+// Validación insuficiente
+function dividir(a, b) {
+    return a / b; // Puede devolver Infinity o NaN
+}
+
+// Sin especificar base en parseInt
+console.log(parseInt("08"));     // 8 (correcto en ES5+)
+console.log(parseInt("08", 8));  // 0 (octal)</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>✅ Buenas prácticas</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>// Comparación con tolerancia
+function sonIguales(a, b, tolerancia = Number.EPSILON) {
+    return Math.abs(a - b) < tolerancia;
+}
+
+// Validación completa
+function dividirSeguro(a, b) {
+    if (typeof a !== 'number' || typeof b !== 'number') {
+        throw new Error('Ambos argumentos deben ser números');
+    }
+    if (b === 0) {
+        throw new Error('No se puede dividir entre cero');
+    }
+    return a / b;
+}
+
+// Siempre especificar base
+console.log(parseInt("08", 10)); // 8</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="demo-interactivo" class="section">
+                        <h2>🎮 Demo Interactivo: Números en Acción</h2>
+                        
+                        <div class="demo-section">
+                            <h4>Prueba operaciones numéricas en tiempo real</h4>
+                            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 15px;">
+                                <button id="demo-conversion" class="btn">Conversiones</button>
+                                <button id="demo-redondeo" class="btn btn-success">Redondeo</button>
+                                <button id="demo-aleatorios" class="btn btn-warning">Aleatorios</button>
+                                <button id="demo-matematicas" class="btn btn-info">Matemáticas</button>
+                                <button id="demo-formateo" class="btn btn-error">Formateo</button>
+                                <button id="clear-output" class="btn" style="background: #666;">Limpiar</button>
+                            </div>
+                            
+                            <div id="demo-results" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 15px; min-height: 200px; max-height: 400px; overflow-y: auto; font-family: monospace; white-space: pre-wrap; font-size: 0.9rem;"></div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <div class="footer">
+            <h3>📝 Resumen Final</h3>
+            <p><strong>🔢 Los Números</strong> son fundamentales en JavaScript. Dominar la conversión, formateo, operaciones matemáticas y mejores prácticas te permitirá realizar cálculos precisos y manejar datos numéricos de manera efectiva.</p>
+            
+            <div class="feature-card">
+                <h4>🎯 Puntos clave a recordar:</h4>
+                <ul>
+                    <li><strong>Conversión:</strong> Number(), parseInt(), parseFloat() con validación adecuada</li>
+                    <li><strong>Precisión:</strong> Usar tolerancia para comparar decimales</li>
+                    <li><strong>Math:</strong> Aprovechar las funciones de Math para cálculos</li>
+                    <li><strong>Formateo:</strong> toLocaleString() e Intl.NumberFormat para presentación</li>
+                    <li><strong>BigInt:</strong> Para números que exceden el rango seguro</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para agregar output al demo
+        function addOutput(message, type = 'info') {
+            const resultsDiv = document.getElementById('demo-results');
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = type === 'error' ? '❌' : type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️';
+            resultsDiv.textContent += `[${timestamp}] ${prefix} ${message}\n`;
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        // Demo de conversiones
+        function demoConversion() {
+            addOutput("🔄 Demo: Conversión de Números", 'info');
+            
+            const valores = ["123", "123.45", "123abc", "abc123", true, false, null, undefined];
+            
+            addOutput("Probando diferentes métodos de conversión:", 'info');
+            valores.forEach(valor => {
+                addOutput(`Valor original: ${valor} (${typeof valor})`, 'info');
+                addOutput(`  Number(): ${Number(valor)}`, 'success');
+                addOutput(`  parseInt(): ${parseInt(valor)}`, 'success');
+                addOutput(`  parseFloat(): ${parseFloat(valor)}`, 'success');
+                addOutput(`  Operador +: ${+valor}`, 'success');
+                addOutput("", 'info'); // línea en blanco
+            });
+            
+            // Verificaciones
+            addOutput("Verificaciones de tipo:", 'info');
+            const numeros = [42, "42", NaN, Infinity, 42.5];
+            numeros.forEach(num => {
+                addOutput(`${num}: esEntero=${Number.isInteger(num)}, esNaN=${Number.isNaN(num)}, esFinito=${Number.isFinite(num)}`, 'success');
+            });
+        }
+
+        // Demo de redondeo
+        function demoRedondeo() {
+            addOutput("🔄 Demo: Métodos de Redondeo", 'info');
+            
+            const numeros = [4.1, 4.5, 4.9, -4.1, -4.5, -4.9];
+            
+            addOutput("Comparando métodos de redondeo:", 'info');
+            numeros.forEach(num => {
+                addOutput(`Número: ${num}`, 'info');
+                addOutput(`  Math.round(): ${Math.round(num)}`, 'success');
+                addOutput(`  Math.floor(): ${Math.floor(num)}`, 'success');
+                addOutput(`  Math.ceil(): ${Math.ceil(num)}`, 'success');
+                addOutput(`  Math.trunc(): ${Math.trunc(num)}`, 'success');
+                addOutput("", 'info');
+            });
+            
+            // Formateo con decimales
+            const numero = 123.456789;
+            addOutput(`Formateo de ${numero}:`, 'info');
+            addOutput(`  toFixed(2): ${numero.toFixed(2)}`, 'success');
+            addOutput(`  toPrecision(5): ${numero.toPrecision(5)}`, 'success');
+            addOutput(`  toExponential(2): ${numero.toExponential(2)}`, 'success');
+        }
+
+        // Demo de números aleatorios
+        function demoAleatorios() {
+            addOutput("🎲 Demo: Números Aleatorios", 'info');
+            
+            // Números aleatorios básicos
+            addOutput("Números aleatorios básicos:", 'info');
+            for (let i = 0; i < 5; i++) {
+                addOutput(`Math.random(): ${Math.random().toFixed(6)}`, 'success');
+            }
+            
+            // Entero aleatorio entre 1 y 10
+            function enteroAleatorio(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+            
+            addOutput("Enteros aleatorios entre 1 y 10:", 'info');
+            for (let i = 0; i < 10; i++) {
+                addOutput(`${enteroAleatorio(1, 10)}`, 'success');
+            }
+            
+            // Simulación de dados
+            addOutput("Simulación de dado (100 tiradas):", 'info');
+            const resultados = {};
+            for (let i = 1; i <= 6; i++) {
+                resultados[i] = 0;
+            }
+            
+            for (let i = 0; i < 100; i++) {
+                const dado = enteroAleatorio(1, 6);
+                resultados[dado]++;
+            }
+            
+            for (let cara = 1; cara <= 6; cara++) {
+                addOutput(`Cara ${cara}: ${resultados[cara]} veces (${(resultados[cara])}%)`, 'success');
+            }
+            
+            // Elemento aleatorio de array
+            const colores = ['rojo', 'azul', 'verde', 'amarillo', 'naranja'];
+            function elementoAleatorio(array) {
+                return array[Math.floor(Math.random() * array.length)];
+            }
+            
+            addOutput("Colores aleatorios:", 'info');
+            for (let i = 0; i < 5; i++) {
+                addOutput(`${elementoAleatorio(colores)}`, 'success');
+            }
+        }
+
+        // Demo de matemáticas
+        function demoMatematicas() {
+            addOutput("🧮 Demo: Operaciones Matemáticas", 'info');
+            
+            // Constantes matemáticas
+            addOutput("Constantes matemáticas importantes:", 'info');
+            addOutput(`π (PI): ${Math.PI}`, 'success');
+            addOutput(`e (Euler): ${Math.E}`, 'success');
+            addOutput(`√2: ${Math.SQRT2}`, 'success');
+            addOutput(`ln(2): ${Math.LN2}`, 'success');
+            
+            // Potencias y raíces
+            addOutput("Potencias y raíces:", 'info');
+            const base = 16;
+            addOutput(`${base}^2 = ${Math.pow(base, 2)}`, 'success');
+            addOutput(`√${base} = ${Math.sqrt(base)}`, 'success');
+            addOutput(`∛27 = ${Math.cbrt(27)}`, 'success');
+            addOutput(`log₁₀(100) = ${Math.log10(100)}`, 'success');
+            
+            // Trigonometría
+            addOutput("Funciones trigonométricas (en radianes):", 'info');
+            const angulos = [0, Math.PI/6, Math.PI/4, Math.PI/3, Math.PI/2];
+            const nombres = ["0°", "30°", "45°", "60°", "90°"];
+            
+            angulos.forEach((angulo, i) => {
+                addOutput(`${nombres[i]}: sin=${Math.sin(angulo).toFixed(3)}, cos=${Math.cos(angulo).toFixed(3)}, tan=${Math.tan(angulo).toFixed(3)}`, 'success');
+            });
+            
+            // Cálculos prácticos
+            function distancia(x1, y1, x2, y2) {
+                return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+            }
+            
+            function areaCirculo(radio) {
+                return Math.PI * Math.pow(radio, 2);
+            }
+            
+            addOutput("Cálculos prácticos:", 'info');
+            addOutput(`Distancia entre (0,0) y (3,4): ${distancia(0, 0, 3, 4)}`, 'success');
+            addOutput(`Área de círculo con radio 5: ${areaCirculo(5).toFixed(2)}`, 'success');
+            
+            // Máximo y mínimo
+            const numeros = [15, 8, 23, 4, 16, 42, 11];
+            addOutput(`Array: [${numeros.join(', ')}]`, 'info');
+            addOutput(`Máximo: ${Math.max(...numeros)}`, 'success');
+            addOutput(`Mínimo: ${Math.min(...numeros)}`, 'success');
+        }
+
+        // Demo de formateo
+        function demoFormateo() {
+            addOutput("💰 Demo: Formateo de Números", 'info');
+            
+            const numero = 1234567.89;
+            
+            // Formateo básico
+            addOutput(`Número original: ${numero}`, 'info');
+            addOutput(`toFixed(2): ${numero.toFixed(2)}`, 'success');
+            addOutput(`toPrecision(6): ${numero.toPrecision(6)}`, 'success');
+            addOutput(`toExponential(2): ${numero.toExponential(2)}`, 'success');
+            
+            // Formateo con Intl
+            addOutput("Formateo internacional:", 'info');
+            addOutput(`Español: ${numero.toLocaleString('es-ES')}`, 'success');
+            addOutput(`Inglés (US): ${numero.toLocaleString('en-US')}`, 'success');
+            addOutput(`Alemán: ${numero.toLocaleString('de-DE')}`, 'success');
+            
+            // Formateo como moneda
+            const cantidad = 1234.56;
+            addOutput("Formateo como moneda:", 'info');
+            addOutput(`EUR: ${new Intl.NumberFormat('es-ES', {style: 'currency', currency: 'EUR'}).format(cantidad)}`, 'success');
+            addOutput(`USD: ${new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(cantidad)}`, 'success');
+            addOutput(`JPY: ${new Intl.NumberFormat('ja-JP', {style: 'currency', currency: 'JPY'}).format(cantidad)}`, 'success');
+            
+            // Formateo como porcentaje
+            const porcentajes = [0.1, 0.25, 0.333, 0.5, 0.75, 1.0];
+            addOutput("Formateo como porcentaje:", 'info');
+            porcentajes.forEach(p => {
+                const formateado = new Intl.NumberFormat('es-ES', {style: 'percent', minimumFractionDigits: 1}).format(p);
+                addOutput(`${p} = ${formateado}`, 'success');
+            });
+            
+            // Formateo con diferentes bases
+            const num = 255;
+            addOutput(`Conversión de ${num} a diferentes bases:`, 'info');
+            addOutput(`Binario: ${num.toString(2)}`, 'success');
+            addOutput(`Octal: ${num.toString(8)}`, 'success');
+            addOutput(`Hexadecimal: ${num.toString(16).toUpperCase()}`, 'success');
+            
+            // Problemas de precisión
+            addOutput("Demostrando problemas de precisión:", 'warning');
+            addOutput(`0.1 + 0.2 = ${0.1 + 0.2}`, 'error');
+            addOutput(`0.1 + 0.2 === 0.3: ${0.1 + 0.2 === 0.3}`, 'error');
+            addOutput(`Solución con toFixed: ${(0.1 + 0.2).toFixed(1)}`, 'success');
+        }
+
+        // Función para copiar código
+        function copyCode(button) {
+            const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+            navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '¡Copiado!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Event listeners
+        document.getElementById('demo-conversion').addEventListener('click', demoConversion);
+        document.getElementById('demo-redondeo').addEventListener('click', demoRedondeo);
+        document.getElementById('demo-aleatorios').addEventListener('click', demoAleatorios);
+        document.getElementById('demo-matematicas').addEventListener('click', demoMatematicas);
+        document.getElementById('demo-formateo').addEventListener('click', demoFormateo);
+        
+        document.getElementById('clear-output').addEventListener('click', () => {
+            document.getElementById('demo-results').textContent = '';
+        });
+
+        // Smooth scrolling para la navegación
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Inicializar demo
+        document.getElementById('demo-results').textContent = 'Selecciona un demo para explorar los números en JavaScript...\n';
+    </script>
+</body>
+</html>

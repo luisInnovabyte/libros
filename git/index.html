@@ -152,6 +152,11 @@ git status
 <span class="comentario"># Ver diferencias en archivos modificados</span>
 git diff
 
+<span class="comentario"># 📋 QUÉ COMPARA git diff (sin parámetros):</span>
+<span class="comentario"># - Lo que tienes actualmente en tu archivo (working directory)</span>
+<span class="comentario"># vs</span>
+<span class="comentario"># - Lo que está preparado para el próximo commit (staging area/índice)</span>
+
 <span class="comentario"># EXPLICACIÓN DE COLORES EN GIT DIFF:</span>
 <span class="comentario"># Líneas en ROJO (precedidas por -): Contenido eliminado en el original (Lo que vas a quitar del archivo)</span>
 <span class="comentario"># Líneas en VERDE (precedidas por +): Contenido añadido/nuevo (contenido nuevo agragado al archivo)</span>
@@ -219,8 +224,45 @@ git log --graph                    <span class="comentario"># Con representació
 git show                           <span class="comentario"># Último commit</span>
 git show [hash-commit]             <span class="comentario"># Commit específico</span>
 
+<span class="comentario"># � QUÉ HACE git show:</span>
+<span class="comentario"># - Muestra el contenido completo de UN commit específico</span>
+<span class="comentario"># - Por defecto, muestra el último commit (HEAD)</span>
+<span class="comentario"># - Te presenta qué cambios introdujo ese commit comparando automáticamente:</span>
+<span class="comentario">#   * El estado del archivo ANTES del commit (commit padre)</span>
+<span class="comentario">#   vs</span>
+<span class="comentario">#   * El estado del archivo DESPUÉS del commit (el commit actual)</span>
+<span class="comentario"># 
+# 💡 En términos prácticos:</span>
+<span class="comentario"># git show te dice: "Este fue el commit X, y estos fueron los cambios que introdujo"</span>
+
+<span class="comentario"># �📋 EJEMPLO DE SALIDA DE git show:</span>
+<span style="background-color: #1a1a1a; color: #ffffff; padding: 10px; display: block; font-family: 'Courier New', monospace; margin: 10px 0; border-left: 4px solid #ffa500;">
+<span style="color: #ffd700;">commit a1b2c3d4e5f6... (HEAD -> main)</span><br/>
+<span style="color: #87ceeb;">Author: Tu Nombre &lt;tu@email.com&gt;</span><br/>
+<span style="color: #87ceeb;">Date: Mon Oct 13 10:30:00 2025</span><br/>
+<br/>
+<span style="color: #ffffff;">    Mensaje del commit</span><br/>
+<br/>
+<span style="color: #ffffff;">diff --git a/archivo4.txt b/archivo4.txt</span><br/>
+<span style="color: #ffffff;">index 1234567..abcdefg 100644</span><br/>
+<span style="color: #dc3545; font-weight: bold;">--- a/archivo4.txt</span><br/>
+<span style="color: #28a745; font-weight: bold;">+++ b/archivo4.txt</span><br/>
+<span style="color: #87ceeb;">@@ -3,6 +3,7 @@</span><br/>
+<span style="color: #f8f8f8;"> Segunda linea - Segundo commit</span><br/>
+<span style="color: #f8f8f8;"> Tercera linea - tercer commit</span><br/>
+<span style="color: #f8f8f8;"> Cuarta linea exclusiva de main.</span><br/>
+<span style="color: #28a745; font-weight: bold;">+Nueva línea añadida</span><br/>
+</span>
+
+<span class="comentario"># 🔍 EXPLICACIÓN DE LA SALIDA:</span>
+<span class="comentario"># - Información del commit: hash, autor, fecha y mensaje</span>
+<span class="comentario"># - Diff del archivo: muestra qué cambios se hicieron</span>
+<span class="comentario"># - Líneas en ROJO (-): contenido eliminado</span>
+<span class="comentario"># - Líneas en VERDE (+): contenido añadido</span>
+<span class="comentario"># - @@ -3,6 +3,7 @@: información de contexto (línea y cantidad de cambios)</span>
+
 <span class="comentario"># Deshacer commits</span>
-git revert <id del commit al que cambiar>  <span class="comentario"># Deshacer cambios hasta un commit específico</span>
+git revert ##identificador del commit al que cambiar##  <span class="comentario"># Deshacer cambios hasta un commit específico</span>
 </pre>
 <!-- <span class="comentario"># Commit y add en un solo comando (solo archivos ya tracked)</span>
 git commit -am "Mensaje del commit" -->

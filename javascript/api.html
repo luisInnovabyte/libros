@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API de Notificaciones en JavaScript</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔔 API de Notificaciones en JavaScript</h1>
+            <p>Guía completa para implementar notificaciones web modernas que mantienen a tus usuarios informados y comprometidos con tu aplicación</p>
+        </div>
+
+        <div class="two-column">
+            <div class="navigation">
+                <div class="nav-title">📋 Contenido</div>
+                <a href="#introduccion" class="nav-link">¿Qué son las Notificaciones Web?</a>
+                <a href="#verificacion" class="nav-link">Verificación de Soporte</a>
+                <a href="#permisos" class="nav-link">Estados de Permisos</a>
+                <a href="#solicitar" class="nav-link">Solicitar Permisos</a>
+                <a href="#basicas" class="nav-link">Notificaciones Básicas</a>
+                <a href="#avanzadas" class="nav-link">Notificaciones Avanzadas</a>
+                <a href="#service-workers" class="nav-link">Service Workers</a>
+                <a href="#push" class="nav-link">Notificaciones Push</a>
+                <a href="#casos-practicos" class="nav-link">Casos Prácticos</a>
+                <a href="#mejores-practicas" class="nav-link">Mejores Prácticas</a>
+                <a href="#demo" class="nav-link">🎮 Demo Interactivo</a>
+            </div>
+
+            <div class="main-content">
+                <div class="content">
+                    <section id="introduccion" class="section">
+                        <h2>🌐 ¿Qué son las Notificaciones Web?</h2>
+                        <p>Las <span class="highlight">notificaciones web</span> son mensajes que aparecen fuera del contexto de la página web, típicamente en el área de notificaciones del sistema operativo. Permiten que las aplicaciones web comuniquen información importante al usuario sin requerir que la página esté en primer plano.</p>
+                        
+                        <div class="features">
+                            <div class="feature-card">
+                                <h4>📱 Nativas del sistema</h4>
+                                <p>Aparecen como notificaciones del sistema operativo</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>🔔 Persistentes</h4>
+                                <p>Pueden permanecer visibles hasta que el usuario las cierre</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>⚡ Instantáneas</h4>
+                                <p>Se muestran inmediatamente al ser creadas</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>🎯 Interactivas</h4>
+                                <p>Pueden incluir acciones y responder a clics</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>🔒 Seguras</h4>
+                                <p>Requieren permiso explícito del usuario</p>
+                            </div>
+                        </div>
+
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Ejemplo básico de notificación</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>// Ejemplo básico de notificación
+if ("Notification" in window) {
+    // Verificar permisos
+    if (Notification.permission === "granted") {
+        // Crear notificación simple
+        new Notification("¡Hola!", {
+            body: "Esta es tu primera notificación web",
+            icon: "https://via.placeholder.com/64"
+        });
+    }
+}</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="verificacion" class="section">
+                        <h2>🔍 Verificación de Soporte y Permisos</h2>
+                        
+                        <h3>Comprobar soporte del navegador</h3>
+                        <p>Antes de usar notificaciones, es esencial verificar que el navegador las soporte:</p>
+
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Verificar soporte de notificaciones</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>function verificarSoporteNotificaciones() {
+    if (!("Notification" in window)) {
+        console.log("❌ Este navegador no soporta notificaciones");
+        return false;
+    }
+    
+    if (!("serviceWorker" in navigator)) {
+        console.log("⚠️ Service Workers no disponibles");
+    }
+    
+    console.log("✅ Notificaciones soportadas");
+    return true;
+}
+
+// Verificar soporte
+const soporteDisponible = verificarSoporteNotificaciones();
+
+if (soporteDisponible) {
+    console.log("🚀 Puedes usar notificaciones en este navegador");
+}</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="permisos" class="section">
+                        <h2>🔐 Estados de Permisos</h2>
+                        <p>La API maneja tres estados de permisos diferentes:</p>
+
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Estado</th>
+                                        <th>Descripción</th>
+                                        <th>Acción requerida</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="status-indicator status-granted"></span><span class="inline-code">"granted"</span></td>
+                                        <td>Permisos concedidos</td>
+                                        <td>Puedes enviar notificaciones</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="status-indicator status-denied"></span><span class="inline-code">"denied"</span></td>
+                                        <td>Permisos denegados</td>
+                                        <td>El usuario debe habilitar manualmente</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="status-indicator status-default"></span><span class="inline-code">"default"</span></td>
+                                        <td>No solicitados aún</td>
+                                        <td>Debes pedirlos al usuario</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Verificar estado de permisos</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>function verificarEstadoPermisos() {
+    const estado = Notification.permission;
+    
+    switch (estado) {
+        case "granted":
+            console.log("✅ Permisos concedidos - Puedes enviar notificaciones");
+            return true;
+            
+        case "denied":
+            console.log("❌ Permisos denegados - No puedes enviar notificaciones");
+            console.log("💡 El usuario debe habilitar manualmente");
+            return false;
+            
+        case "default":
+            console.log("❓ Permisos no solicitados aún - Debes pedirlos");
+            return false;
+            
+        default:
+            console.log("❓ Estado desconocido:", estado);
+            return false;
+    }
+}</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="solicitar" class="section">
+                        <h2>🙋‍♂️ Solicitar Permisos al Usuario</h2>
+                        <p>Es crucial solicitar permisos de manera contextual y explicar por qué son necesarios:</p>
+
+                        <div class="alert alert-info">
+                            <strong>💡 Consejo:</strong> Solicita permisos solo cuando el usuario realice una acción que lo justifique, como activar recordatorios o suscribirse a actualizaciones.
+                        </div>
+
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Solicitar permisos de manera elegante</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>async function solicitarPermisos() {
+    // Verificar si ya tenemos permisos
+    if (Notification.permission === "granted") {
+        console.log("✅ Ya tienes permisos para notificaciones");
+        return true;
+    }
+    
+    // Si están denegados, no podemos hacer nada
+    if (Notification.permission === "denied") {
+        console.log("❌ Permisos denegados previamente");
+        alert("Para recibir notificaciones, habilítalas en configuración");
+        return false;
+    }
+    
+    try {
+        // Solicitar permisos
+        console.log("🔔 Solicitando permisos de notificación...");
+        const permiso = await Notification.requestPermission();
+        
+        if (permiso === "granted") {
+            console.log("✅ ¡Permisos concedidos!");
+            
+            // Mostrar notificación de bienvenida
+            new Notification("¡Notificaciones activadas!", {
+                body: "Ahora recibirás notificaciones de esta aplicación",
+                icon: "https://via.placeholder.com/64",
+                tag: "bienvenida"
+            });
+            
+            return true;
+        } else {
+            console.log("❌ Permisos denegados por el usuario");
+            return false;
+        }
+        
+    } catch (error) {
+        console.error("Error solicitando permisos:", error);
+        return false;
+    }
+}</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="basicas" class="section">
+                        <h2>📝 Crear Notificaciones Básicas</h2>
+
+                        <h3>Notificación simple</h3>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Notificación básica</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>function notificacionSimple() {
+    if (Notification.permission !== "granted") {
+        console.log("❌ No tienes permisos para notificaciones");
+        return;
+    }
+    
+    const notificacion = new Notification("Título de la notificación");
+    
+    console.log("📨 Notificación enviada");
+    return notificacion;
+}</code></pre>
+                        </div>
+
+                        <h3>Notificación con opciones avanzadas</h3>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Notificación completa con opciones</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>function notificacionCompleta() {
+    if (Notification.permission !== "granted") {
+        console.log("❌ Sin permisos para notificaciones");
+        return;
+    }
+    
+    const opciones = {
+        // Contenido básico
+        body: "Este es el cuerpo de la notificación con más detalles",
+        icon: "https://via.placeholder.com/64/0066cc/ffffff?text=APP",
+        
+        // Identificación y agrupación
+        tag: "mensaje-importante", // Evita duplicados
+        
+        // Apariencia
+        badge: "https://via.placeholder.com/24/ff6600/ffffff?text=!",
+        image: "https://via.placeholder.com/300x150/00cc66/ffffff?text=Imagen",
+        
+        // Comportamiento
+        requireInteraction: false, // Si true, no se cierra automáticamente
+        silent: false,             // Si true, no hace sonido
+        
+        // Datos personalizados
+        data: {
+            id: "msg_001",
+            tipo: "promocion",
+            url: "https://mi-app.com/ofertas",
+            timestamp: Date.now()
+        },
+        
+        // Vibración (en dispositivos móviles)
+        vibrate: [200, 100, 200] // Patrón en milisegundos
+    };
+    
+    const notificacion = new Notification("🎉 ¡Oferta Especial!", opciones);
+    
+    // Manejar eventos de la notificación
+    notificacion.onclick = function(event) {
+        console.log("👆 Usuario hizo clic en la notificación");
+        
+        // Abrir URL si está definida
+        if (event.target.data && event.target.data.url) {
+            window.open(event.target.data.url, '_blank');
+        }
+        
+        // Cerrar la notificación
+        event.target.close();
+    };
+    
+    return notificacion;
+}</code></pre>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <strong>⚠️ Importante:</strong> Las notificaciones con <span class="inline-code">requireInteraction: true</span> permanecen visibles hasta que el usuario las cierre manualmente. Úsalas solo para mensajes muy importantes.
+                        </div>
+                    </section>
+
+                    <section id="avanzadas" class="section">
+                        <h2>⚡ Sistema de Notificaciones Avanzado</h2>
+                        <p>Crear un gestor de notificaciones que maneje diferentes tipos y situaciones:</p>
+
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Gestor de Notificaciones Avanzado</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>class GestorNotificaciones {
+    constructor() {
+        this.notificacionesActivas = new Map();
+        this.configuracion = {
+            iconoApp: "https://via.placeholder.com/64/0066cc/ffffff?text=APP",
+            badgeApp: "https://via.placeholder.com/24/0066cc/ffffff?text=!",
+            duracionPorDefecto: 5000
+        };
+    }
+    
+    // Verificar disponibilidad
+    async verificarDisponibilidad() {
+        if (!("Notification" in window)) {
+            throw new Error("Notificaciones no soportadas");
+        }
+        
+        if (Notification.permission === "denied") {
+            throw new Error("Permisos denegados");
+        }
+        
+        if (Notification.permission === "default") {
+            const permiso = await Notification.requestPermission();
+            if (permiso !== "granted") {
+                throw new Error("Usuario denegó los permisos");
+            }
+        }
+        
+        return true;
+    }
+    
+    // Notificación de éxito
+    exito(titulo, mensaje, opciones = {}) {
+        return this._crearNotificacion(titulo, mensaje, {
+            icon: "https://via.placeholder.com/64/4CAF50/ffffff?text=✓",
+            badge: "https://via.placeholder.com/24/4CAF50/ffffff?text=✓",
+            tag: "exito",
+            ...opciones
+        });
+    }
+    
+    // Notificación de error
+    error(titulo, mensaje, opciones = {}) {
+        return this._crearNotificacion(titulo, mensaje, {
+            icon: "https://via.placeholder.com/64/f44336/ffffff?text=✗",
+            badge: "https://via.placeholder.com/24/f44336/ffffff?text=✗",
+            tag: "error",
+            requireInteraction: true,
+            ...opciones
+        });
+    }
+    
+    // Notificación de información
+    info(titulo, mensaje, opciones = {}) {
+        return this._crearNotificacion(titulo, mensaje, {
+            icon: "https://via.placeholder.com/64/2196F3/ffffff?text=ℹ",
+            badge: "https://via.placeholder.com/24/2196F3/ffffff?text=ℹ",
+            tag: "info",
+            ...opciones
+        });
+    }
+    
+    // Método privado para crear notificaciones
+    async _crearNotificacion(titulo, mensaje, opciones = {}) {
+        try {
+            await this.verificarDisponibilidad();
+            
+            const configuracionFinal = {
+                body: mensaje,
+                icon: this.configuracion.iconoApp,
+                badge: this.configuracion.badgeApp,
+                timestamp: Date.now(),
+                data: {
+                    id: Date.now().toString(),
+                    timestamp: Date.now(),
+                    ...opciones.data
+                },
+                ...opciones
+            };
+            
+            const notificacion = new Notification(titulo, configuracionFinal);
+            
+            // Registrar notificación activa
+            if (configuracionFinal.tag) {
+                this.notificacionesActivas.set(configuracionFinal.tag, notificacion);
+            }
+            
+            // Auto-cerrar después del tiempo especificado
+            if (configuracionFinal.duracion !== false) {
+                const duracion = configuracionFinal.duracion || this.configuracion.duracionPorDefecto;
+                setTimeout(() => {
+                    notificacion.close();
+                }, duracion);
+            }
+            
+            // Event listeners por defecto
+            notificacion.onclick = (event) => {
+                console.log("🔔 Notificación clickeada:", event.target.data);
+                window.focus();
+                event.target.close();
+            };
+            
+            console.log(`📨 Notificación "${titulo}" enviada`);
+            return notificacion;
+            
+        } catch (error) {
+            console.error("Error creando notificación:", error.message);
+            throw error;
+        }
+    }
+    
+    // Cerrar todas las notificaciones
+    cerrarTodas() {
+        this.notificacionesActivas.forEach(notificacion => {
+            notificacion.close();
+        });
+        this.notificacionesActivas.clear();
+        console.log("🔕 Todas las notificaciones cerradas");
+    }
+}</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="mejores-practicas" class="section">
+                        <h2>✅ Mejores Prácticas</h2>
+
+                        <div class="features">
+                            <div class="feature-card">
+                                <h4>🔍 Verificar permisos siempre</h4>
+                                <p>Nunca asumas que tienes permisos. Verifica antes de cada notificación.</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>🏷️ Usar tags para evitar spam</h4>
+                                <p>Agrupa notificaciones relacionadas con el mismo tag.</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>⚙️ Proporcionar controles</h4>
+                                <p>Permite que los usuarios configuren qué notificaciones recibir.</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>📱 Optimizar para móviles</h4>
+                                <p>Incluye vibración y considera el tamaño de pantalla.</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>💬 Ser contextual</h4>
+                                <p>Solicita permisos cuando el usuario realice una acción relevante.</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>🎯 Proporcionar valor</h4>
+                                <p>Cada notificación debe aportar información útil al usuario.</p>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-error">
+                            <strong>❌ Evita estas prácticas:</strong>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Enviar múltiples notificaciones sin propósito claro</li>
+                                <li>Notificar sobre eventos triviales (clics, navegación)</li>
+                                <li>No verificar permisos antes de crear notificaciones</li>
+                                <li>Usar notificaciones como único medio de comunicación</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="demo" class="section">
+                        <h2>🎮 Demo Interactivo</h2>
+                        <p>Prueba las notificaciones directamente desde esta página:</p>
+
+                        <div class="demo-section">
+                            <h4>🔔 Estado actual de notificaciones</h4>
+                            <p>Estado de permisos: <span id="permission-status" class="inline-code">Verificando...</span></p>
+                            <p>Soporte del navegador: <span id="support-status" class="inline-code">Verificando...</span></p>
+                            
+                            <div style="margin: 20px 0;">
+                                <button id="request-permission" class="btn">📋 Solicitar Permisos</button>
+                                <button id="test-basic" class="btn btn-success" disabled>✅ Notificación Básica</button>
+                                <button id="test-success" class="btn btn-success" disabled>🎉 Notificación Éxito</button>
+                                <button id="test-warning" class="btn btn-warning" disabled>⚠️ Notificación Advertencia</button>
+                                <button id="test-error" class="btn btn-error" disabled>❌ Notificación Error</button>
+                            </div>
+
+                            <div style="margin-top: 20px;">
+                                <button id="close-all" class="btn" disabled>🔕 Cerrar Todas</button>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <strong>💡 Nota:</strong> Las notificaciones aparecerán en el área de notificaciones de tu sistema operativo, no en esta página.
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>🚀 ¡Comienza a usar Notificaciones Web!</h3>
+            <p>Las notificaciones web son una herramienta poderosa para mantener a tus usuarios conectados. Úsalas de manera responsable y siempre proporciona valor real.</p>
+            <p style="margin-top: 20px; opacity: 0.8;">
+                📚 Guía de JavaScript - API de Notificaciones | 
+                Creado con ❤️ para desarrolladores
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Gestor de notificaciones para la demo
+        class GestorNotificaciones {
+            constructor() {
+                this.notificacionesActivas = new Map();
+                this.configuracion = {
+                    iconoApp: "https://via.placeholder.com/64/0066cc/ffffff?text=📝",
+                    badgeApp: "https://via.placeholder.com/24/0066cc/ffffff?text=!",
+                    duracionPorDefecto: 5000
+                };
+            }
+            
+            async verificarDisponibilidad() {
+                if (!("Notification" in window)) {
+                    throw new Error("Notificaciones no soportadas en este navegador");
+                }
+                
+                if (Notification.permission === "denied") {
+                    throw new Error("Permisos de notificación denegados");
+                }
+                
+                if (Notification.permission === "default") {
+                    const permiso = await Notification.requestPermission();
+                    if (permiso !== "granted") {
+                        throw new Error("Usuario denegó los permisos de notificación");
+                    }
+                }
+                
+                return true;
+            }
+            
+            exito(titulo, mensaje, opciones = {}) {
+                return this._crearNotificacion(titulo, mensaje, {
+                    icon: "https://via.placeholder.com/64/4CAF50/ffffff?text=✅",
+                    badge: "https://via.placeholder.com/24/4CAF50/ffffff?text=✓",
+                    tag: "exito",
+                    ...opciones
+                });
+            }
+            
+            error(titulo, mensaje, opciones = {}) {
+                return this._crearNotificacion(titulo, mensaje, {
+                    icon: "https://via.placeholder.com/64/f44336/ffffff?text=❌",
+                    badge: "https://via.placeholder.com/24/f44336/ffffff?text=✗",
+                    tag: "error",
+                    requireInteraction: true,
+                    ...opciones
+                });
+            }
+            
+            advertencia(titulo, mensaje, opciones = {}) {
+                return this._crearNotificacion(titulo, mensaje, {
+                    icon: "https://via.placeholder.com/64/ff9800/ffffff?text=⚠️",
+                    badge: "https://via.placeholder.com/24/ff9800/ffffff?text=⚠",
+                    tag: "advertencia",
+                    ...opciones
+                });
+            }
+            
+            info(titulo, mensaje, opciones = {}) {
+                return this._crearNotificacion(titulo, mensaje, {
+                    icon: "https://via.placeholder.com/64/2196F3/ffffff?text=ℹ️",
+                    badge: "https://via.placeholder.com/24/2196F3/ffffff?text=ℹ",
+                    tag: "info",
+                    ...opciones
+                });
+            }
+            
+            async _crearNotificacion(titulo, mensaje, opciones = {}) {
+                try {
+                    await this.verificarDisponibilidad();
+                    
+                    const configuracionFinal = {
+                        body: mensaje,
+                        icon: this.configuracion.iconoApp,
+                        badge: this.configuracion.badgeApp,
+                        timestamp: Date.now(),
+                        data: {
+                            id: Date.now().toString(),
+                            timestamp: Date.now(),
+                            ...opciones.data
+                        },
+                        ...opciones
+                    };
+                    
+                    const notificacion = new Notification(titulo, configuracionFinal);
+                    
+                    if (configuracionFinal.tag) {
+                        this.notificacionesActivas.set(configuracionFinal.tag, notificacion);
+                    }
+                    
+                    if (configuracionFinal.duracion !== false) {
+                        const duracion = configuracionFinal.duracion || this.configuracion.duracionPorDefecto;
+                        setTimeout(() => {
+                            notificacion.close();
+                        }, duracion);
+                    }
+                    
+                    notificacion.onclick = (event) => {
+                        console.log("🔔 Notificación clickeada:", event.target.data);
+                        window.focus();
+                        event.target.close();
+                    };
+                    
+                    notificacion.onclose = () => {
+                        if (configuracionFinal.tag) {
+                            this.notificacionesActivas.delete(configuracionFinal.tag);
+                        }
+                    };
+                    
+                    console.log(`📨 Notificación "${titulo}" enviada`);
+                    return notificacion;
+                    
+                } catch (error) {
+                    console.error("Error creando notificación:", error.message);
+                    alert(`Error: ${error.message}`);
+                    throw error;
+                }
+            }
+            
+            cerrarTodas() {
+                this.notificacionesActivas.forEach(notificacion => {
+                    notificacion.close();
+                });
+                this.notificacionesActivas.clear();
+                console.log("🔕 Todas las notificaciones cerradas");
+            }
+        }
+
+        // Inicializar gestor
+        const notificaciones = new GestorNotificaciones();
+
+        // Verificar estado inicial
+        function actualizarEstado() {
+            const supportStatus = document.getElementById('support-status');
+            const permissionStatus = document.getElementById('permission-status');
+            const buttons = document.querySelectorAll('.btn:not(#request-permission)');
+            const requestBtn = document.getElementById('request-permission');
+
+            // Verificar soporte
+            if ("Notification" in window) {
+                supportStatus.textContent = "✅ Soportado";
+                supportStatus.className = "inline-code";
+            } else {
+                supportStatus.textContent = "❌ No soportado";
+                supportStatus.className = "inline-code";
+                buttons.forEach(btn => btn.disabled = true);
+                requestBtn.disabled = true;
+                return;
+            }
+
+            // Verificar permisos
+            const permission = Notification.permission;
+            switch (permission) {
+                case "granted":
+                    permissionStatus.innerHTML = '<span class="status-indicator status-granted"></span>Concedidos';
+                    buttons.forEach(btn => btn.disabled = false);
+                    requestBtn.textContent = "✅ Permisos Concedidos";
+                    requestBtn.disabled = true;
+                    break;
+                case "denied":
+                    permissionStatus.innerHTML = '<span class="status-indicator status-denied"></span>Denegados';
+                    buttons.forEach(btn => btn.disabled = true);
+                    requestBtn.textContent = "❌ Permisos Denegados";
+                    requestBtn.disabled = true;
+                    break;
+                case "default":
+                    permissionStatus.innerHTML = '<span class="status-indicator status-default"></span>No solicitados';
+                    buttons.forEach(btn => btn.disabled = true);
+                    requestBtn.textContent = "📋 Solicitar Permisos";
+                    requestBtn.disabled = false;
+                    break;
+            }
+        }
+
+        // Event listeners
+        document.getElementById('request-permission').addEventListener('click', async () => {
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === "granted") {
+                    await notificaciones.exito("¡Permisos concedidos!", "Ahora puedes recibir notificaciones de esta demo");
+                }
+                actualizarEstado();
+            } catch (error) {
+                console.error("Error solicitando permisos:", error);
+            }
+        });
+
+        document.getElementById('test-basic').addEventListener('click', () => {
+            new Notification("Notificación Básica", {
+                body: "Esta es una notificación básica de ejemplo",
+                icon: "https://via.placeholder.com/64/2196F3/ffffff?text=📝"
+            });
+        });
+
+        document.getElementById('test-success').addEventListener('click', () => {
+            notificaciones.exito("¡Operación exitosa!", "La tarea se completó correctamente");
+        });
+
+        document.getElementById('test-warning').addEventListener('click', () => {
+            notificaciones.advertencia("Atención requerida", "Tu sesión expirará en 5 minutos");
+        });
+
+        document.getElementById('test-error').addEventListener('click', () => {
+            notificaciones.error("Error detectado", "No se pudo conectar con el servidor");
+        });
+
+        document.getElementById('close-all').addEventListener('click', () => {
+            notificaciones.cerrarTodas();
+        });
+
+        // Función para copiar código
+        function copyCode(button) {
+            const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = "✅ Copiado";
+                button.style.background = "#4CAF50";
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = "";
+                }, 2000);
+            }).catch(err => {
+                console.error('Error copiando código:', err);
+                alert('Error al copiar el código');
+            });
+        }
+
+        // Inicializar al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            actualizarEstado();
+            
+            // Actualizar estado cada 5 segundos por si cambia
+            setInterval(actualizarEstado, 5000);
+        });
+
+        // Smooth scrolling para navegación
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

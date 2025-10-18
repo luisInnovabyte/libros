@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variables en JavaScript - Tutorial Completo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container two-column">
+        <nav class="navigation">
+            <div class="nav-header">
+                <h3>📦 Variables en JavaScript</h3>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#introduccion" class="nav-link">🔍 Introducción</a></li>
+                <li><a href="#declaracion" class="nav-link">📝 Declaración</a></li>
+                <li><a href="#palabras-clave" class="nav-link">🔤 var, let, const</a></li>
+                <li><a href="#objetos-const" class="nav-link">🏗️ Objetos con const</a></li>
+                <li><a href="#tipos-datos" class="nav-link">🎯 Tipos de Datos</a></li>
+                <li><a href="#coercion" class="nav-link">🔄 Coerción de Tipos</a></li>
+                <li><a href="#ambito" class="nav-link">🌐 Ámbito (Scope)</a></li>
+                <li><a href="#ambito-global" class="nav-link">🌍 Ámbito Global</a></li>
+                <li><a href="#buenas-practicas" class="nav-link">✨ Buenas Prácticas</a></li>
+                <li><a href="#errores-comunes" class="nav-link">⚠️ Errores Comunes</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <!-- Introducción -->
+            <section id="introduccion" class="section">
+                <div class="header">
+                    <h1>Variables en JavaScript</h1>
+                    <p>Las <strong>variables</strong> en JavaScript se utilizan para almacenar datos que pueden ser usados y modificados a lo largo del código.</p>
+                </div>
+
+                <div class="alert">
+                    <strong>⚠️ Importante:</strong> Las variables en JavaScript distinguen entre MAYÚSCULAS y minúsculas. <code>nombre</code> y <code>Nombre</code> son variables diferentes.
+                </div>
+
+                <div class="feature-card">
+                    <h3>¿Qué son las variables?</h3>
+                    <p>Las variables son contenedores que almacenan valores de datos. Piensa en ellas como cajas etiquetadas donde puedes guardar información para usarla más tarde.</p>
+                    <ul>
+                        <li><strong>Almacenan datos:</strong> Números, texto, objetos, etc.</li>
+                        <li><strong>Se pueden modificar:</strong> Sus valores pueden cambiar durante la ejecución</li>
+                        <li><strong>Tienen nombres:</strong> Identificadores únicos para acceder a los datos</li>
+                        <li><strong>Tienen ámbito:</strong> Reglas sobre dónde pueden ser accedidas</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Declaración -->
+            <section id="declaracion" class="section">
+                <div class="header">
+                    <h2>📝 Declaración de Variables</h2>
+                    <p>JavaScript ofrece tres formas principales de declarar variables, cada una con sus propias características.</p>
+                </div>
+
+                <div class="code-container">
+                    <pre><code>// Ejemplos básicos de declaración
+var nombre = 'Juan';
+let edad = 30;
+const PI = 3.1416;
+
+// Declaración sin valor inicial
+let mensaje;
+console.log(mensaje); // undefined
+
+// Asignación posterior
+mensaje = "Hola mundo";
+console.log(mensaje); // "Hola mundo"</code></pre>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Declaración de Variables</h3>
+                    <div class="demo-container">
+                        <button onclick="demoDeclaracion()" class="demo-button">Probar Declaraciones</button>
+                        <div id="declaracion-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Palabras Clave -->
+            <section id="palabras-clave" class="section">
+                <div class="header">
+                    <h2>🔤 var, let y const</h2>
+                    <p>Cada palabra clave tiene características específicas que debes conocer para elegir la correcta.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>🚫 var (Evitar)</h4>
+                        <div class="code-container">
+                            <pre><code>// var - Declaración clásica
+var nombre = 'Ana';
+var nombre = 'Luis'; // Redeclaración permitida
+
+function ejemplo() {
+    var mensaje = 'Hola';
+    if (true) {
+        var mensaje = 'Adiós'; // Misma variable
+    }
+    console.log(mensaje); // "Adiós"
+}
+
+// Hoisting con var
+console.log(variable); // undefined (no error)
+var variable = 'valor';</code></pre>
+                        </div>
+                        <ul class="feature-list">
+                            <li>❌ Ámbito de función</li>
+                            <li>❌ Permite redeclaración</li>
+                            <li>❌ Hoisting confuso</li>
+                            <li>❌ No usar salvo compatibilidad</li>
+                        </ul>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>✅ let (Variables mutables)</h4>
+                        <div class="code-container">
+                            <pre><code>// let - Para valores que cambian
+let contador = 0;
+contador = 1; // Reasignación permitida
+
+function ejemplo() {
+    let mensaje = 'Hola';
+    if (true) {
+        let mensaje = 'Adiós'; // Variable diferente
+        console.log(mensaje); // "Adiós"
+    }
+    console.log(mensaje); // "Hola"
+}
+
+// Ámbito de bloque
+if (true) {
+    let temporal = 'existe aquí';
+}
+// console.log(temporal); // ReferenceError</code></pre>
+                        </div>
+                        <ul class="feature-list">
+                            <li>✅ Ámbito de bloque</li>
+                            <li>✅ No permite redeclaración</li>
+                            <li>✅ Permite reasignación</li>
+                            <li>✅ Usar cuando el valor cambie</li>
+                        </ul>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>🔒 const (Constantes)</h4>
+                        <div class="code-container">
+                            <pre><code>// const - Para valores constantes
+const PI = 3.1416;
+const NOMBRE_APP = 'MiApp';
+
+// Debe asignarse al declarar
+const usuario = 'Juan';
+
+// No se puede reasignar
+// PI = 3.14; // TypeError
+
+// Ámbito de bloque
+if (true) {
+    const LOCAL = 'solo aquí';
+}
+// console.log(LOCAL); // ReferenceError
+
+// Con objetos (contenido mutable)
+const config = { tema: 'claro' };
+config.tema = 'oscuro'; // ✅ Permitido</code></pre>
+                        </div>
+                        <ul class="feature-list">
+                            <li>✅ Ámbito de bloque</li>
+                            <li>✅ No permite reasignación</li>
+                            <li>✅ Debe inicializarse</li>
+                            <li>✅ Usar por defecto</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="alert">
+                    <strong>📋 Regla práctica:</strong>
+                    <br>1. Usa <code>const</code> por defecto
+                    <br>2. Cambia a <code>let</code> solo si necesitas reasignar
+                    <br>3. Evita <code>var</code> completamente
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Comparar var, let, const</h3>
+                    <div class="demo-container">
+                        <button onclick="demoVarLetConst()" class="demo-button">Probar Diferencias</button>
+                        <div id="var-let-const-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Objetos con const -->
+            <section id="objetos-const" class="section">
+                <div class="header">
+                    <h2>🏗️ Objetos con const</h2>
+                    <p>Aunque <code>const</code> no permite reasignación, sí permite modificar el contenido de objetos y arrays.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>📋 ¿Qué es un objeto?</h4>
+                        <div class="code-container">
+                            <pre><code>// Objeto básico
+const persona = { 
+    nombre: "Luis",
+    edad: 30
+};
+
+// Objeto más complejo
+const estudiante = {
+    nombre: "Ana",
+    edad: 22,
+    activo: true,
+    materias: ["JavaScript", "CSS", "HTML"],
+    direccion: {
+        calle: "Principal 123",
+        ciudad: "Madrid"
+    },
+    saludar: function() {
+        return `Hola, soy ${this.nombre}`;
+    }
+};
+
+console.log(estudiante.nombre); // "Ana"
+console.log(estudiante.saludar()); // "Hola, soy Ana"</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>🔧 Acceso a propiedades</h4>
+                        <div class="code-container">
+                            <pre><code>const persona = { 
+    nombre: "Luis", 
+    edad: 30,
+    "nombre completo": "Luis García" 
+};
+
+// Notación de punto
+console.log(persona.nombre);        // "Luis"
+console.log(persona.edad);          // 30
+
+// Notación de corchetes
+console.log(persona["nombre"]);     // "Luis"
+console.log(persona["nombre completo"]); // "Luis García"
+
+// Acceso dinámico
+const propiedad = "edad";
+console.log(persona[propiedad]);    // 30</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert">
+                    <strong>💡 Concepto clave:</strong> <code>const</code> protege la <strong>referencia</strong> al objeto, no su <strong>contenido</strong>. Es como una caja etiquetada: no puedes cambiar la etiqueta, pero sí el contenido.
+                </div>
+
+                <div class="code-container">
+                    <pre><code>const persona = { nombre: "Luis" };
+
+// ✅ PERMITIDO: Modificar propiedades existentes
+persona.nombre = "Carlos";
+
+// ✅ PERMITIDO: Añadir nuevas propiedades
+persona.edad = 25;
+persona.activo = true;
+
+// ✅ PERMITIDO: Eliminar propiedades
+delete persona.activo;
+
+console.log(persona); // { nombre: "Carlos", edad: 25 }
+
+// ❌ ERROR: No se puede reasignar el objeto completo
+// persona = {}; // TypeError: Assignment to constant variable</code></pre>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Objetos con const</h3>
+                    <div class="demo-container">
+                        <button onclick="demoObjetosConst()" class="demo-button">Probar Modificaciones</button>
+                        <div id="objetos-const-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tipos de Datos -->
+            <section id="tipos-datos" class="section">
+                <div class="header">
+                    <h2>🎯 Tipos de Datos</h2>
+                    <p>JavaScript es <strong>dinámicamente tipado</strong>, las variables pueden contener diferentes tipos de datos.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>🔤 Tipos Primitivos</h4>
+                        <div class="code-container">
+                            <pre><code>// String (texto)
+let texto = "Hola mundo";
+let texto2 = 'Con comillas simples';
+let texto3 = `Template literal: ${texto}`;
+
+// Number (números)
+let entero = 42;
+let decimal = 3.14;
+let negativo = -15;
+let infinito = Infinity;
+
+// Boolean (verdadero/falso)
+let esVerdadero = true;
+let esFalso = false;
+
+// Undefined (sin valor)
+let indefinido;
+let tambienIndefinido = undefined;
+
+// Null (valor nulo intencionado)
+let nulo = null;
+
+// Symbol (ES6+)
+let simbolo = Symbol('id');
+
+// BigInt (ES2020+)
+let enteroGrande = 123n;</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>📦 Tipos de Referencia</h4>
+                        <div class="code-container">
+                            <pre><code>// Object (objetos)
+let persona = { 
+    nombre: "Ana",
+    edad: 25
+};
+
+// Array (arreglos)
+let numeros = [1, 2, 3, 4, 5];
+let mixto = ["texto", 42, true, null];
+
+// Function (funciones)
+let saludo = function() { 
+    return "Hola"; 
+};
+
+// Date (fechas)
+let ahora = new Date();
+let cumpleanos = new Date('1990-05-15');
+
+// RegExp (expresiones regulares)
+let patron = /[a-z]+/g;
+
+// Verificar tipos
+console.log(typeof "texto");    // "string"
+console.log(typeof 42);         // "number"
+console.log(typeof true);       // "boolean"
+console.log(typeof undefined);  // "undefined"
+console.log(typeof null);       // "object" (peculiaridad JS)
+console.log(typeof []);         // "object"
+console.log(typeof {});         // "object"</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Tipos de Datos</h3>
+                    <div class="demo-container">
+                        <input type="text" id="tipo-input" placeholder="Escribe un valor: 42, 'texto', true, null..." style="margin-right: 10px;">
+                        <button onclick="demoTiposDatos()" class="demo-button">Verificar Tipo</button>
+                        <div id="tipos-datos-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Coerción -->
+            <section id="coercion" class="section">
+                <div class="header">
+                    <h2>🔄 Coerción de Tipos</h2>
+                    <p>JavaScript convierte automáticamente tipos cuando es necesario. Esto puede ser útil pero también confuso.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>⚡ Coerción Automática</h4>
+                        <div class="code-container">
+                            <pre><code>// Concatenación vs suma
+let resultado1 = "5" + 3;      // "53" (string)
+let resultado2 = 5 + 3;        // 8 (number)
+let resultado3 = "5" + 3 + 2;  // "532" (string)
+let resultado4 = 5 + 3 + "2";  // "82" (number + string)
+
+// Conversión a número
+let suma = +"5" + 3;           // 8 (number)
+let resta = "10" - 3;          // 7 (number)
+let multiplicacion = "4" * 2;  // 8 (number)
+
+// Conversión a boolean
+let bool1 = !!"texto";         // true
+let bool2 = !!0;               // false
+let bool3 = !!"";              // false
+let bool4 = !!null;            // false
+
+console.log("5" == 5);         // true (con coerción)
+console.log("5" === 5);        // false (sin coerción)</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>🎯 Conversión Explícita</h4>
+                        <div class="code-container">
+                            <pre><code>// String → Number
+let num1 = Number("42");       // 42
+let num2 = parseInt("42px");   // 42
+let num3 = parseFloat("3.14"); // 3.14
+let num4 = +"123";             // 123
+
+// Number → String
+let str1 = String(123);        // "123"
+let str2 = (123).toString();   // "123"
+let str3 = 123 + "";           // "123"
+
+// Boolean conversions
+let bool1 = Boolean("texto");  // true
+let bool2 = Boolean("");       // false
+let bool3 = Boolean(0);        // false
+let bool4 = Boolean(1);        // true
+
+// Valores falsy
+console.log(Boolean(false));   // false
+console.log(Boolean(0));       // false
+console.log(Boolean(""));      // false
+console.log(Boolean(null));    // false
+console.log(Boolean(undefined)); // false
+console.log(Boolean(NaN));     // false</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert">
+                    <strong>⚠️ Cuidado:</strong> La coerción automática puede causar errores inesperados. Usa siempre <code>===</code> en lugar de <code>==</code> y convierte tipos explícitamente cuando sea necesario.
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Coerción de Tipos</h3>
+                    <div class="demo-container">
+                        <button onclick="demoCoercion()" class="demo-button">Probar Coerción</button>
+                        <div id="coercion-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ámbito -->
+            <section id="ambito" class="section">
+                <div class="header">
+                    <h2>🌐 Ámbito (Scope)</h2>
+                    <p>El <strong>ámbito</strong> determina dónde y cómo puedes acceder a una variable. Son las "reglas de visibilidad" de las variables.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>🔧 Ámbito de Función</h4>
+                        <div class="code-container">
+                            <pre><code>function ejemploFuncion() {
+    var funcionVar = "Visible en toda la función";
+    let funcionLet = "También en toda la función";
+    
+    if (true) {
+        var dentroIf = "var: visible fuera del if";
+        let bloqueVar = "let: solo en este bloque";
+        
+        console.log(funcionVar);  // ✅ Accesible
+        console.log(funcionLet);  // ✅ Accesible
+        console.log(bloqueVar);   // ✅ Accesible
+    }
+    
+    console.log(dentroIf);     // ✅ var es accesible
+    // console.log(bloqueVar); // ❌ ReferenceError
+}
+
+// console.log(funcionVar);   // ❌ ReferenceError
+ejemploFuncion();</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>🧱 Ámbito de Bloque</h4>
+                        <div class="code-container">
+                            <pre><code>// Ámbito de bloque con let y const
+if (true) {
+    let mensaje = 'Hola!';
+    const CONSTANTE = 'No cambio';
+    
+    console.log(mensaje);    // ✅ "Hola!"
+    console.log(CONSTANTE);  // ✅ "No cambio"
+}
+
+// console.log(mensaje);    // ❌ ReferenceError
+// console.log(CONSTANTE);  // ❌ ReferenceError
+
+// Bucles y ámbito
+for (let i = 0; i < 3; i++) {
+    let mensaje = `Iteración ${i}`;
+    console.log(mensaje);
+}
+// console.log(i);          // ❌ ReferenceError
+// console.log(mensaje);    // ❌ ReferenceError
+
+// Cada iteración tiene su propio ámbito
+for (let i = 0; i < 3; i++) {
+    setTimeout(() => {
+        console.log(i);      // 0, 1, 2 (correcto)
+    }, 100);
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Ámbito</h3>
+                    <div class="demo-container">
+                        <button onclick="demoAmbito()" class="demo-button">Probar Ámbito</button>
+                        <div id="ambito-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ámbito Global -->
+            <section id="ambito-global" class="section">
+                <div class="header">
+                    <h2>🌍 Ámbito Global</h2>
+                    <p>El ámbito global es el contexto principal del programa. Las variables aquí son visibles desde cualquier lugar.</p>
+                </div>
+
+                <div class="alert">
+                    <strong>⚠️ Problemas del ámbito global:</strong>
+                    <ul>
+                        <li><strong>Contaminación:</strong> Demasiadas variables globales</li>
+                        <li><strong>Conflictos:</strong> Variables con el mismo nombre</li>
+                        <li><strong>Variables accidentales:</strong> Olvido de declaración</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>❌ Problemas Comunes</h4>
+                        <div class="code-container">
+                            <pre><code>// Contaminación del espacio global
+var nombre = "Juan";
+var edad = 30;
+var activo = true;
+var contador = 0;
+
+// Conflictos de nombres
+var datos = "Información importante";
+// En otro archivo...
+var datos = "Otros datos"; // ¡Sobrescribe!
+
+// Variables accidentalmente globales
+function procesarDatos() {
+    // ¡Olvido declarar la variable!
+    resultado = "Procesado"; // Se vuelve global
+}
+
+procesarDatos();
+console.log(resultado); // "Procesado" - ¡Global!</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>✅ Mejores Prácticas</h4>
+                        <div class="code-container">
+                            <pre><code>// Agrupar en objetos namespace
+const MiApp = {
+    usuario: {
+        nombre: "Ana",
+        edad: 25
+    },
+    configuracion: {
+        tema: "oscuro",
+        idioma: "es"
+    },
+    utilidades: {
+        formatearFecha: function(fecha) {
+            return fecha.toLocaleDateString();
+        }
+    }
+};
+
+// Usar módulos (IIFE)
+(function() {
+    let contador = 0;
+    let datos = "privados";
+    
+    // Solo exponer lo necesario
+    window.MiModulo = {
+        incrementar: function() {
+            return ++contador;
+        },
+        obtenerContador: function() {
+            return contador;
+        }
+    };
+})();
+
+// Usar 'use strict' para evitar globales accidentales
+(function() {
+    'use strict';
+    // resultado = "test"; // ❌ ReferenceError
+})();</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Ámbito Global</h3>
+                    <div class="demo-container">
+                        <button onclick="demoAmbitoGlobal()" class="demo-button">Probar Ámbito Global</button>
+                        <div id="ambito-global-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Buenas Prácticas -->
+            <section id="buenas-practicas" class="section">
+                <div class="header">
+                    <h2>✨ Buenas Prácticas</h2>
+                    <p>Consejos para escribir código más limpio, legible y mantenible.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>📝 Nombres Descriptivos</h4>
+                        <div class="code-container">
+                            <pre><code>// ❌ Malo: nombres confusos
+const d = new Date();
+const u = users.filter(u => u.a);
+const calc = (x, y) => x * y * 0.1;
+
+// ✅ Bueno: nombres descriptivos
+const currentDate = new Date();
+const activeUsers = users.filter(user => user.isActive);
+const calculateDiscount = (price, quantity) => 
+    price * quantity * 0.1;
+
+// Constantes en MAYÚSCULAS
+const MAX_RETRY_ATTEMPTS = 3;
+const API_BASE_URL = 'https://api.ejemplo.com';
+const DEFAULT_THEME = 'light';
+
+// Booleans con prefijos
+const isVisible = true;
+const hasPermission = false;
+const canEdit = user.role === 'admin';</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>🏗️ Estructura y Organización</h4>
+                        <div class="code-container">
+                            <pre><code>// ✅ Prefiere const por defecto
+const configuration = { theme: "dark" };
+const userList = ["Ana", "Luis"];
+
+// ✅ Solo usa let si necesitas reasignar
+let counter = 0;
+for (let i = 0; i < 10; i++) {
+    counter += i;
+}
+
+// ✅ Evita variables globales
+(function() {
+    const moduleData = "privado";
+    
+    // Exponer solo lo necesario
+    window.MyModule = {
+        publicMethod: function() {
+            return "público";
+        }
+    };
+})();
+
+// ✅ Declara cerca del uso
+function processUser(userId) {
+    const user = findUser(userId);    // Cerca de su uso
+    
+    if (!user) return null;
+    
+    const permissions = getPermissions(user.role);
+    return { user, permissions };
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert">
+                    <strong>📋 Reglas de oro:</strong>
+                    <br>1. Usa <code>const</code> por defecto
+                    <br>2. Cambia a <code>let</code> solo si necesitas reasignar
+                    <br>3. Nunca uses <code>var</code>
+                    <br>4. Nombres descriptivos siempre
+                    <br>5. Minimiza variables globales
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Buenas Prácticas</h3>
+                    <div class="demo-container">
+                        <button onclick="demoBuenasPracticas()" class="demo-button">Ver Ejemplos</button>
+                        <div id="buenas-practicas-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Errores Comunes -->
+            <section id="errores-comunes" class="section">
+                <div class="header">
+                    <h2>⚠️ Errores Comunes</h2>
+                    <p>Los errores más frecuentes al trabajar con variables y cómo evitarlos.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>🚫 Error 1: Redeclaración</h4>
+                        <div class="code-container">
+                            <pre><code>// ❌ Error: Redeclarar con let/const
+let mensaje = "Hola";
+let mensaje = "Adiós"; // SyntaxError
+
+const usuario = "Ana";
+const usuario = "Luis"; // SyntaxError
+
+// ✅ Correcto: Usar nombres diferentes
+let mensajeInicial = "Hola";
+let mensajeFinal = "Adiós";
+
+const usuarioActual = "Ana";
+const usuarioAnterior = "Luis";</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>🔒 Error 2: Modificar const</h4>
+                        <div class="code-container">
+                            <pre><code>// ❌ Error: Reasignar const
+const numero = 5;
+numero = 10; // TypeError
+
+const lista = [1, 2, 3];
+lista = [4, 5, 6]; // TypeError
+
+// ✅ Correcto: Modificar contenido
+const configuracion = { tema: "claro" };
+configuracion.tema = "oscuro"; // ✅ OK
+
+const numeros = [1, 2, 3];
+numeros.push(4); // ✅ OK
+numeros[0] = 0;  // ✅ OK</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>📍 Error 3: Temporal Dead Zone</h4>
+                        <div class="code-container">
+                            <pre><code>// ❌ Error: Usar antes de declarar
+console.log(variable); // ReferenceError
+let variable = "valor";
+
+console.log(constante); // ReferenceError
+const constante = "valor";
+
+// ✅ Correcto: Declarar primero
+let mensaje = "Hola";
+console.log(mensaje); // "Hola"
+
+const nombre = "Ana";
+console.log(nombre); // "Ana"</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>🌐 Error 4: Variables Globales Accidentales</h4>
+                        <div class="code-container">
+                            <pre><code>// ❌ Error: Variable global accidental
+function calcular() {
+    resultado = 10 * 5; // ¡Sin declarar!
+}
+calcular();
+console.log(resultado); // 50 (global)
+
+// ✅ Correcto: Declarar apropiadamente
+function calcular() {
+    const resultado = 10 * 5;
+    return resultado;
+}
+const total = calcular();
+console.log(total); // 50
+
+// ✅ Usar 'use strict' para prevenir
+function calcularSeguro() {
+    'use strict';
+    // resultado = 10 * 5; // ReferenceError
+    const resultado = 10 * 5;
+    return resultado;
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Errores Comunes</h3>
+                    <div class="demo-container">
+                        <button onclick="demoErroresComunes()" class="demo-button">Ver Errores</button>
+                        <div id="errores-comunes-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conclusión -->
+            <section class="section">
+                <div class="feature-card">
+                    <h3>📚 Resumen Final</h3>
+                    <h4>🔑 Conceptos Clave:</h4>
+                    <ul>
+                        <li><strong>const por defecto:</strong> Usa para valores que no cambiarán</li>
+                        <li><strong>let para mutables:</strong> Solo cuando necesites reasignar</li>
+                        <li><strong>Evita var:</strong> Problemas de ámbito y hoisting</li>
+                        <li><strong>Ámbito de bloque:</strong> let y const respetan bloques { }</li>
+                        <li><strong>Objetos mutables:</strong> const protege la referencia, no el contenido</li>
+                    </ul>
+
+                    <h4>✨ Mejores Prácticas:</h4>
+                    <ul>
+                        <li><strong>Nombres descriptivos:</strong> <code>userAge</code> mejor que <code>a</code></li>
+                        <li><strong>Minimiza globales:</strong> Usa módulos y namespaces</li>
+                        <li><strong>Declara cerca del uso:</strong> No al inicio de la función</li>
+                        <li><strong>Usa 'use strict':</strong> Previene errores comunes</li>
+                        <li><strong>Conversión explícita:</strong> <code>Number()</code> mejor que <code>+</code></li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Smooth scrolling para navegación
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                document.querySelector(targetId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Demo: Declaración de variables
+        function demoDeclaracion() {
+            const resultado = document.getElementById('declaracion-result');
+            resultado.innerHTML = `
+                <h4>Ejemplos de Declaración:</h4>
+                <pre>
+// Declaraciones básicas
+var nombre = 'Juan';        // var (evitar)
+let edad = 30;              // let (mutable)
+const PI = 3.1416;          // const (inmutable)
+
+// Sin valor inicial
+let mensaje;                // undefined
+console.log(mensaje);       // undefined
+
+// Asignación posterior
+mensaje = "Hola mundo";
+console.log(mensaje);       // "Hola mundo"
+                </pre>
+                <p><strong>Resultado:</strong></p>
+                <ul>
+                    <li>nombre: "${(() => { var nombre = 'Juan'; return nombre; })()}"</li>
+                    <li>edad: ${(() => { let edad = 30; return edad; })()}</li>
+                    <li>PI: ${(() => { const PI = 3.1416; return PI; })()}</li>
+                    <li>mensaje inicial: undefined</li>
+                    <li>mensaje después: "Hola mundo"</li>
+                </ul>
+            `;
+        }
+
+        // Demo: var, let, const
+        function demoVarLetConst() {
+            const resultado = document.getElementById('var-let-const-result');
+            
+            // Simular comportamiento de var vs let/const
+            let ejemploVar = "var permite redeclaración";
+            let ejemploLet = "let no permite redeclaración";
+            const ejemploConst = "const no permite reasignación";
+            
+            resultado.innerHTML = `
+                <h4>Diferencias entre var, let y const:</h4>
+                
+                <h5>1. Ámbito:</h5>
+                <ul>
+                    <li><strong>var:</strong> Ámbito de función</li>
+                    <li><strong>let:</strong> Ámbito de bloque</li>
+                    <li><strong>const:</strong> Ámbito de bloque</li>
+                </ul>
+                
+                <h5>2. Redeclaración:</h5>
+                <ul>
+                    <li><strong>var:</strong> ✅ Permitida</li>
+                    <li><strong>let:</strong> ❌ SyntaxError</li>
+                    <li><strong>const:</strong> ❌ SyntaxError</li>
+                </ul>
+                
+                <h5>3. Reasignación:</h5>
+                <ul>
+                    <li><strong>var:</strong> ✅ Permitida</li>
+                    <li><strong>let:</strong> ✅ Permitida</li>
+                    <li><strong>const:</strong> ❌ TypeError</li>
+                </ul>
+                
+                <p><strong>💡 Recomendación:</strong> Usa <code>const</code> por defecto, <code>let</code> si necesitas reasignar, evita <code>var</code>.</p>
+            `;
+        }
+
+        // Demo: Objetos con const
+        function demoObjetosConst() {
+            const resultado = document.getElementById('objetos-const-result');
+            
+            // Demostrar modificación de objetos const
+            const persona = { nombre: "Luis", edad: 30 };
+            
+            // Modificaciones permitidas
+            persona.nombre = "Carlos";
+            persona.activo = true;
+            
+            resultado.innerHTML = `
+                <h4>Modificando objeto const:</h4>
+                <pre>
+const persona = { nombre: "Luis", edad: 30 };
+
+// ✅ Modificaciones permitidas:
+persona.nombre = "Carlos";     // Cambiar propiedad
+persona.activo = true;         // Añadir propiedad
+delete persona.edad;           // Eliminar propiedad
+                </pre>
+                
+                <h5>Estado actual del objeto:</h5>
+                <pre>${JSON.stringify(persona, null, 2)}</pre>
+                
+                <h5>❌ No permitido:</h5>
+                <pre>
+persona = {};                  // TypeError: Assignment to constant variable
+persona = { nuevo: "objeto" }; // TypeError: Assignment to constant variable
+                </pre>
+                
+                <p><strong>💡 Recuerda:</strong> <code>const</code> protege la referencia, no el contenido del objeto.</p>
+            `;
+        }
+
+        // Demo: Tipos de datos
+        function demoTiposDatos() {
+            const input = document.getElementById('tipo-input').value;
+            const resultado = document.getElementById('tipos-datos-result');
+            
+            if (!input.trim()) {
+                resultado.innerHTML = '<p class="error">⚠️ Introduce un valor para verificar</p>';
+                return;
+            }
+            
+            let valor;
+            let tipo;
+            let categoria;
+            
+            try {
+                // Evaluar el input de forma segura
+                if (input === 'null') {
+                    valor = null;
+                } else if (input === 'undefined') {
+                    valor = undefined;
+                } else if (input === 'true') {
+                    valor = true;
+                } else if (input === 'false') {
+                    valor = false;
+                } else if (!isNaN(input) && input.trim() !== '') {
+                    valor = Number(input);
+                } else if ((input.startsWith('"') && input.endsWith('"')) || 
+                          (input.startsWith("'") && input.endsWith("'"))) {
+                    valor = input.slice(1, -1);
+                } else {
+                    valor = input;
+                }
+                
+                tipo = typeof valor;
+                categoria = ['string', 'number', 'boolean', 'undefined', 'symbol', 'bigint'].includes(tipo) 
+                    ? 'Primitivo' : 'Referencia';
+                
+            } catch (error) {
+                resultado.innerHTML = '<p class="error">❌ Error al evaluar el valor</p>';
+                return;
+            }
+            
+            resultado.innerHTML = `
+                <h4>Análisis del valor: ${input}</h4>
+                <ul>
+                    <li><strong>Valor:</strong> ${valor}</li>
+                    <li><strong>Tipo:</strong> ${tipo}</li>
+                    <li><strong>Categoría:</strong> ${categoria}</li>
+                    <li><strong>Es falsy:</strong> ${!valor ? 'Sí' : 'No'}</li>
+                </ul>
+                
+                <h5>Ejemplos de cada tipo:</h5>
+                <ul>
+                    <li><strong>string:</strong> "texto", 'hola', \`template\`</li>
+                    <li><strong>number:</strong> 42, 3.14, -10, Infinity</li>
+                    <li><strong>boolean:</strong> true, false</li>
+                    <li><strong>undefined:</strong> undefined</li>
+                    <li><strong>object:</strong> null, {}, [], new Date()</li>
+                </ul>
+            `;
+        }
+
+        // Demo: Coerción de tipos
+        function demoCoercion() {
+            const resultado = document.getElementById('coercion-result');
+            
+            // Ejemplos de coerción
+            const ejemplos = [
+                { expresion: '"5" + 3', resultado: "5" + 3, descripcion: 'Concatenación (string)' },
+                { expresion: '+"5" + 3', resultado: +"5" + 3, descripcion: 'Conversión a número' },
+                { expresion: '"10" - 3', resultado: "10" - 3, descripcion: 'Resta convierte a número' },
+                { expresion: '"5" == 5', resultado: "5" == 5, descripcion: 'Comparación con coerción' },
+                { expresion: '"5" === 5', resultado: "5" === 5, descripcion: 'Comparación sin coerción' },
+                { expresion: '!!""', resultado: !!"", descripcion: 'String vacío a boolean' },
+                { expresion: '!!"texto"', resultado: !!"texto", descripcion: 'String con contenido a boolean' }
+            ];
+            
+            let html = '<h4>Ejemplos de Coerción de Tipos:</h4><table style="width: 100%; border-collapse: collapse;">';
+            html += '<tr style="background: #f0f0f0;"><th style="padding: 8px; border: 1px solid #ddd;">Expresión</th><th style="padding: 8px; border: 1px solid #ddd;">Resultado</th><th style="padding: 8px; border: 1px solid #ddd;">Descripción</th></tr>';
+            
+            ejemplos.forEach(ej => {
+                html += `<tr>
+                    <td style="padding: 8px; border: 1px solid #ddd;"><code>${ej.expresion}</code></td>
+                    <td style="padding: 8px; border: 1px solid #ddd;"><strong>${ej.resultado}</strong></td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">${ej.descripcion}</td>
+                </tr>`;
+            });
+            
+            html += '</table>';
+            
+            html += `
+                <h5>💡 Valores Falsy (se convierten a false):</h5>
+                <ul>
+                    <li><code>false</code> - boolean falso</li>
+                    <li><code>0</code> - número cero</li>
+                    <li><code>""</code> - string vacío</li>
+                    <li><code>null</code> - valor nulo</li>
+                    <li><code>undefined</code> - sin valor</li>
+                    <li><code>NaN</code> - no es un número</li>
+                </ul>
+                
+                <p><strong>⚠️ Recomendación:</strong> Usa <code>===</code> y conversiones explícitas para evitar sorpresas.</p>
+            `;
+            
+            resultado.innerHTML = html;
+        }
+
+        // Demo: Ámbito
+        function demoAmbito() {
+            const resultado = document.getElementById('ambito-result');
+            
+            resultado.innerHTML = `
+                <h4>Demostración de Ámbito:</h4>
+                
+                <h5>1. Ámbito de Bloque:</h5>
+                <pre>
+if (true) {
+    let mensaje = 'Solo aquí';
+    const CONSTANTE = 'También solo aquí';
+    console.log(mensaje);      // ✅ "Solo aquí"
+}
+// console.log(mensaje);      // ❌ ReferenceError
+                </pre>
+                
+                <h5>2. Ámbito de Función:</h5>
+                <pre>
+function ejemplo() {
+    var funcionVar = "Visible en toda la función";
+    
+    if (true) {
+        var dentroIf = "var: también visible fuera";
+        let soloAqui = "let: solo en este bloque";
+    }
+    
+    console.log(funcionVar);   // ✅ Funciona
+    console.log(dentroIf);     // ✅ var se sale del bloque
+    // console.log(soloAqui);  // ❌ ReferenceError
+}
+                </pre>
+                
+                <h5>3. Bucles y Closures:</h5>
+                <pre>
+// Con var (problema)
+for (var i = 0; i < 3; i++) {
+    setTimeout(() => console.log(i), 100); // 3, 3, 3
+}
+
+// Con let (correcto)  
+for (let i = 0; i < 3; i++) {
+    setTimeout(() => console.log(i), 100); // 0, 1, 2
+}
+                </pre>
+                
+                <p><strong>💡 Clave:</strong> <code>let</code> y <code>const</code> respetan el ámbito de bloque { }, <code>var</code> no.</p>
+            `;
+        }
+
+        // Demo: Ámbito Global
+        function demoAmbitoGlobal() {
+            const resultado = document.getElementById('ambito-global-result');
+            
+            resultado.innerHTML = `
+                <h4>Problemas del Ámbito Global:</h4>
+                
+                <h5>❌ Problema 1: Contaminación</h5>
+                <pre>
+// Demasiadas variables globales
+var nombre = "Juan";
+var edad = 30;
+var activo = true;
+var datos = [];
+// ... muchas más
+                </pre>
+                
+                <h5>❌ Problema 2: Conflictos</h5>
+                <pre>
+var configuracion = "importante";
+// En otro archivo o librería...
+var configuracion = "otra cosa"; // ¡Sobrescribe!
+                </pre>
+                
+                <h5>❌ Problema 3: Variables Accidentales</h5>
+                <pre>
+function calcular() {
+    resultado = 42; // ¡Sin declarar, se vuelve global!
+}
+calcular();
+console.log(resultado); // 42 (accesible globalmente)
+                </pre>
+                
+                <h5>✅ Soluciones:</h5>
+                <pre>
+// 1. Usar namespace
+const MiApp = {
+    configuracion: { tema: 'claro' },
+    utilidades: { /* métodos */ }
+};
+
+// 2. Módulos (IIFE)
+(function() {
+    let privado = "no accesible";
+    window.MiModulo = { /* solo lo público */ };
+})();
+
+// 3. Usar 'use strict'
+function segura() {
+    'use strict';
+    // resultado = 42; // ReferenceError
+}
+                </pre>
+            `;
+        }
+
+        // Demo: Buenas prácticas
+        function demoBuenasPracticas() {
+            const resultado = document.getElementById('buenas-practicas-result');
+            
+            resultado.innerHTML = `
+                <h4>Ejemplos de Buenas Prácticas:</h4>
+                
+                <h5>✅ Nombres Descriptivos:</h5>
+                <div style="display: flex; gap: 20px;">
+                    <div>
+                        <strong>❌ Malo:</strong>
+                        <pre>
+const d = new Date();
+const u = users.filter(u => u.a);
+let x = 0;
+const calc = (a, b) => a * b;
+                        </pre>
+                    </div>
+                    <div>
+                        <strong>✅ Bueno:</strong>
+                        <pre>
+const currentDate = new Date();
+const activeUsers = users.filter(user => user.isActive);
+let userCount = 0;
+const calculateTotal = (price, quantity) => price * quantity;
+                        </pre>
+                    </div>
+                </div>
+                
+                <h5>✅ Uso Correcto de const/let:</h5>
+                <pre>
+// const por defecto
+const API_URL = 'https://api.ejemplo.com';
+const userSettings = { theme: 'dark' };
+const processData = (data) => { /* ... */ };
+
+// let solo si necesitas reasignar
+let counter = 0;
+let currentUser = null;
+
+for (let i = 0; i < items.length; i++) {
+    counter += items[i].value;
+}
+                </pre>
+                
+                <h5>✅ Organización en Módulos:</h5>
+                <pre>
+const UserModule = {
+    // Datos
+    currentUser: null,
+    permissions: [],
+    
+    // Métodos
+    login(credentials) { /* ... */ },
+    logout() { /* ... */ },
+    hasPermission(action) { /* ... */ }
+};
+                </pre>
+                
+                <p><strong>🎯 Objetivo:</strong> Código más legible, mantenible y libre de errores.</p>
+            `;
+        }
+
+        // Demo: Errores comunes
+        function demoErroresComunes() {
+            const resultado = document.getElementById('errores-comunes-result');
+            
+            resultado.innerHTML = `
+                <h4>Errores Comunes y Sus Soluciones:</h4>
+                
+                <h5>❌ Error 1: Redeclaración</h5>
+                <div style="background: #ffe6e6; padding: 10px; margin: 10px 0; border-radius: 5px;">
+                    <strong>Problema:</strong>
+                    <pre>
+let mensaje = "Hola";
+let mensaje = "Adiós"; // SyntaxError: Identifier 'mensaje' has already been declared
+                    </pre>
+                </div>
+                <div style="background: #e6ffe6; padding: 10px; margin: 10px 0; border-radius: 5px;">
+                    <strong>Solución:</strong>
+                    <pre>
+let mensajeInicial = "Hola";
+let mensajeFinal = "Adiós"; // ✅ Nombres diferentes
+                    </pre>
+                </div>
+                
+                <h5>❌ Error 2: Modificar const</h5>
+                <div style="background: #ffe6e6; padding: 10px; margin: 10px 0; border-radius: 5px;">
+                    <strong>Problema:</strong>
+                    <pre>
+const numero = 5;
+numero = 10; // TypeError: Assignment to constant variable
+                    </pre>
+                </div>
+                <div style="background: #e6ffe6; padding: 10px; margin: 10px 0; border-radius: 5px;">
+                    <strong>Solución:</strong>
+                    <pre>
+let numero = 5;     // Usar let si necesitas reasignar
+numero = 10;        // ✅ Funciona
+
+// O para objetos:
+const config = { tema: "claro" };
+config.tema = "oscuro"; // ✅ Modificar contenido está bien
+                    </pre>
+                </div>
+                
+                <h5>❌ Error 3: Temporal Dead Zone</h5>
+                <div style="background: #ffe6e6; padding: 10px; margin: 10px 0; border-radius: 5px;">
+                    <strong>Problema:</strong>
+                    <pre>
+console.log(variable); // ReferenceError: Cannot access 'variable' before initialization
+let variable = "valor";
+                    </pre>
+                </div>
+                <div style="background: #e6ffe6; padding: 10px; margin: 10px 0; border-radius: 5px;">
+                    <strong>Solución:</strong>
+                    <pre>
+let variable = "valor";  // Declarar primero
+console.log(variable);   // ✅ "valor"
+                    </pre>
+                </div>
+                
+                <p><strong>💡 Prevención:</strong> Usa linters como ESLint para detectar estos errores automáticamente.</p>
+            `;
+        }
+
+        // Función para copiar código
+        function copiarCodigo(button) {
+            const codeBlock = button.nextElementSibling.querySelector('code');
+            const text = codeBlock.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                button.textContent = '✅ Copiado!';
+                setTimeout(() => {
+                    button.textContent = '📋 Copiar';
+                }, 2000);
+            });
+        }
+
+        // Añadir botones de copiar a todos los bloques de código
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.code-container').forEach(container => {
+                const button = document.createElement('button');
+                button.textContent = '📋 Copiar';
+                button.className = 'copy-button';
+                button.onclick = function() { copiarCodigo(this); };
+                container.insertBefore(button, container.firstChild);
+            });
+        });
+    </script>
+</body>
+</html>

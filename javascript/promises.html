@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promises en JavaScript - Tutorial Completo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container two-column">
+        <nav class="navigation">
+            <div class="nav-header">
+                <h3>⚡ Promises en JavaScript</h3>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#introduccion" class="nav-link">🔍 Introducción</a></li>
+                <li><a href="#sincrono-asincrono" class="nav-link">⚖️ Síncrono vs Asíncrono</a></li>
+                <li><a href="#que-son-promises" class="nav-link">🤝 ¿Qué son las Promises?</a></li>
+                <li><a href="#sintaxis-basica" class="nav-link">📝 Sintaxis Básica</a></li>
+                <li><a href="#metodos-promise" class="nav-link">🔧 Métodos de Promise</a></li>
+                <li><a href="#promise-all" class="nav-link">🚀 Promise.all()</a></li>
+                <li><a href="#promise-race" class="nav-link">🏁 Promise.race()</a></li>
+                <li><a href="#cadenas-promises" class="nav-link">🔗 Cadenas de Promises</a></li>
+                <li><a href="#manejo-errores" class="nav-link">❌ Manejo de Errores</a></li>
+                <li><a href="#casos-practicos" class="nav-link">💼 Casos Prácticos</a></li>
+                <li><a href="#mejores-practicas" class="nav-link">✨ Mejores Prácticas</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <!-- Introducción -->
+            <section id="introduccion" class="section">
+                <div class="header">
+                    <h1>Promises en JavaScript</h1>
+                    <p>Las <strong>Promises</strong> son una característica fundamental de JavaScript moderno para manejar operaciones asíncronas de manera más elegante y legible que los callbacks tradicionales.</p>
+                </div>
+
+                <div class="alert">
+                    <strong>💡 Concepto clave:</strong> Una Promise representa un valor que puede estar disponible ahora, en el futuro, o nunca. Es como un "contrato" que garantiza que se ejecutará alguna acción cuando se complete una tarea asíncrona.
+                </div>
+
+                <div class="feature-card">
+                    <h3>¿Por qué necesitamos Promises?</h3>
+                    <ul>
+                        <li><strong>📚 Legibilidad:</strong> Código más limpio y fácil de entender</li>
+                        <li><strong>🔧 Mantenibilidad:</strong> Más fácil de modificar y debuggear</li>
+                        <li><strong>🎯 Control de errores:</strong> Manejo centralizado de errores con <code>.catch()</code></li>
+                        <li><strong>🔄 Composición:</strong> Fácil combinación de múltiples operaciones asíncronas</li>
+                        <li><strong>⚡ Rendimiento:</strong> Mejor gestión de operaciones paralelas</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Síncrono vs Asíncrono -->
+            <section id="sincrono-asincrono" class="section">
+                <div class="header">
+                    <h2>⚖️ Operaciones Síncronas vs Asíncronas</h2>
+                    <p>Comprende la diferencia fundamental entre código que bloquea y código que no bloquea.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>🔒 Operaciones Síncronas</h4>
+                        <div class="code-container">
+                            <pre><code>// Código síncrono - bloquea la ejecución
+console.log("1. Inicio");
+
+function operacionSincrona() {
+    console.log("2. Procesando...");
+    
+    // Simulación de trabajo pesado (bloquea el hilo)
+    for (let i = 0; i < 1000000000; i++) {
+        // Operación que consume tiempo
+    }
+    
+    console.log("3. Procesamiento completado");
+    return "Resultado síncrono";
+}
+
+const resultado = operacionSincrona(); // Espera aquí
+console.log("4. Resultado:", resultado);
+console.log("5. Fin");
+
+// Salida:
+// 1. Inicio
+// 2. Procesando...
+// 3. Procesamiento completado  
+// 4. Resultado: Resultado síncrono
+// 5. Fin</code></pre>
+                        </div>
+                        <ul class="feature-list">
+                            <li>✅ Predecibles: orden exacto de ejecución</li>
+                            <li>✅ Simples de entender: flujo lineal</li>
+                            <li>❌ Bloquean el hilo principal</li>
+                            <li>❌ Ineficientes para operaciones lentas</li>
+                        </ul>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>🔓 Operaciones Asíncronas</h4>
+                        <div class="code-container">
+                            <pre><code>// Código asíncrono - no bloquea
+console.log("1. Inicio");
+
+function operacionAsincrona() {
+    console.log("2. Iniciando operación asíncrona...");
+    
+    // setTimeout es asíncrono - no bloquea
+    setTimeout(() => {
+        console.log("4. Operación asíncrona completada");
+    }, 2000);
+    
+    console.log("3. Operación iniciada, continuando...");
+}
+
+operacionAsincrona(); // No bloquea aquí
+console.log("5. Fin del programa principal");
+
+// Salida:
+// 1. Inicio
+// 2. Iniciando operación asíncrona...
+// 3. Operación iniciada, continuando...
+// 5. Fin del programa principal
+// 4. Operación asíncrona completada (después de 2s)</code></pre>
+                        </div>
+                        <ul class="feature-list">
+                            <li>✅ No bloquean: el programa continúa</li>
+                            <li>✅ Eficientes: ideales para operaciones lentas</li>
+                            <li>✅ Mejor UX: la interfaz no se congela</li>
+                            <li>❌ Más complejas: requieren manejo especial</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="alert">
+                    <strong>⚠️ El problema del "Callback Hell":</strong> Antes de las Promises, las operaciones asíncronas se manejaban con callbacks anidados, creando código difícil de leer y mantener.
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Síncrono vs Asíncrono</h3>
+                    <div class="demo-container">
+                        <button onclick="demoSincrono()" class="demo-button">Operación Síncrona</button>
+                        <button onclick="demoAsincrono()" class="demo-button">Operación Asíncrona</button>
+                        <div id="demo-sincrono-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ¿Qué son las Promises? -->
+            <section id="que-son-promises" class="section">
+                <div class="header">
+                    <h2>🤝 ¿Qué son las Promises?</h2>
+                    <p>Una Promise es un objeto que representa la eventual finalización (o falla) de una operación asíncrona y su valor resultante.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>📊 Estados de una Promise</h3>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <h4>⏳ Pending (Pendiente)</h4>
+                            <p>Estado inicial, ni cumplida ni rechazada</p>
+                        </div>
+                        <div class="comparison-item">
+                            <h4>✅ Fulfilled (Cumplida)</h4>
+                            <p>La operación se completó exitosamente</p>
+                        </div>
+                        <div class="comparison-item">
+                            <h4>❌ Rejected (Rechazada)</h4>
+                            <p>La operación falló</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-container">
+                    <pre><code>// Ejemplo visual de los estados
+const promiseEjemplo = new Promise((resolve, reject) => {
+    console.log("Estado: Pending"); // Se ejecuta inmediatamente
+    
+    setTimeout(() => {
+        const exito = Math.random() > 0.5;
+        
+        if (exito) {
+            resolve("¡Operación exitosa!");     // Estado: Fulfilled
+        } else {
+            reject("Error en la operación");    // Estado: Rejected
+        }
+    }, 2000);
+});
+
+promiseEjemplo
+    .then(resultado => console.log("Estado: Fulfilled -", resultado))
+    .catch(error => console.log("Estado: Rejected -", error));</code></pre>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Estados de Promise</h3>
+                    <div class="demo-container">
+                        <button onclick="demoEstadosPromise()" class="demo-button">Probar Estados</button>
+                        <div id="estados-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sintaxis Básica -->
+            <section id="sintaxis-basica" class="section">
+                <div class="header">
+                    <h2>📝 Sintaxis Básica</h2>
+                    <p>Aprende a crear y consumir Promises con la sintaxis correcta.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>🔧 Crear una Promise</h4>
+                        <div class="code-container">
+                            <pre><code>// Sintaxis básica
+const miPromise = new Promise((resolve, reject) => {
+    // Lógica asíncrona aquí
+    
+    // Si todo sale bien:
+    // resolve(valor);
+    
+    // Si algo sale mal:
+    // reject(error);
+});
+
+// Ejemplo práctico: simular una API
+function obtenerDatosUsuario(id) {
+    return new Promise((resolve, reject) => {
+        // Simular tiempo de respuesta de API
+        setTimeout(() => {
+            if (id > 0) {
+                const usuario = {
+                    id: id,
+                    nombre: `Usuario ${id}`,
+                    email: `usuario${id}@email.com`,
+                    activo: true
+                };
+                resolve(usuario); // Operación exitosa
+            } else {
+                reject(new Error("ID de usuario inválido"));
+            }
+        }, 1500);
+    });
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>📞 Consumir Promises</h4>
+                        <div class="code-container">
+                            <pre><code>// Usar la promise con then/catch
+obtenerDatosUsuario(123)
+    .then(usuario => {
+        console.log("Usuario obtenido:", usuario);
+        // { id: 123, nombre: "Usuario 123", ... }
+    })
+    .catch(error => {
+        console.error("Error:", error.message);
+    })
+    .finally(() => {
+        console.log("Operación completada");
+    });
+
+// Caso con error
+obtenerDatosUsuario(-1)
+    .then(usuario => {
+        console.log("No se ejecutará");
+    })
+    .catch(error => {
+        console.error("Error capturado:", error.message);
+        // "ID de usuario inválido"
+    });</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Crear y Usar Promises</h3>
+                    <div class="demo-container">
+                        <input type="number" id="user-id-input" placeholder="ID de usuario" min="1" style="margin-right: 10px;">
+                        <button onclick="demoPromiseBasica()" class="demo-button">Obtener Usuario</button>
+                        <div id="promise-basica-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Métodos de Promise -->
+            <section id="metodos-promise" class="section">
+                <div class="header">
+                    <h2>🔧 Métodos de Promise</h2>
+                    <p>Métodos estáticos útiles para trabajar con Promises.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>⚡ Promise.resolve() y Promise.reject()</h4>
+                        <div class="code-container">
+                            <pre><code>// Promise.resolve() - crear promise ya resuelta
+const promiseResuelta = Promise.resolve("Valor inmediato");
+promiseResuelta.then(valor => console.log(valor));
+
+// Promise.reject() - crear promise ya rechazada
+const promiseRechazada = Promise.reject("Error inmediato");
+promiseRechazada.catch(error => console.log(error));
+
+// Ejemplo práctico: validación
+function validarEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (regex.test(email)) {
+        return Promise.resolve({
+            email: email,
+            valido: true,
+            mensaje: "Email válido"
+        });
+    } else {
+        return Promise.reject({
+            email: email,
+            valido: false,
+            mensaje: "Email inválido"
+        });
+    }
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>📋 Promise.allSettled()</h4>
+                        <div class="code-container">
+                            <pre><code>// Promise.allSettled() espera a que todas terminen
+function procesarPedido(id, fallaEn = null) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (id === fallaEn) {
+                reject(`Pedido ${id} falló`);
+            } else {
+                resolve(`Pedido ${id} procesado correctamente`);
+            }
+        }, Math.random() * 2000 + 500);
+    });
+}
+
+const pedidos = [
+    procesarPedido(1001),
+    procesarPedido(1002, 1002), // Este fallará
+    procesarPedido(1003),
+    procesarPedido(1004, 1004), // Este también fallará
+    procesarPedido(1005)
+];
+
+Promise.allSettled(pedidos)
+    .then(resultados => {
+        resultados.forEach((resultado, index) => {
+            const pedidoId = 1001 + index;
+            if (resultado.status === 'fulfilled') {
+                console.log(`✅ Pedido ${pedidoId}: ${resultado.value}`);
+            } else {
+                console.log(`❌ Pedido ${pedidoId}: ${resultado.reason}`);
+            }
+        });
+    });</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Métodos de Promise</h3>
+                    <div class="demo-container">
+                        <input type="email" id="email-input" placeholder="Introduce un email" style="margin-right: 10px;">
+                        <button onclick="demoValidarEmail()" class="demo-button">Validar Email</button>
+                        <div id="metodos-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Promise.all() -->
+            <section id="promise-all" class="section">
+                <div class="header">
+                    <h2>🚀 Promise.all() - Operaciones en Paralelo</h2>
+                    <p>Ejecuta múltiples Promises simultáneamente y espera a que todas se completen.</p>
+                </div>
+
+                <div class="alert">
+                    <strong>💡 Importante:</strong> Promise.all() falla completamente si cualquier Promise es rechazada. Todas las operaciones se ejecutan en paralelo, no secuencialmente.
+                </div>
+
+                <div class="code-container">
+                    <pre><code>// Ejemplo: descargar múltiples archivos en paralelo
+function descargarArchivo(nombre, tamaño) {
+    return new Promise((resolve) => {
+        const tiempoDescarga = tamaño * 100; // Simular tiempo basado en tamaño
+        
+        setTimeout(() => {
+            resolve({
+                archivo: nombre,
+                tamaño: tamaño,
+                descargado: true,
+                tiempo: tiempoDescarga
+            });
+        }, tiempoDescarga);
+    });
+}
+
+// Descargar múltiples archivos en paralelo
+const descargas = [
+    descargarArchivo("documento.pdf", 5),
+    descargarArchivo("imagen.jpg", 3),
+    descargarArchivo("video.mp4", 15)
+];
+
+console.log("🚀 Iniciando descargas en paralelo...");
+const inicioDescargas = Date.now();
+
+Promise.all(descargas)
+    .then(resultados => {
+        const tiempoTotal = Date.now() - inicioDescargas;
+        console.log("✅ Todas las descargas completadas");
+        
+        resultados.forEach(resultado => {
+            console.log(`📁 ${resultado.archivo} (${resultado.tamaño}MB) - ${resultado.tiempo}ms`);
+        });
+        
+        console.log(`⏱️ Tiempo total: ${tiempoTotal}ms`);
+    })
+    .catch(error => {
+        console.error("❌ Error en alguna descarga:", error);
+    });</code></pre>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Promise.all()</h3>
+                    <div class="demo-container">
+                        <button onclick="demoPromiseAll()" class="demo-button">Iniciar Descargas Paralelas</button>
+                        <div id="promise-all-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Promise.race() -->
+            <section id="promise-race" class="section">
+                <div class="header">
+                    <h2>🏁 Promise.race() - La Primera que Termine</h2>
+                    <p>Se resuelve con la primera Promise que se complete, ya sea exitosa o con error.</p>
+                </div>
+
+                <div class="code-container">
+                    <pre><code>// Ejemplo: competencia entre servidores
+function servidor(nombre, latencia) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve({
+                servidor: nombre,
+                datos: `Datos desde ${nombre}`,
+                latencia: latencia
+            });
+        }, latencia);
+    });
+}
+
+// Competencia entre servidores
+const servidores = [
+    servidor("Servidor-US", 800),
+    servidor("Servidor-EU", 600),
+    servidor("Servidor-ASIA", 1200)
+];
+
+console.log("🏁 Iniciando competencia de servidores...");
+
+Promise.race(servidores)
+    .then(ganador => {
+        console.log("🏆 Servidor más rápido:", ganador.servidor);
+        console.log("📡 Datos:", ganador.datos);
+        console.log("⚡ Latencia:", ganador.latencia + "ms");
+    });
+
+// Timeout con Promise.race()
+function operacionLenta() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve("Operación completada después de 5 segundos");
+        }, 5000);
+    });
+}
+
+function timeout(ms) {
+    return new Promise((_, reject) => {
+        setTimeout(() => {
+            reject(new Error(`Timeout después de ${ms}ms`));
+        }, ms);
+    });
+}
+
+// Limitar tiempo máximo de espera
+Promise.race([
+    operacionLenta(),
+    timeout(3000) // Timeout de 3 segundos
+])
+.then(resultado => {
+    console.log("✅ Completado:", resultado);
+})
+.catch(error => {
+    console.log("⏰ Timeout:", error.message);
+});</code></pre>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Promise.race()</h3>
+                    <div class="demo-container">
+                        <button onclick="demoPromiseRace()" class="demo-button">Competencia de Servidores</button>
+                        <div id="promise-race-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cadenas de Promises -->
+            <section id="cadenas-promises" class="section">
+                <div class="header">
+                    <h2>🔗 Cadenas de Promises (Promise Chaining)</h2>
+                    <p>Encadena operaciones asíncronas de manera secuencial y elegante.</p>
+                </div>
+
+                <div class="code-container">
+                    <pre><code>// Ejemplo: proceso de registro de usuario
+function validarDatos(datos) {
+    return new Promise((resolve, reject) => {
+        console.log("1️⃣ Validando datos...");
+        
+        setTimeout(() => {
+            if (datos.email && datos.password && datos.password.length >= 6) {
+                resolve({ ...datos, validado: true });
+            } else {
+                reject(new Error("Datos inválidos"));
+            }
+        }, 500);
+    });
+}
+
+function verificarEmailUnico(userData) {
+    return new Promise((resolve, reject) => {
+        console.log("2️⃣ Verificando email único...");
+        
+        setTimeout(() => {
+            const emailExiste = userData.email === "admin@test.com";
+            
+            if (!emailExiste) {
+                resolve({ ...userData, emailUnico: true });
+            } else {
+                reject(new Error("Email ya registrado"));
+            }
+        }, 800);
+    });
+}
+
+function crearUsuario(userData) {
+    return new Promise((resolve) => {
+        console.log("3️⃣ Creando usuario en base de datos...");
+        
+        setTimeout(() => {
+            const nuevoUsuario = {
+                ...userData,
+                id: Math.random().toString(36).substr(2, 9),
+                fechaRegistro: new Date(),
+                activo: true
+            };
+            resolve(nuevoUsuario);
+        }, 1000);
+    });
+}
+
+// Cadena de promises para registro completo
+const datosRegistro = {
+    nombre: "Juan Pérez",
+    email: "juan@example.com",
+    password: "123456789"
+};
+
+validarDatos(datosRegistro)
+    .then(datosValidados => {
+        console.log("✅ Datos válidos");
+        return verificarEmailUnico(datosValidados);
+    })
+    .then(datosVerificados => {
+        console.log("✅ Email único");
+        return crearUsuario(datosVerificados);
+    })
+    .then(usuarioCreado => {
+        console.log("✅ Usuario creado con ID:", usuarioCreado.id);
+        return usuarioCreado;
+    })
+    .catch(error => {
+        console.error("❌ Error en el registro:", error.message);
+    })
+    .finally(() => {
+        console.log("🔄 Proceso de registro finalizado");
+    });</code></pre>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Cadena de Promises</h3>
+                    <div class="demo-container">
+                        <input type="email" id="registro-email" placeholder="Email" style="margin: 5px;">
+                        <input type="password" id="registro-password" placeholder="Password" style="margin: 5px;">
+                        <button onclick="demoCadenaPromises()" class="demo-button">Registrar Usuario</button>
+                        <div id="cadena-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Manejo de Errores -->
+            <section id="manejo-errores" class="section">
+                <div class="header">
+                    <h2>❌ Manejo de Errores con Promises</h2>
+                    <p>Estrategias para manejar errores en cadenas de Promises y operaciones asíncronas.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>🛑 Error Detiene la Cadena</h4>
+                        <div class="code-container">
+                            <pre><code>function paso1() {
+    return Promise.resolve("Paso 1 completado");
+}
+
+function paso2() {
+    return Promise.reject(new Error("Error en paso 2"));
+}
+
+function paso3() {
+    return Promise.resolve("Paso 3 completado");
+}
+
+// El error en paso2 detiene toda la cadena
+paso1()
+    .then(resultado1 => {
+        console.log("✅", resultado1);
+        return paso2(); // Este fallará
+    })
+    .then(resultado2 => {
+        console.log("✅", resultado2); // No se ejecutará
+        return paso3();
+    })
+    .then(resultado3 => {
+        console.log("✅", resultado3); // No se ejecutará
+    })
+    .catch(error => {
+        console.error("❌ Error capturado:", error.message);
+    });</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>🔧 Recuperación de Errores</h4>
+                        <div class="code-container">
+                            <pre><code>// Manejar errores específicos y continuar
+function procesarConRecuperacion() {
+    return paso1()
+        .then(resultado1 => {
+            console.log("✅", resultado1);
+            return paso2().catch(error => {
+                console.log("⚠️ Error en paso 2, usando valor por defecto");
+                return "Valor por defecto para paso 2";
+            });
+        })
+        .then(resultado2 => {
+            console.log("✅", resultado2); // Se ejecutará
+            return paso3();
+        })
+        .then(resultado3 => {
+            console.log("✅", resultado3); // Se ejecutará
+        })
+        .catch(error => {
+            console.error("❌ Error final:", error.message);
+        });
+}
+
+procesarConRecuperacion();</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert">
+                    <strong>💡 Tip:</strong> Usa <code>.catch()</code> en puntos específicos de la cadena para manejar errores localmente, o al final para manejo global.
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Manejo de Errores</h3>
+                    <div class="demo-container">
+                        <button onclick="demoManejoErrores()" class="demo-button">Probar Manejo de Errores</button>
+                        <div id="errores-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Casos Prácticos -->
+            <section id="casos-practicos" class="section">
+                <div class="header">
+                    <h2>💼 Casos Prácticos Avanzados</h2>
+                    <p>Implementaciones reales y útiles usando Promises.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>💾 Sistema de Cache con Promises</h4>
+                        <div class="code-container">
+                            <pre><code>class CacheConPromises {
+    constructor(ttl = 60000) { // TTL: 1 minuto
+        this.cache = new Map();
+        this.ttl = ttl;
+    }
+    
+    obtener(clave, funcionCarga) {
+        const item = this.cache.get(clave);
+        
+        // Verificar si existe y no ha expirado
+        if (item && Date.now() - item.timestamp < this.ttl) {
+            console.log(`📋 Cache HIT para ${clave}`);
+            return Promise.resolve(item.valor);
+        }
+        
+        console.log(`🔍 Cache MISS para ${clave}, cargando...`);
+        
+        // Cargar datos y cachear
+        return funcionCarga()
+            .then(valor => {
+                this.cache.set(clave, {
+                    valor: valor,
+                    timestamp: Date.now()
+                });
+                console.log(`💾 Datos cacheados para ${clave}`);
+                return valor;
+            });
+    }
+}
+
+// Uso del cache
+const cache = new CacheConPromises(5000);
+
+function consultarAPI(endpoint) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve({
+                endpoint: endpoint,
+                datos: `Datos de ${endpoint}`,
+                timestamp: new Date().toISOString()
+            });
+        }, 2000);
+    });
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>🔄 Retry Automático</h4>
+                        <div class="code-container">
+                            <pre><code>function retry(funcion, maxIntentos = 3, delay = 1000) {
+    return new Promise((resolve, reject) => {
+        let intentos = 0;
+        
+        function ejecutarIntento() {
+            intentos++;
+            console.log(`🔄 Intento ${intentos}/${maxIntentos}`);
+            
+            funcion()
+                .then(resolve) // Si tiene éxito, resolvemos
+                .catch(error => {
+                    console.log(`❌ Intento ${intentos} falló:`, error.message);
+                    
+                    if (intentos >= maxIntentos) {
+                        reject(new Error(`Falló después de ${maxIntentos} intentos`));
+                    } else {
+                        console.log(`⏰ Reintentando en ${delay}ms...`);
+                        setTimeout(ejecutarIntento, delay);
+                    }
+                });
+        }
+        
+        ejecutarIntento();
+    });
+}
+
+// Función que falla ocasionalmente
+function operacionInestable() {
+    return new Promise((resolve, reject) => {
+        const exito = Math.random() > 0.7; // 30% probabilidad
+        
+        if (exito) {
+            resolve("¡Operación exitosa!");
+        } else {
+            reject(new Error("Falla temporal del servicio"));
+        }
+    });
+}
+
+// Uso del retry
+retry(operacionInestable, 5, 1500)
+    .then(resultado => console.log("✅ Éxito final:", resultado))
+    .catch(error => console.log("🔥 Fallo definitivo:", error.message));</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Cache y Retry</h3>
+                    <div class="demo-container">
+                        <button onclick="demoCachePromise()" class="demo-button">Probar Cache</button>
+                        <button onclick="demoRetryPromise()" class="demo-button">Probar Retry</button>
+                        <div id="casos-practicos-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mejores Prácticas -->
+            <section id="mejores-practicas" class="section">
+                <div class="header">
+                    <h2>✨ Mejores Prácticas</h2>
+                    <p>Consejos para escribir código con Promises limpio y eficiente.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>✅ Buenas Prácticas</h4>
+                        <div class="code-container">
+                            <pre><code>// 1. Siempre manejar errores
+function buenaPractica1() {
+    return fetch('/api/datos')
+        .then(response => response.json())
+        .then(datos => procesarDatos(datos))
+        .catch(error => {
+            console.error('Error:', error);
+            throw error; // Re-lanzar si es necesario
+        });
+}
+
+// 2. Usar Promise.all() para operaciones paralelas
+function buenaPractica2() {
+    const promises = [
+        obtenerDatosUsuario(),
+        obtenerConfiguracion(),
+        obtenerPermisos()
+    ];
+    
+    return Promise.all(promises)
+        .then(([usuario, config, permisos]) => {
+            return { usuario, config, permisos };
+        });
+}
+
+// 3. Crear promises reutilizables
+function crearTimeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function conTimeout(promise, ms) {
+    return Promise.race([
+        promise,
+        crearTimeout(ms).then(() => 
+            Promise.reject(new Error('Timeout'))
+        )
+    ]);
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>❌ Prácticas a Evitar</h4>
+                        <div class="code-container">
+                            <pre><code>// 1. NO crear promises innecesarias
+// ❌ Malo
+function malasPracticas1() {
+    return new Promise((resolve) => {
+        resolve(valor); // Innecesario
+    });
+}
+// ✅ Mejor
+function buena1() {
+    return Promise.resolve(valor);
+}
+
+// 2. NO anidar promises (Promise hell)
+// ❌ Malo
+function malasPracticas2() {
+    return obtenerDatos()
+        .then(datos => {
+            return procesarDatos(datos)
+                .then(resultado => {
+                    return guardarResultado(resultado);
+                });
+        });
+}
+// ✅ Mejor
+function buena2() {
+    return obtenerDatos()
+        .then(datos => procesarDatos(datos))
+        .then(resultado => guardarResultado(resultado));
+}
+
+// 3. NO olvidar return en las cadenas
+// ❌ Malo
+function malasPracticas3() {
+    return obtenerDatos()
+        .then(datos => {
+            procesarDatos(datos); // Falta return!
+        });
+}
+// ✅ Mejor
+function buena3() {
+    return obtenerDatos()
+        .then(datos => {
+            return procesarDatos(datos);
+        });
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert">
+                    <strong>🚀 Siguiente paso:</strong> Una vez que domines las Promises, puedes avanzar a <code>async/await</code> que proporciona una sintaxis aún más limpia para trabajar con código asíncrono.
+                </div>
+            </section>
+
+            <!-- Conclusión -->
+            <section class="section">
+                <div class="feature-card">
+                    <h3>📚 Resumen</h3>
+                    <p>Las Promises son fundamentales en JavaScript moderno para:</p>
+                    <ul>
+                        <li><strong>Manejar operaciones asíncronas:</strong> Sin bloquear el hilo principal</li>
+                        <li><strong>Evitar callback hell:</strong> Código más limpio y legible</li>
+                        <li><strong>Composición de operaciones:</strong> Cadenas y operaciones paralelas</li>
+                        <li><strong>Manejo robusto de errores:</strong> Control centralizado</li>
+                        <li><strong>Base para async/await:</strong> Sintaxis moderna</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Smooth scrolling para navegación
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                document.querySelector(targetId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Demo: Síncrono vs Asíncrono
+        function demoSincrono() {
+            const resultado = document.getElementById('demo-sincrono-result');
+            resultado.innerHTML = '<p>🔄 Ejecutando operación síncrona (bloquea)...</p>';
+            
+            // Simular operación síncrona bloqueante
+            const inicio = Date.now();
+            while (Date.now() - inicio < 2000) {
+                // Bloquea por 2 segundos
+            }
+            
+            resultado.innerHTML += '<p>✅ Operación síncrona completada (después de 2 segundos de bloqueo)</p>';
+        }
+
+        function demoAsincrono() {
+            const resultado = document.getElementById('demo-sincrono-result');
+            resultado.innerHTML = '<p>🔄 Iniciando operación asíncrona (no bloquea)...</p>';
+            
+            // Operación asíncrona
+            setTimeout(() => {
+                resultado.innerHTML += '<p>✅ Operación asíncrona completada (sin bloquear)</p>';
+            }, 2000);
+            
+            resultado.innerHTML += '<p>📱 El programa continúa ejecutándose...</p>';
+        }
+
+        // Demo: Estados de Promise
+        function demoEstadosPromise() {
+            const resultado = document.getElementById('estados-result');
+            resultado.innerHTML = '<p>⏳ Estado: Pending - Creando promise...</p>';
+            
+            const promiseEjemplo = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    const exito = Math.random() > 0.5;
+                    
+                    if (exito) {
+                        resolve("¡Operación exitosa!");
+                    } else {
+                        reject("Error en la operación");
+                    }
+                }, 2000);
+            });
+
+            promiseEjemplo
+                .then(resultado => {
+                    document.getElementById('estados-result').innerHTML += 
+                        '<p>✅ Estado: Fulfilled - ' + resultado + '</p>';
+                })
+                .catch(error => {
+                    document.getElementById('estados-result').innerHTML += 
+                        '<p>❌ Estado: Rejected - ' + error + '</p>';
+                });
+        }
+
+        // Demo: Promise básica
+        function demoPromiseBasica() {
+            const userId = document.getElementById('user-id-input').value;
+            const resultado = document.getElementById('promise-basica-result');
+            
+            if (!userId || userId <= 0) {
+                resultado.innerHTML = '<p class="error">⚠️ Introduce un ID válido (mayor que 0)</p>';
+                return;
+            }
+
+            resultado.innerHTML = '<p>🔄 Obteniendo datos del usuario...</p>';
+
+            // Simular API
+            function obtenerDatosUsuario(id) {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        if (id > 0) {
+                            const usuario = {
+                                id: id,
+                                nombre: `Usuario ${id}`,
+                                email: `usuario${id}@email.com`,
+                                activo: true
+                            };
+                            resolve(usuario);
+                        } else {
+                            reject(new Error("ID de usuario inválido"));
+                        }
+                    }, 1500);
+                });
+            }
+
+            obtenerDatosUsuario(parseInt(userId))
+                .then(usuario => {
+                    resultado.innerHTML = `
+                        <h4>✅ Usuario obtenido:</h4>
+                        <pre>${JSON.stringify(usuario, null, 2)}</pre>
+                    `;
+                })
+                .catch(error => {
+                    resultado.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+                })
+                .finally(() => {
+                    console.log("🔄 Operación completada");
+                });
+        }
+
+        // Demo: Validar email
+        function demoValidarEmail() {
+            const email = document.getElementById('email-input').value;
+            const resultado = document.getElementById('metodos-result');
+            
+            if (!email) {
+                resultado.innerHTML = '<p class="error">⚠️ Introduce un email</p>';
+                return;
+            }
+
+            function validarEmail(email) {
+                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                
+                if (regex.test(email)) {
+                    return Promise.resolve({
+                        email: email,
+                        valido: true,
+                        mensaje: "Email válido"
+                    });
+                } else {
+                    return Promise.reject({
+                        email: email,
+                        valido: false,
+                        mensaje: "Email inválido"
+                    });
+                }
+            }
+
+            validarEmail(email)
+                .then(res => {
+                    resultado.innerHTML = `<p>✅ ${res.mensaje}</p>`;
+                })
+                .catch(error => {
+                    resultado.innerHTML = `<p class="error">❌ ${error.mensaje}</p>`;
+                });
+        }
+
+        // Demo: Promise.all()
+        function demoPromiseAll() {
+            const resultado = document.getElementById('promise-all-result');
+            resultado.innerHTML = '<p>🚀 Iniciando descargas en paralelo...</p>';
+
+            function descargarArchivo(nombre, tamaño) {
+                return new Promise((resolve) => {
+                    const tiempoDescarga = tamaño * 100;
+                    
+                    setTimeout(() => {
+                        resolve({
+                            archivo: nombre,
+                            tamaño: tamaño,
+                            descargado: true,
+                            tiempo: tiempoDescarga
+                        });
+                    }, tiempoDescarga);
+                });
+            }
+
+            const descargas = [
+                descargarArchivo("documento.pdf", 5),
+                descargarArchivo("imagen.jpg", 3),
+                descargarArchivo("video.mp4", 8)
+            ];
+
+            const inicioDescargas = Date.now();
+
+            Promise.all(descargas)
+                .then(resultados => {
+                    const tiempoTotal = Date.now() - inicioDescargas;
+                    let html = '<h4>✅ Todas las descargas completadas:</h4><ul>';
+                    
+                    resultados.forEach(res => {
+                        html += `<li>📁 ${res.archivo} (${res.tamaño}MB) - ${res.tiempo}ms</li>`;
+                    });
+                    
+                    html += `</ul><p>⏱️ Tiempo total: ${tiempoTotal}ms</p>`;
+                    resultado.innerHTML = html;
+                });
+        }
+
+        // Demo: Promise.race()
+        function demoPromiseRace() {
+            const resultado = document.getElementById('promise-race-result');
+            resultado.innerHTML = '<p>🏁 Iniciando competencia de servidores...</p>';
+
+            function servidor(nombre, latencia) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve({
+                            servidor: nombre,
+                            datos: `Datos desde ${nombre}`,
+                            latencia: latencia
+                        });
+                    }, latencia);
+                });
+            }
+
+            const servidores = [
+                servidor("Servidor-US", 800),
+                servidor("Servidor-EU", 600),
+                servidor("Servidor-ASIA", 1200)
+            ];
+
+            Promise.race(servidores)
+                .then(ganador => {
+                    resultado.innerHTML = `
+                        <h4>🏆 Ganador de la competencia:</h4>
+                        <ul>
+                            <li><strong>Servidor:</strong> ${ganador.servidor}</li>
+                            <li><strong>Latencia:</strong> ${ganador.latencia}ms</li>
+                            <li><strong>Datos:</strong> ${ganador.datos}</li>
+                        </ul>
+                    `;
+                });
+        }
+
+        // Demo: Cadena de Promises
+        function demoCadenaPromises() {
+            const email = document.getElementById('registro-email').value;
+            const password = document.getElementById('registro-password').value;
+            const resultado = document.getElementById('cadena-result');
+            
+            if (!email || !password) {
+                resultado.innerHTML = '<p class="error">⚠️ Completa todos los campos</p>';
+                return;
+            }
+
+            resultado.innerHTML = '<p>🚀 Iniciando proceso de registro...</p>';
+
+            function validarDatos(datos) {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        if (datos.email && datos.password && datos.password.length >= 6) {
+                            resolve({ ...datos, validado: true });
+                        } else {
+                            reject(new Error("Datos inválidos"));
+                        }
+                    }, 500);
+                });
+            }
+
+            function verificarEmailUnico(userData) {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        const emailExiste = userData.email === "admin@test.com";
+                        
+                        if (!emailExiste) {
+                            resolve({ ...userData, emailUnico: true });
+                        } else {
+                            reject(new Error("Email ya registrado"));
+                        }
+                    }, 800);
+                });
+            }
+
+            function crearUsuario(userData) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        const nuevoUsuario = {
+                            ...userData,
+                            id: Math.random().toString(36).substr(2, 9),
+                            fechaRegistro: new Date(),
+                            activo: true
+                        };
+                        resolve(nuevoUsuario);
+                    }, 1000);
+                });
+            }
+
+            const datosRegistro = { email, password };
+
+            validarDatos(datosRegistro)
+                .then(datosValidados => {
+                    resultado.innerHTML += '<p>✅ 1️⃣ Datos válidos</p>';
+                    return verificarEmailUnico(datosValidados);
+                })
+                .then(datosVerificados => {
+                    resultado.innerHTML += '<p>✅ 2️⃣ Email único</p>';
+                    return crearUsuario(datosVerificados);
+                })
+                .then(usuarioCreado => {
+                    resultado.innerHTML += `
+                        <p>✅ 3️⃣ Usuario creado exitosamente</p>
+                        <h4>Información del usuario:</h4>
+                        <ul>
+                            <li><strong>ID:</strong> ${usuarioCreado.id}</li>
+                            <li><strong>Email:</strong> ${usuarioCreado.email}</li>
+                            <li><strong>Fecha registro:</strong> ${usuarioCreado.fechaRegistro.toLocaleString()}</li>
+                        </ul>
+                    `;
+                })
+                .catch(error => {
+                    resultado.innerHTML += `<p class="error">❌ Error: ${error.message}</p>`;
+                })
+                .finally(() => {
+                    resultado.innerHTML += '<p>🔄 Proceso finalizado</p>';
+                });
+        }
+
+        // Demo: Manejo de errores
+        function demoManejoErrores() {
+            const resultado = document.getElementById('errores-result');
+            resultado.innerHTML = '<p>🧪 Probando manejo de errores...</p>';
+
+            function paso1() {
+                return Promise.resolve("Paso 1 completado");
+            }
+
+            function paso2() {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        const falla = Math.random() > 0.5;
+                        if (falla) {
+                            reject(new Error("Error simulado en paso 2"));
+                        } else {
+                            resolve("Paso 2 completado");
+                        }
+                    }, 1000);
+                });
+            }
+
+            function paso3() {
+                return Promise.resolve("Paso 3 completado");
+            }
+
+            // Cadena con recuperación de errores
+            paso1()
+                .then(resultado1 => {
+                    document.getElementById('errores-result').innerHTML += `<p>✅ ${resultado1}</p>`;
+                    return paso2().catch(error => {
+                        document.getElementById('errores-result').innerHTML += 
+                            `<p>⚠️ ${error.message} - Usando valor por defecto</p>`;
+                        return "Valor por defecto para paso 2";
+                    });
+                })
+                .then(resultado2 => {
+                    document.getElementById('errores-result').innerHTML += `<p>✅ ${resultado2}</p>`;
+                    return paso3();
+                })
+                .then(resultado3 => {
+                    document.getElementById('errores-result').innerHTML += `<p>✅ ${resultado3}</p>`;
+                })
+                .catch(error => {
+                    document.getElementById('errores-result').innerHTML += 
+                        `<p class="error">❌ Error final: ${error.message}</p>`;
+                });
+        }
+
+        // Demo: Cache con Promises
+        function demoCachePromise() {
+            const resultado = document.getElementById('casos-practicos-result');
+            resultado.innerHTML = '<p>💾 Probando sistema de cache...</p>';
+
+            class CacheConPromises {
+                constructor(ttl = 3000) {
+                    this.cache = new Map();
+                    this.ttl = ttl;
+                }
+                
+                obtener(clave, funcionCarga) {
+                    const item = this.cache.get(clave);
+                    
+                    if (item && Date.now() - item.timestamp < this.ttl) {
+                        resultado.innerHTML += `<p>📋 Cache HIT para ${clave}</p>`;
+                        return Promise.resolve(item.valor);
+                    }
+                    
+                    resultado.innerHTML += `<p>🔍 Cache MISS para ${clave}, cargando...</p>`;
+                    
+                    return funcionCarga()
+                        .then(valor => {
+                            this.cache.set(clave, {
+                                valor: valor,
+                                timestamp: Date.now()
+                            });
+                            resultado.innerHTML += `<p>💾 Datos cacheados para ${clave}</p>`;
+                            return valor;
+                        });
+                }
+            }
+
+            function consultarAPI(endpoint) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve({
+                            endpoint: endpoint,
+                            datos: `Datos de ${endpoint}`,
+                            numero: Math.floor(Math.random() * 1000)
+                        });
+                    }, 1000);
+                });
+            }
+
+            const cache = new CacheConPromises(5000);
+
+            // Primera consulta (cache miss)
+            cache.obtener("usuarios", () => consultarAPI("/usuarios"))
+                .then(datos => {
+                    resultado.innerHTML += `<p>✅ Datos obtenidos: ${datos.numero}</p>`;
+                    
+                    // Segunda consulta inmediata (cache hit)
+                    return cache.obtener("usuarios", () => consultarAPI("/usuarios"));
+                })
+                .then(datos => {
+                    resultado.innerHTML += `<p>✅ Segunda consulta: ${datos.numero} (mismo número = cache hit)</p>`;
+                });
+        }
+
+        // Demo: Retry con Promises
+        function demoRetryPromise() {
+            const resultado = document.getElementById('casos-practicos-result');
+            resultado.innerHTML = '<p>🔄 Probando sistema de retry...</p>';
+
+            function retry(funcion, maxIntentos = 3, delay = 1000) {
+                return new Promise((resolve, reject) => {
+                    let intentos = 0;
+                    
+                    function ejecutarIntento() {
+                        intentos++;
+                        resultado.innerHTML += `<p>🔄 Intento ${intentos}/${maxIntentos}</p>`;
+                        
+                        funcion()
+                            .then(resolve)
+                            .catch(error => {
+                                resultado.innerHTML += `<p>❌ Intento ${intentos} falló: ${error.message}</p>`;
+                                
+                                if (intentos >= maxIntentos) {
+                                    reject(new Error(`Falló después de ${maxIntentos} intentos`));
+                                } else {
+                                    resultado.innerHTML += `<p>⏰ Reintentando en ${delay}ms...</p>`;
+                                    setTimeout(ejecutarIntento, delay);
+                                }
+                            });
+                    }
+                    
+                    ejecutarIntento();
+                });
+            }
+
+            function operacionInestable() {
+                return new Promise((resolve, reject) => {
+                    const exito = Math.random() > 0.6; // 40% probabilidad
+                    
+                    if (exito) {
+                        resolve("¡Operación exitosa!");
+                    } else {
+                        reject(new Error("Falla temporal del servicio"));
+                    }
+                });
+            }
+
+            retry(operacionInestable, 4, 1000)
+                .then(resultado => {
+                    document.getElementById('casos-practicos-result').innerHTML += 
+                        `<p>✅ Éxito final: ${resultado}</p>`;
+                })
+                .catch(error => {
+                    document.getElementById('casos-practicos-result').innerHTML += 
+                        `<p class="error">🔥 Fallo definitivo: ${error.message}</p>`;
+                });
+        }
+
+        // Función para copiar código
+        function copiarCodigo(button) {
+            const codeBlock = button.nextElementSibling.querySelector('code');
+            const text = codeBlock.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                button.textContent = '✅ Copiado!';
+                setTimeout(() => {
+                    button.textContent = '📋 Copiar';
+                }, 2000);
+            });
+        }
+
+        // Añadir botones de copiar a todos los bloques de código
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.code-container').forEach(container => {
+                const button = document.createElement('button');
+                button.textContent = '📋 Copiar';
+                button.className = 'copy-button';
+                button.onclick = function() { copiarCodigo(this); };
+                container.insertBefore(button, container.firstChild);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Async/Await en JavaScript - Tutorial Completo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="two-column">
+            <nav class="navigation">
+                <div class="nav-title">📋 Contenido</div>
+                <a href="#conceptos" class="nav-link">¿Qué son Async/Await?</a>
+                <a href="#sintaxis-async" class="nav-link">Sintaxis Básica de Async</a>
+                <a href="#sintaxis-await" class="nav-link">Sintaxis de Await</a>
+                <a href="#manejo-errores" class="nav-link">Manejo de Errores</a>
+                <a href="#casos-practicos" class="nav-link">Casos Prácticos</a>
+                <a href="#patrones-avanzados" class="nav-link">Patrones Avanzados</a>
+                <a href="#mejores-practicas" class="nav-link">Mejores Prácticas</a>
+                <a href="#comparacion" class="nav-link">Comparación</a>
+                <a href="#demo-interactivo" class="nav-link">Demo Interactivo</a>
+            </nav>
+
+            <main class="main-content">
+                <div class="header">
+                    <h1>🔄 Async/Await en JavaScript</h1>
+                    <p>La sintaxis moderna para manejar operaciones asíncronas de manera limpia y legible</p>
+                </div>
+                <div class="content">
+                    <section id="conceptos" class="section">
+                        <h2>¿Qué son Async/Await?</h2>
+                        <div class="alert alert-info">
+                            <p><strong>Async/Await</strong> es la sintaxis moderna de JavaScript para manejar operaciones asíncronas de manera más limpia y legible que las Promises tradicionales. Introducido en ES2017 (ES8), async/await permite escribir código asíncrono que se lee como código síncrono.</p>
+                            
+                            <p><strong>📚 Fundamentos previos:</strong> Para entender completamente async/await, es recomendable conocer Promises ya que async/await es "syntactic sugar" sobre las Promises.</p>
+                        </div>
+
+                        <h3>Conceptos clave</h3>
+                        <div class="features">
+                            <div class="feature-card">
+                                <h4><code class="inline-code">async</code></h4>
+                                <p>Palabra clave que convierte una función en asíncrona</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4><code class="inline-code">await</code></h4>
+                                <p>Palabra clave que pausa la ejecución hasta que una Promise se resuelve</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>Syntactic Sugar</h4>
+                                <p>Es una abstracción sobre Promises, no los reemplaza</p>
+                            </div>
+                        </div>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-item bad">
+                                <h5>❌ Promises tradicionales (más verboso)</h5>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        JavaScript
+                                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    </div>
+                                    <pre><code>function obtenerDatosConPromises() {
+    return fetch('/api/usuario/123')
+        .then(response => response.json())
+        .then(usuario => {
+            return fetch(`/api/perfil/${usuario.id}`);
+        })
+        .then(response => response.json())
+        .then(perfil => {
+            return fetch(`/api/configuracion/${perfil.id}`);
+        })
+        .then(response => response.json())
+        .then(configuracion => {
+            return {
+                usuario: usuario,
+                perfil: perfil, 
+                configuracion: configuracion
+            };
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            throw error;
+        });
+}</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item good">
+                                <h5>✅ Async/Await (más limpio y legible)</h5>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        JavaScript
+                                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    </div>
+                                    <pre><code>async function obtenerDatosConAsyncAwait() {
+    try {
+        const responseUsuario = await fetch('/api/usuario/123');
+        const usuario = await responseUsuario.json();
+        
+        const responsePerfil = await fetch(`/api/perfil/${usuario.id}`);
+        const perfil = await responsePerfil.json();
+        
+        const responseConfiguracion = await fetch(`/api/configuracion/${perfil.id}`);
+        const configuracion = await responseConfiguracion.json();
+        
+        return {
+            usuario: usuario,
+            perfil: perfil,
+            configuracion: configuracion
+        };
+        
+    } catch (error) {
+        console.error("Error:", error);
+        throw error;
+    }
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="sintaxis-async" class="section">
+                        <h2>Sintaxis Básica de Async</h2>
+                        
+                        <h3>Función async básica</h3>
+                        <div class="code-container">
+                            <div class="code-header">
+                                JavaScript
+                                <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            </div>
+                            <pre><code>// Declaración de función async
+async function miFuncionAsincrona() {
+    // Esta función automáticamente devuelve una Promise
+    return "¡Hola desde función async!";
+}
+
+// Expresión de función async
+const miFuncionAsync2 = async function() {
+    return "¡Hola desde expresión async!";
+};
+
+// Arrow function async
+const miFuncionAsync3 = async () => {
+    return "¡Hola desde arrow function async!";
+};
+
+// Método async en objeto
+const miObjeto = {
+    async miMetodo() {
+        return "¡Hola desde método async!";
+    }
+};
+
+// Método async en clase
+class MiClase {
+    async miMetodo() {
+        return "¡Hola desde clase async!";
+    }
+}
+
+// Todas las funciones async devuelven automáticamente una Promise
+console.log(miFuncionAsincrona()); // Promise&lt;pending&gt;
+
+// Para obtener el valor, usar .then() o await
+miFuncionAsincrona().then(resultado => {
+    console.log(resultado); // "¡Hola desde función async!"
+});
+
+// O mejor aún, usar await
+async function usarFuncionAsync() {
+    const resultado = await miFuncionAsincrona();
+    console.log(resultado); // "¡Hola desde función async!"
+}
+
+usarFuncionAsync();</code></pre>
+                        </div>
+
+                        <h3>Conversión automática a Promise</h3>
+                        <div class="alert alert-warning">
+                            <p><strong>💡 Importante:</strong> Las funciones async siempre devuelven una Promise, incluso si retornas un valor primitivo.</p>
+                        </div>
+
+                        <div class="code-container">
+                            <div class="code-header">
+                                JavaScript
+                                <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            </div>
+                            <pre><code>// Las funciones async siempre devuelven una Promise
+async function ejemplosRetorno() {
+    // Devolver valor directo
+    return 42;
+    // Equivale a: return Promise.resolve(42);
+}
+
+async function ejemplosRetorno2() {
+    // Devolver Promise explícita
+    return Promise.resolve("Valor resuelto");
+    // La Promise se "unwraps" automáticamente
+}
+
+async function ejemplosRetorno3() {
+    // Lanzar error
+    throw new Error("Algo salió mal");
+    // Equivale a: return Promise.reject(new Error("Algo salió mal"));
+}
+
+// Verificar que todas devuelven Promises
+console.log(ejemplosRetorno()); // Promise&lt;pending&gt;
+console.log(ejemplosRetorno2()); // Promise&lt;pending&gt;
+console.log(ejemplosRetorno3()); // Promise&lt;pending&gt;
+
+// Consumir los resultados
+async function consumirResultados() {
+    try {
+        const resultado1 = await ejemplosRetorno();
+        console.log("Resultado 1:", resultado1); // 42
+        
+        const resultado2 = await ejemplosRetorno2();
+        console.log("Resultado 2:", resultado2); // "Valor resuelto"
+        
+        const resultado3 = await ejemplosRetorno3();
+        console.log("Resultado 3:", resultado3); // No se ejecuta
+        
+    } catch (error) {
+        console.error("Error capturado:", error.message); // "Algo salió mal"
+    }
+}
+
+consumirResultados();</code></pre>
+                        </div>
+                    </section>
+
+            <section id="sintaxis-await">
+                <h2>Sintaxis de Await</h2>
+                
+                <h3>Uso básico de await</h3>
+                <pre><code>// await solo puede usarse dentro de funciones async
+async function ejemploAwait() {
+    // Simular operación asíncrona
+    function operacionAsincrona() {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve("Operación completada");
+            }, 2000);
+        });
+    }
+    
+    console.log("🚀 Iniciando operación...");
+    
+    // await pausa la ejecución hasta que la Promise se resuelve
+    const resultado = await operacionAsincrona();
+    
+    console.log("✅ Resultado:", resultado);
+    console.log("🏁 Operación terminada");
+}
+
+// Ejecutar ejemplo
+ejemploAwait();
+// Salida:
+// 🚀 Iniciando operación...
+// (pausa 2 segundos)
+// ✅ Resultado: Operación completada
+// 🏁 Operación terminada</code></pre>
+
+                <h3>Await con diferentes tipos de valores</h3>
+                <pre><code>async function ejemplosAwaitVariados() {
+    // 1. Await con Promise
+    const promesa = Promise.resolve("Valor de Promise");
+    const resultadoPromesa = await promesa;
+    console.log("Promise:", resultadoPromesa); // "Valor de Promise"
+    
+    // 2. Await con valor no-Promise (se convierte automáticamente)
+    const valorDirecto = await 42;
+    console.log("Valor directo:", valorDirecto); // 42
+    
+    // 3. Await con función que devuelve Promise
+    function obtenerDatos() {
+        return Promise.resolve("Datos obtenidos");
+    }
+    const datos = await obtenerDatos();
+    console.log("Función Promise:", datos); // "Datos obtenidos"
+    
+    // 4. Await con función async
+    async function procesarDatos() {
+        return "Datos procesados";
+    }
+    const procesados = await procesarDatos();
+    console.log("Función async:", procesados); // "Datos procesados"
+    
+    // 5. Await con expresión
+    const suma = await (2 + 3);
+    console.log("Expresión:", suma); // 5
+    
+    return "Todos los ejemplos completados";
+}
+
+ejemplosAwaitVariados().then(console.log);</code></pre>
+
+                <h3>Operaciones secuenciales vs paralelas</h3>
+                <div class="performance-comparison">
+                    <div class="performance-item">
+                        <h4>❌ Operaciones secuenciales (más lento)</h4>
+                        <pre><code>async function operacionesSecuenciales() {
+    console.log("🐌 Iniciando operaciones secuenciales...");
+    const inicio = Date.now();
+    
+    const usuarios = await consultarAPI("usuarios", 1000);    // 1 segundo
+    const productos = await consultarAPI("productos", 1500);  // 1.5 segundos  
+    const pedidos = await consultarAPI("pedidos", 800);      // 0.8 segundos
+    
+    const tiempoTotal = Date.now() - inicio;
+    console.log("⏱️ Tiempo total secuencial:", tiempoTotal + "ms"); // ~3300ms
+    
+    return { usuarios, productos, pedidos };
+}</code></pre>
+                    </div>
+
+                    <div class="performance-item">
+                        <h4>✅ Operaciones paralelas (más rápido)</h4>
+                        <pre><code>async function operacionesParalelas() {
+    console.log("🚀 Iniciando operaciones paralelas...");
+    const inicio = Date.now();
+    
+    // Iniciar todas las operaciones al mismo tiempo
+    const promesaUsuarios = consultarAPI("usuarios", 1000);
+    const promesaProductos = consultarAPI("productos", 1500);
+    const promesaPedidos = consultarAPI("pedidos", 800);
+    
+    // Esperar a que todas terminen
+    const usuarios = await promesaUsuarios;
+    const productos = await promesaProductos;
+    const pedidos = await promesaPedidos;
+    
+    const tiempoTotal = Date.now() - inicio;
+    console.log("⏱️ Tiempo total paralelo:", tiempoTotal + "ms"); // ~1500ms
+    
+    return { usuarios, productos, pedidos };
+}</code></pre>
+                    </div>
+
+                    <div class="performance-item">
+                        <h4>✅ Usando Promise.all() (la mejor forma)</h4>
+                        <pre><code>async function operacionesConPromiseAll() {
+    console.log("⚡ Iniciando operaciones con Promise.all...");
+    const inicio = Date.now();
+    
+    const [usuarios, productos, pedidos] = await Promise.all([
+        consultarAPI("usuarios", 1000),
+        consultarAPI("productos", 1500),
+        consultarAPI("pedidos", 800)
+    ]);
+    
+    const tiempoTotal = Date.now() - inicio;
+    console.log("⏱️ Tiempo total Promise.all:", tiempoTotal + "ms"); // ~1500ms
+    
+    return { usuarios, productos, pedidos };
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="manejo-errores">
+                <h2>Manejo de Errores con Try/Catch</h2>
+                
+                <h3>Try/catch básico</h3>
+                <pre><code>async function ejemploTryCatch() {
+    try {
+        // Operación que puede fallar
+        const resultado = await operacionQuePuedeFallar();
+        console.log("✅ Éxito:", resultado);
+        
+    } catch (error) {
+        // Manejar cualquier error de la operación
+        console.error("❌ Error capturado:", error.message);
+        
+    } finally {
+        // Código que siempre se ejecuta
+        console.log("🔄 Limpieza completada");
+    }
+}
+
+function operacionQuePuedeFallar() {
+    return new Promise((resolve, reject) => {
+        const exito = Math.random() > 0.5;
+        
+        setTimeout(() => {
+            if (exito) {
+                resolve("Operación exitosa");
+            } else {
+                reject(new Error("La operación falló"));
+            }
+        }, 1000);
+    });
+}
+
+// Probar el manejo de errores
+ejemploTryCatch();</code></pre>
+
+                <h3>Manejo de errores específicos</h3>
+                <pre><code>// Diferentes tipos de errores
+class ErrorRed extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "ErrorRed";
+        this.code = "NETWORK_ERROR";
+    }
+}
+
+class ErrorAutorizacion extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "ErrorAutorizacion";
+        this.code = "AUTH_ERROR";
+    }
+}
+
+class ErrorValidacion extends Error {
+    constructor(message, campo) {
+        super(message);
+        this.name = "ErrorValidacion";
+        this.code = "VALIDATION_ERROR";
+        this.campo = campo;
+    }
+}
+
+async function manejarErroresEspecificos(tipoError) {
+    try {
+        const resultado = await operacionConDiferentesErrores(tipoError);
+        console.log("✅ Éxito:", resultado);
+        
+    } catch (error) {
+        // Manejar diferentes tipos de errores
+        if (error instanceof ErrorRed) {
+            console.error("🌐 Error de red:", error.message);
+            console.log("💡 Sugerencia: Verificar conexión a internet");
+            
+        } else if (error instanceof ErrorAutorizacion) {
+            console.error("🔒 Error de autorización:", error.message);
+            console.log("💡 Sugerencia: Volver a iniciar sesión");
+            
+        } else if (error instanceof ErrorValidacion) {
+            console.error("📝 Error de validación:", error.message);
+            console.log(`💡 Campo problemático: ${error.campo}`);
+            
+        } else {
+            console.error("❓ Error desconocido:", error.message);
+            console.log("💡 Contactar soporte técnico");
+        }
+    }
+}</code></pre>
+            </section>
+
+            <section id="casos-practicos">
+                <h2>Casos Prácticos Avanzados</h2>
+                
+                <div class="practical-example">
+                    <h3>Sistema de autenticación y autorización</h3>
+                    <pre><code>class AuthService {
+    constructor() {
+        this.token = localStorage.getItem('authToken');
+        this.usuario = null;
+    }
+    
+    // Iniciar sesión
+    async iniciarSesion(email, password) {
+        try {
+            console.log("🔐 Iniciando sesión...");
+            
+            // Validar datos
+            if (!email || !password) {
+                throw new Error("Email y contraseña requeridos");
+            }
+            
+            // Simular llamada a API
+            const response = await this.simularAPIAuth('/login', {
+                email: email,
+                password: password
+            });
+            
+            // Guardar token
+            this.token = response.token;
+            localStorage.setItem('authToken', this.token);
+            
+            // Obtener datos del usuario
+            this.usuario = await this.obtenerPerfilUsuario();
+            
+            console.log("✅ Sesión iniciada exitosamente");
+            return {
+                exito: true,
+                usuario: this.usuario,
+                mensaje: "Bienvenido de vuelta"
+            };
+            
+        } catch (error) {
+            console.error("❌ Error iniciando sesión:", error.message);
+            
+            // Limpiar datos en caso de error
+            this.token = null;
+            this.usuario = null;
+            localStorage.removeItem('authToken');
+            
+            return {
+                exito: false,
+                mensaje: error.message
+            };
+        }
+    }
+    
+    // Verificar si está autenticado
+    estaAutenticado() {
+        return !!this.token && !!this.usuario;
+    }
+}</code></pre>
+                </div>
+
+                <div class="practical-example">
+                    <h3>Sistema de carga de datos con cache y retry</h3>
+                    <pre><code>class DataLoader {
+    constructor(options = {}) {
+        this.cache = new Map();
+        this.config = {
+            cacheTTL: options.cacheTTL || 5 * 60 * 1000, // 5 minutos
+            maxRetries: options.maxRetries || 3,
+            retryDelay: options.retryDelay || 1000,
+            timeout: options.timeout || 10000
+        };
+        this.requestsEnProceso = new Map();
+    }
+    
+    // Cargar datos con cache, retry y deduplicación
+    async cargarDatos(url, opciones = {}) {
+        const cacheKey = this.generarCacheKey(url, opciones);
+        
+        try {
+            // 1. Verificar cache
+            const datosCacheados = this.obtenerDeCache(cacheKey);
+            if (datosCacheados) {
+                console.log(`📋 Cache HIT para ${url}`);
+                return datosCacheados;
+            }
+            
+            // 2. Verificar si ya hay una request en proceso
+            if (this.requestsEnProceso.has(cacheKey)) {
+                console.log(`⏳ Request en proceso para ${url}, esperando...`);
+                return await this.requestsEnProceso.get(cacheKey);
+            }
+            
+            // 3. Crear nueva request con retry
+            console.log(`🔍 Cache MISS para ${url}, cargando...`);
+            const requestPromise = this.cargarConRetry(url, opciones);
+            this.requestsEnProceso.set(cacheKey, requestPromise);
+            
+            // 4. Ejecutar request
+            const datos = await requestPromise;
+            
+            // 5. Guardar en cache y limpiar request en proceso
+            this.guardarEnCache(cacheKey, datos);
+            this.requestsEnProceso.delete(cacheKey);
+            
+            return datos;
+            
+        } catch (error) {
+            // Limpiar request en proceso en caso de error
+            this.requestsEnProceso.delete(cacheKey);
+            throw error;
+        }
+    }
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="patrones-avanzados">
+                <h2>Patrones Avanzados con Async/Await</h2>
+                
+                <h3>Async/Await con iteradores y generadores</h3>
+                <pre><code>// Async Generator para procesamiento de streams
+async function* generarDatosAsync() {
+    for (let i = 1; i <= 5; i++) {
+        // Simular carga asíncrona
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        yield {
+            id: i,
+            datos: `Datos del item ${i}`,
+            timestamp: new Date().toISOString()
+        };
+    }
+}
+
+// Procesar async generator
+async function procesarStreamDatos() {
+    console.log("🌊 Iniciando procesamiento de stream...");
+    
+    for await (const item of generarDatosAsync()) {
+        console.log(`📦 Item recibido:`, item);
+        
+        // Procesar cada item individualmente
+        await procesarItem(item);
+    }
+    
+    console.log("✅ Stream completado");
+}
+
+async function procesarItem(item) {
+    // Simular procesamiento
+    await new Promise(resolve => setTimeout(resolve, 500));
+    console.log(`⚙️ Item ${item.id} procesado`);
+}</code></pre>
+
+                <h3>Pool de conexiones async</h3>
+                <pre><code>class AsyncPool {
+    constructor(maxConcurrencia = 3) {
+        this.maxConcurrencia = maxConcurrencia;
+        this.trabajosActivos = 0;
+        this.cola = [];
+    }
+    
+    async ejecutar(funcion, ...args) {
+        return new Promise((resolve, reject) => {
+            this.cola.push({
+                funcion,
+                args,
+                resolve,
+                reject
+            });
+            
+            this.procesarCola();
+        });
+    }
+    
+    async procesarCola() {
+        if (this.trabajosActivos >= this.maxConcurrencia || this.cola.length === 0) {
+            return;
+        }
+        
+        const trabajo = this.cola.shift();
+        this.trabajosActivos++;
+        
+        try {
+            const resultado = await trabajo.funcion(...trabajo.args);
+            trabajo.resolve(resultado);
+        } catch (error) {
+            trabajo.reject(error);
+        } finally {
+            this.trabajosActivos--;
+            this.procesarCola(); // Procesar siguiente trabajo
+        }
+    }
+}</code></pre>
+            </section>
+
+            <section id="mejores-practicas">
+                <h2>Mejores Prácticas con Async/Await</h2>
+                
+                <div class="best-practices">
+                    <div class="practice-group">
+                        <h3>✅ Buenas prácticas</h3>
+                        <div class="practice-item">
+                            <h4>1. Siempre usar try/catch para manejar errores</h4>
+                            <pre><code>async function buenaPractica1() {
+    try {
+        const datos = await operacionAsincrona();
+        return datos;
+    } catch (error) {
+        console.error("Error:", error);
+        throw error; // Re-lanzar si es necesario
+    }
+}</code></pre>
+                        </div>
+
+                        <div class="practice-item">
+                            <h4>2. Ejecutar operaciones independientes en paralelo</h4>
+                            <pre><code>async function buenaPractica2() {
+    // ✅ Paralelo - más rápido
+    const [usuarios, productos, pedidos] = await Promise.all([
+        obtenerUsuarios(),
+        obtenerProductos(), 
+        obtenerPedidos()
+    ]);
+    
+    return { usuarios, productos, pedidos };
+}</code></pre>
+                        </div>
+
+                        <div class="practice-item">
+                            <h4>3. Usar Promise.allSettled() cuando algunas operaciones pueden fallar</h4>
+                            <pre><code>async function buenaPractica3() {
+    const resultados = await Promise.allSettled([
+        operacionQuePuedeFallar1(),
+        operacionQuePuedeFallar2(),
+        operacionQuePuedeFallar3()
+    ]);
+    
+    const exitosos = resultados
+        .filter(r => r.status === 'fulfilled')
+        .map(r => r.value);
+        
+    const fallidos = resultados
+        .filter(r => r.status === 'rejected')
+        .map(r => r.reason.message);
+        
+    return { exitosos, fallidos };
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="practice-group">
+                        <h3>❌ Prácticas a evitar</h3>
+                        <div class="practice-item">
+                            <h4>1. NO usar async sin await (innecesario)</h4>
+                            <pre><code>// ❌ Malo
+async function malaPractica1() {
+    return "valor"; // No necesita async si no usa await
+}
+
+// ✅ Mejor
+function malaPractica1Corregido() {
+    return "valor";
+}</code></pre>
+                        </div>
+
+                        <div class="practice-item">
+                            <h4>2. NO ejecutar operaciones independientes secuencialmente</h4>
+                            <pre><code>// ❌ Malo - Secuencial (3 segundos)
+async function malaPractica2() {
+    const usuarios = await obtenerUsuarios();     // 1 segundo
+    const productos = await obtenerProductos();   // 1 segundo  
+    const pedidos = await obtenerPedidos();       // 1 segundo
+    return { usuarios, productos, pedidos };
+}
+
+// ✅ Mejor - Paralelo (1 segundo)
+async function malaPractica2Corregido() {
+    const [usuarios, productos, pedidos] = await Promise.all([
+        obtenerUsuarios(),
+        obtenerProductos(),
+        obtenerPedidos()
+    ]);
+    return { usuarios, productos, pedidos };
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="comparacion">
+                <h2>Comparación: Callbacks vs Promises vs Async/Await</h2>
+                
+                <div class="comparison-container">
+                    <div class="comparison-example">
+                        <h3>❌ Callbacks (Callback Hell)</h3>
+                        <pre><code>function obtenerDatosUsuarioCallback(id, callback) {
+    obtenerUsuario(id, (error, usuario) => {
+        if (error) {
+            callback(error, null);
+            return;
+        }
+        
+        obtenerPerfil(usuario.id, (error, perfil) => {
+            if (error) {
+                callback(error, null);
+                return;
+            }
+            
+            obtenerConfiguracion(perfil.id, (error, configuracion) => {
+                if (error) {
+                    callback(error, null);
+                    return;
+                }
+                
+                callback(null, {
+                    usuario: usuario,
+                    perfil: perfil,
+                    configuracion: configuracion
+                });
+            });
+        });
+    });
+}</code></pre>
+                    </div>
+
+                    <div class="comparison-example">
+                        <h3>✅ Promises (Mejor)</h3>
+                        <pre><code>function obtenerDatosUsuarioPromises(id) {
+    return obtenerUsuario(id)
+        .then(usuario => {
+            return obtenerPerfil(usuario.id)
+                .then(perfil => {
+                    return obtenerConfiguracion(perfil.id)
+                        .then(configuracion => {
+                            return {
+                                usuario: usuario,
+                                perfil: perfil,
+                                configuracion: configuracion
+                            };
+                        });
+                });
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            throw error;
+        });
+}</code></pre>
+                    </div>
+
+                    <div class="comparison-example">
+                        <h3>✅ Async/Await (El mejor)</h3>
+                        <pre><code>async function obtenerDatosUsuarioAsync(id) {
+    try {
+        const usuario = await obtenerUsuario(id);
+        const perfil = await obtenerPerfil(usuario.id);
+        const configuracion = await obtenerConfiguracion(perfil.id);
+        
+        return {
+            usuario: usuario,
+            perfil: perfil,
+            configuracion: configuracion
+        };
+        
+    } catch (error) {
+        console.error("Error:", error);
+        throw error;
+    }
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="demo-interactivo">
+                <h2>🚀 Demo Interactivo: Async/Await en Acción</h2>
+                
+                <div class="demo-container">
+                    <div class="demo-controls">
+                        <button id="demo-basic" class="demo-btn">Demo Básico</button>
+                        <button id="demo-parallel" class="demo-btn">Operaciones Paralelas</button>
+                        <button id="demo-error" class="demo-btn">Manejo de Errores</button>
+                        <button id="demo-timeout" class="demo-btn">Timeout</button>
+                        <button id="clear-output" class="demo-btn secondary">Limpiar Output</button>
+                    </div>
+                    
+                    <div class="demo-output">
+                        <h3>📋 Output del Demo</h3>
+                        <div id="demo-results" class="output-content">
+                            <p>Selecciona un demo para comenzar...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-explanation">
+                        <h3>📖 Explicación</h3>
+                        <div id="demo-explanation-content">
+                            <p>Los demos te permitirán ver async/await en acción con diferentes escenarios:</p>
+                            <ul>
+                                <li><strong>Demo Básico:</strong> Operación asíncrona simple</li>
+                                <li><strong>Operaciones Paralelas:</strong> Comparación entre secuencial y paralelo</li>
+                                <li><strong>Manejo de Errores:</strong> Try/catch con diferentes tipos de errores</li>
+                                <li><strong>Timeout:</strong> Manejo de timeouts en operaciones asíncronas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <p><strong>🎯 Resumen:</strong> Async/Await es la evolución natural del manejo asíncrono en JavaScript. Proporciona una sintaxis más limpia y legible que hace que el código asíncrono se comporte de manera similar al código síncrono, manteniendo todas las ventajas de las operaciones no bloqueantes.</p>
+                
+                <div class="next-steps">
+                    <p><strong>🚀 Próximos pasos:</strong> Una vez que domines async/await, puedes explorar temas avanzados como Web Workers, Streams API, y patrones de concurrencia más sofisticados.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Funciones auxiliares para simulación
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function randomSuccess(probability = 0.7) {
+            return Math.random() < probability;
+        }
+
+        async function simularAPI(endpoint, tiempo = 1000, probabilidadExito = 0.8) {
+            await delay(tiempo);
+            
+            if (randomSuccess(probabilidadExito)) {
+                return {
+                    endpoint: endpoint,
+                    datos: `Datos de ${endpoint}`,
+                    timestamp: new Date().toISOString(),
+                    tiempo: tiempo
+                };
+            } else {
+                throw new Error(`Error en ${endpoint}: Operación falló`);
+            }
+        }
+
+        // Función para agregar output al demo
+        function addOutput(message, type = 'info') {
+            const resultsDiv = document.getElementById('demo-results');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `output-message ${type}`;
+            
+            const timestamp = new Date().toLocaleTimeString();
+            messageDiv.innerHTML = `<span class="timestamp">[${timestamp}]</span> ${message}`;
+            
+            resultsDiv.appendChild(messageDiv);
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        function updateExplanation(content) {
+            document.getElementById('demo-explanation-content').innerHTML = content;
+        }
+
+        // Demo básico
+        async function demoBasico() {
+            updateExplanation(`
+                <h4>Demo Básico de Async/Await</h4>
+                <p>Este demo muestra una operación asíncrona simple usando async/await:</p>
+                <pre><code>async function operacionBasica() {
+    addOutput("🚀 Iniciando operación...");
+    const resultado = await simularAPI("usuarios", 2000);
+    addOutput("✅ Operación completada: " + resultado.datos);
+}</code></pre>
+            `);
+
+            addOutput("🚀 Iniciando operación básica...", 'info');
+            
+            try {
+                const resultado = await simularAPI("usuarios", 2000);
+                addOutput(`✅ Operación completada: ${resultado.datos}`, 'success');
+                addOutput(`⏱️ Tiempo de respuesta: ${resultado.tiempo}ms`, 'info');
+            } catch (error) {
+                addOutput(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Demo operaciones paralelas
+        async function demoParalelas() {
+            updateExplanation(`
+                <h4>Operaciones Paralelas vs Secuenciales</h4>
+                <p>Comparación de rendimiento entre ejecución secuencial y paralela:</p>
+                <pre><code>// Secuencial
+const user = await simularAPI("usuarios", 1000);
+const prod = await simularAPI("productos", 1000);
+// Total: ~2000ms
+
+// Paralelo
+const [user, prod] = await Promise.all([
+    simularAPI("usuarios", 1000),
+    simularAPI("productos", 1000)
+]);
+// Total: ~1000ms</code></pre>
+            `);
+
+            // Operaciones secuenciales
+            addOutput("🐌 Iniciando operaciones secuenciales...", 'info');
+            const inicioSeq = Date.now();
+            
+            try {
+                const usuarios = await simularAPI("usuarios", 1000);
+                addOutput(`📄 Usuarios obtenidos: ${usuarios.datos}`, 'success');
+                
+                const productos = await simularAPI("productos", 1000);
+                addOutput(`📦 Productos obtenidos: ${productos.datos}`, 'success');
+                
+                const tiempoSeq = Date.now() - inicioSeq;
+                addOutput(`⏱️ Tiempo secuencial total: ${tiempoSeq}ms`, 'info');
+                
+            } catch (error) {
+                addOutput(`❌ Error secuencial: ${error.message}`, 'error');
+            }
+
+            // Pausa antes de paralelo
+            await delay(500);
+
+            // Operaciones paralelas
+            addOutput("🚀 Iniciando operaciones paralelas...", 'info');
+            const inicioPar = Date.now();
+            
+            try {
+                const [usuariosPar, productosPar] = await Promise.all([
+                    simularAPI("usuarios", 1000),
+                    simularAPI("productos", 1000)
+                ]);
+                
+                addOutput(`📄 Usuarios obtenidos: ${usuariosPar.datos}`, 'success');
+                addOutput(`📦 Productos obtenidos: ${productosPar.datos}`, 'success');
+                
+                const tiempoPar = Date.now() - inicioPar;
+                addOutput(`⏱️ Tiempo paralelo total: ${tiempoPar}ms`, 'info');
+                addOutput(`🎯 Mejora: ~${Math.round(((2000 - tiempoPar) / 2000) * 100)}% más rápido`, 'success');
+                
+            } catch (error) {
+                addOutput(`❌ Error paralelo: ${error.message}`, 'error');
+            }
+        }
+
+        // Demo manejo de errores
+        async function demoErrores() {
+            updateExplanation(`
+                <h4>Manejo de Errores con Try/Catch</h4>
+                <p>Demostración de cómo manejar diferentes tipos de errores:</p>
+                <pre><code>try {
+    const resultado = await operacionQuePuedeFallar();
+    // Manejar éxito
+} catch (error) {
+    // Manejar error específico
+    if (error.code === 'NETWORK_ERROR') {
+        // Lógica para error de red
+    }
+} finally {
+    // Limpieza
+}</code></pre>
+            `);
+
+            const operaciones = [
+                { nombre: "operacion-exitosa", probabilidad: 1.0 },
+                { nombre: "operacion-inestable", probabilidad: 0.5 },
+                { nombre: "operacion-que-falla", probabilidad: 0.1 }
+            ];
+
+            for (const op of operaciones) {
+                try {
+                    addOutput(`🔄 Probando ${op.nombre}...`, 'info');
+                    const resultado = await simularAPI(op.nombre, 800, op.probabilidad);
+                    addOutput(`✅ ${op.nombre} exitosa: ${resultado.datos}`, 'success');
+                    
+                } catch (error) {
+                    addOutput(`❌ ${op.nombre} falló: ${error.message}`, 'error');
+                    
+                    // Manejo específico de errores
+                    if (op.probabilidad < 0.3) {
+                        addOutput(`💡 Error esperado para ${op.nombre} (baja probabilidad de éxito)`, 'warning');
+                    }
+                } finally {
+                    addOutput(`🔄 Limpieza completada para ${op.nombre}`, 'info');
+                }
+                
+                await delay(300); // Pausa entre operaciones
+            }
+        }
+
+        // Demo timeout
+        async function demoTimeout() {
+            updateExplanation(`
+                <h4>Manejo de Timeouts</h4>
+                <p>Implementación de timeouts para operaciones que pueden tardar demasiado:</p>
+                <pre><code>function conTimeout(promesa, timeout = 5000) {
+    return Promise.race([
+        promesa,
+        new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Timeout')), timeout)
+        )
+    ]);
+}</code></pre>
+            `);
+
+            function conTimeout(promesa, timeout = 5000) {
+                return Promise.race([
+                    promesa,
+                    new Promise((_, reject) => 
+                        setTimeout(() => reject(new Error('Timeout después de ' + timeout + 'ms')), timeout)
+                    )
+                ]);
+            }
+
+            // Operación rápida (debería completarse)
+            try {
+                addOutput("⚡ Probando operación rápida con timeout de 3s...", 'info');
+                const resultadoRapido = await conTimeout(simularAPI("operacion-rapida", 1000), 3000);
+                addOutput(`✅ Operación rápida completada: ${resultadoRapido.datos}`, 'success');
+            } catch (error) {
+                addOutput(`❌ Error operación rápida: ${error.message}`, 'error');
+            }
+
+            await delay(500);
+
+            // Operación lenta (debería fallar por timeout)
+            try {
+                addOutput("🐌 Probando operación lenta con timeout de 2s...", 'info');
+                const resultadoLento = await conTimeout(simularAPI("operacion-lenta", 4000), 2000);
+                addOutput(`✅ Operación lenta completada: ${resultadoLento.datos}`, 'success');
+            } catch (error) {
+                addOutput(`❌ Error operación lenta: ${error.message}`, 'error');
+                if (error.message.includes('Timeout')) {
+                    addOutput(`💡 La operación fue cancelada por timeout como se esperaba`, 'warning');
+                }
+            }
+        }
+
+        // Event listeners
+        document.getElementById('demo-basic').addEventListener('click', demoBasico);
+        document.getElementById('demo-parallel').addEventListener('click', demoParalelas);
+        document.getElementById('demo-error').addEventListener('click', demoErrores);
+        document.getElementById('demo-timeout').addEventListener('click', demoTimeout);
+        
+        document.getElementById('clear-output').addEventListener('click', () => {
+            document.getElementById('demo-results').innerHTML = '<p>Output limpiado. Selecciona un demo para comenzar...</p>';
+            updateExplanation(`
+                <p>Los demos te permitirán ver async/await en acción con diferentes escenarios:</p>
+                <ul>
+                    <li><strong>Demo Básico:</strong> Operación asíncrona simple</li>
+                    <li><strong>Operaciones Paralelas:</strong> Comparación entre secuencial y paralelo</li>
+                    <li><strong>Manejo de Errores:</strong> Try/catch con diferentes tipos de errores</li>
+                    <li><strong>Timeout:</strong> Manejo de timeouts en operaciones asíncronas</li>
+                </ul>
+            `);
+        });
+
+        // Smooth scrolling para el índice
+        document.querySelectorAll('.table-of-contents a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Funcionalidad de copiar código
+        document.querySelectorAll('pre code').forEach(block => {
+            const button = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copiar';
+            button.addEventListener('click', () => {
+                navigator.clipboard.writeText(block.textContent).then(() => {
+                    button.textContent = '¡Copiado!';
+                    setTimeout(() => {
+                        button.textContent = 'Copiar';
+                    }, 2000);
+                });
+            });
+            block.parentNode.appendChild(button);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variables Booleanas en JavaScript - Tutorial Completo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header principal -->
+        <div class="header">
+            <h1>🔘 Variables Booleanas en JavaScript</h1>
+            <p>Domina los valores de verdad y la lógica booleana en JavaScript</p>
+        </div>
+
+        <!-- Layout de dos columnas -->
+        <div class="two-column">
+            <!-- Navegación lateral -->
+            <div class="navigation">
+                <div class="nav-title">📋 Contenido</div>
+                <a href="#que-son" class="nav-link">¿Qué son las Variables Booleanas?</a>
+                <a href="#declaracion" class="nav-link">Declaración de Variables Booleanas</a>
+                <a href="#conversion" class="nav-link">Conversión a Boolean</a>
+                <a href="#operadores" class="nav-link">Operadores Lógicos</a>
+                <a href="#comparaciones" class="nav-link">Comparaciones Booleanas</a>
+                <a href="#casos-uso" class="nav-link">Casos de Uso Prácticos</a>
+                <a href="#errores-practicas" class="nav-link">Errores Comunes y Mejores Prácticas</a>
+                <a href="#demo-interactivo" class="nav-link">Demo Interactivo</a>
+            </div>
+
+            <!-- Contenido principal -->
+            <div class="main-content">
+                <!-- Sección: ¿Qué son las Variables Booleanas? -->
+                <div class="content" id="que-son">
+                    <div class="section">
+                        <h2>¿Qué son las Variables Booleanas?</h2>
+                        
+                        <div class="alert alert-info">
+                            <p>Las <strong>variables booleanas</strong> representan valores de verdad en JavaScript, pudiendo ser únicamente <span class="inline-code">true</span> (verdadero) o <span class="inline-code">false</span> (falso). Son fundamentales para la lógica de programación y el control de flujo.</p>
+                        </div>
+
+                        <p>Un <strong>booleano</strong> es un tipo de dato primitivo que puede tener solo dos valores posibles:</p>
+                        <ul>
+                            <li><span class="inline-code">true</span> (verdadero)</li>
+                            <li><span class="inline-code">false</span> (falso)</li>
+                        </ul>
+
+                        <div class="code-container">
+                            <div class="code-header">
+                                Ejemplo básico de variables booleanas
+                                <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            </div>
+                            <pre><code>const esVerdadero = true;
+const esFalso = false;
+
+console.log(typeof esVerdadero); // "boolean"
+console.log(typeof esFalso);     // "boolean"</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Declaración -->
+                <div class="content" id="declaracion">
+                    <div class="section">
+                        <h2>Declaración de Variables Booleanas</h2>
+                        
+                        <h3>Declaración directa</h3>
+                        
+                        <div class="code-container">
+                            <div class="code-header">
+                                Diferentes formas de declarar variables booleanas
+                                <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            </div>
+                            <pre><code>// Usando let (si el valor puede cambiar)
+let estaLogueado = false;
+let esAdministrador = true;
+
+// Usando const (si el valor no cambiará)
+const esProduccion = true;
+const modoDebug = false;
+
+// Usando var (no recomendado, pero válido)
+var esActivo = true;</code></pre>
+                        </div>
+
+                        <div class="alert alert-success">
+                            <p><strong>💡 Consejo:</strong> Usa nombres descriptivos que indiquen claramente qué representa la variable booleana. Prefiere <span class="inline-code">const</span> cuando el valor no cambie y <span class="inline-code">let</span> cuando sí lo haga.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Conversión -->
+                <div class="content" id="conversion">
+                    <div class="section">
+                        <h2>Conversión a Boolean</h2>
+                        
+                        <h3>Conversión explícita</h3>
+                        
+                        <div class="features">
+                            <div class="feature-card">
+                                <h4>Método 1: Función Boolean()</h4>
+                                <div class="code-container">
+                                    <pre><code>console.log(Boolean(1));          // true
+console.log(Boolean(0));          // false
+console.log(Boolean("texto"));    // true
+console.log(Boolean(""));         // false</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="feature-card">
+                                <h4>Método 2: Doble negación (!!)</h4>
+                                <div class="code-container">
+                                    <pre><code>console.log(!!1);                 // true
+console.log(!!0);                 // false
+console.log(!!"texto");           // true
+console.log(!!"");                // false</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="feature-card">
+                                <h4>Método 3: Operador ternario</h4>
+                                <div class="code-container">
+                                    <pre><code>console.log("texto" ? true : false);  // true
+console.log("" ? true : false);       // false</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>Conversión implícita</h3>
+                        <p>JavaScript convierte automáticamente a boolean en estos contextos:</p>
+                        
+                        <div class="code-container">
+                            <div class="code-header">
+                                Conversión implícita en diferentes contextos
+                                <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            </div>
+                            <pre><code>const nombre = "Juan";
+const edad = 0;
+
+// En estructuras condicionales
+if (nombre) {
+    console.log("Nombre existe"); // Se ejecuta (nombre es truthy)
+}
+
+if (edad) {
+    console.log("Edad existe"); // NO se ejecuta (0 es falsy)
+}
+
+// En operadores lógicos
+const resultado1 = nombre && "Nombre válido";   // "Nombre válido"
+const resultado2 = edad && "Edad válida";       // 0 (falsy)
+
+// En operador ternario
+const mensaje = nombre ? "Hola " + nombre : "Hola invitado";</code></pre>
+                        </div>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-item bad">
+                                <h5>🔴 Valores Falsy (evalúan a false):</h5>
+                                <ul>
+                                    <li><span class="inline-code">false</span></li>
+                                    <li><span class="inline-code">0</span> y <span class="inline-code">-0</span></li>
+                                    <li><span class="inline-code">0n</span> (BigInt)</li>
+                                    <li><span class="inline-code">""</span> (string vacío)</li>
+                                    <li><span class="inline-code">null</span></li>
+                                    <li><span class="inline-code">undefined</span></li>
+                                    <li><span class="inline-code">NaN</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="comparison-item good">
+                                <h5>🟢 Valores Truthy (evalúan a true):</h5>
+                                <ul>
+                                    <li>Todos los demás valores</li>
+                                    <li><span class="inline-code">"false"</span> (string)</li>
+                                    <li><span class="inline-code">[]</span> (array vacío)</li>
+                                    <li><span class="inline-code">{}</span> (objeto vacío)</li>
+                                    <li>Cualquier número != 0</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Operadores -->
+                <div class="content" id="operadores">
+                    <div class="section">
+                        <h2>Operadores Lógicos</h2>
+                        
+                        <div class="features">
+                            <div class="feature-card">
+                                <h4>Operador AND (&&)</h4>
+                                <div class="code-container">
+                                    <pre><code>const a = true;
+const b = false;
+
+console.log(a && b);        // false
+console.log(true && true);  // true
+console.log(true && false); // false
+console.log(false && true); // false
+
+// Con valores no booleanos (short-circuit)
+console.log("texto" && "otro");  // "otro"
+console.log("texto" && "");      // ""
+console.log("" && "texto");      // ""
+
+// Casos prácticos
+const usuario = { nombre: "Ana" };
+const saludo = usuario && usuario.nombre && `Hola ${usuario.nombre}`;
+console.log(saludo); // "Hola Ana"</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="feature-card">
+                                <h4>Operador OR (||)</h4>
+                                <div class="code-container">
+                                    <pre><code>const a = true;
+const b = false;
+
+console.log(a || b);        // true
+console.log(true || true);  // true
+console.log(true || false); // true
+console.log(false || false); // false
+
+// Con valores no booleanos
+console.log("" || "defecto");      // "defecto"
+console.log("valor" || "defecto"); // "valor"
+
+// Valores por defecto (antes de ES2020)
+function saludar(nombre) {
+    nombre = nombre || "Invitado";
+    return `Hola ${nombre}`;
+}
+
+console.log(saludar());        // "Hola Invitado"
+console.log(saludar("Luis"));  // "Hola Luis"</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="feature-card">
+                                <h4>Operador NOT (!)</h4>
+                                <div class="code-container">
+                                    <pre><code>const verdadero = true;
+const falso = false;
+
+console.log(!verdadero);  // false
+console.log(!falso);      // true
+
+// Doble negación para conversión
+console.log(!!"texto");   // true
+console.log(!!"");        // false
+console.log(!!0);         // false
+console.log(!!1);         // true
+
+// Invertir booleanos
+let estaVisible = true;
+estaVisible = !estaVisible; // false
+
+// En condicionales
+const usuarios = [];
+if (!usuarios.length) {
+    console.log("No hay usuarios"); // Se ejecuta
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Comparaciones -->
+                <div class="content" id="comparaciones">
+                    <div class="section">
+                        <h2>Comparaciones Booleanas</h2>
+                        
+                        <h3>Comparaciones de igualdad</h3>
+                        
+                        <div class="comparison-grid">
+                            <div class="comparison-item bad">
+                                <h5>❌ Comparación con == (con conversión de tipo)</h5>
+                                <div class="code-container">
+                                    <pre><code>console.log(true == 1);       // true
+console.log(false == 0);      // true
+console.log(true == "1");     // true
+console.log(false == "");     // true
+console.log(false == null);   // false
+console.log(false == undefined); // false</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item good">
+                                <h5>✅ Comparación con === (sin conversión de tipo)</h5>
+                                <div class="code-container">
+                                    <pre><code>console.log(true === 1);      // false
+console.log(false === 0);     // false
+console.log(true === true);   // true
+console.log(false === false); // true
+
+// Mejores prácticas: usar siempre ===
+const esActivo = true;
+if (esActivo === true) {
+    console.log("Usuario activo");
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>Comparaciones complejas</h3>
+                        <div class="code-container">
+                            <div class="code-header">
+                                Por qué es importante usar === siempre
+                                <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            </div>
+                            <pre><code>// Arrays y objetos (comparación por referencia)
+console.log([] == []);        // false (diferentes referencias)
+console.log({} == {});        // false (diferentes referencias)
+
+const array1 = [];
+const array2 = array1;
+console.log(array1 == array2); // true (misma referencia)
+
+// Conversiones extrañas con ==
+console.log([] == false);     // true ([] se convierte a "")
+console.log("" == false);     // true (ambos se convierten a 0)
+console.log(0 == false);      // true (false se convierte a 0)
+
+// Por eso siempre usar ===
+console.log([] === false);    // false
+console.log("" === false);    // false
+console.log(0 === false);     // false</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Casos de Uso -->
+                <div class="content" id="casos-uso">
+                    <div class="section">
+                        <h2>Casos de Uso Prácticos</h2>
+                        
+                        <div class="features">
+                            <div class="feature-card">
+                                <h4>1. Control de flujo</h4>
+                                <div class="code-container">
+                                    <pre><code>// Estados de aplicación
+let estaLogueado = false;
+let esAdministrador = false;
+let tienePermisos = false;
+
+function verificarAcceso() {
+    if (!estaLogueado) {
+        return "Debe iniciar sesión";
+    }
+    
+    if (!esAdministrador && !tienePermisos) {
+        return "Sin permisos suficientes";
+    }
+    
+    return "Acceso permitido";
+}
+
+// Validaciones
+function validarFormulario(datos) {
+    const nombreValido = datos.nombre && datos.nombre.trim().length > 0;
+    const emailValido = datos.email && datos.email.includes("@");
+    const edadValida = datos.edad && datos.edad >= 18;
+    
+    return nombreValido && emailValido && edadValida;
+}</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="feature-card">
+                                <h4>2. Configuraciones</h4>
+                                <div class="code-container">
+                                    <pre><code>// Configuración de aplicación
+const configuracion = {
+    // Características
+    modoOscuro: true,
+    notificacionesPush: false,
+    sonidosActivados: true,
+    
+    // Permisos
+    puedeEditar: false,
+    puedeEliminar: false,
+    puedeCompartir: true,
+    
+    // Estados
+    esPremium: false,
+    esBeta: true,
+    esProduccion: false
+};
+
+// Función para alternar configuraciones
+function alternar(propiedad) {
+    if (propiedad in configuracion) {
+        configuracion[propiedad] = !configuracion[propiedad];
+    }
+}
+
+alternar('modoOscuro');        // Cambia a false
+alternar('notificacionesPush'); // Cambia a true</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="feature-card">
+                                <h4>3. Validación de datos</h4>
+                                <div class="code-container">
+                                    <pre><code>// Validador de campos
+class ValidadorCampos {
+    static esTextoValido(texto, minimo = 1) {
+        return typeof texto === 'string' && 
+               texto.trim().length >= minimo;
+    }
+    
+    static esEmailValido(email) {
+        return typeof email === 'string' && 
+               email.includes('@') && 
+               email.includes('.');
+    }
+    
+    static esNumeroValido(numero, min = -Infinity, max = Infinity) {
+        return typeof numero === 'number' && 
+               !isNaN(numero) && 
+               numero >= min && 
+               numero <= max;
+    }
+    
+    static esArrayNoVacio(array) {
+        return Array.isArray(array) && array.length > 0;
+    }
+}
+
+// Uso del validador
+const datosUsuario = {
+    nombre: "Juan",
+    email: "juan@example.com",
+    edad: 25,
+    hobbies: ["programar", "leer"]
+};
+
+const esValido = ValidadorCampos.esTextoValido(datosUsuario.nombre) &&
+                ValidadorCampos.esEmailValido(datosUsuario.email) &&
+                ValidadorCampos.esNumeroValido(datosUsuario.edad, 0, 120) &&
+                ValidadorCampos.esArrayNoVacio(datosUsuario.hobbies);
+
+console.log(`Datos válidos: ${esValido}`);</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="feature-card">
+                                <h4>4. Sistema de filtros</h4>
+                                <div class="code-container">
+                                    <pre><code>// Sistema de filtros
+const productos = [
+    { nombre: "Laptop", categoria: "tecnologia", disponible: true, precio: 999 },
+    { nombre: "Libro", categoria: "educacion", disponible: false, precio: 20 },
+    { nombre: "Mouse", categoria: "tecnologia", disponible: true, precio: 25 },
+    { nombre: "Curso", categoria: "educacion", disponible: true, precio: 50 }
+];
+
+class FiltroProductos {
+    constructor(productos) {
+        this.productos = productos;
+    }
+    
+    filtrar(opciones = {}) {
+        return this.productos.filter(producto => {
+            // Filtro por disponibilidad
+            if (opciones.soloDisponibles && !producto.disponible) {
+                return false;
+            }
+            
+            // Filtro por categoría
+            if (opciones.categoria && producto.categoria !== opciones.categoria) {
+                return false;
+            }
+            
+            // Filtro por precio
+            if (opciones.precioMaximo && producto.precio > opciones.precioMaximo) {
+                return false;
+            }
+            
+            return true;
+        });
+    }
+}
+
+const filtro = new FiltroProductos(productos);
+
+// Buscar productos disponibles de tecnología con precio máximo 100
+const resultados = filtro.filtrar({
+    soloDisponibles: true,
+    categoria: "tecnologia",
+    precioMaximo: 100
+});
+
+console.log(resultados); // [{ nombre: "Mouse", ... }]</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Errores y Prácticas -->
+                <div class="content" id="errores-practicas">
+                    <div class="section">
+                        <h2>Errores Comunes y Mejores Prácticas</h2>
+                        
+                        <h3>❌ Errores comunes</h3>
+                        
+                        <div class="method-demo">
+                            <h5>Error 1: Usar new Boolean()</h5>
+                            <div class="comparison-grid">
+                                <div class="comparison-item bad">
+                                    <h5>❌ Mal</h5>
+                                    <div class="code-container">
+                                        <pre><code>const mal = new Boolean(false);
+if (mal) console.log("Se ejecuta incorrectamente");</code></pre>
+                                    </div>
+                                </div>
+                                <div class="comparison-item good">
+                                    <h5>✅ Bien</h5>
+                                    <div class="code-container">
+                                        <pre><code>const bien = Boolean(false);
+const mejor = false;</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="method-demo">
+                            <h5>Error 2: Comparar con == en lugar de ===</h5>
+                            <div class="comparison-grid">
+                                <div class="comparison-item bad">
+                                    <h5>❌ Problemático</h5>
+                                    <div class="code-container">
+                                        <pre><code>if (usuario.activo == "true") { }</code></pre>
+                                    </div>
+                                </div>
+                                <div class="comparison-item good">
+                                    <h5>✅ Correcto</h5>
+                                    <div class="code-container">
+                                        <pre><code>if (usuario.activo === true) { }</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="method-demo">
+                            <h5>Error 3: No entender truthy/falsy</h5>
+                            <div class="comparison-grid">
+                                <div class="comparison-item bad">
+                                    <h5>❌ Puede fallar si length es 0</h5>
+                                    <div class="code-container">
+                                        <pre><code>if (array.length) { }</code></pre>
+                                    </div>
+                                </div>
+                                <div class="comparison-item good">
+                                    <h5>✅ Más claro</h5>
+                                    <div class="code-container">
+                                        <pre><code>if (array.length > 0) { }</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="method-demo">
+                            <h5>Error 4: Confundir nullish con falsy</h5>
+                            <div class="comparison-grid">
+                                <div class="comparison-item bad">
+                                    <h5>❌ Problema si limite es 0</h5>
+                                    <div class="code-container">
+                                        <pre><code>const config = opciones.limite || 100;</code></pre>
+                                    </div>
+                                </div>
+                                <div class="comparison-item good">
+                                    <h5>✅ Correcto</h5>
+                                    <div class="code-container">
+                                        <pre><code>const config2 = opciones.limite ?? 100;</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>✅ Mejores prácticas</h3>
+                        
+                        <div class="features">
+                            <div class="feature-card">
+                                <h4>1. Usar nombres descriptivos</h4>
+                                <div class="code-container">
+                                    <pre><code>const estaLogueado = true;           // Claro
+const usuarioTienePermisos = false;  // Descriptivo
+const puedeEditar = true;            // Específico</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="feature-card">
+                                <h4>2. Usar funciones para lógica compleja</h4>
+                                <div class="code-container">
+                                    <pre><code>function puedeAccederRecurso(usuario, recurso) {
+    return usuario.activo && 
+           usuario.permisos.includes(recurso.tipo) && 
+           !recurso.bloqueado;
+}</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="feature-card">
+                                <h4>3. Validar entrada</h4>
+                                <div class="code-container">
+                                    <pre><code>function establecerModo(modoOscuro) {
+    if (typeof modoOscuro !== 'boolean') {
+        throw new Error('modoOscuro debe ser un boolean');
+    }
+    this.configuracion.modoOscuro = modoOscuro;
+}</code></pre>
+                            </div>
+
+                            <div class="feature-card">
+                                <h4>4. Usar const para valores que no cambian</h4>
+                                <div class="code-container">
+                                    <pre><code>const ES_DESARROLLO = process.env.NODE_ENV === 'development';
+const TIENE_SOPORTE_LOCAL_STORAGE = 'localStorage' in window;</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Demo Interactivo -->
+                <div class="content" id="demo-interactivo">
+                    <div class="section">
+                        <h2>🎮 Demo Interactivo: Booleanos en Acción</h2>
+                        
+                        <div class="demo-section">
+                            <h4>🔧 Controles del Demo</h4>
+                            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+                                <button id="demo-conversion" class="btn">Conversión Boolean</button>
+                                <button id="demo-operators" class="btn btn-success">Operadores Lógicos</button>
+                                <button id="demo-validation" class="btn btn-warning">Validación</button>
+                                <button id="demo-comparison" class="btn btn-error">Comparaciones</button>
+                                <button id="clear-output" class="btn">Limpiar Output</button>
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <h4>� Prueba tus valores</h4>
+                                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                                    <label for="test-value">Valor a probar:</label>
+                                    <input type="text" id="test-value" placeholder='Ej: "texto", 0, null, []' style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; flex: 1; min-width: 200px;">
+                                    <button id="test-value-btn" class="btn">Evaluar</button>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4>📋 Output del Demo</h4>
+                                <div id="demo-results" style="background: #f8f9fa; border: 1px solid #ddd; border-radius: 4px; padding: 15px; min-height: 200px; max-height: 400px; overflow-y: auto; font-family: monospace; white-space: pre-wrap;">
+Selecciona un demo para comenzar o prueba tus propios valores...
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 20px;">
+                                <h4>📖 Explicación</h4>
+                                <div id="demo-explanation-content">
+                                    <p>Los demos te permitirán explorar:</p>
+                                    <ul>
+                                        <li><strong>Conversión Boolean:</strong> Cómo diferentes valores se convierten a boolean</li>
+                                        <li><strong>Operadores Lógicos:</strong> AND, OR, NOT en acción</li>
+                                        <li><strong>Validación:</strong> Casos prácticos de validación</li>
+                                        <li><strong>Comparaciones:</strong> Diferencias entre == y ===</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <h3>📝 Resumen Final</h3>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <h4>Puntos clave sobre booleanos:</h4>
+                    <ul>
+                        <li><strong>Solo dos valores:</strong> <span class="inline-code">true</span> y <span class="inline-code">false</span></li>
+                        <li><strong>Tipo primitivo:</strong> <span class="inline-code">typeof boolean</span></li>
+                        <li><strong>Evitar <span class="inline-code">new Boolean()</span>:</strong> Crea objetos, no primitivos</li>
+                        <li><strong>Truthy vs Falsy:</strong> Entender qué valores se evalúan como true/false</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h4>Operadores lógicos:</h4>
+                    <ul>
+                        <li><strong>AND (<span class="inline-code">&&</span>):</strong> Ambos deben ser truthy</li>
+                        <li><strong>OR (<span class="inline-code">||</span>):</strong> Al menos uno debe ser truthy</li>
+                        <li><strong>NOT (<span class="inline-code">!</span>):</strong> Invierte el valor booleano</li>
+                        <li><strong>Nullish (<span class="inline-code">??</span>):</strong> Solo para <span class="inline-code">null</span> y <span class="inline-code">undefined</span></li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h4>Mejores prácticas:</h4>
+                    <ul>
+                        <li><strong>Usar <span class="inline-code">===</span></strong> para comparaciones estrictas</li>
+                        <li><strong>Nombres descriptivos</strong> para variables booleanas</li>
+                        <li><strong>Validar tipos</strong> cuando sea necesario</li>
+                        <li><strong>Usar funciones</strong> para lógica compleja</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="alert alert-info" style="margin-top: 20px;">
+                <p><strong>🚀 Próximo paso:</strong> Los booleanos son fundamentales para el control de flujo y la lógica en JavaScript. Dominar estos conceptos te permitirá escribir código más claro y evitar errores comunes.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para evaluar valores y mostrar información detallada
+        function evaluarValor(valor) {
+            let valorReal;
+            let tipoOriginal;
+            
+            try {
+                // Intentar evaluar el valor como JavaScript
+                if (valor === 'null') {
+                    valorReal = null;
+                } else if (valor === 'undefined') {
+                    valorReal = undefined;
+                } else if (valor === '[]') {
+                    valorReal = [];
+                } else if (valor === '{}') {
+                    valorReal = {};
+                } else if (valor === 'NaN') {
+                    valorReal = NaN;
+                } else if (!isNaN(valor) && valor !== '') {
+                    valorReal = Number(valor);
+                } else {
+                    valorReal = valor;
+                }
+                
+                tipoOriginal = typeof valorReal;
+            } catch (error) {
+                valorReal = valor;
+                tipoOriginal = typeof valor;
+            }
+
+            return {
+                valor: valorReal,
+                tipo: tipoOriginal,
+                esTruthy: !!valorReal,
+                esFalsy: !valorReal,
+                esStrictlyTrue: valorReal === true,
+                esStrictlyFalse: valorReal === false,
+                conversionBoolean: Boolean(valorReal),
+                conversionDobleNot: !!valorReal
+            };
+        }
+
+        function addOutput(message, type = 'info') {
+            const resultsDiv = document.getElementById('demo-results');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `output-message ${type}`;
+            
+            const timestamp = new Date().toLocaleTimeString();
+            messageDiv.innerHTML = `<span class="timestamp">[${timestamp}]</span> ${message}`;
+            
+            resultsDiv.appendChild(messageDiv);
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        function updateExplanation(content) {
+            document.getElementById('demo-explanation-content').innerHTML = content;
+        }
+
+        function addTable(headers, rows) {
+            const resultsDiv = document.getElementById('demo-results');
+            const table = document.createElement('table');
+            table.className = 'demo-table';
+            
+            // Crear encabezados
+            const headerRow = document.createElement('tr');
+            headers.forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header;
+                headerRow.appendChild(th);
+            });
+            table.appendChild(headerRow);
+            
+            // Crear filas
+            rows.forEach(row => {
+                const tr = document.createElement('tr');
+                row.forEach(cell => {
+                    const td = document.createElement('td');
+                    td.innerHTML = cell;
+                    tr.appendChild(td);
+                });
+                table.appendChild(tr);
+            });
+            
+            resultsDiv.appendChild(table);
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        // Demo de conversión Boolean
+        function demoConversion() {
+            updateExplanation(`
+                <h4>Conversión Boolean</h4>
+                <p>Prueba cómo diferentes valores se convierten a boolean:</p>
+                <pre><code>Boolean(valor)  // Conversión explícita
+!!valor         // Doble negación
+valor ? true : false  // Operador ternario</code></pre>
+            `);
+
+            addOutput("🔄 Probando conversiones Boolean...", 'info');
+
+            const valores = [
+                true, false, 1, 0, -1, "", "texto", "false", "0",
+                null, undefined, NaN, [], {}, function(){}, Infinity
+            ];
+
+            const headers = ['Valor', 'Tipo', 'Boolean()', '!!valor', 'Truthy/Falsy'];
+            const rows = [];
+
+            valores.forEach(valor => {
+                const valorStr = valor === null ? 'null' :
+                               valor === undefined ? 'undefined' :
+                               typeof valor === 'string' ? `"${valor}"` :
+                               typeof valor === 'function' ? 'function(){}' :
+                               Array.isArray(valor) ? '[]' :
+                               typeof valor === 'object' ? '{}' :
+                               String(valor);
+
+                const tipo = typeof valor;
+                const booleanConv = Boolean(valor);
+                const doubleNot = !!valor;
+                const truthyFalsy = !!valor ? 'Truthy' : 'Falsy';
+
+                rows.push([
+                    `<code>${valorStr}</code>`,
+                    `<code>${tipo}</code>`,
+                    `<code style="color: ${booleanConv ? 'green' : 'red'}">${booleanConv}</code>`,
+                    `<code style="color: ${doubleNot ? 'green' : 'red'}">${doubleNot}</code>`,
+                    `<span style="color: ${!!valor ? 'green' : 'red'}">${truthyFalsy}</span>`
+                ]);
+            });
+
+            addTable(headers, rows);
+        }
+
+        // Demo de operadores lógicos
+        function demoOperadores() {
+            updateExplanation(`
+                <h4>Operadores Lógicos</h4>
+                <p>Explora el comportamiento de AND (&&), OR (||) y NOT (!):</p>
+                <pre><code>a && b  // AND: true si ambos son truthy
+a || b  // OR: true si al menos uno es truthy
+!a      // NOT: invierte el valor boolean</code></pre>
+            `);
+
+            addOutput("⚡ Probando operadores lógicos...", 'info');
+
+            const casos = [
+                { a: true, b: true },
+                { a: true, b: false },
+                { a: false, b: true },
+                { a: false, b: false },
+                { a: "texto", b: "otro" },
+                { a: "texto", b: "" },
+                { a: "", b: "texto" },
+                { a: 1, b: 0 },
+                { a: null, b: "default" },
+                { a: undefined, b: "fallback" }
+            ];
+
+            const headers = ['a', 'b', 'a && b', 'a || b', '!a', '!b'];
+            const rows = [];
+
+            casos.forEach(({ a, b }) => {
+                const aStr = a === null ? 'null' :
+                           a === undefined ? 'undefined' :
+                           typeof a === 'string' ? `"${a}"` :
+                           String(a);
+
+                const bStr = b === null ? 'null' :
+                           b === undefined ? 'undefined' :
+                           typeof b === 'string' ? `"${b}"` :
+                           String(b);
+
+                const andResult = a && b;
+                const orResult = a || b;
+                const notA = !a;
+                const notB = !b;
+
+                rows.push([
+                    `<code>${aStr}</code>`,
+                    `<code>${bStr}</code>`,
+                    `<code>${typeof andResult === 'string' ? `"${andResult}"` : String(andResult)}</code>`,
+                    `<code>${typeof orResult === 'string' ? `"${orResult}"` : String(orResult)}</code>`,
+                    `<code style="color: ${notA ? 'green' : 'red'}">${notA}</code>`,
+                    `<code style="color: ${notB ? 'green' : 'red'}">${notB}</code>`
+                ]);
+            });
+
+            addTable(headers, rows);
+        }
+
+        // Demo de validación
+        function demoValidacion() {
+            updateExplanation(`
+                <h4>Validación Práctica</h4>
+                <p>Ejemplos reales de validación usando booleanos:</p>
+                <pre><code>function validarEmail(email) {
+    return typeof email === 'string' && 
+           email.includes('@') && 
+           email.length > 5;
+}</code></pre>
+            `);
+
+            addOutput("✅ Probando validaciones...", 'info');
+
+            const testCases = [
+                { email: "usuario@ejemplo.com", nombre: "Juan", edad: 25 },
+                { email: "invalido", nombre: "Ana", edad: 17 },
+                { email: "", nombre: "", edad: 30 },
+                { email: "test@test.co", nombre: "Luis", edad: -5 },
+                { email: null, nombre: "María", edad: "no-number" }
+            ];
+
+            function validarEmail(email) {
+                return typeof email === 'string' && 
+                       email.includes('@') && 
+                       email.includes('.') &&
+                       email.length > 5;
+            }
+
+            function validarNombre(nombre) {
+                return typeof nombre === 'string' && 
+                       nombre.trim().length >= 2;
+            }
+
+            function validarEdad(edad) {
+                return typeof edad === 'number' && 
+                       !isNaN(edad) && 
+                       edad >= 18 && 
+                       edad <= 120;
+            }
+
+            const headers = ['Email', 'Nombre', 'Edad', 'Email Valid', 'Nombre Valid', 'Edad Valid', 'Todo Valid'];
+            const rows = [];
+
+            testCases.forEach(caso => {
+                const emailValid = validarEmail(caso.email);
+                const nombreValid = validarNombre(caso.nombre);
+                const edadValid = validarEdad(caso.edad);
+                const todoValid = emailValid && nombreValid && edadValid;
+
+                rows.push([
+                    `<code>${caso.email === null ? 'null' : `"${caso.email}"`}</code>`,
+                    `<code>"${caso.nombre}"</code>`,
+                    `<code>${caso.edad}</code>`,
+                    `<span style="color: ${emailValid ? 'green' : 'red'}">${emailValid ? '✅' : '❌'}</span>`,
+                    `<span style="color: ${nombreValid ? 'green' : 'red'}">${nombreValid ? '✅' : '❌'}</span>`,
+                    `<span style="color: ${edadValid ? 'green' : 'red'}">${edadValid ? '✅' : '❌'}</span>`,
+                    `<span style="color: ${todoValid ? 'green' : 'red'}">${todoValid ? '✅' : '❌'}</span>`
+                ]);
+            });
+
+            addTable(headers, rows);
+        }
+
+        // Demo de comparaciones
+        function demoComparaciones() {
+            updateExplanation(`
+                <h4>Comparaciones == vs ===</h4>
+                <p>Diferencias importantes entre comparación con y sin conversión de tipo:</p>
+                <pre><code>valor == true   // Con conversión de tipo
+valor === true  // Sin conversión de tipo (recomendado)</code></pre>
+            `);
+
+            addOutput("⚖️ Probando comparaciones...", 'info');
+
+            const valores = [true, false, 1, 0, "1", "0", "", "true", "false", [], {}, null, undefined];
+
+            const headers = ['Valor', 'Tipo', '== true', '=== true', '== false', '=== false'];
+            const rows = [];
+
+            valores.forEach(valor => {
+                const valorStr = valor === null ? 'null' :
+                               valor === undefined ? 'undefined' :
+                               typeof valor === 'string' ? `"${valor}"` :
+                               Array.isArray(valor) ? '[]' :
+                               typeof valor === 'object' ? '{}' :
+                               String(valor);
+
+                const tipo = typeof valor;
+                const looseTrue = valor == true;
+                const strictTrue = valor === true;
+                const looseFalse = valor == false;
+                const strictFalse = valor === false;
+
+                rows.push([
+                    `<code>${valorStr}</code>`,
+                    `<code>${tipo}</code>`,
+                    `<code style="color: ${looseTrue ? 'green' : 'red'}">${looseTrue}</code>`,
+                    `<code style="color: ${strictTrue ? 'green' : 'red'}">${strictTrue}</code>`,
+                    `<code style="color: ${looseFalse ? 'green' : 'red'}">${looseFalse}</code>`,
+                    `<code style="color: ${strictFalse ? 'green' : 'red'}">${strictFalse}</code>`
+                ]);
+            });
+
+            addTable(headers, rows);
+        }
+
+        // Probar valor personalizado
+        function probarValor() {
+            const input = document.getElementById('test-value');
+            const valor = input.value.trim();
+            
+            if (valor === '') {
+                addOutput("⚠️ Ingresa un valor para probar", 'warning');
+                return;
+            }
+
+            const info = evaluarValor(valor);
+            
+            addOutput(`🔍 Analizando: <code>${valor}</code>`, 'info');
+            addOutput(`📊 Tipo: <code>${info.tipo}</code>`, 'info');
+            addOutput(`🔄 Boolean(): <code style="color: ${info.conversionBoolean ? 'green' : 'red'}">${info.conversionBoolean}</code>`, 'info');
+            addOutput(`🔄 !!valor: <code style="color: ${info.conversionDobleNot ? 'green' : 'red'}">${info.conversionDobleNot}</code>`, 'info');
+            addOutput(`📈 Es Truthy: <span style="color: ${info.esTruthy ? 'green' : 'red'}">${info.esTruthy ? 'Sí' : 'No'}</span>`, 'info');
+            addOutput(`📉 Es Falsy: <span style="color: ${info.esFalsy ? 'red' : 'green'}">${info.esFalsy ? 'Sí' : 'No'}</span>`, 'info');
+            addOutput(`✨ === true: <code style="color: ${info.esStrictlyTrue ? 'green' : 'red'}">${info.esStrictlyTrue}</code>`, 'info');
+            addOutput(`✨ === false: <code style="color: ${info.esStrictlyFalse ? 'green' : 'red'}">${info.esStrictlyFalse}</code>`, 'info');
+            addOutput("---", 'info');
+        }
+
+        // Event listeners
+        document.getElementById('demo-conversion').addEventListener('click', demoConversion);
+        document.getElementById('demo-operators').addEventListener('click', demoOperadores);
+        document.getElementById('demo-validation').addEventListener('click', demoValidacion);
+        document.getElementById('demo-comparison').addEventListener('click', demoComparaciones);
+        document.getElementById('test-value-btn').addEventListener('click', probarValor);
+        
+        // Permitir Enter en el input
+        document.getElementById('test-value').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                probarValor();
+            }
+        });
+        
+        document.getElementById('clear-output').addEventListener('click', () => {
+            document.getElementById('demo-results').innerHTML = '<p>Output limpiado. Selecciona un demo para comenzar o prueba tus propios valores...</p>';
+            updateExplanation(`
+                <p>Los demos te permitirán explorar:</p>
+                <ul>
+                    <li><strong>Conversión Boolean:</strong> Cómo diferentes valores se convierten a boolean</li>
+                    <li><strong>Operadores Lógicos:</strong> AND, OR, NOT en acción</li>
+                    <li><strong>Validación:</strong> Casos prácticos de validación</li>
+                    <li><strong>Comparaciones:</strong> Diferencias entre == y ===</li>
+                </ul>
+            `);
+        });
+
+        // Smooth scrolling para el índice
+        document.querySelectorAll('.table-of-contents a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Funcionalidad de copiar código
+        document.querySelectorAll('pre code').forEach(block => {
+            const button = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copiar';
+            button.addEventListener('click', () => {
+                navigator.clipboard.writeText(block.textContent).then(() => {
+                    button.textContent = '¡Copiado!';
+                    setTimeout(() => {
+                        button.textContent = 'Copiar';
+                    }, 2000);
+                });
+            });
+            block.parentNode.appendChild(button);
+        });
+    </script>
+</body>
+</html>

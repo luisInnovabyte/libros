@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strings en JavaScript - Parte III</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="two-column">
+            <!-- Navegación lateral -->
+            <aside class="navigation">
+                <h3>Contenido</h3>
+                <ul>
+                    <li><a href="#conversiones">Conversiones y Comparaciones</a></li>
+                    <li><a href="#conversion-tipos">Conversión a otros tipos</a></li>
+                    <li><a href="#comparaciones">Comparaciones</a></li>
+                    <li><a href="#casos-practicos">Casos de Uso Prácticos</a></li>
+                    <li><a href="#validaciones">Validaciones</a></li>
+                    <li><a href="#formateo">Formateo de texto</a></li>
+                    <li><a href="#nombres">Manipulación de nombres</a></li>
+                    <li><a href="#rendimiento">Rendimiento y Buenas Prácticas</a></li>
+                    <li><a href="#concatenacion">Concatenación eficiente</a></li>
+                    <li><a href="#inmutabilidad">Inmutabilidad</a></li>
+                </ul>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main class="content">
+                <div class="header">
+                    <h1>Strings en JavaScript - Parte III</h1>
+                    <p class="alert">Conversiones, comparaciones y técnicas avanzadas para el manejo eficiente de strings.</p>
+                </div>
+
+                <section id="conversiones" class="section">
+                    <h2>Conversiones y Comparaciones</h2>
+                    
+                    <div id="conversion-tipos" class="subsection">
+                        <h3>Conversión a otros tipos:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// String a Number
+console.log(Number("123"));      // 123
+console.log(parseInt("123px"));  // 123
+console.log(parseFloat("3.14")); // 3.14
+console.log(+"456");             // 456 (operador unario)
+
+// Number a String
+console.log(String(123));        // "123"
+console.log((123).toString());   // "123"
+console.log(123 + "");           // "123"
+
+// Boolean a String
+console.log(String(true));       // "true"
+console.log(false.toString());   // "false"</code></pre>
+                        </div>
+
+                        <div class="alert">
+                            <strong>Prueba conversiones:</strong>
+                            <div style="margin-top: 10px;">
+                                <input type="text" id="conversionInput" placeholder="Ingresa un valor..." value="123.45" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 200px;">
+                                <button onclick="probarConversiones()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Convertir</button>
+                            </div>
+                            <div id="resultadoConversion" style="margin-top: 10px; font-family: monospace;"></div>
+                        </div>
+                    </div>
+
+                    <div id="comparaciones" class="subsection">
+                        <h3>Comparaciones:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Comparación básica
+console.log("a" < "b");          // true
+console.log("Apple" < "apple");  // true (mayúsculas van antes)
+
+// localeCompare() - comparación según el idioma
+console.log("ñ".localeCompare("o", 'es-ES')); // 1 (ñ va después de o en español)
+console.log("Apple".localeCompare("apple", 'en', { 
+    sensitivity: 'base' 
+})); // 0 (ignora mayúsculas)
+
+// Comparación de longitud
+const nombres = ["Ana", "Roberto", "Luis", "María"];
+nombres.sort((a, b) => a.length - b.length);
+console.log(nombres); // ["Ana", "Luis", "María", "Roberto"]</code></pre>
+                        </div>
+
+                        <div class="alert">
+                            <strong>Prueba comparaciones:</strong>
+                            <div style="margin-top: 10px;">
+                                <input type="text" id="texto1" placeholder="Primer texto" value="Apple" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <input type="text" id="texto2" placeholder="Segundo texto" value="apple" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <button onclick="compararTextos()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Comparar</button>
+                            </div>
+                            <div id="resultadoComparacion" style="margin-top: 10px; font-family: monospace;"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="casos-practicos" class="section">
+                    <h2>Casos de Uso Prácticos</h2>
+                    
+                    <div id="validaciones" class="subsection">
+                        <h3>1. Validaciones:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Validar email simple
+function esEmailValido(email) {
+    return email.includes("@") && 
+           email.includes(".") && 
+           email.indexOf("@") < email.lastIndexOf(".");
+}
+
+// Validar contraseña
+function esContrasenaSegura(password) {
+    return password.length >= 8 &&
+           /[A-Z]/.test(password) &&    // Al menos una mayúscula
+           /[a-z]/.test(password) &&    // Al menos una minúscula
+           /\d/.test(password) &&       // Al menos un número
+           /[!@#$%^&*]/.test(password); // Al menos un carácter especial
+}
+
+console.log(esContrasenaSegura("MiPassword123!")); // true</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4>Validador de Email y Contraseña:</h4>
+                            <div style="margin-top: 15px;">
+                                <div style="margin-bottom: 10px;">
+                                    <label>Email:</label><br>
+                                    <input type="email" id="emailValidation" placeholder="usuario@dominio.com" style="padding: 8px; width: 250px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <button onclick="validarEmail()" style="padding: 8px 12px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">Validar</button>
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <label>Contraseña:</label><br>
+                                    <input type="password" id="passwordValidation" placeholder="MiPassword123!" style="padding: 8px; width: 250px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <button onclick="validarPassword()" style="padding: 8px 12px; background: var(--secondary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">Validar</button>
+                                </div>
+                                <div id="resultadoValidacion" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="formateo" class="subsection">
+                        <h3>2. Formateo de texto:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Capitalizar palabras
+function capitalizarPalabras(texto) {
+    return texto.split(' ')
+                .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1).toLowerCase())
+                .join(' ');
+}
+
+console.log(capitalizarPalabras("hola mundo javascript"));
+// "Hola Mundo Javascript"
+
+// Crear slug para URLs
+function crearSlug(texto) {
+    return texto.toLowerCase()
+                .replace(/[^\w\s-]/g, '') // Eliminar caracteres especiales
+                .replace(/\s+/g, '-')     // Espacios por guiones
+                .replace(/--+/g, '-')     // Múltiples guiones por uno
+                .trim('-');               // Eliminar guiones al inicio/final
+}
+
+console.log(crearSlug("¡Hola Mundo en JavaScript!"));
+// "hola-mundo-en-javascript"</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4>Formateador de Texto:</h4>
+                            <div style="margin-top: 15px;">
+                                <input type="text" id="formatText" placeholder="hola mundo javascript" value="hola mundo javascript" style="padding: 8px; width: 300px; border: 1px solid #ddd; border-radius: 4px;">
+                                <br><br>
+                                <button onclick="capitalizarTexto()" style="padding: 8px 12px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">Capitalizar</button>
+                                <button onclick="crearSlugTexto()" style="padding: 8px 12px; background: var(--secondary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Crear Slug</button>
+                                <div id="resultadoFormato" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="nombres" class="subsection">
+                        <h3>3. Manipulación de nombres:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">function procesarNombre(nombreCompleto) {
+    const partes = nombreCompleto.trim().split(/\s+/);
+    
+    return {
+        nombreCompleto: nombreCompleto.trim(),
+        nombre: partes[0],
+        apellido: partes[partes.length - 1],
+        iniciales: partes.map(parte => parte.charAt(0).toUpperCase()).join(''),
+        cantidadPalabras: partes.length
+    };
+}
+
+console.log(procesarNombre("  Juan Carlos García López  "));
+// {
+//   nombreCompleto: "Juan Carlos García López",
+//   nombre: "Juan",
+//   apellido: "López",
+//   iniciales: "JCGL",
+//   cantidadPalabras: 4
+// }</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4>Procesador de Nombres:</h4>
+                            <div style="margin-top: 15px;">
+                                <input type="text" id="nombreCompleto" placeholder="  Juan Carlos García López  " value="  Juan Carlos García López  " style="padding: 8px; width: 300px; border: 1px solid #ddd; border-radius: 4px;">
+                                <button onclick="procesarNombreCompleto()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">Procesar</button>
+                                <div id="resultadoNombre" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="rendimiento" class="section">
+                    <h2>Rendimiento y Buenas Prácticas</h2>
+                    
+                    <div id="concatenacion" class="subsection">
+                        <h3>1. Concatenación eficiente:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// ❌ Ineficiente para muchas concatenaciones
+let resultado = "";
+for (let i = 0; i < 1000; i++) {
+    resultado += `Item ${i} `;
+}
+
+// ✅ Más eficiente
+const items = [];
+for (let i = 0; i < 1000; i++) {
+    items.push(`Item ${i}`);
+}
+const resultado2 = items.join(' ');
+
+// ✅ Aún mejor para casos simples
+const resultado3 = Array.from({length: 1000}, (_, i) => `Item ${i}`).join(' ');</code></pre>
+                        </div>
+
+                        <div class="alert">
+                            <strong>Prueba de rendimiento:</strong>
+                            <div style="margin-top: 10px;">
+                                <input type="number" id="itemCount" placeholder="Cantidad" value="1000" min="10" max="10000" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 100px;">
+                                <button onclick="compararRendimiento()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Comparar Métodos</button>
+                            </div>
+                            <div id="resultadoRendimiento" style="margin-top: 10px; font-family: monospace;"></div>
+                        </div>
+                    </div>
+
+                    <div id="inmutabilidad" class="subsection">
+                        <h3>2. Inmutabilidad:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Los strings son inmutables
+let texto = "Hola";
+let textoOriginal = texto;
+
+texto = texto + " Mundo"; // Se crea un nuevo string
+
+console.log(texto);         // "Hola Mundo"
+console.log(textoOriginal); // "Hola" (no cambió)
+
+// Esto significa que métodos como replace() no modifican el original
+const frase = "Me gusta JavaScript";
+frase.replace("JavaScript", "Python"); // No hace nada visible
+console.log(frase); // Sigue siendo "Me gusta JavaScript"
+
+// Hay que asignar el resultado
+const nuevaFrase = frase.replace("JavaScript", "Python");
+console.log(nuevaFrase); // "Me gusta Python"</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4>Demo de Inmutabilidad:</h4>
+                            <div style="margin-top: 15px;">
+                                <button onclick="demoInmutabilidad()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Ejecutar Demo</button>
+                                <div id="resultadoInmutabilidad" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="comparison-grid" style="margin-top: 40px;">
+                    <div class="feature-card">
+                        <h3>🔄 Conversiones</h3>
+                        <ul>
+                            <li><code>Number()</code> - String a número</li>
+                            <li><code>String()</code> - A string</li>
+                            <li><code>parseInt()</code> - Entero</li>
+                            <li><code>parseFloat()</code> - Decimal</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>⚖️ Comparaciones</h3>
+                        <ul>
+                            <li><code>&lt;</code>, <code>&gt;</code> - Básicas</li>
+                            <li><code>localeCompare()</code> - Por idioma</li>
+                            <li>Ordenación por longitud</li>
+                            <li>Sensibilidad a mayúsculas</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>⚡ Rendimiento</h3>
+                        <ul>
+                            <li><code>Array.join()</code> - Mejor concatenación</li>
+                            <li>Inmutabilidad - Nuevos strings</li>
+                            <li>Reasignar resultados</li>
+                            <li>Evitar concatenación en bucles</li>
+                        </ul>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Función para copiar código
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling.querySelector('code');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✅ Copiado!';
+                button.style.background = 'var(--success-color)';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            });
+        }
+
+        // Navegación suave
+        document.querySelectorAll('.navigation a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Demo: Conversiones
+        function probarConversiones() {
+            const input = document.getElementById('conversionInput').value;
+            const resultado = document.getElementById('resultadoConversion');
+            
+            if (!input) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Ingresa un valor primero.</span>';
+                return;
+            }
+            
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Valor original:</strong> "${input}" (${typeof input})</div>
+                <div style="margin: 5px 0;"><strong>Number():</strong> ${Number(input)} (${typeof Number(input)})</div>
+                <div style="margin: 5px 0;"><strong>parseInt():</strong> ${parseInt(input)} (${typeof parseInt(input)})</div>
+                <div style="margin: 5px 0;"><strong>parseFloat():</strong> ${parseFloat(input)} (${typeof parseFloat(input)})</div>
+                <div style="margin: 5px 0;"><strong>+unario:</strong> ${+input} (${typeof +input})</div>
+                <div style="margin: 5px 0;"><strong>String():</strong> "${String(input)}" (${typeof String(input)})</div>
+            `;
+        }
+
+        // Demo: Comparaciones
+        function compararTextos() {
+            const texto1 = document.getElementById('texto1').value;
+            const texto2 = document.getElementById('texto2').value;
+            const resultado = document.getElementById('resultadoComparacion');
+            
+            if (!texto1 || !texto2) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Ingresa ambos textos.</span>';
+                return;
+            }
+            
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>"${texto1}" < "${texto2}":</strong> ${texto1 < texto2}</div>
+                <div style="margin: 5px 0;"><strong>"${texto1}" > "${texto2}":</strong> ${texto1 > texto2}</div>
+                <div style="margin: 5px 0;"><strong>"${texto1}" === "${texto2}":</strong> ${texto1 === texto2}</div>
+                <div style="margin: 5px 0;"><strong>localeCompare() normal:</strong> ${texto1.localeCompare(texto2)}</div>
+                <div style="margin: 5px 0;"><strong>localeCompare() sin mayúsculas:</strong> ${texto1.localeCompare(texto2, 'es', {sensitivity: 'base'})}</div>
+                <div style="margin: 5px 0;"><strong>Longitudes:</strong> "${texto1}" = ${texto1.length}, "${texto2}" = ${texto2.length}</div>
+            `;
+        }
+
+        // Demo: Validación de email
+        function validarEmail() {
+            const email = document.getElementById('emailValidation').value;
+            const resultado = document.getElementById('resultadoValidacion');
+            
+            function esEmailValido(email) {
+                return email.includes("@") && 
+                       email.includes(".") && 
+                       email.indexOf("@") < email.lastIndexOf(".");
+            }
+            
+            const valido = esEmailValido(email);
+            resultado.innerHTML = `
+                <div style="color: ${valido ? 'var(--success-color)' : 'var(--error-color)'};">
+                    <strong>Email "${email}":</strong> ${valido ? '✅ Válido' : '❌ No válido'}
+                </div>
+            `;
+        }
+
+        // Demo: Validación de contraseña
+        function validarPassword() {
+            const password = document.getElementById('passwordValidation').value;
+            const resultado = document.getElementById('resultadoValidacion');
+            
+            function esContrasenaSegura(password) {
+                const criterios = {
+                    longitud: password.length >= 8,
+                    mayuscula: /[A-Z]/.test(password),
+                    minuscula: /[a-z]/.test(password),
+                    numero: /\d/.test(password),
+                    especial: /[!@#$%^&*]/.test(password)
+                };
+                
+                return {
+                    valida: Object.values(criterios).every(v => v),
+                    criterios
+                };
+            }
+            
+            const validacion = esContrasenaSegura(password);
+            
+            resultado.innerHTML = `
+                <div style="color: ${validacion.valida ? 'var(--success-color)' : 'var(--error-color)'};">
+                    <strong>Contraseña:</strong> ${validacion.valida ? '✅ Segura' : '❌ No segura'}
+                </div>
+                <div style="margin-top: 10px; font-size: 0.9em;">
+                    <div>• Longitud ≥8: ${validacion.criterios.longitud ? '✅' : '❌'}</div>
+                    <div>• Mayúscula: ${validacion.criterios.mayuscula ? '✅' : '❌'}</div>
+                    <div>• Minúscula: ${validacion.criterios.minuscula ? '✅' : '❌'}</div>
+                    <div>• Número: ${validacion.criterios.numero ? '✅' : '❌'}</div>
+                    <div>• Especial: ${validacion.criterios.especial ? '✅' : '❌'}</div>
+                </div>
+            `;
+        }
+
+        // Demo: Capitalizar texto
+        function capitalizarTexto() {
+            const texto = document.getElementById('formatText').value;
+            const resultado = document.getElementById('resultadoFormato');
+            
+            function capitalizarPalabras(texto) {
+                return texto.split(' ')
+                            .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1).toLowerCase())
+                            .join(' ');
+            }
+            
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Original:</strong> "${texto}"</div>
+                <div style="margin: 5px 0;"><strong>Capitalizado:</strong> "${capitalizarPalabras(texto)}"</div>
+            `;
+        }
+
+        // Demo: Crear slug
+        function crearSlugTexto() {
+            const texto = document.getElementById('formatText').value;
+            const resultado = document.getElementById('resultadoFormato');
+            
+            function crearSlug(texto) {
+                return texto.toLowerCase()
+                            .replace(/[^\w\s-]/g, '')
+                            .replace(/\s+/g, '-')
+                            .replace(/--+/g, '-')
+                            .replace(/^-+|-+$/g, '');
+            }
+            
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Original:</strong> "${texto}"</div>
+                <div style="margin: 5px 0;"><strong>Slug:</strong> "${crearSlug(texto)}"</div>
+                <div style="margin: 5px 0;"><strong>URL:</strong> https://ejemplo.com/${crearSlug(texto)}</div>
+            `;
+        }
+
+        // Demo: Procesar nombre
+        function procesarNombreCompleto() {
+            const nombre = document.getElementById('nombreCompleto').value;
+            const resultado = document.getElementById('resultadoNombre');
+            
+            function procesarNombre(nombreCompleto) {
+                const partes = nombreCompleto.trim().split(/\s+/);
+                
+                return {
+                    nombreCompleto: nombreCompleto.trim(),
+                    nombre: partes[0] || '',
+                    apellido: partes[partes.length - 1] || '',
+                    iniciales: partes.map(parte => parte.charAt(0).toUpperCase()).join(''),
+                    cantidadPalabras: partes.length
+                };
+            }
+            
+            const procesado = procesarNombre(nombre);
+            
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Nombre completo:</strong> "${procesado.nombreCompleto}"</div>
+                <div style="margin: 5px 0;"><strong>Nombre:</strong> "${procesado.nombre}"</div>
+                <div style="margin: 5px 0;"><strong>Apellido:</strong> "${procesado.apellido}"</div>
+                <div style="margin: 5px 0;"><strong>Iniciales:</strong> "${procesado.iniciales}"</div>
+                <div style="margin: 5px 0;"><strong>Palabras:</strong> ${procesado.cantidadPalabras}</div>
+            `;
+        }
+
+        // Demo: Comparar rendimiento
+        function compararRendimiento() {
+            const count = parseInt(document.getElementById('itemCount').value) || 1000;
+            const resultado = document.getElementById('resultadoRendimiento');
+            
+            // Método 1: Concatenación directa
+            const inicio1 = performance.now();
+            let resultado1 = "";
+            for (let i = 0; i < count; i++) {
+                resultado1 += `Item ${i} `;
+            }
+            const tiempo1 = (performance.now() - inicio1).toFixed(2);
+            
+            // Método 2: Array join
+            const inicio2 = performance.now();
+            const items = [];
+            for (let i = 0; i < count; i++) {
+                items.push(`Item ${i}`);
+            }
+            const resultado2 = items.join(' ');
+            const tiempo2 = (performance.now() - inicio2).toFixed(2);
+            
+            // Método 3: Array.from
+            const inicio3 = performance.now();
+            const resultado3 = Array.from({length: count}, (_, i) => `Item ${i}`).join(' ');
+            const tiempo3 = (performance.now() - inicio3).toFixed(2);
+            
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Cantidad de items:</strong> ${count.toLocaleString()}</div>
+                <div style="margin: 5px 0;"><strong>Concatenación directa:</strong> ${tiempo1}ms</div>
+                <div style="margin: 5px 0;"><strong>Array + join():</strong> ${tiempo2}ms</div>
+                <div style="margin: 5px 0;"><strong>Array.from + join():</strong> ${tiempo3}ms</div>
+                <div style="margin: 5px 0; color: var(--success-color);"><strong>Más rápido:</strong> ${
+                    Math.min(tiempo1, tiempo2, tiempo3) == tiempo1 ? 'Concatenación' :
+                    Math.min(tiempo1, tiempo2, tiempo3) == tiempo2 ? 'Array + join' : 'Array.from'
+                }</div>
+            `;
+        }
+
+        // Demo: Inmutabilidad
+        function demoInmutabilidad() {
+            const resultado = document.getElementById('resultadoInmutabilidad');
+            
+            // Demostrar inmutabilidad
+            let texto = "Hola";
+            let textoOriginal = texto;
+            
+            texto = texto + " Mundo";
+            
+            const frase = "Me gusta JavaScript";
+            frase.replace("JavaScript", "Python"); // Esto no hace nada
+            const nuevaFrase = frase.replace("JavaScript", "Python"); // Esto sí
+            
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>texto original:</strong> "${textoOriginal}"</div>
+                <div style="margin: 5px 0;"><strong>texto modificado:</strong> "${texto}"</div>
+                <div style="margin: 5px 0;"><strong>frase sin asignar:</strong> "${frase}"</div>
+                <div style="margin: 5px 0;"><strong>nueva frase asignada:</strong> "${nuevaFrase}"</div>
+                <div style="margin: 10px 0; color: var(--primary-color);"><strong>✨ Los strings originales nunca cambian!</strong></div>
+            `;
+        }
+    </script>
+</body>
+</html>

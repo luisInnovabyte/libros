@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concatenación y Template Strings en JavaScript - Tutorial Completo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="two-column">
+            <!-- Navegación lateral -->
+            <nav class="navigation">
+                <h3>📚 Índice de Contenidos</h3>
+                <ul>
+                    <li><a href="#introduccion" class="nav-link">🎯 Introducción</a></li>
+                    <li><a href="#que-es-concatenacion" class="nav-link">❓ ¿Qué es la Concatenación?</a></li>
+                    <li><a href="#metodos-concatenacion" class="nav-link">🔗 Métodos de Concatenación</a></li>
+                    <li><a href="#template-strings" class="nav-link">✨ Template Strings</a></li>
+                    <li><a href="#interpolacion" class="nav-link">🔄 Interpolación de Variables</a></li>
+                    <li><a href="#multilinea" class="nav-link">📝 Strings Multilínea</a></li>
+                    <li><a href="#expresiones-complejas" class="nav-link">🧮 Expresiones Complejas</a></li>
+                    <li><a href="#casos-practicos" class="nav-link">💼 Casos Prácticos</a></li>
+                    <li><a href="#mejores-practicas" class="nav-link">✅ Mejores Prácticas</a></li>
+                    <li><a href="#herramientas" class="nav-link">🛠️ Herramientas y Utilidades</a></li>
+                    <li><a href="#demo-interactivo" class="nav-link">🎮 Demo Interactivo</a></li>
+                </ul>
+            </nav>
+
+            <!-- Contenido principal -->
+            <main class="content">
+                <header class="header">
+                    <h1>🔗 Concatenación y Template Strings en JavaScript</h1>
+                    <p class="header-description">
+                        Guía completa sobre concatenación de strings y template literals - Técnicas modernas para trabajar con texto en JavaScript
+                    </p>
+                </header>
+
+                <div class="content-sections">
+                    <section id="introduccion" class="section">
+                        <h2>🎯 Introducción</h2>
+                        <p>La <strong>concatenación</strong> es el proceso de unir dos o más strings para formar uno nuevo. Los <strong>template strings</strong> (también llamados template literals) son una forma moderna y potente de crear y formatear strings en JavaScript.</p>
+                        
+                        <div class="feature-card">
+                            <h3>🌟 Lo que aprenderás</h3>
+                            <ul>
+                                <li><strong>Métodos de concatenación:</strong> Operador +, concat(), y más</li>
+                                <li><strong>Template strings:</strong> Sintaxis moderna con backticks</li>
+                                <li><strong>Interpolación:</strong> Insertar variables y expresiones</li>
+                                <li><strong>Strings multilínea:</strong> Texto formateado fácilmente</li>
+                                <li><strong>Casos prácticos:</strong> HTML dinámico, URLs, emails</li>
+                                <li><strong>Mejores prácticas:</strong> Cuándo usar cada método</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="que-es-concatenacion" class="section">
+                        <h2>❓ ¿Qué es la Concatenación?</h2>
+                        <p>La <strong>concatenación</strong> es la operación de unir múltiples strings en uno solo. JavaScript ofrece varias formas de concatenar strings, cada una con sus propias ventajas y casos de uso.</p>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Ejemplo básico
+const nombre = "Juan";
+const apellido = "Pérez";
+const nombreCompleto = nombre + " " + apellido; // "Juan Pérez"
+
+console.log(nombreCompleto); // "Juan Pérez"</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="metodos-concatenacion" class="section">
+                        <h2>🔗 Métodos de Concatenación</h2>
+
+                        <h3>1. Operador de suma (+)</h3>
+                        <p>El método más básico y tradicional:</p>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const saludo = "Hola";
+const nombre = "María";
+const mensaje = saludo + ", " + nombre + "!";
+console.log(mensaje); // "Hola, María!"
+
+// Con diferentes tipos de datos
+const edad = 25;
+const presentacion = "Tengo " + edad + " años";
+console.log(presentacion); // "Tengo 25 años"
+
+// Concatenación múltiple
+const parte1 = "JavaScript";
+const parte2 = "es";
+const parte3 = "genial";
+const frase = parte1 + " " + parte2 + " " + parte3;
+console.log(frase); // "JavaScript es genial"</code></pre>
+                        </div>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <h4>✅ Ventajas del operador +</h4>
+                                <ul>
+                                    <li>Simple y directo</li>
+                                    <li>Amplio soporte en navegadores</li>
+                                    <li>Fácil de entender</li>
+                                    <li>Eficiente para pocas operaciones</li>
+                                </ul>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>❌ Desventajas del operador +</h4>
+                                <ul>
+                                    <li>Código difícil de leer con múltiples variables</li>
+                                    <li>Propenso a errores con espacios y formato</li>
+                                    <li>No permite multilínea fácilmente</li>
+                                    <li>Problemas con conversión de tipos</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h3>2. Operador de asignación combinada (+=)</h3>
+                        <p>Útil para construir strings incrementalmente:</p>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>let mensaje = "Lista de compras:";
+mensaje += "\n- Leche";
+mensaje += "\n- Pan";
+mensaje += "\n- Huevos";
+
+console.log(mensaje);
+// "Lista de compras:
+// - Leche
+// - Pan
+// - Huevos"
+
+// En bucles
+let numeros = "";
+for (let i = 1; i <= 5; i++) {
+    numeros += i;
+    if (i < 5) numeros += ", ";
+}
+console.log(numeros); // "1, 2, 3, 4, 5"</code></pre>
+                        </div>
+
+                        <h3>3. Método concat()</h3>
+                        <p>Método nativo de los strings:</p>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const str1 = "Hola";
+const str2 = "mundo";
+
+// Método concat()
+const resultado = str1.concat(" ", str2, "!");
+console.log(resultado); // "Hola mundo!"
+
+// Con múltiples argumentos
+const mensaje = "".concat("JavaScript", " ", "es", " ", "increíble");
+console.log(mensaje); // "JavaScript es increíble"
+
+// Encadenamiento
+const frase = "Programar"
+    .concat(" en ")
+    .concat("JavaScript")
+    .concat(" es divertido");
+console.log(frase); // "Programar en JavaScript es divertido"</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="template-strings" class="section">
+                        <h2>✨ Template Strings (Template Literals)</h2>
+                        <p>Los <strong>template strings</strong> son una característica de ES6 (ES2015) que revolucionó la forma de trabajar con strings en JavaScript.</p>
+
+                        <h3>Sintaxis básica</h3>
+                        <p>Se definen usando <strong>backticks</strong> (<code>`</code>) en lugar de comillas:</p>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Sintaxis básica
+const mensaje = `Hola mundo`;
+console.log(mensaje); // "Hola mundo"
+
+// Equivalente con comillas
+const mensaje2 = "Hola mundo";</code></pre>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <strong>💡 Nota importante:</strong> Los template strings se crean con backticks (<code>`</code>), no con comillas simples o dobles.
+                        </div>
+                    </section>
+
+                    <section id="interpolacion" class="section">
+                        <h2>🔄 Interpolación de Variables</h2>
+                        <p>La característica más poderosa: insertar variables y expresiones directamente usando <code>${}</code>:</p>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const nombre = "Ana";
+const edad = 28;
+
+// Con template strings
+const presentacion = `Mi nombre es ${nombre} y tengo ${edad} años`;
+console.log(presentacion); // "Mi nombre es Ana y tengo 28 años"
+
+// Comparación con concatenación tradicional
+const presentacionTradicional = "Mi nombre es " + nombre + " y tengo " + edad + " años";
+
+// Con expresiones
+const a = 10;
+const b = 5;
+console.log(`La suma de ${a} y ${b} es ${a + b}`);
+// "La suma de 10 y 5 es 15"</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="multilinea" class="section">
+                        <h2>📝 Strings Multilínea</h2>
+                        <p>Una de las ventajas más evidentes de los template strings:</p>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <h4>✅ Con Template Strings (Fácil)</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>const poema = `
+Roses are red,
+Violets are blue,
+JavaScript is awesome,
+And so are you!
+`;
+
+console.log(poema);</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>❌ Sin Template Strings (Complicado)</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>const poemaTradicional = "Roses are red,\n" +
+                        "Violets are blue,\n" +
+                        "JavaScript is awesome,\n" +
+                        "And so are you!";</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>Para HTML dinámico</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const titulo = "Mi Artículo";
+const descripcion = "Una descripción interesante";
+
+const html = `
+<div class="card">
+    <h2>${titulo}</h2>
+    <p>${descripcion}</p>
+    <button onclick="accion()">Click me</button>
+</div>
+`;
+
+console.log(html);</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="expresiones-complejas" class="section">
+                        <h2>🧮 Expresiones Complejas</h2>
+                        <p>Los template strings pueden evaluar cualquier expresión JavaScript:</p>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Operaciones matemáticas
+const precio = 100;
+const mensaje = `El precio con IVA es ${precio * 1.21}€`;
+
+// Operadores ternarios
+const edad = 17;
+const estado = `Eres ${edad >= 18 ? 'mayor' : 'menor'} de edad`;
+
+// Llamadas a funciones
+function formatearFecha(fecha) {
+    return fecha.toLocaleDateString('es-ES');
+}
+
+const ahora = new Date();
+const fechaTexto = `Hoy es ${formatearFecha(ahora)}`;
+
+// Acceso a propiedades de objetos
+const usuario = { nombre: "Carlos", activo: true };
+const info = `Usuario: ${usuario.nombre} (${usuario.activo ? 'Activo' : 'Inactivo'})`;
+
+// Métodos de array
+const numeros = [1, 2, 3, 4, 5];
+const estadisticas = `Total: ${numeros.length}, Suma: ${numeros.reduce((a, b) => a + b)}`;
+
+console.log(mensaje);      // "El precio con IVA es 121€"
+console.log(estado);       // "Eres menor de edad"
+console.log(fechaTexto);   // "Hoy es 18/10/2025"
+console.log(info);         // "Usuario: Carlos (Activo)"
+console.log(estadisticas); // "Total: 5, Suma: 15"</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="casos-practicos" class="section">
+                        <h2>💼 Casos de Uso Prácticos</h2>
+
+                        <h3>1. Generación de HTML dinámico</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>function crearTarjetaUsuario(usuario) {
+    return `
+    <div class="user-card" data-id="${usuario.id}">
+        <img src="${usuario.avatar}" alt="Avatar de ${usuario.nombre}">
+        <div class="user-info">
+            <h3>${usuario.nombre}</h3>
+            <p>${usuario.email}</p>
+            <span class="status ${usuario.activo ? 'online' : 'offline'}">
+                ${usuario.activo ? 'En línea' : 'Desconectado'}
+            </span>
+        </div>
+        <div class="user-actions">
+            <button onclick="verPerfil(${usuario.id})">Ver perfil</button>
+            <button onclick="enviarMensaje(${usuario.id})">Mensaje</button>
+        </div>
+    </div>
+    `;
+}
+
+const usuario = {
+    id: 123,
+    nombre: "Ana García",
+    email: "ana@example.com",
+    avatar: "avatar.jpg",
+    activo: true
+};
+
+// Uso
+const tarjetaHTML = crearTarjetaUsuario(usuario);
+console.log(tarjetaHTML);</code></pre>
+                        </div>
+
+                        <h3>2. Construcción de URLs</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Con template strings para APIs REST
+function crearEndpoint(recurso, id = null, accion = null) {
+    let url = `/api/${recurso}`;
+    if (id) url += `/${id}`;
+    if (accion) url += `/${accion}`;
+    return url;
+}
+
+console.log(crearEndpoint('users'));           // "/api/users"
+console.log(crearEndpoint('users', 123));      // "/api/users/123"
+console.log(crearEndpoint('users', 123, 'edit')); // "/api/users/123/edit"
+
+// Builder de URLs con parámetros
+class URLBuilder {
+    constructor(baseUrl) {
+        this.baseUrl = baseUrl;
+        this.params = new Map();
+    }
+    
+    addParam(key, value) {
+        this.params.set(key, value);
+        return this;
+    }
+    
+    build() {
+        const paramString = Array.from(this.params.entries())
+            .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+            .join('&');
+            
+        return paramString ? `${this.baseUrl}?${paramString}` : this.baseUrl;
+    }
+}
+
+// Uso
+const url = new URLBuilder('https://api.example.com/users')
+    .addParam('page', 1)
+    .addParam('limit', 10)
+    .addParam('search', 'Juan Pérez')
+    .build();
+
+console.log(url); // "https://api.example.com/users?page=1&limit=10&search=Juan%20P%C3%A9rez"</code></pre>
+                        </div>
+
+                        <h3>3. Plantillas de email</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>function crearEmailBienvenida(usuario, empresa) {
+    return `
+Hola ${usuario.nombre},
+
+¡Bienvenido a ${empresa.nombre}!
+
+Estamos emocionados de tenerte como parte de nuestra comunidad. 
+Tu cuenta ha sido creada exitosamente con el email: ${usuario.email}
+
+Próximos pasos:
+1. Completa tu perfil visitando: ${empresa.url}/perfil
+2. Explora nuestras funcionalidades en: ${empresa.url}/inicio
+3. Si tienes preguntas, contáctanos en: ${empresa.soporte}
+
+¡Que disfrutes tu experiencia!
+
+El equipo de ${empresa.nombre}
+${empresa.url}
+
+---
+Este es un email automático, por favor no respondas a este mensaje.
+    `.trim();
+}
+
+const usuario = { nombre: "Carlos", email: "carlos@example.com" };
+const empresa = { 
+    nombre: "TechCorp", 
+    url: "https://techcorp.com",
+    soporte: "soporte@techcorp.com" 
+};
+
+console.log(crearEmailBienvenida(usuario, empresa));</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="mejores-practicas" class="section">
+                        <h2>✅ Mejores Prácticas</h2>
+
+                        <h3>1. Cuándo usar cada método</h3>
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <h4>✅ Template strings</h4>
+                                <p>Para interpolación de variables</p>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>const mensaje = `Hola ${nombre}, tu saldo es ${saldo}€`;</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>✅ Operador +</h4>
+                                <p>Para concatenaciones simples</p>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>const nombreCompleto = nombre + " " + apellido;</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>✅ Array.join()</h4>
+                                <p>Para muchos elementos</p>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>const lista = items.map(item => `<li>${item}</li>`).join('');</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>✅ concat()</h4>
+                                <p>Para programación funcional</p>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>const resultado = str1.concat(" - ").concat(str2);</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>2. Evitar errores comunes</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// ❌ Problemas con tipos
+const edad = 25;
+const mensaje3 = "Tengo " + edad + 5 + " años"; // "Tengo 255 años" ❌
+
+// ✅ Forzar orden de operaciones
+const mensaje4 = "Tengo " + (edad + 5) + " años"; // "Tengo 30 años"
+const mensaje5 = `Tengo ${edad + 5} años`;        // "Tengo 30 años"
+
+// ❌ Olvidar espacios
+const mal = nombre + apellido;        // "JuanPérez"
+const bien = nombre + " " + apellido; // "Juan Pérez"
+const mejor = `${nombre} ${apellido}`; // "Juan Pérez"
+
+// ❌ Concatenación ineficiente en bucles
+let resultado = "";
+for (let i = 0; i < 1000; i++) {
+    resultado += `Item ${i} `; // Lento
+}
+
+// ✅ Método eficiente
+const resultado2 = Array.from({length: 1000}, (_, i) => `Item ${i}`).join(' ');</code></pre>
+                        </div>
+
+                        <h3>3. Sanitización y seguridad</h3>
+                        <div class="alert alert-warning">
+                            <strong>⚠️ Cuidado con XSS:</strong> Siempre sanitiza la entrada de usuarios cuando generes HTML dinámico.
+                        </div>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// ✅ Función de escape para HTML
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+function crearMensajeSeguro(usuario, mensaje) {
+    return `<div>Usuario ${escapeHtml(usuario)}: ${escapeHtml(mensaje)}</div>`;
+}
+
+// Uso seguro
+const mensajeSeguro = crearMensajeSeguro(
+    "<script>console.log('código malicioso')</script>", 
+    "Mensaje normal"
+);
+console.log(mensajeSeguro); // HTML escapado y seguro</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="herramientas" class="section">
+                        <h2>🛠️ Herramientas y Utilidades</h2>
+
+                        <h3>Funciones helper para strings</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Capitalizar primera letra
+const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+// Pluralizar palabras (inglés básico)
+const pluralize = (word, count) => count === 1 ? word : `${word}s`;
+
+// Truncar texto
+const truncate = (str, length, suffix = '...') => 
+    str.length > length ? str.slice(0, length) + suffix : str;
+
+// Slug para URLs
+const slugify = (str) => str
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/--+/g, '-')
+    .trim('-');
+
+// Uso con template strings
+const producto = { nombre: "Smartphone Galaxy", cantidad: 3, precio: 299.99 };
+
+const descripcion = `
+${capitalize(producto.nombre)} - ${pluralize('item', producto.cantidad)}
+Precio: ${producto.precio}€ cada uno
+Total: ${(producto.precio * producto.cantidad).toFixed(2)}€
+URL: /productos/${slugify(producto.nombre)}
+`.trim();
+
+console.log(descripcion);</code></pre>
+                        </div>
+
+                        <h3>Logger con template strings</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>class Logger {
+    static log(nivel, mensaje, ...extras) {
+        const timestamp = new Date().toISOString();
+        const logMessage = `[${timestamp}] ${nivel.toUpperCase()}: ${mensaje}`;
+        
+        if (extras.length) {
+            console.log(logMessage, ...extras);
+        } else {
+            console.log(logMessage);
+        }
+    }
+    
+    static info(mensaje, ...extras) {
+        this.log('info', mensaje, ...extras);
+    }
+    
+    static warn(mensaje, ...extras) {
+        this.log('warn', mensaje, ...extras);
+    }
+    
+    static error(mensaje, ...extras) {
+        this.log('error', mensaje, ...extras);
+    }
+}
+
+// Uso
+Logger.info('Aplicación iniciada');
+Logger.warn(`Usuario ${usuario.id} intentó acceso no autorizado`);
+Logger.error(`Error en base de datos`, { query: 'SELECT * FROM users', error: 'Connection timeout' });</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="demo-interactivo" class="section">
+                        <h2>🎮 Demo Interactivo: Concatenación y Template Strings</h2>
+                        
+                        <div class="demo-section">
+                            <h4>Prueba diferentes métodos de concatenación</h4>
+                            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 15px;">
+                                <button id="demo-concatenacion" class="btn">Métodos de Concatenación</button>
+                                <button id="demo-template" class="btn btn-success">Template Strings</button>
+                                <button id="demo-html" class="btn btn-warning">HTML Dinámico</button>
+                                <button id="demo-utilidades" class="btn btn-error">Utilidades</button>
+                                <button id="clear-output" class="btn" style="background: #666;">Limpiar</button>
+                            </div>
+                            
+                            <div id="demo-results" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 15px; min-height: 200px; max-height: 400px; overflow-y: auto; font-family: monospace; white-space: pre-wrap; font-size: 0.9rem;"></div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <div class="footer">
+            <h3>📝 Resumen Final</h3>
+            <p><strong>🎯 Template Strings</strong> han revolucionado el trabajo con strings en JavaScript, proporcionando una sintaxis más limpia y poderosa. Son la opción preferida para la mayoría de casos de uso que involucran interpolación de variables.</p>
+            
+            <div class="feature-card">
+                <h4>🚀 Cuándo usar cada método:</h4>
+                <ul>
+                    <li><strong>Template strings (``):</strong> Para la mayoría de casos, especialmente con variables</li>
+                    <li><strong>Operador (+):</strong> Para concatenaciones simples y rápidas</li>
+                    <li><strong>Array.join():</strong> Para unir múltiples elementos con separadores</li>
+                    <li><strong>concat():</strong> Para programación funcional o encadenamiento</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para agregar output al demo
+        function addOutput(message, type = 'info') {
+            const resultsDiv = document.getElementById('demo-results');
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = type === 'error' ? '❌' : type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️';
+            resultsDiv.textContent += `[${timestamp}] ${prefix} ${message}\n`;
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        // Demo de métodos de concatenación
+        function demoConcatenacion() {
+            addOutput("🔗 Demo: Métodos de Concatenación", 'info');
+            
+            const nombre = "María";
+            const apellido = "García";
+            const edad = 28;
+            
+            // Operador +
+            const metodo1 = nombre + " " + apellido + " tiene " + edad + " años";
+            addOutput(`Operador +: ${metodo1}`, 'success');
+            
+            // Operador +=
+            let metodo2 = "Lista de tareas:";
+            metodo2 += "\n- Estudiar JavaScript";
+            metodo2 += "\n- Practicar template strings";
+            metodo2 += "\n- Hacer ejercicios";
+            addOutput(`Operador +=: ${metodo2}`, 'success');
+            
+            // concat()
+            const metodo3 = "".concat("Hola ", nombre, ", bienvenida!");
+            addOutput(`concat(): ${metodo3}`, 'success');
+            
+            // Array.join()
+            const palabras = ["JavaScript", "es", "muy", "poderoso"];
+            const metodo4 = palabras.join(" ");
+            addOutput(`Array.join(): ${metodo4}`, 'success');
+            
+            addOutput("Comparación de rendimiento en bucles:", 'warning');
+            
+            // Método ineficiente
+            const inicio1 = performance.now();
+            let resultado1 = "";
+            for (let i = 0; i < 1000; i++) {
+                resultado1 += `Item ${i} `;
+            }
+            const tiempo1 = performance.now() - inicio1;
+            addOutput(`Concatenación en bucle: ${tiempo1.toFixed(2)}ms`, 'warning');
+            
+            // Método eficiente
+            const inicio2 = performance.now();
+            const resultado2 = Array.from({length: 1000}, (_, i) => `Item ${i}`).join(' ');
+            const tiempo2 = performance.now() - inicio2;
+            addOutput(`Array.join(): ${tiempo2.toFixed(2)}ms (${(tiempo1/tiempo2).toFixed(1)}x más rápido)`, 'success');
+        }
+
+        // Demo de template strings
+        function demoTemplate() {
+            addOutput("✨ Demo: Template Strings", 'info');
+            
+            const usuario = {
+                nombre: "Carlos",
+                edad: 25,
+                ciudad: "Madrid",
+                activo: true
+            };
+            
+            // Interpolación básica
+            const saludo = `Hola ${usuario.nombre}, tienes ${usuario.edad} años`;
+            addOutput(`Interpolación básica: ${saludo}`, 'success');
+            
+            // Expresiones complejas
+            const estado = `Usuario ${usuario.activo ? 'ACTIVO' : 'INACTIVO'} desde ${usuario.ciudad}`;
+            addOutput(`Expresiones: ${estado}`, 'success');
+            
+            // Operaciones matemáticas
+            const precio = 100;
+            const iva = `Precio: ${precio}€, Con IVA: ${(precio * 1.21).toFixed(2)}€`;
+            addOutput(`Matemáticas: ${iva}`, 'success');
+            
+            // Multilínea
+            const poema = `
+🌹 Roses are red,
+💙 Violets are blue,
+🚀 JavaScript rocks,
+💖 And template strings too!
+            `.trim();
+            addOutput(`Multilínea: ${poema}`, 'success');
+            
+            // Fecha actual
+            const ahora = new Date();
+            const fecha = `Hoy es ${ahora.toLocaleDateString('es-ES')} a las ${ahora.toLocaleTimeString('es-ES')}`;
+            addOutput(`Fecha: ${fecha}`, 'success');
+            
+            // Array methods
+            const numeros = [1, 2, 3, 4, 5];
+            const stats = `Números: [${numeros.join(', ')}] - Suma: ${numeros.reduce((a, b) => a + b)} - Promedio: ${(numeros.reduce((a, b) => a + b) / numeros.length).toFixed(1)}`;
+            addOutput(`Arrays: ${stats}`, 'success');
+        }
+
+        // Demo de HTML dinámico
+        function demoHTML() {
+            addOutput("🏗️ Demo: HTML Dinámico con Template Strings", 'info');
+            
+            const productos = [
+                { id: 1, nombre: "Laptop", precio: 999, stock: 5, destacado: true },
+                { id: 2, nombre: "Mouse", precio: 25, stock: 0, destacado: false },
+                { id: 3, nombre: "Teclado", precio: 75, stock: 12, destacado: true }
+            ];
+            
+            // Función para crear tarjeta de producto
+            function crearTarjetaProducto(producto) {
+                return `
+<div class="producto-card ${producto.destacado ? 'destacado' : ''}" data-id="${producto.id}">
+    <h3>${producto.nombre}</h3>
+    <p class="precio">€${producto.precio}</p>
+    <p class="stock ${producto.stock > 0 ? 'disponible' : 'agotado'}">
+        ${producto.stock > 0 ? `Stock: ${producto.stock}` : 'Agotado'}
+    </p>
+    <button onclick="comprar(${producto.id})" ${producto.stock === 0 ? 'disabled' : ''}>
+        ${producto.stock > 0 ? 'Comprar' : 'No disponible'}
+    </button>
+</div>`.trim();
+            }
+            
+            // Generar HTML para todos los productos
+            const htmlProductos = productos.map(crearTarjetaProducto).join('\n\n');
+            addOutput("HTML generado para productos:", 'success');
+            addOutput(htmlProductos, 'info');
+            
+            // URL builder
+            function crearURL(base, filtros = {}) {
+                const params = Object.entries(filtros)
+                    .filter(([key, value]) => value !== null && value !== undefined)
+                    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+                    .join('&');
+                
+                return params ? `${base}?${params}` : base;
+            }
+            
+            const url = crearURL('/api/productos', {
+                categoria: 'electrónicos',
+                precio_min: 50,
+                precio_max: 1000,
+                disponible: true,
+                busqueda: 'laptop gaming'
+            });
+            
+            addOutput(`URL generada: ${url}`, 'success');
+            
+            // Email template
+            const datosEmail = {
+                usuario: "Ana Martínez",
+                empresa: "TechStore",
+                pedido: 12345,
+                total: 1099,
+                productos: ["Laptop Gaming", "Mouse RGB"],
+                fechaEntrega: "25/10/2025"
+            };
+            
+            const emailHTML = `
+Hola ${datosEmail.usuario},
+
+¡Gracias por tu compra en ${datosEmail.empresa}!
+
+Detalles del pedido #${datosEmail.pedido}:
+${datosEmail.productos.map(p => `- ${p}`).join('\n')}
+
+Total: €${datosEmail.total}
+Fecha estimada de entrega: ${datosEmail.fechaEntrega}
+
+¡Esperamos que disfrutes tus productos!
+
+Saludos,
+El equipo de ${datosEmail.empresa}
+            `.trim();
+            
+            addOutput("Email generado:", 'success');
+            addOutput(emailHTML, 'info');
+        }
+
+        // Demo de utilidades
+        function demoUtilidades() {
+            addOutput("🛠️ Demo: Utilidades con Template Strings", 'info');
+            
+            // Funciones helper
+            const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+            const pluralize = (word, count) => count === 1 ? word : `${word}s`;
+            const truncate = (str, length, suffix = '...') => 
+                str.length > length ? str.slice(0, length) + suffix : str;
+            const slugify = (str) => str
+                .toLowerCase()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/--+/g, '-')
+                .trim('-');
+            
+            // Datos de prueba
+            const articulo = {
+                titulo: "guía COMPLETA de JavaScript!!!",
+                contenido: "Esta es una guía muy larga que explica todos los conceptos importantes de JavaScript de manera detallada y comprensible para todos los desarrolladores.",
+                comentarios: 42,
+                likes: 1
+            };
+            
+            // Usar utilidades
+            const tituloLimpio = capitalize(articulo.titulo.replace(/[!]/g, ''));
+            const slug = slugify(articulo.titulo);
+            const resumen = truncate(articulo.contenido, 50);
+            const estadisticas = `${articulo.comentarios} ${pluralize('comentario', articulo.comentarios)}, ${articulo.likes} ${pluralize('like', articulo.likes)}`;
+            
+            const resultado = `
+Título: ${tituloLimpio}
+Slug: ${slug}
+Resumen: ${resumen}
+Estadísticas: ${estadisticas}
+URL: /articulos/${slug}
+            `.trim();
+            
+            addOutput("Utilidades aplicadas:", 'success');
+            addOutput(resultado, 'info');
+            
+            // Validador con mensajes personalizados
+            function validarFormulario(datos) {
+                const errores = [];
+                
+                if (!datos.nombre?.trim()) {
+                    errores.push(`Campo "nombre" es requerido`);
+                } else if (datos.nombre.length < 2) {
+                    errores.push(`Campo "nombre" debe tener al menos 2 caracteres (actual: ${datos.nombre.length})`);
+                }
+                
+                if (!datos.email?.includes('@')) {
+                    errores.push(`Email "${datos.email || 'vacío'}" no tiene formato válido`);
+                }
+                
+                if (typeof datos.edad !== 'number' || datos.edad < 0) {
+                    errores.push(`Edad debe ser un número positivo (recibido: ${datos.edad})`);
+                }
+                
+                return {
+                    valido: errores.length === 0,
+                    mensaje: errores.length === 0 
+                        ? `✅ Formulario válido para ${datos.nombre}` 
+                        : `❌ Errores encontrados:\n${errores.map(e => `  - ${e}`).join('\n')}`
+                };
+            }
+            
+            // Casos de prueba
+            const casos = [
+                { nombre: "Ana García", email: "ana@email.com", edad: 25 },
+                { nombre: "B", email: "invalido", edad: -5 },
+                { nombre: "", email: "test@test.com", edad: "treinta" }
+            ];
+            
+            casos.forEach((caso, i) => {
+                const resultado = validarFormulario(caso);
+                addOutput(`Caso ${i + 1}: ${resultado.mensaje}`, resultado.valido ? 'success' : 'warning');
+            });
+            
+            // Logger con timestamp
+            class Logger {
+                static log(nivel, mensaje, extra = null) {
+                    const timestamp = new Date().toISOString();
+                    const logMessage = `[${timestamp}] ${nivel.toUpperCase()}: ${mensaje}`;
+                    
+                    if (extra) {
+                        return `${logMessage} | Datos: ${JSON.stringify(extra)}`;
+                    }
+                    return logMessage;
+                }
+            }
+            
+            addOutput("Logs generados:", 'success');
+            addOutput(Logger.log('info', 'Usuario conectado'), 'info');
+            addOutput(Logger.log('warn', 'Intento de acceso no autorizado', { userId: 123, ip: '192.168.1.1' }), 'warning');
+            addOutput(Logger.log('error', 'Error de conexión a base de datos', { error: 'Timeout', query: 'SELECT * FROM users' }), 'error');
+        }
+
+        // Función para copiar código
+        function copyCode(button) {
+            const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+            navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '¡Copiado!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Event listeners
+        document.getElementById('demo-concatenacion').addEventListener('click', demoConcatenacion);
+        document.getElementById('demo-template').addEventListener('click', demoTemplate);
+        document.getElementById('demo-html').addEventListener('click', demoHTML);
+        document.getElementById('demo-utilidades').addEventListener('click', demoUtilidades);
+        
+        document.getElementById('clear-output').addEventListener('click', () => {
+            document.getElementById('demo-results').textContent = '';
+        });
+
+        // Smooth scrolling para la navegación
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Inicializar demo
+        document.getElementById('demo-results').textContent = 'Selecciona un demo para comenzar...\n';
+    </script>
+</body>
+</html>

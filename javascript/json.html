@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON en JavaScript - Tutorial Completo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="two-column">
+            <!-- Navegación lateral -->
+            <nav class="navigation">
+                <h3>📚 Índice de Contenidos</h3>
+                <ul>
+                    <li><a href="#introduccion" class="nav-link">🎯 Introducción</a></li>
+                    <li><a href="#que-es-json" class="nav-link">📄 ¿Qué es JSON?</a></li>
+                    <li><a href="#sintaxis" class="nav-link">📝 Sintaxis de JSON</a></li>
+                    <li><a href="#tipos-datos" class="nav-link">🔧 Tipos de Datos</a></li>
+                    <li><a href="#stringify" class="nav-link">📤 JSON.stringify()</a></li>
+                    <li><a href="#parse" class="nav-link">📥 JSON.parse()</a></li>
+                    <li><a href="#casos-practicos" class="nav-link">💼 Casos Prácticos</a></li>
+                    <li><a href="#validacion" class="nav-link">✅ Validación JSON</a></li>
+                    <li><a href="#buenas-practicas" class="nav-link">⭐ Buenas Prácticas</a></li>
+                    <li><a href="#debugging" class="nav-link">🔍 Debugging</a></li>
+                    <li><a href="#demo-interactivo" class="nav-link">🎮 Demo Interactivo</a></li>
+                </ul>
+            </nav>
+
+            <!-- Contenido principal -->
+            <main class="content">
+                <header class="header">
+                    <h1>📄 JSON en JavaScript</h1>
+                    <p class="header-description">
+                        Guía completa sobre JSON - El formato universal de intercambio de datos
+                    </p>
+                </header>
+
+                <div class="content-sections">
+                    <section id="introduccion" class="section">
+                        <h2>🎯 Introducción</h2>
+                        <p><strong>JSON</strong> (JavaScript Object Notation) es un formato de intercambio de datos ligero y fácil de leer que se ha convertido en el estándar para la comunicación entre aplicaciones web.</p>
+                        
+                        <div class="feature-card">
+                            <h3>📄 Características principales de JSON:</h3>
+                            <ul>
+                                <li><strong>📝 Legible por humanos:</strong> Fácil de leer y escribir</li>
+                                <li><strong>🚀 Ligero:</strong> Menos verboso que XML</li>
+                                <li><strong>🌐 Universal:</strong> Soportado por todos los lenguajes modernos</li>
+                                <li><strong>📊 Estructurado:</strong> Permite datos jerárquicos complejos</li>
+                                <li><strong>🔒 Seguro:</strong> No ejecuta código, solo datos</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="que-es-json" class="section">
+                        <h2>📄 ¿Qué es JSON?</h2>
+                        <p>JSON es un formato de texto que representa datos estructurados usando una sintaxis derivada de JavaScript. Es completamente independiente del lenguaje pero utiliza convenciones familiares.</p>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Ejemplo básico de JSON
+const datosJSON = `{
+    "nombre": "María García",
+    "edad": 28,
+    "activo": true,
+    "direccion": {
+        "calle": "Calle Principal 123",
+        "ciudad": "Madrid",
+        "codigoPostal": "28001"
+    },
+    "hobbies": ["lectura", "cine", "cocina"],
+    "telefono": null
+}`;
+
+console.log("📄 JSON como string:", datosJSON);</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="sintaxis" class="section">
+                        <h2>📝 Sintaxis de JSON</h2>
+
+                        <h3>Reglas importantes de sintaxis</h3>
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <h4>✅ JSON válido</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>{
+    "clave": "valor",
+    "numero": 123,
+    "booleano": true,
+    "array": [1, 2, 3],
+    "objeto": {
+        "anidado": "valor"
+    },
+    "nulo": null
+}</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>❌ JSON inválido</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>// Errores comunes:
+{
+    clave: "valor",          // ❌ Claves sin comillas
+    "otro": 'valor',         // ❌ Comillas simples
+    "numero": 123,           // ❌ Coma final
+    // "comentario": "no"    // ❌ Comentarios
+    "funcion": function(){}, // ❌ Funciones
+    "undefined": undefined   // ❌ undefined
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert">
+                            <strong>⚠️ Importante:</strong> JSON es más estricto que JavaScript. Las claves DEBEN ir entre comillas dobles, no se permiten comentarios, funciones, o undefined.
+                        </div>
+                    </section>
+
+                    <section id="tipos-datos" class="section">
+                        <h2>🔧 Tipos de Datos Soportados</h2>
+                        <p>JSON soporta seis tipos de datos básicos:</p>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Tipos de datos en JSON
+const ejemploTipos = {
+    // 1. String (cadenas de texto)
+    "texto": "Hola mundo",
+    "nombre": "Juan Pérez",
+    "descripcion": "Un texto con \"comillas\" y \n saltos de línea",
+    
+    // 2. Number (números)
+    "entero": 42,
+    "decimal": 3.14159,
+    "negativo": -100,
+    "cientifico": 1.23e-4,
+    
+    // 3. Boolean (booleanos)
+    "activo": true,
+    "completado": false,
+    
+    // 4. null (valor nulo)
+    "valorVacio": null,
+    
+    // 5. Object (objetos)
+    "usuario": {
+        "id": 123,
+        "nombre": "Ana",
+        "configuracion": {
+            "tema": "oscuro",
+            "idioma": "es"
+        }
+    },
+    
+    // 6. Array (arreglos)
+    "numeros": [1, 2, 3, 4, 5],
+    "mixto": ["texto", 42, true, null, {"clave": "valor"}],
+    "vacio": []
+};</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h3>📊 Tabla de tipos JSON</h3>
+                            <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                                <thead>
+                                    <tr style="background: var(--primary-color); color: white;">
+                                        <th style="padding: 12px; border: 1px solid #ddd;">Tipo</th>
+                                        <th style="padding: 12px; border: 1px solid #ddd;">Ejemplo</th>
+                                        <th style="padding: 12px; border: 1px solid #ddd;">Notas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><strong>String</strong></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><code>"Hola mundo"</code></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;">Comillas dobles obligatorias</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><strong>Number</strong></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><code>42, 3.14, -100</code></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;">Enteros y decimales</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><strong>Boolean</strong></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><code>true, false</code></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;">Solo minúsculas</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><strong>null</strong></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><code>null</code></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;">Valor nulo explícito</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><strong>Object</strong></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><code>{"key": "value"}</code></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;">Pares clave-valor</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><strong>Array</strong></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><code>[1, 2, 3]</code></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;">Lista ordenada</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section id="stringify" class="section">
+                        <h2>📤 JSON.stringify() - Convertir a JSON</h2>
+
+                        <h3>Uso básico</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Convertir objetos JavaScript a JSON
+const usuario = {
+    id: 123,
+    nombre: "Carlos López",
+    email: "carlos@email.com",
+    activo: true,
+    fechaRegistro: new Date("2023-01-15"),
+    configuracion: {
+        tema: "claro",
+        notificaciones: true,
+        idioma: "es"
+    },
+    hobbies: ["programación", "música", "deportes"]
+};
+
+// Conversión básica
+const usuarioJSON = JSON.stringify(usuario);
+console.log("📤 Usuario convertido a JSON:", usuarioJSON);
+
+// Conversión con formato legible (indentación)
+const usuarioFormateado = JSON.stringify(usuario, null, 2);
+console.log("📄 JSON formateado:\n", usuarioFormateado);</code></pre>
+                        </div>
+
+                        <h3>Parámetro replacer - Filtrar propiedades</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const producto = {
+    id: 1001,
+    nombre: "Laptop Gaming",
+    precio: 1299.99,
+    precioInterno: 800,      // Campo interno
+    stock: 15,
+    descripcion: "Laptop de alta gama para gaming",
+    fechaCreacion: new Date(),
+    activo: true
+};
+
+// Filtrar con array de propiedades
+const camposPublicos = ["id", "nombre", "precio", "stock", "descripcion", "activo"];
+const productoPublico = JSON.stringify(producto, camposPublicos, 2);
+
+console.log("🔒 Solo campos públicos:", productoPublico);
+
+// Filtrar con función replacer
+const productoFiltrado = JSON.stringify(producto, (clave, valor) => {
+    // Filtrar campos internos
+    if (clave.includes("Interno")) {
+        return undefined;
+    }
+    
+    // Formatear precio
+    if (clave === "precio") {
+        return `${valor} EUR`;
+    }
+    
+    // Formatear fechas
+    if (valor instanceof Date) {
+        return valor.toLocaleDateString("es-ES");
+    }
+    
+    return valor;
+}, 2);
+
+console.log("⚙️ Producto filtrado:", productoFiltrado);</code></pre>
+                        </div>
+
+                        <h3>Método toJSON() personalizado</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Objetos pueden definir su propia serialización JSON
+class Usuario {
+    constructor(nombre, email, password) {
+        this.id = Math.random().toString(36).substr(2, 9);
+        this.nombre = nombre;
+        this.email = email;
+        this.password = password; // Campo sensible
+        this.fechaCreacion = new Date();
+        this.activo = true;
+    }
+    
+    // Método personalizado para JSON.stringify
+    toJSON() {
+        return {
+            id: this.id,
+            nombre: this.nombre,
+            email: this.email,
+            // Omitir password por seguridad
+            fechaCreacion: this.fechaCreacion.toISOString(),
+            activo: this.activo,
+            tipo: "Usuario" // Campo adicional
+        };
+    }
+}
+
+const usuario = new Usuario("Ana Martínez", "ana@email.com", "password123");
+
+console.log("🔒 JSON público (automático):");
+console.log(JSON.stringify(usuario, null, 2));</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="parse" class="section">
+                        <h2>📥 JSON.parse() - Convertir desde JSON</h2>
+
+                        <h3>Uso básico</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// String JSON para parsear
+const jsonString = `{
+    "usuario": {
+        "id": 456,
+        "nombre": "Laura Fernández",
+        "email": "laura@email.com",
+        "activo": true
+    },
+    "preferencias": {
+        "tema": "oscuro",
+        "idioma": "es",
+        "notificaciones": {
+            "email": true,
+            "push": false,
+            "sms": null
+        }
+    },
+    "tags": ["premium", "beta-tester", "developer"],
+    "ultimoAcceso": "2023-10-18T10:30:00.000Z"
+}`;
+
+// Parsear JSON básico
+try {
+    const objeto = JSON.parse(jsonString);
+    
+    console.log("✅ JSON parseado exitosamente:");
+    console.log("👤 Nombre del usuario:", objeto.usuario.nombre);
+    console.log("🎨 Tema preferido:", objeto.preferencias.tema);
+    console.log("🏷️ Tags:", objeto.tags.join(", "));
+    
+} catch (error) {
+    console.error("❌ Error parseando JSON:", error.message);
+}</code></pre>
+                        </div>
+
+                        <h3>Parámetro reviver - Transformar valores</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const datosJSON = `{
+    "id": 789,
+    "nombre": "Pedro González",
+    "fechaNacimiento": "1990-03-15T00:00:00.000Z",
+    "fechaRegistro": "2023-01-20T14:30:00.000Z",
+    "configuracion": {
+        "precio_producto": "29.99",
+        "descuento_aplicado": "15.5"
+    },
+    "coordenadas": {
+        "latitud": "40.4168",
+        "longitud": "-3.7038"
+    },
+    "activo": "true"
+}`;
+
+// Usar reviver para transformar datos durante el parseo
+const objetoTransformado = JSON.parse(datosJSON, (clave, valor) => {
+    // Convertir strings de fecha a objetos Date
+    if (clave.includes("fecha") || clave.includes("Fecha")) {
+        return new Date(valor);
+    }
+    
+    // Convertir strings numéricos a números
+    if (clave.includes("precio") || clave.includes("descuento")) {
+        return parseFloat(valor);
+    }
+    
+    // Convertir coordenadas a números
+    if (clave === "latitud" || clave === "longitud") {
+        return parseFloat(valor);
+    }
+    
+    // Convertir string "true"/"false" a boolean
+    if (clave === "activo") {
+        return valor === "true";
+    }
+    
+    return valor;
+});
+
+console.log("🔄 Objeto transformado:", objetoTransformado);</code></pre>
+                        </div>
+
+                        <h3>Manejo de errores</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Función robusta para parsear JSON
+function parsearJSONSeguro(jsonString, valorPorDefecto = null) {
+    try {
+        // Verificar que no esté vacío
+        if (!jsonString || jsonString.trim() === "") {
+            console.warn("⚠️ JSON string vacío");
+            return valorPorDefecto;
+        }
+        
+        const objeto = JSON.parse(jsonString);
+        
+        // Verificar que no sea null
+        if (objeto === null) {
+            console.warn("⚠️ JSON es null");
+            return valorPorDefecto;
+        }
+        
+        return objeto;
+        
+    } catch (error) {
+        console.error("❌ Error parseando JSON:", error.message);
+        return valorPorDefecto;
+    }
+}
+
+// Ejemplos de uso
+const jsonValido = '{"nombre": "Juan", "edad": 30}';
+const jsonInvalido = '{nombre: "Juan"}'; // Sin comillas en clave
+const jsonVacio = '';
+
+console.log("JSON válido:", parsearJSONSeguro(jsonValido, {}));
+console.log("JSON inválido:", parsearJSONSeguro(jsonInvalido, {}));
+console.log("JSON vacío:", parsearJSONSeguro(jsonVacio, {}));</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="casos-practicos" class="section">
+                        <h2>💼 Casos Prácticos</h2>
+
+                        <h3>1. Sistema de configuración</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>class GestorConfiguracion {
+    constructor() {
+        this.configuracionPorDefecto = {
+            aplicacion: {
+                nombre: "Mi App",
+                version: "1.0.0",
+                modo: "desarrollo"
+            },
+            interfaz: {
+                tema: "claro",
+                idioma: "es",
+                animaciones: true
+            }
+        };
+        
+        this.configuracionActual = null;
+    }
+    
+    // Cargar configuración desde JSON
+    cargarConfiguracion(jsonString) {
+        try {
+            const configuracion = JSON.parse(jsonString, (clave, valor) => {
+                // Validar idioma
+                if (clave === "idioma" && !["es", "en", "fr"].includes(valor)) {
+                    console.warn(`⚠️ Idioma no soportado (${valor}), usando español`);
+                    return "es";
+                }
+                
+                // Validar tema
+                if (clave === "tema" && !["claro", "oscuro"].includes(valor)) {
+                    console.warn(`⚠️ Tema no soportado (${valor}), usando claro`);
+                    return "claro";
+                }
+                
+                return valor;
+            });
+            
+            // Fusionar con configuración por defecto
+            this.configuracionActual = {
+                ...this.configuracionPorDefecto,
+                ...configuracion
+            };
+            
+            console.log("✅ Configuración cargada exitosamente");
+            return true;
+            
+        } catch (error) {
+            console.error("❌ Error cargando configuración:", error.message);
+            this.configuracionActual = { ...this.configuracionPorDefecto };
+            return false;
+        }
+    }
+    
+    // Guardar configuración como JSON
+    guardarConfiguracion() {
+        try {
+            return JSON.stringify(this.configuracionActual, null, 2);
+        } catch (error) {
+            console.error("❌ Error guardando configuración:", error.message);
+            return null;
+        }
+    }
+}</code></pre>
+                        </div>
+
+                        <h3>2. API REST con JSON</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>class ClienteAPI {
+    constructor(baseURL) {
+        this.baseURL = baseURL;
+        this.headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        };
+    }
+    
+    // GET - Obtener datos
+    async get(endpoint, parametros = {}) {
+        try {
+            const url = new URL(endpoint, this.baseURL);
+            
+            // Agregar parámetros de consulta
+            Object.entries(parametros).forEach(([clave, valor]) => {
+                if (valor !== null && valor !== undefined) {
+                    url.searchParams.append(clave, valor);
+                }
+            });
+            
+            const response = await fetch(url.toString(), {
+                method: "GET",
+                headers: this.headers
+            });
+            
+            return await this.procesarRespuesta(response);
+            
+        } catch (error) {
+            console.error("❌ Error en GET:", error.message);
+            throw error;
+        }
+    }
+    
+    // POST - Crear datos
+    async post(endpoint, datos) {
+        try {
+            const body = JSON.stringify(datos, (clave, valor) => {
+                // Formatear fechas
+                if (valor instanceof Date) {
+                    return valor.toISOString();
+                }
+                return valor;
+            });
+            
+            const response = await fetch(new URL(endpoint, this.baseURL), {
+                method: "POST",
+                headers: this.headers,
+                body: body
+            });
+            
+            return await this.procesarRespuesta(response);
+            
+        } catch (error) {
+            console.error("❌ Error en POST:", error.message);
+            throw error;
+        }
+    }
+    
+    // Procesar respuesta de la API
+    async procesarRespuesta(response) {
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+            return await response.json();
+        }
+        
+        return await response.text();
+    }
+}</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="validacion" class="section">
+                        <h2>✅ Validación de JSON</h2>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>class ValidadorJSON {
+    static validarEstructura(objeto, esquema) {
+        const errores = [];
+        
+        // Verificar campos requeridos
+        if (esquema.requeridos) {
+            esquema.requeridos.forEach(campo => {
+                if (!(campo in objeto)) {
+                    errores.push(`Campo requerido faltante: ${campo}`);
+                }
+            });
+        }
+        
+        // Verificar tipos de datos
+        if (esquema.tipos) {
+            Object.entries(esquema.tipos).forEach(([campo, tipoEsperado]) => {
+                if (campo in objeto) {
+                    const tipoActual = typeof objeto[campo];
+                    if (tipoActual !== tipoEsperado) {
+                        errores.push(`${campo}: se esperaba ${tipoEsperado}, recibido ${tipoActual}`);
+                    }
+                }
+            });
+        }
+        
+        return {
+            valido: errores.length === 0,
+            errores: errores
+        };
+    }
+    
+    static validarEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
+    
+    static validarURL(url) {
+        try {
+            new URL(url);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+}
+
+// Ejemplo de validación
+const esquemaUsuario = {
+    requeridos: ["nombre", "email", "edad"],
+    tipos: {
+        nombre: "string",
+        email: "string",
+        edad: "number",
+        activo: "boolean"
+    }
+};
+
+const usuarioValido = {
+    nombre: "Juan Pérez",
+    email: "juan@email.com",
+    edad: 30,
+    activo: true
+};
+
+const usuarioInvalido = {
+    nombre: "María",
+    // email faltante
+    edad: "30", // tipo incorrecto
+    activo: true
+};
+
+console.log("✅ Usuario válido:", ValidadorJSON.validarEstructura(usuarioValido, esquemaUsuario));
+console.log("❌ Usuario inválido:", ValidadorJSON.validarEstructura(usuarioInvalido, esquemaUsuario));</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="buenas-practicas" class="section">
+                        <h2>⭐ Buenas Prácticas</h2>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <h4>✅ Buenas prácticas</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>// 1. Siempre usar try/catch para JSON.parse()
+function parsearSeguro(jsonString, valorPorDefecto = null) {
+    try {
+        return JSON.parse(jsonString);
+    } catch (error) {
+        console.error("Error parseando JSON:", error.message);
+        return valorPorDefecto;
+    }
+}
+
+// 2. Filtrar datos sensibles en stringify
+function serializar(objeto) {
+    return JSON.stringify(objeto, (clave, valor) => {
+        // Filtrar campos sensibles
+        if (clave.includes("password") || clave.includes("secret")) {
+            return undefined;
+        }
+        
+        // Formatear fechas
+        if (valor instanceof Date) {
+            return valor.toISOString();
+        }
+        
+        return valor;
+    });
+}
+
+// 3. Validar estructura antes de usar
+function procesarUsuario(jsonString) {
+    const usuario = parsearSeguro(jsonString);
+    
+    if (!usuario || typeof usuario !== "object") {
+        throw new Error("JSON inválido");
+    }
+    
+    if (!usuario.nombre || !usuario.email) {
+        throw new Error("Campos requeridos faltantes");
+    }
+    
+    return usuario;
+}</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>❌ Malas prácticas</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>// ❌ NO parsear sin manejo de errores
+function malaPractica1(jsonString) {
+    const objeto = JSON.parse(jsonString); // Puede fallar
+    return objeto;
+}
+
+// ❌ NO incluir datos sensibles
+const malaPractica2 = JSON.stringify({
+    usuario: "admin",
+    password: "123456", // ❌ Nunca incluir passwords
+    token: "abc123"     // ❌ Tokens sensibles
+});
+
+// ❌ NO usar eval() como alternativa
+function malaPractica3(jsonString) {
+    return eval("(" + jsonString + ")"); // ❌ PELIGROSO
+}
+
+// ❌ NO asumir que stringify siempre funciona
+function malaPractica4(objeto) {
+    return JSON.stringify(objeto); // Puede fallar con referencias circulares
+}
+
+// ❌ NO ignorar validación
+function malaPractica5(datos) {
+    // ❌ No validar ni transformar datos
+    localStorage.setItem("datos", JSON.stringify(datos));
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="feature-card">
+                            <h3>🎯 Checklist de buenas prácticas:</h3>
+                            <ul>
+                                <li><strong>✅ Siempre usar try/catch</strong> para JSON.parse()</li>
+                                <li><strong>✅ Validar estructura</strong> de los datos JSON</li>
+                                <li><strong>✅ Filtrar datos sensibles</strong> en JSON.stringify()</li>
+                                <li><strong>✅ Usar reviver/replacer</strong> para transformaciones</li>
+                                <li><strong>✅ Manejar valores especiales</strong> (Date, undefined, funciones)</li>
+                                <li><strong>✅ Proporcionar valores por defecto</strong> en caso de error</li>
+                                <li><strong>✅ Documentar el esquema esperado</strong> de JSON</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="debugging" class="section">
+                        <h2>🔍 Herramientas de Debugging</h2>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>class JSONDebugger {
+    static validarYMostrarErrores(jsonString) {
+        try {
+            const objeto = JSON.parse(jsonString);
+            console.log("✅ JSON válido:", objeto);
+            return objeto;
+        } catch (error) {
+            console.error("❌ JSON inválido:");
+            console.error("Error:", error.message);
+            
+            // Intentar mostrar dónde está el error
+            const match = error.message.match(/position (\d+)/);
+            if (match) {
+                const posicion = parseInt(match[1]);
+                const contexto = jsonString.substring(Math.max(0, posicion - 20), posicion + 20);
+                console.error("Contexto del error:", contexto);
+                console.error(" ".repeat(20) + "^");
+            }
+            
+            return null;
+        }
+    }
+    
+    static formatear(objeto, indentacion = 2) {
+        return JSON.stringify(objeto, null, indentacion);
+    }
+    
+    static compararJSONs(json1, json2) {
+        const obj1 = typeof json1 === "string" ? JSON.parse(json1) : json1;
+        const obj2 = typeof json2 === "string" ? JSON.parse(json2) : json2;
+        
+        const diferencias = [];
+        this.compararRecursivo(obj1, obj2, "", diferencias);
+        
+        if (diferencias.length === 0) {
+            console.log("✅ Los JSONs son idénticos");
+        } else {
+            console.log("📊 Diferencias encontradas:");
+            diferencias.forEach(diff => {
+                console.log(`  ${diff.ruta}: ${diff.descripcion}`);
+            });
+        }
+        
+        return diferencias.length === 0;
+    }
+    
+    static compararRecursivo(obj1, obj2, ruta, diferencias) {
+        if (typeof obj1 !== typeof obj2) {
+            diferencias.push({
+                ruta: ruta || "raíz",
+                descripcion: `Tipo diferente: ${typeof obj1} vs ${typeof obj2}`
+            });
+            return;
+        }
+        
+        if (obj1 === null || obj2 === null) {
+            if (obj1 !== obj2) {
+                diferencias.push({
+                    ruta: ruta || "raíz",
+                    descripcion: `${obj1} vs ${obj2}`
+                });
+            }
+            return;
+        }
+        
+        if (typeof obj1 === "object") {
+            const keys1 = Object.keys(obj1);
+            const keys2 = Object.keys(obj2);
+            
+            // Verificar claves diferentes
+            const todasLasClaves = new Set([...keys1, ...keys2]);
+            
+            todasLasClaves.forEach(key => {
+                const nuevaRuta = ruta ? `${ruta}.${key}` : key;
+                
+                if (!(key in obj1)) {
+                    diferencias.push({
+                        ruta: nuevaRuta,
+                        descripcion: "Clave solo en segundo objeto"
+                    });
+                } else if (!(key in obj2)) {
+                    diferencias.push({
+                        ruta: nuevaRuta,
+                        descripcion: "Clave solo en primer objeto"
+                    });
+                } else {
+                    this.compararRecursivo(obj1[key], obj2[key], nuevaRuta, diferencias);
+                }
+            });
+        } else if (obj1 !== obj2) {
+            diferencias.push({
+                ruta: ruta || "raíz",
+                descripcion: `${obj1} vs ${obj2}`
+            });
+        }
+    }
+}</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="demo-interactivo" class="section">
+                        <h2>🎮 Demo Interactivo: JSON en Acción</h2>
+                        
+                        <div class="demo-section">
+                            <h4>Prueba las operaciones JSON en tiempo real</h4>
+                            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 15px;">
+                                <button id="demo-stringify" class="btn">JSON.stringify()</button>
+                                <button id="demo-parse" class="btn btn-success">JSON.parse()</button>
+                                <button id="demo-validation" class="btn btn-warning">Validación</button>
+                                <button id="demo-api" class="btn btn-info">Simulación API</button>
+                                <button id="demo-errors" class="btn btn-error">Manejo de Errores</button>
+                                <button id="clear-output" class="btn" style="background: #666;">Limpiar</button>
+                            </div>
+                            
+                            <div id="demo-results" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 15px; min-height: 200px; max-height: 400px; overflow-y: auto; font-family: monospace; white-space: pre-wrap; font-size: 0.9rem;"></div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <div class="footer">
+            <h3>📝 Resumen Final</h3>
+            <p><strong>📄 JSON</strong> es fundamental en el desarrollo web moderno. Dominar su uso, validación y manejo de errores es esencial para crear aplicaciones robustas que intercambien datos de manera eficiente y segura.</p>
+            
+            <div class="feature-card">
+                <h4>🎯 Puntos clave a recordar:</h4>
+                <ul>
+                    <li><strong>Sintaxis estricta:</strong> Comillas dobles, sin comentarios, sin funciones</li>
+                    <li><strong>Manejo de errores:</strong> Siempre usar try/catch con JSON.parse()</li>
+                    <li><strong>Transformaciones:</strong> Usar replacer y reviver para filtrar y transformar datos</li>
+                    <li><strong>Validación:</strong> Verificar estructura y tipos antes de procesar</li>
+                    <li><strong>Seguridad:</strong> Filtrar datos sensibles antes de serializar</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para agregar output al demo
+        function addOutput(message, type = 'info') {
+            const resultsDiv = document.getElementById('demo-results');
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = type === 'error' ? '❌' : type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️';
+            resultsDiv.textContent += `[${timestamp}] ${prefix} ${message}\n`;
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        // Demo de JSON.stringify()
+        function demoStringify() {
+            addOutput("📤 Demo: JSON.stringify()", 'info');
+            
+            // Objeto de ejemplo
+            const usuario = {
+                id: 123,
+                nombre: "Ana García",
+                email: "ana@email.com",
+                activo: true,
+                fechaRegistro: new Date(),
+                configuracion: {
+                    tema: "oscuro",
+                    idioma: "es",
+                    notificaciones: true
+                },
+                hobbies: ["lectura", "programación", "viajes"],
+                password: "secreto123" // Campo sensible
+            };
+            
+            addOutput("Objeto original:", 'info');
+            addOutput(JSON.stringify(usuario, null, 2), 'success');
+            
+            // Stringify con filtro
+            const usuarioPublico = JSON.stringify(usuario, (clave, valor) => {
+                // Filtrar campos sensibles
+                if (clave.includes("password")) {
+                    return undefined;
+                }
+                
+                // Formatear fechas
+                if (valor instanceof Date) {
+                    return valor.toLocaleDateString("es-ES");
+                }
+                
+                return valor;
+            }, 2);
+            
+            addOutput("Objeto filtrado (sin password, fecha formateada):", 'info');
+            addOutput(usuarioPublico, 'success');
+            
+            // Solo campos específicos
+            const camposBasicos = ["id", "nombre", "email", "activo"];
+            const usuarioBasico = JSON.stringify(usuario, camposBasicos, 2);
+            
+            addOutput("Solo campos básicos:", 'info');
+            addOutput(usuarioBasico, 'success');
+        }
+
+        // Demo de JSON.parse()
+        function demoParse() {
+            addOutput("📥 Demo: JSON.parse()", 'info');
+            
+            // JSON string de ejemplo
+            const jsonString = `{
+                "id": 456,
+                "nombre": "Luis Rodríguez",
+                "fechaNacimiento": "1985-06-15T00:00:00.000Z",
+                "configuracion": {
+                    "precio": "29.99",
+                    "descuento": "15.5",
+                    "activo": "true"
+                },
+                "coordenadas": {
+                    "latitud": "40.4168",
+                    "longitud": "-3.7038"
+                }
+            }`;
+            
+            addOutput("JSON string original:", 'info');
+            addOutput(jsonString, 'success');
+            
+            // Parse básico
+            const objetoBasico = JSON.parse(jsonString);
+            addOutput("Parse básico:", 'info');
+            addOutput(`Nombre: ${objetoBasico.nombre} (tipo: ${typeof objetoBasico.nombre})`, 'success');
+            addOutput(`Precio: ${objetoBasico.configuracion.precio} (tipo: ${typeof objetoBasico.configuracion.precio})`, 'success');
+            
+            // Parse con reviver (transformaciones)
+            const objetoTransformado = JSON.parse(jsonString, (clave, valor) => {
+                // Convertir fechas
+                if (clave.includes("fecha") || clave.includes("Fecha")) {
+                    return new Date(valor);
+                }
+                
+                // Convertir números
+                if (clave === "precio" || clave === "descuento") {
+                    return parseFloat(valor);
+                }
+                
+                // Convertir coordenadas
+                if (clave === "latitud" || clave === "longitud") {
+                    return parseFloat(valor);
+                }
+                
+                // Convertir booleanos
+                if (clave === "activo") {
+                    return valor === "true";
+                }
+                
+                return valor;
+            });
+            
+            addOutput("Parse con transformaciones:", 'info');
+            addOutput(`Fecha nacimiento: ${objetoTransformado.fechaNacimiento} (tipo: ${typeof objetoTransformado.fechaNacimiento})`, 'success');
+            addOutput(`Precio: ${objetoTransformado.configuracion.precio} (tipo: ${typeof objetoTransformado.configuracion.precio})`, 'success');
+            addOutput(`Activo: ${objetoTransformado.configuracion.activo} (tipo: ${typeof objetoTransformado.configuracion.activo})`, 'success');
+            addOutput(`Latitud: ${objetoTransformado.coordenadas.latitud} (tipo: ${typeof objetoTransformado.coordenadas.latitud})`, 'success');
+        }
+
+        // Demo de validación
+        function demoValidation() {
+            addOutput("✅ Demo: Validación JSON", 'info');
+            
+            // Función de validación
+            function validarUsuario(objeto) {
+                const errores = [];
+                
+                // Campos requeridos
+                const requeridos = ["nombre", "email", "edad"];
+                requeridos.forEach(campo => {
+                    if (!(campo in objeto)) {
+                        errores.push(`Campo requerido faltante: ${campo}`);
+                    }
+                });
+                
+                // Validar tipos
+                if (objeto.nombre && typeof objeto.nombre !== "string") {
+                    errores.push("nombre debe ser string");
+                }
+                
+                if (objeto.edad && typeof objeto.edad !== "number") {
+                    errores.push("edad debe ser number");
+                }
+                
+                // Validar email
+                if (objeto.email && typeof objeto.email === "string") {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(objeto.email)) {
+                        errores.push("email no válido");
+                    }
+                }
+                
+                // Validar rango de edad
+                if (objeto.edad && (objeto.edad < 0 || objeto.edad > 120)) {
+                    errores.push("edad debe estar entre 0 y 120");
+                }
+                
+                return {
+                    valido: errores.length === 0,
+                    errores: errores
+                };
+            }
+            
+            // Casos de prueba
+            const casos = [
+                {
+                    nombre: "Usuario válido",
+                    datos: { nombre: "Juan Pérez", email: "juan@email.com", edad: 30 }
+                },
+                {
+                    nombre: "Email inválido",
+                    datos: { nombre: "María", email: "email-invalido", edad: 25 }
+                },
+                {
+                    nombre: "Campos faltantes",
+                    datos: { nombre: "Pedro" }
+                },
+                {
+                    nombre: "Tipos incorrectos",
+                    datos: { nombre: 123, email: "ana@email.com", edad: "treinta" }
+                },
+                {
+                    nombre: "Edad fuera de rango",
+                    datos: { nombre: "Luis", email: "luis@email.com", edad: 150 }
+                }
+            ];
+            
+            casos.forEach(caso => {
+                addOutput(`Validando: ${caso.nombre}`, 'info');
+                const resultado = validarUsuario(caso.datos);
+                
+                if (resultado.valido) {
+                    addOutput("✅ Validación exitosa", 'success');
+                } else {
+                    addOutput("❌ Errores encontrados:", 'error');
+                    resultado.errores.forEach(error => {
+                        addOutput(`   - ${error}`, 'error');
+                    });
+                }
+                addOutput("", 'info'); // Línea en blanco
+            });
+        }
+
+        // Demo de simulación API
+        function demoAPI() {
+            addOutput("🌐 Demo: Simulación API", 'info');
+            
+            // Simular datos de API
+            const datosAPI = {
+                usuarios: [
+                    { id: 1, nombre: "Ana García", email: "ana@email.com", activo: true },
+                    { id: 2, nombre: "Luis Pérez", email: "luis@email.com", activo: false },
+                    { id: 3, nombre: "María López", email: "maria@email.com", activo: true }
+                ],
+                metadatos: {
+                    total: 3,
+                    pagina: 1,
+                    timestamp: new Date().toISOString()
+                }
+            };
+            
+            // Simular respuesta de API
+            addOutput("📡 Respuesta de API simulada:", 'info');
+            
+            // Serializar para envío
+            const jsonParaEnvio = JSON.stringify(datosAPI, (clave, valor) => {
+                // Formatear fechas para API
+                if (valor instanceof Date) {
+                    return valor.toISOString();
+                }
+                return valor;
+            }, 2);
+            
+            addOutput("📤 JSON enviado por API:", 'success');
+            addOutput(jsonParaEnvio, 'info');
+            
+            // Simular recepción y procesamiento
+            setTimeout(() => {
+                addOutput("📥 Procesando respuesta...", 'info');
+                
+                const datosRecibidos = JSON.parse(jsonParaEnvio, (clave, valor) => {
+                    // Convertir fechas ISO de vuelta a Date
+                    if (typeof valor === "string" && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(valor)) {
+                        return new Date(valor);
+                    }
+                    return valor;
+                });
+                
+                addOutput("✅ Datos procesados:", 'success');
+                addOutput(`Total usuarios: ${datosRecibidos.usuarios.length}`, 'success');
+                addOutput(`Usuarios activos: ${datosRecibidos.usuarios.filter(u => u.activo).length}`, 'success');
+                addOutput(`Timestamp: ${datosRecibidos.metadatos.timestamp}`, 'success');
+                addOutput(`Tipo de timestamp: ${typeof datosRecibidos.metadatos.timestamp}`, 'info');
+                
+                // Simular creación de usuario
+                addOutput("\n📝 Creando nuevo usuario:", 'info');
+                const nuevoUsuario = {
+                    nombre: "Pedro Martín",
+                    email: "pedro@email.com",
+                    activo: true,
+                    fechaRegistro: new Date()
+                };
+                
+                const jsonUsuario = JSON.stringify(nuevoUsuario, (clave, valor) => {
+                    if (valor instanceof Date) {
+                        return valor.toISOString();
+                    }
+                    return valor;
+                }, 2);
+                
+                addOutput("📤 Usuario para crear:", 'success');
+                addOutput(jsonUsuario, 'info');
+                
+            }, 1000);
+        }
+
+        // Demo de manejo de errores
+        function demoErrors() {
+            addOutput("⚠️ Demo: Manejo de Errores", 'info');
+            
+            // Ejemplos de JSON inválido
+            const ejemplosInvalidos = [
+                {
+                    nombre: "Sin comillas en clave",
+                    json: '{nombre: "Juan", edad: 30}'
+                },
+                {
+                    nombre: "Comillas simples",
+                    json: '{"nombre": \'Juan\', "edad": 30}'
+                },
+                {
+                    nombre: "Coma final",
+                    json: '{"nombre": "Juan", "edad": 30,}'
+                },
+                {
+                    nombre: "JSON incompleto",
+                    json: '{"nombre": "Juan", "edad":'
+                },
+                {
+                    nombre: "Valor undefined",
+                    json: '{"nombre": "Juan", "valor": undefined}'
+                }
+            ];
+            
+            // Función segura de parseo
+            function parsearSeguro(jsonString, descripcion) {
+                try {
+                    const objeto = JSON.parse(jsonString);
+                    addOutput(`✅ ${descripcion}: Parse exitoso`, 'success');
+                    addOutput(`   Resultado: ${JSON.stringify(objeto)}`, 'info');
+                    return objeto;
+                } catch (error) {
+                    addOutput(`❌ ${descripcion}: ${error.message}`, 'error');
+                    
+                    // Mostrar contexto del error si es posible
+                    const match = error.message.match(/position (\d+)/);
+                    if (match) {
+                        const posicion = parseInt(match[1]);
+                        const inicio = Math.max(0, posicion - 15);
+                        const fin = Math.min(jsonString.length, posicion + 15);
+                        const contexto = jsonString.substring(inicio, fin);
+                        const indicador = " ".repeat(15) + "^";
+                        
+                        addOutput(`   Contexto: "${contexto}"`, 'warning');
+                        addOutput(`   ${indicador}`, 'warning');
+                    }
+                    
+                    return null;
+                }
+            }
+            
+            // Probar cada ejemplo
+            ejemplosInvalidos.forEach((ejemplo, index) => {
+                addOutput(`\n${index + 1}. ${ejemplo.nombre}:`, 'info');
+                addOutput(`   JSON: ${ejemplo.json}`, 'info');
+                parsearSeguro(ejemplo.json, ejemplo.nombre);
+            });
+            
+            // Demostrar función robusta con fallback
+            addOutput("\n🛡️ Función robusta con fallback:", 'info');
+            
+            function parsearConFallback(jsonString, valorPorDefecto = {}) {
+                if (!jsonString || jsonString.trim() === "") {
+                    addOutput("⚠️ JSON string vacío, usando valor por defecto", 'warning');
+                    return valorPorDefecto;
+                }
+                
+                try {
+                    const resultado = JSON.parse(jsonString);
+                    if (resultado === null) {
+                        addOutput("⚠️ JSON es null, usando valor por defecto", 'warning');
+                        return valorPorDefecto;
+                    }
+                    return resultado;
+                } catch (error) {
+                    addOutput(`❌ Error parseando JSON: ${error.message}`, 'error');
+                    addOutput("🔄 Usando valor por defecto", 'warning');
+                    return valorPorDefecto;
+                }
+            }
+            
+            // Probar función robusta
+            const casosRobustos = [
+                { json: '{"nombre": "Juan"}', desc: "JSON válido" },
+                { json: '{invalid}', desc: "JSON inválido" },
+                { json: '', desc: "String vacío" },
+                { json: 'null', desc: "null válido" }
+            ];
+            
+            casosRobustos.forEach(caso => {
+                addOutput(`\nProbando: ${caso.desc}`, 'info');
+                const resultado = parsearConFallback(caso.json, { nombre: "Usuario por defecto" });
+                addOutput(`Resultado: ${JSON.stringify(resultado)}`, 'success');
+            });
+        }
+
+        // Función para copiar código
+        function copyCode(button) {
+            const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+            navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '¡Copiado!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Event listeners
+        document.getElementById('demo-stringify').addEventListener('click', demoStringify);
+        document.getElementById('demo-parse').addEventListener('click', demoParse);
+        document.getElementById('demo-validation').addEventListener('click', demoValidation);
+        document.getElementById('demo-api').addEventListener('click', demoAPI);
+        document.getElementById('demo-errors').addEventListener('click', demoErrors);
+        
+        document.getElementById('clear-output').addEventListener('click', () => {
+            document.getElementById('demo-results').textContent = '';
+        });
+
+        // Smooth scrolling para la navegación
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Inicializar demo
+        document.getElementById('demo-results').textContent = 'Selecciona un demo para comenzar a explorar JSON...\n';
+    </script>
+</body>
+</html>

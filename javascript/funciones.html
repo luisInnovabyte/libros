@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funciones en JavaScript - Tutorial Completo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="two-column">
+            <!-- Navegación lateral -->
+            <nav class="navigation">
+                <h3>📚 Índice de Contenidos</h3>
+                <ul>
+                    <li><a href="#introduccion" class="nav-link">🎯 Introducción</a></li>
+                    <li><a href="#tipos-funciones" class="nav-link">📋 Tipos de Funciones</a></li>
+                    <li><a href="#function-declaration" class="nav-link">📝 Function Declaration</a></li>
+                    <li><a href="#function-expression" class="nav-link">🔧 Function Expression</a></li>
+                    <li><a href="#arrow-functions" class="nav-link">🏹 Arrow Functions</a></li>
+                    <li><a href="#comparacion-funciones" class="nav-link">⚖️ Comparación de Funciones</a></li>
+                    <li><a href="#parametros" class="nav-link">📥 Parámetros y Argumentos</a></li>
+                    <li><a href="#return" class="nav-link">📤 Return</a></li>
+                    <li><a href="#scope" class="nav-link">🎯 Scope y Closures</a></li>
+                    <li><a href="#first-class" class="nav-link">🥇 First-Class Citizens</a></li>
+                    <li><a href="#recursion" class="nav-link">🔄 Recursión</a></li>
+                    <li><a href="#metodos-avanzados" class="nav-link">🚀 Métodos Avanzados</a></li>
+                    <li><a href="#casos-practicos" class="nav-link">💼 Casos Prácticos</a></li>
+                    <li><a href="#buenas-practicas" class="nav-link">✅ Buenas Prácticas</a></li>
+                    <li><a href="#demo-interactivo" class="nav-link">🎮 Demo Interactivo</a></li>
+                </ul>
+            </nav>
+
+            <!-- Contenido principal -->
+            <main class="content">
+                <header class="header">
+                    <h1>🔧 Funciones en JavaScript</h1>
+                    <p class="header-description">
+                        Guía completa sobre funciones - Los bloques fundamentales de JavaScript
+                    </p>
+                </header>
+
+                <div class="content-sections">
+                    <section id="introduccion" class="section">
+                        <h2>🎯 ¿Qué son las Funciones?</h2>
+                        <p>Las <strong>funciones</strong> son uno de los pilares fundamentales de JavaScript. Son bloques de código reutilizable que realizan tareas específicas y pueden ser ejecutados cuando se necesiten.</p>
+                        
+                        <div class="feature-card">
+                            <h3>🔧 Características principales de las funciones:</h3>
+                            <ul>
+                                <li><strong>Reutilizable:</strong> Se puede llamar múltiples veces</li>
+                                <li><strong>Modular:</strong> Organiza el código en bloques lógicos</li>
+                                <li><strong>Parámetros:</strong> Puede recibir datos de entrada</li>
+                                <li><strong>Valor de retorno:</strong> Puede devolver un resultado</li>
+                                <li><strong>Scope:</strong> Tiene su propio ámbito de variables</li>
+                                <li><strong>First-class citizens:</strong> En JavaScript las funciones son valores</li>
+                            </ul>
+                        </div>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Función básica
+function saludar() {
+    console.log("¡Hola mundo!");
+}
+
+// Ejecutar la función
+saludar(); // ¡Hola mundo!</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="tipos-funciones" class="section">
+                        <h2>📋 Tipos de Funciones</h2>
+                        <p>JavaScript ofrece varias formas de declarar y utilizar funciones, cada una con sus propias características y casos de uso.</p>
+                    </section>
+
+                    <section id="function-declaration" class="section">
+                        <h2>📝 Function Declaration (Declaración de función)</h2>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Sintaxis básica
+function nombreFuncion() {
+    // código de la función
+}
+
+// Ejemplo con parámetros
+function saludar(nombre) {
+    console.log(`Hola ${nombre}!`);
+}
+
+// Ejemplo con return
+function sumar(a, b) {
+    return a + b;
+}
+
+// Uso
+saludar("Ana");           // Hola Ana!
+const resultado = sumar(5, 3); // 8</code></pre>
+                        </div>
+
+                        <div class="alert">
+                            <strong>⚠️ Hoisting:</strong> Las function declarations son "elevadas" al inicio del scope, por lo que puedes usarlas antes de declararlas en el código.
+                        </div>
+                    </section>
+
+                    <section id="function-expression" class="section">
+                        <h2>🔧 Function Expression (Expresión de función)</h2>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Función anónima asignada a variable
+const saludar = function(nombre) {
+    console.log(`Hola ${nombre}!`);
+};
+
+// Función con nombre (named function expression)
+const calcular = function multiplicar(x, y) {
+    return x * y;
+};
+
+// Uso
+saludar("Luis");              // Hola Luis!
+const producto = calcular(4, 5); // 20</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="arrow-functions" class="section">
+                        <h2>🏹 Arrow Functions (Funciones flecha) - ES2015</h2>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Sintaxis básica
+const saludar = (nombre) => {
+    console.log(`Hola ${nombre}!`);
+};
+
+// Arrow function con return implícito
+const sumar = (a, b) => a + b;
+
+// Sin parámetros
+const obtenerFecha = () => new Date();
+
+// Un solo parámetro (paréntesis opcionales)
+const duplicar = x => x * 2;
+
+// Múltiples líneas
+const procesar = (datos) => {
+    const procesados = datos.map(x => x * 2);
+    return procesados.filter(x => x > 10);
+};
+
+// Uso
+saludar("María");              // Hola María!
+console.log(sumar(3, 7));      // 10
+console.log(duplicar(5));      // 10</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="comparacion-funciones" class="section">
+                        <h2>⚖️ Comparación: Arrow Functions vs Funciones Tradicionales</h2>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <h4>🔧 Función Tradicional</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>const objeto = {
+    nombre: "Juan",
+    
+    // Función tradicional - tiene su propio 'this'
+    saludarTradicional: function() {
+        console.log(`Hola, soy ${this.nombre}`);
+    },
+    
+    // Método con arrow function dentro
+    metodoConArrow: function() {
+        setTimeout(() => {
+            // Arrow function mantiene el 'this' del método
+            console.log(`Método: ${this.nombre}`);
+        }, 1000);
+    }
+};</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>🏹 Arrow Function</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>const objeto = {
+    nombre: "Juan",
+    
+    // Arrow function - hereda 'this' del contexto superior
+    saludarArrow: () => {
+        console.log(`Hola, soy ${this.nombre}`); // undefined!
+    }
+};
+
+objeto.saludarTradicional(); // "Hola, soy Juan"
+objeto.saludarArrow();       // "Hola, soy undefined"</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="feature-card">
+                            <h3>📊 Tabla de Comparación</h3>
+                            <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                                <thead>
+                                    <tr style="background: var(--primary-color); color: white;">
+                                        <th style="padding: 12px; border: 1px solid #ddd;">Aspecto</th>
+                                        <th style="padding: 12px; border: 1px solid #ddd;">Función Tradicional</th>
+                                        <th style="padding: 12px; border: 1px solid #ddd;">Arrow Function</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><strong>Sintaxis</strong></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><code>function nombre() {}</code></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><code>const nombre = () => {}</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><strong>this</strong></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;">Propio contexto</td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;">Hereda del padre</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><strong>Hoisting</strong></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;">✅ Sí</td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;">❌ No</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><strong>Constructor</strong></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;">✅ Sí</td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;">❌ No</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><strong>Return implícito</strong></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;">❌ No</td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;">✅ Sí (una línea)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section id="parametros" class="section">
+                        <h2>📥 Parámetros y Argumentos</h2>
+
+                        <h3>Parámetros básicos</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Función con parámetros
+function presentar(nombre, edad, profesion) {
+    console.log(`Soy ${nombre}, tengo ${edad} años y trabajo como ${profesion}`);
+}
+
+// Llamada con argumentos
+presentar("Ana", 25, "desarrolladora");
+// "Soy Ana, tengo 25 años y trabajo como desarrolladora"
+
+// Argumentos faltantes son undefined
+presentar("Luis", 30);
+// "Soy Luis, tengo 30 años y trabajo como undefined"</code></pre>
+                        </div>
+
+                        <h3>Parámetros por defecto - ES2015</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Valores por defecto
+function saludar(nombre = "Usuario", saludo = "Hola") {
+    return `${saludo}, ${nombre}!`;
+}
+
+console.log(saludar());                    // "Hola, Usuario!"
+console.log(saludar("Ana"));               // "Hola, Ana!"
+console.log(saludar("Luis", "Buenos días")); // "Buenos días, Luis!"
+
+// Con expresiones como valores por defecto
+function crearUsuario(nombre, id = Date.now(), activo = true) {
+    return {
+        nombre: nombre,
+        id: id,
+        activo: activo,
+        fechaCreacion: new Date()
+    };
+}</code></pre>
+                        </div>
+
+                        <h3>Rest Parameters - ES2015</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Recoger argumentos extras en un array
+function sumarTodos(primero, segundo, ...resto) {
+    console.log("Primero:", primero);     // 1
+    console.log("Segundo:", segundo);     // 2
+    console.log("Resto:", resto);         // [3, 4, 5, 6]
+    
+    return primero + segundo + resto.reduce((sum, num) => sum + num, 0);
+}
+
+console.log(sumarTodos(1, 2, 3, 4, 5, 6)); // 21
+
+// Función que acepta cualquier cantidad de argumentos
+function concatenar(...palabras) {
+    return palabras.join(" ");
+}
+
+console.log(concatenar("Hola", "mundo", "desde", "JavaScript"));
+// "Hola mundo desde JavaScript"</code></pre>
+                        </div>
+
+                        <h3>Destructuring en parámetros - ES2015</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Destructuring de objetos
+function mostrarUsuario({nombre, edad, email = "No proporcionado"}) {
+    console.log(`Nombre: ${nombre}`);
+    console.log(`Edad: ${edad}`);
+    console.log(`Email: ${email}`);
+}
+
+const usuario = {
+    nombre: "Ana",
+    edad: 28,
+    profesion: "Diseñadora"
+};
+
+mostrarUsuario(usuario);
+// Nombre: Ana
+// Edad: 28
+// Email: No proporcionado
+
+// Destructuring de arrays
+function sumarPrimerosDos([primero, segundo, ...resto]) {
+    console.log(`Sumando ${primero} + ${segundo}`);
+    console.log(`Ignorando: ${resto}`);
+    return primero + segundo;
+}
+
+console.log(sumarPrimerosDos([10, 20, 30, 40])); // 30</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="return" class="section">
+                        <h2>📤 Return (Valor de retorno)</h2>
+
+                        <h3>Return básico</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Función que devuelve un valor
+function calcularArea(radio) {
+    return Math.PI * radio * radio;
+}
+
+// Función que no devuelve nada explícitamente (return undefined)
+function mostrarMensaje(mensaje) {
+    console.log(mensaje);
+    // return undefined; (implícito)
+}
+
+const area = calcularArea(5);           // 78.54...
+const resultado = mostrarMensaje("Hola"); // undefined
+
+console.log(area);      // 78.54...
+console.log(resultado); // undefined</code></pre>
+                        </div>
+
+                        <h3>Return temprano (Early return)</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>function validarEdad(edad) {
+    // Validaciones con return temprano
+    if (typeof edad !== "number") {
+        return "Error: La edad debe ser un número";
+    }
+    
+    if (edad < 0) {
+        return "Error: La edad no puede ser negativa";
+    }
+    
+    if (edad > 150) {
+        return "Error: Edad no válida";
+    }
+    
+    // Si llega aquí, la edad es válida
+    if (edad < 18) {
+        return "Menor de edad";
+    } else if (edad < 65) {
+        return "Adulto";
+    } else {
+        return "Adulto mayor";
+    }
+}
+
+console.log(validarEdad(25));     // "Adulto"
+console.log(validarEdad(-5));     // "Error: La edad no puede ser negativa"
+console.log(validarEdad("abc"));  // "Error: La edad debe ser un número"</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="scope" class="section">
+                        <h2>🎯 Scope (Ámbito) y Closures</h2>
+
+                        <h3>Scope local vs global</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Variables globales
+let variableGlobal = "Soy global";
+
+function miFuncion() {
+    // Variables locales
+    let variableLocal = "Soy local";
+    
+    console.log(variableGlobal); // Accede a la global: "Soy global"
+    console.log(variableLocal);  // Accede a la local: "Soy local"
+}
+
+miFuncion();
+
+console.log(variableGlobal); // "Soy global"
+// console.log(variableLocal); // Error! variableLocal is not defined</code></pre>
+                        </div>
+
+                        <h3>Closures (Clausuras)</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// La función interna "recuerda" variables del scope externo
+function crearContador() {
+    let contador = 0;
+    
+    return function() {
+        contador++;
+        return contador;
+    };
+}
+
+const contador1 = crearContador();
+const contador2 = crearContador();
+
+console.log(contador1()); // 1
+console.log(contador1()); // 2
+console.log(contador1()); // 3
+
+console.log(contador2()); // 1 (contador independiente)
+console.log(contador2()); // 2</code></pre>
+                        </div>
+
+                        <div class="alert">
+                            <strong>💡 Closures:</strong> Permiten que las funciones "recuerden" el entorno en el que fueron creadas, incluso después de que el contexto original haya terminado.
+                        </div>
+                    </section>
+
+                    <section id="first-class" class="section">
+                        <h2>🥇 Funciones como First-Class Citizens</h2>
+
+                        <h3>Asignación a variables</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Las funciones son valores, se pueden asignar
+function sumar(a, b) {
+    return a + b;
+}
+
+const miFuncion = sumar;           // Asignar función a variable
+const resultado = miFuncion(3, 5); // Usar la variable como función
+
+console.log(resultado); // 8
+
+// Array de funciones
+const operaciones = [
+    (a, b) => a + b,    // suma
+    (a, b) => a - b,    // resta
+    (a, b) => a * b,    // multiplicación
+    (a, b) => a / b     // división
+];
+
+console.log(operaciones[0](10, 5)); // 15 (suma)
+console.log(operaciones[2](4, 3));  // 12 (multiplicación)</code></pre>
+                        </div>
+
+                        <h3>Funciones como argumentos (Callbacks)</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Función que recibe otra función como parámetro
+function procesar(datos, callback) {
+    console.log("Procesando datos...");
+    const resultado = callback(datos);
+    console.log("Procesamiento completado");
+    return resultado;
+}
+
+// Diferentes callbacks
+const duplicar = (arr) => arr.map(x => x * 2);
+const sumarTodos = (arr) => arr.reduce((sum, x) => sum + x, 0);
+const obtenerPares = (arr) => arr.filter(x => x % 2 === 0);
+
+const numeros = [1, 2, 3, 4, 5];
+
+console.log(procesar(numeros, duplicar));      // [2, 4, 6, 8, 10]
+console.log(procesar(numeros, sumarTodos));    // 15
+console.log(procesar(numeros, obtenerPares));  // [2, 4]</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="recursion" class="section">
+                        <h2>🔄 Recursión</h2>
+
+                        <h3>Recursión básica</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Función factorial
+function factorial(n) {
+    // Caso base (condición de parada)
+    if (n <= 1) {
+        return 1;
+    }
+    
+    // Caso recursivo
+    return n * factorial(n - 1);
+}
+
+console.log(factorial(5)); // 120 (5 * 4 * 3 * 2 * 1)
+
+// Secuencia de Fibonacci
+function fibonacci(n) {
+    if (n <= 1) {
+        return n;
+    }
+    
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+console.log(fibonacci(7)); // 13</code></pre>
+                        </div>
+
+                        <h3>Recursión con arrays</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Suma recursiva de array
+function sumarArray(arr) {
+    // Caso base: array vacío
+    if (arr.length === 0) {
+        return 0;
+    }
+    
+    // Caso recursivo: primer elemento + suma del resto
+    return arr[0] + sumarArray(arr.slice(1));
+}
+
+console.log(sumarArray([1, 2, 3, 4, 5])); // 15
+
+// Aplanar array recursivamente
+function aplanarArray(arr) {
+    let resultado = [];
+    
+    for (let elemento of arr) {
+        if (Array.isArray(elemento)) {
+            // Si es array, aplanar recursivamente
+            resultado = resultado.concat(aplanarArray(elemento));
+        } else {
+            // Si no es array, añadir directamente
+            resultado.push(elemento);
+        }
+    }
+    
+    return resultado;
+}
+
+const arrayAnidado = [1, [2, 3], [4, [5, 6]], 7];
+console.log(aplanarArray(arrayAnidado)); // [1, 2, 3, 4, 5, 6, 7]</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="metodos-avanzados" class="section">
+                        <h2>🚀 Métodos Avanzados: call(), apply(), bind()</h2>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const persona1 = { nombre: "Ana", edad: 25 };
+const persona2 = { nombre: "Luis", edad: 30 };
+
+function presentarse(saludo, profesion) {
+    return `${saludo}, soy ${this.nombre}, tengo ${this.edad} años y trabajo como ${profesion}`;
+}
+
+// call() - argumentos separados
+console.log(presentarse.call(persona1, "Hola", "desarrolladora"));
+// "Hola, soy Ana, tengo 25 años y trabajo como desarrolladora"
+
+// apply() - argumentos en array
+console.log(presentarse.apply(persona2, ["Buenos días", "diseñador"]));
+// "Buenos días, soy Luis, tengo 30 años y trabajo como diseñador"
+
+// bind() - crear nueva función con this fijo
+const presentarAna = presentarse.bind(persona1);
+console.log(presentarAna("¡Saludos!", "programadora"));
+// "¡Saludos!, soy Ana, tengo 25 años y trabajo como programadora"</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="casos-practicos" class="section">
+                        <h2>💼 Casos Prácticos</h2>
+
+                        <h3>1. Sistema de validación</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Sistema de validación modular
+const validadores = {
+    requerido: function(valor) {
+        return valor !== null && valor !== undefined && valor.trim() !== "";
+    },
+    
+    email: function(valor) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(valor);
+    },
+    
+    longitudMinima: function(minimo) {
+        return function(valor) {
+            return valor && valor.length >= minimo;
+        };
+    }
+};
+
+function validarCampo(valor, reglas) {
+    const errores = [];
+    
+    for (const regla of reglas) {
+        if (!regla.validador(valor)) {
+            errores.push(regla.mensaje);
+        }
+    }
+    
+    return {
+        valido: errores.length === 0,
+        errores: errores
+    };
+}</code></pre>
+                        </div>
+
+                        <h3>2. Debounce y Throttle</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Debounce: Retrasa la ejecución hasta que pasen X milisegundos sin llamadas
+function debounce(func, delay) {
+    let timeoutId;
+    
+    return function(...args) {
+        // Limpiar timeout anterior
+        clearTimeout(timeoutId);
+        
+        // Configurar nuevo timeout
+        timeoutId = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
+}
+
+// Throttle: Limita la ejecución a una vez cada X milisegundos
+function throttle(func, delay) {
+    let lastExecution = 0;
+    
+    return function(...args) {
+        const now = Date.now();
+        
+        if (now - lastExecution >= delay) {
+            lastExecution = now;
+            func.apply(this, args);
+        }
+    };
+}</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="buenas-practicas" class="section">
+                        <h2>✅ Buenas Prácticas</h2>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <h4>❌ Malas prácticas</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>// Nombres poco descriptivos
+function calc(x, y) {
+    return x * 0.21 + y;
+}
+
+// Función que hace demasiadas cosas
+function procesarUsuario(usuario) {
+    // Validar, limpiar, guardar, enviar email...
+    // Demasiada responsabilidad
+}
+
+// Efectos secundarios no controlados
+let contador = 0;
+function incrementar() {
+    contador++; // Modifica variable global
+    console.log(contador);
+    return contador;
+}</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>✅ Buenas prácticas</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>// Nombres descriptivos
+function calcularPrecioConIVA(precioBase, iva) {
+    return precioBase * (1 + iva);
+}
+
+// Funciones pequeñas y específicas
+function validarUsuario(usuario) { /* ... */ }
+function limpiarDatosUsuario(usuario) { /* ... */ }
+function guardarUsuario(usuario) { /* ... */ }
+
+// Funciones puras sin efectos secundarios
+function incrementarPuro(valor) {
+    return valor + 1;
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="feature-card">
+                            <h3>🎯 Principios clave:</h3>
+                            <ul>
+                                <li><strong>Una responsabilidad:</strong> Cada función debe hacer una cosa bien</li>
+                                <li><strong>Nombres descriptivos:</strong> El nombre debe explicar qué hace la función</li>
+                                <li><strong>Funciones puras:</strong> Evitar efectos secundarios cuando sea posible</li>
+                                <li><strong>Parámetros claros:</strong> Usar destructuring y valores por defecto</li>
+                                <li><strong>Return consistente:</strong> Siempre devolver el mismo tipo de dato</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="demo-interactivo" class="section">
+                        <h2>🎮 Demo Interactivo: Funciones en Acción</h2>
+                        
+                        <div class="demo-section">
+                            <h4>Prueba diferentes tipos de funciones</h4>
+                            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 15px;">
+                                <button id="demo-declaraciones" class="btn">Declaraciones</button>
+                                <button id="demo-arrow" class="btn btn-success">Arrow Functions</button>
+                                <button id="demo-callbacks" class="btn btn-warning">Callbacks</button>
+                                <button id="demo-closures" class="btn btn-info">Closures</button>
+                                <button id="demo-recursion" class="btn btn-error">Recursión</button>
+                                <button id="clear-output" class="btn" style="background: #666;">Limpiar</button>
+                            </div>
+                            
+                            <div id="demo-results" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 15px; min-height: 200px; max-height: 400px; overflow-y: auto; font-family: monospace; white-space: pre-wrap; font-size: 0.9rem;"></div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <div class="footer">
+            <h3>📝 Resumen Final</h3>
+            <p><strong>🔧 Las Funciones</strong> son los bloques de construcción fundamentales de JavaScript. Dominar los diferentes tipos de funciones, sus características y patrones de uso te permitirá escribir código más limpio, reutilizable y mantenible.</p>
+            
+            <div class="feature-card">
+                <h4>🎯 Puntos clave a recordar:</h4>
+                <ul>
+                    <li><strong>Tipos de funciones:</strong> Declaration, Expression, Arrow - cada una con su propósito</li>
+                    <li><strong>Scope y closures:</strong> Entender el ámbito de variables y clausuras</li>
+                    <li><strong>First-class citizens:</strong> Las funciones son valores que se pueden pasar y asignar</li>
+                    <li><strong>Parámetros modernos:</strong> Default, rest, destructuring para APIs flexibles</li>
+                    <li><strong>Buenas prácticas:</strong> Funciones pequeñas, nombres descriptivos, efectos secundarios controlados</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para agregar output al demo
+        function addOutput(message, type = 'info') {
+            const resultsDiv = document.getElementById('demo-results');
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = type === 'error' ? '❌' : type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️';
+            resultsDiv.textContent += `[${timestamp}] ${prefix} ${message}\n`;
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        // Demo de declaraciones de funciones
+        function demoDeclaraciones() {
+            addOutput("🔧 Demo: Declaraciones de Funciones", 'info');
+            
+            // Function Declaration
+            function saludarTradicional(nombre) {
+                return `Hola ${nombre} desde function declaration`;
+            }
+            
+            // Function Expression
+            const saludarExpresion = function(nombre) {
+                return `Hola ${nombre} desde function expression`;
+            };
+            
+            // Arrow Function
+            const saludarArrow = (nombre) => `Hola ${nombre} desde arrow function`;
+            
+            // Probar las funciones
+            addOutput(saludarTradicional("Ana"), 'success');
+            addOutput(saludarExpresion("Luis"), 'success');
+            addOutput(saludarArrow("María"), 'success');
+            
+            // Demostrar hoisting
+            addOutput("Demostrando hoisting:", 'info');
+            try {
+                addOutput(funcionConHoisting(), 'success'); // Funciona por hoisting
+            } catch (e) {
+                addOutput(`Error: ${e.message}`, 'error');
+            }
+            
+            function funcionConHoisting() {
+                return "Esta función fue declarada después de ser llamada, pero funciona por hoisting";
+            }
+            
+            // Parámetros por defecto
+            function saludarConDefecto(nombre = "Usuario", saludo = "Hola") {
+                return `${saludo}, ${nombre}!`;
+            }
+            
+            addOutput(saludarConDefecto(), 'success');
+            addOutput(saludarConDefecto("Pedro"), 'success');
+            addOutput(saludarConDefecto("Carmen", "Buenos días"), 'success');
+        }
+
+        // Demo de arrow functions
+        function demoArrowFunctions() {
+            addOutput("🏹 Demo: Arrow Functions", 'info');
+            
+            // Diferentes sintaxis de arrow functions
+            const sinParametros = () => "Sin parámetros";
+            const unParametro = nombre => `Un parámetro: ${nombre}`;
+            const dosParametros = (a, b) => a + b;
+            const multiLinea = (datos) => {
+                const procesados = datos.map(x => x * 2);
+                return procesados.filter(x => x > 5);
+            };
+            
+            addOutput(sinParametros(), 'success');
+            addOutput(unParametro("JavaScript"), 'success');
+            addOutput(`Suma: ${dosParametros(3, 7)}`, 'success');
+            addOutput(`Array procesado: [${multiLinea([1, 2, 3, 4, 5]).join(', ')}]`, 'success');
+            
+            // Return implícito vs explícito
+            const cuadrado = x => x * x; // Return implícito
+            const cuadradoExplicito = x => { return x * x; }; // Return explícito
+            
+            addOutput(`Cuadrado implícito de 5: ${cuadrado(5)}`, 'success');
+            addOutput(`Cuadrado explícito de 6: ${cuadradoExplicito(6)}`, 'success');
+            
+            // Uso común en métodos de array
+            const numeros = [1, 2, 3, 4, 5];
+            const duplicados = numeros.map(n => n * 2);
+            const pares = numeros.filter(n => n % 2 === 0);
+            const suma = numeros.reduce((acc, n) => acc + n, 0);
+            
+            addOutput(`Originales: [${numeros.join(', ')}]`, 'info');
+            addOutput(`Duplicados: [${duplicados.join(', ')}]`, 'success');
+            addOutput(`Pares: [${pares.join(', ')}]`, 'success');
+            addOutput(`Suma total: ${suma}`, 'success');
+        }
+
+        // Demo de callbacks
+        function demoCallbacks() {
+            addOutput("🔄 Demo: Callbacks", 'info');
+            
+            // Función que usa callbacks
+            function procesar(datos, callback) {
+                addOutput("Procesando datos...", 'info');
+                const resultado = callback(datos);
+                addOutput("Procesamiento completado", 'info');
+                return resultado;
+            }
+            
+            // Diferentes callbacks
+            const duplicar = (arr) => arr.map(x => x * 2);
+            const sumarTodos = (arr) => arr.reduce((sum, x) => sum + x, 0);
+            const obtenerPares = (arr) => arr.filter(x => x % 2 === 0);
+            
+            const numeros = [1, 2, 3, 4, 5, 6];
+            
+            addOutput(`Datos originales: [${numeros.join(', ')}]`, 'info');
+            
+            const duplicados = procesar(numeros, duplicar);
+            addOutput(`Duplicados: [${duplicados.join(', ')}]`, 'success');
+            
+            const suma = procesar(numeros, sumarTodos);
+            addOutput(`Suma total: ${suma}`, 'success');
+            
+            const pares = procesar(numeros, obtenerPares);
+            addOutput(`Solo pares: [${pares.join(', ')}]`, 'success');
+            
+            // Callback asíncrono simulado
+            function ejecutarDespues(callback, tiempo) {
+                addOutput(`Configurando ejecución en ${tiempo}ms...`, 'info');
+                setTimeout(() => {
+                    callback();
+                    addOutput("Callback ejecutado!", 'success');
+                }, tiempo);
+            }
+            
+            ejecutarDespues(() => {
+                addOutput("¡Tiempo cumplido!", 'warning');
+            }, 2000);
+        }
+
+        // Demo de closures
+        function demoClosures() {
+            addOutput("🔒 Demo: Closures", 'info');
+            
+            // Closure básico - contador
+            function crearContador() {
+                let contador = 0;
+                
+                return function() {
+                    contador++;
+                    return contador;
+                };
+            }
+            
+            const contador1 = crearContador();
+            const contador2 = crearContador();
+            
+            addOutput("Creando dos contadores independientes:", 'info');
+            addOutput(`Contador1: ${contador1()}`, 'success'); // 1
+            addOutput(`Contador1: ${contador1()}`, 'success'); // 2
+            addOutput(`Contador2: ${contador2()}`, 'success'); // 1
+            addOutput(`Contador1: ${contador1()}`, 'success'); // 3
+            addOutput(`Contador2: ${contador2()}`, 'success'); // 2
+            
+            // Closure con configuración
+            function crearConfiguracion(configInicial) {
+                let config = { ...configInicial };
+                
+                return {
+                    obtener: function(clave) {
+                        return config[clave];
+                    },
+                    establecer: function(clave, valor) {
+                        config[clave] = valor;
+                    },
+                    obtenerToda: function() {
+                        return { ...config };
+                    }
+                };
+            }
+            
+            const miConfig = crearConfiguracion({ tema: "claro", idioma: "es" });
+            addOutput(`Configuración inicial - tema: ${miConfig.obtener("tema")}`, 'info');
+            
+            miConfig.establecer("tema", "oscuro");
+            addOutput(`Después del cambio - tema: ${miConfig.obtener("tema")}`, 'success');
+            
+            addOutput(`Configuración completa: ${JSON.stringify(miConfig.obtenerToda())}`, 'success');
+            
+            // Closure para crear validadores
+            function crearValidador(tipo) {
+                switch (tipo) {
+                    case "email":
+                        return function(valor) {
+                            return valor.includes("@") && valor.includes(".");
+                        };
+                    case "numero":
+                        return function(valor) {
+                            return !isNaN(valor) && valor !== "";
+                        };
+                    default:
+                        return function() { return true; };
+                }
+            }
+            
+            const validarEmail = crearValidador("email");
+            const validarNumero = crearValidador("numero");
+            
+            addOutput(`Validar email "test@email.com": ${validarEmail("test@email.com")}`, 'success');
+            addOutput(`Validar email "invalido": ${validarEmail("invalido")}`, 'warning');
+            addOutput(`Validar número "123": ${validarNumero("123")}`, 'success');
+            addOutput(`Validar número "abc": ${validarNumero("abc")}`, 'warning');
+        }
+
+        // Demo de recursión
+        function demoRecursion() {
+            addOutput("♻️ Demo: Recursión", 'info');
+            
+            // Factorial recursivo
+            function factorial(n) {
+                if (n <= 1) {
+                    return 1;
+                }
+                return n * factorial(n - 1);
+            }
+            
+            addOutput("Calculando factoriales:", 'info');
+            for (let i = 1; i <= 6; i++) {
+                addOutput(`${i}! = ${factorial(i)}`, 'success');
+            }
+            
+            // Fibonacci recursivo
+            function fibonacci(n) {
+                if (n <= 1) {
+                    return n;
+                }
+                return fibonacci(n - 1) + fibonacci(n - 2);
+            }
+            
+            addOutput("Secuencia de Fibonacci:", 'info');
+            for (let i = 0; i <= 10; i++) {
+                addOutput(`fib(${i}) = ${fibonacci(i)}`, 'success');
+            }
+            
+            // Suma recursiva de array
+            function sumarArray(arr) {
+                if (arr.length === 0) {
+                    return 0;
+                }
+                return arr[0] + sumarArray(arr.slice(1));
+            }
+            
+            const numeros = [1, 2, 3, 4, 5];
+            addOutput(`Suma recursiva de [${numeros.join(', ')}]: ${sumarArray(numeros)}`, 'success');
+            
+            // Contar regresiva recursiva
+            function cuentaRegresiva(numero) {
+                addOutput(`Cuenta regresiva: ${numero}`, numero > 0 ? 'info' : 'warning');
+                
+                if (numero > 0) {
+                    setTimeout(() => cuentaRegresiva(numero - 1), 500);
+                } else {
+                    addOutput("¡Despegue! 🚀", 'success');
+                }
+            }
+            
+            cuentaRegresiva(5);
+        }
+
+        // Función para copiar código
+        function copyCode(button) {
+            const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+            navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '¡Copiado!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Event listeners
+        document.getElementById('demo-declaraciones').addEventListener('click', demoDeclaraciones);
+        document.getElementById('demo-arrow').addEventListener('click', demoArrowFunctions);
+        document.getElementById('demo-callbacks').addEventListener('click', demoCallbacks);
+        document.getElementById('demo-closures').addEventListener('click', demoClosures);
+        document.getElementById('demo-recursion').addEventListener('click', demoRecursion);
+        
+        document.getElementById('clear-output').addEventListener('click', () => {
+            document.getElementById('demo-results').textContent = '';
+        });
+
+        // Smooth scrolling para la navegación
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Inicializar demo
+        document.getElementById('demo-results').textContent = 'Selecciona un demo para comenzar a explorar las funciones...\n';
+    </script>
+</body>
+</html>

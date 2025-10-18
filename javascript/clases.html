@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clases en JavaScript (ES2015+) - Tutorial Completo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="two-column">
+            <!-- Navegación lateral -->
+            <nav class="navigation">
+                <h3>📚 Índice de Contenidos</h3>
+                <ul>
+                    <li><a href="#introduccion" class="nav-link">🎯 Introducción</a></li>
+                    <li><a href="#que-son-clases" class="nav-link">❓ ¿Qué son las Clases?</a></li>
+                    <li><a href="#sintaxis-basica" class="nav-link">⚙️ Sintaxis Básica</a></li>
+                    <li><a href="#getters-setters" class="nav-link">🔄 Getters y Setters</a></li>
+                    <li><a href="#metodos-estaticos" class="nav-link">🔧 Métodos Estáticos</a></li>
+                    <li><a href="#herencia" class="nav-link">🧬 Herencia con Extends</a></li>
+                    <li><a href="#super-metodos" class="nav-link">⬆️ Super en Métodos</a></li>
+                    <li><a href="#campos-privados" class="nav-link">🔒 Campos Privados</a></li>
+                    <li><a href="#patrones-avanzados" class="nav-link">🚀 Patrones Avanzados</a></li>
+                    <li><a href="#mejores-practicas" class="nav-link">✅ Mejores Prácticas</a></li>
+                    <li><a href="#comparacion" class="nav-link">⚖️ Comparación</a></li>
+                    <li><a href="#demo-interactivo" class="nav-link">🎮 Demo Interactivo</a></li>
+                </ul>
+            </nav>
+
+            <!-- Contenido principal -->
+            <main class="content">
+                <header class="header">
+                    <h1>🏗️ Clases en JavaScript (ES2015+)</h1>
+                    <p class="header-description">
+                        Guía completa sobre las clases en JavaScript moderno - Una sintaxis más limpia y familiar para la programación orientada a objetos
+                    </p>
+                </header>
+
+                <div class="content-sections">
+                    <section id="introduccion" class="section">
+                        <h2>🎯 Introducción a las Clases</h2>
+                        <p>Las <strong>clases</strong> en JavaScript, introducidas en ES2015 (ES6), proporcionan una sintaxis más limpia y familiar para crear objetos y manejar herencia. Aunque internamente siguen usando el sistema de prototypes de JavaScript, ofrecen una forma más intuitiva de trabajar con programación orientada a objetos.</p>
+                        
+                        <div class="alert alert-info">
+                            <strong>📚 Referencia:</strong> Para entender cómo funcionan las clases internamente, consulta <code>prototypes.md</code> que explica el sistema de prototypes subyacente.
+                        </div>
+
+                        <div class="feature-card">
+                            <h3>✨ Ventajas de las Clases</h3>
+                            <ul>
+                                <li><strong>Sintaxis clara:</strong> Más legible que las funciones constructoras tradicionales</li>
+                                <li><strong>Herencia simple:</strong> Sistema de herencia más intuitivo con <code>extends</code></li>
+                                <li><strong>Métodos estáticos:</strong> Funcionalidad a nivel de clase</li>
+                                <li><strong>Campos privados:</strong> Encapsulación real en ES2022+</li>
+                                <li><strong>Super keyword:</strong> Acceso fácil a métodos del padre</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="que-son-clases" class="section">
+                        <h2>❓ ¿Qué son las Clases?</h2>
+                        <p>Una <strong>clase</strong> es una plantilla para crear objetos que comparten la misma estructura y comportamiento. Es una forma moderna de escribir funciones constructoras con una sintaxis más clara y características adicionales.</p>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <h4>❌ Sintaxis Tradicional (Función Constructora)</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>// Sintaxis tradicional con función constructora
+function PersonaTradicional(nombre, edad) {
+    this.nombre = nombre;
+    this.edad = edad;
+}
+
+PersonaTradicional.prototype.saludar = function() {
+    return `Hola, soy ${this.nombre}`;
+};
+
+const persona1 = new PersonaTradicional("Ana", 25);
+console.log(persona1.saludar()); // "Hola, soy Ana"</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>✅ Sintaxis Moderna (Clase)</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>// Sintaxis moderna con clase (equivalente)
+class Persona {
+    constructor(nombre, edad) {
+                        this.nombre = nombre;
+        this.edad = edad;
+    }
+    
+    saludar() {
+        return `Hola, soy ${this.nombre}`;
+    }
+}
+
+const persona2 = new Persona("Luis", 30);
+console.log(persona2.saludar()); // "Hola, soy Luis"</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="sintaxis-basica" class="section">
+                        <h2>⚙️ Sintaxis Básica de Clases</h2>
+
+                        <h3>Declaración de clase básica</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>class Usuario {
+    // Constructor - se ejecuta al crear una nueva instancia
+    constructor(nombre, email, edad = 18) {
+        // Validaciones
+        if (!nombre || !email) {
+            throw new Error('Nombre y email son requeridos');
+        }
+        
+        // Propiedades de instancia
+        this.id = Math.random().toString(36).substr(2, 9);
+        this.nombre = nombre;
+        this.email = email;
+        this.edad = edad;
+        this.fechaRegistro = new Date();
+        this.activo = true;
+    }
+    
+    // Métodos de instancia
+    obtenerInfo() {
+        return `${this.nombre} (${this.email}) - ${this.edad} años`;
+    }
+    
+    cumplirAños() {
+        this.edad++;
+        return `${this.nombre} ahora tiene ${this.edad} años`;
+    }
+    
+    desactivar() {
+        this.activo = false;
+        return `Usuario ${this.nombre} desactivado`;
+    }
+    
+    cambiarEmail(nuevoEmail) {
+        if (!nuevoEmail || !nuevoEmail.includes('@')) {
+            throw new Error('Email válido requerido');
+        }
+        
+        const emailAnterior = this.email;
+        this.email = nuevoEmail;
+        return `Email cambiado de ${emailAnterior} a ${nuevoEmail}`;
+    }
+}
+
+// Crear instancias
+const usuario1 = new Usuario("María", "maria@email.com", 28);
+const usuario2 = new Usuario("Carlos", "carlos@email.com"); // edad por defecto: 18
+
+console.log(usuario1.obtenerInfo()); // "María (maria@email.com) - 28 años"
+console.log(usuario2.cumplirAños()); // "Carlos ahora tiene 19 años"</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="getters-setters" class="section">
+                        <h2>🔄 Métodos Getter y Setter</h2>
+                        <p>Los <strong>getters</strong> y <strong>setters</strong> permiten definir métodos que se comportan como propiedades, proporcionando control sobre el acceso y modificación de datos.</p>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>class Producto {
+    constructor(nombre, precioBase) {
+        this.nombre = nombre;
+        this._precioBase = precioBase; // Convención: _ para propiedades "privadas"
+        this._descuento = 0;
+        this._iva = 0.21; // 21% IVA por defecto
+    }
+    
+    // Getter - se accede como propiedad
+    get precio() {
+        const precioConDescuento = this._precioBase * (1 - this._descuento);
+        return precioConDescuento * (1 + this._iva);
+    }
+    
+    // Getter para precio sin IVA
+    get precioSinIVA() {
+        return this._precioBase * (1 - this._descuento);
+    }
+    
+    // Setter - se asigna como propiedad
+    set descuento(valor) {
+        if (valor < 0 || valor > 1) {
+            throw new Error('Descuento debe estar entre 0 y 1');
+        }
+        this._descuento = valor;
+    }
+    
+    // Getter para descuento
+    get descuento() {
+        return this._descuento;
+    }
+    
+    // Setter para IVA
+    set iva(valor) {
+        if (valor < 0) {
+            throw new Error('IVA no puede ser negativo');
+        }
+        this._iva = valor;
+    }
+    
+    get iva() {
+        return this._iva;
+    }
+    
+    // Método para mostrar información completa
+    mostrarDetalles() {
+        return {
+            nombre: this.nombre,
+            precioBase: this._precioBase,
+            descuento: `${(this._descuento * 100)}%`,
+            iva: `${(this._iva * 100)}%`,
+            precioSinIVA: this.precioSinIVA.toFixed(2),
+            precioFinal: this.precio.toFixed(2)
+        };
+    }
+}
+
+// Uso de getters y setters
+const laptop = new Producto("Laptop Gaming", 1000);
+
+console.log(laptop.precio); // 1210 (1000 + 21% IVA)
+
+// Usar setter (se asigna como propiedad)
+laptop.descuento = 0.15; // 15% descuento
+console.log(laptop.precio); // 1028.5 (850 + 21% IVA)
+
+laptop.iva = 0.10; // Cambiar IVA a 10%
+console.log(laptop.precio); // 935 (850 + 10% IVA)</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="metodos-estaticos" class="section">
+                        <h2>🔧 Métodos Estáticos</h2>
+                        <p>Los <strong>métodos estáticos</strong> pertenecen a la clase misma, no a las instancias. Se pueden llamar sin crear un objeto de la clase.</p>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>class Utilidades {
+    // Método estático para generar IDs únicos
+    static generarId() {
+        return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+    }
+    
+    // Método estático para validar email
+    static validarEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
+    
+    // Método estático para formatear fecha
+    static formatearFecha(fecha, formato = 'es') {
+        if (formato === 'es') {
+            return fecha.toLocaleDateString('es-ES');
+        } else if (formato === 'en') {
+            return fecha.toLocaleDateString('en-US');
+        } else {
+            return fecha.toISOString().split('T')[0];
+        }
+    }
+    
+    // Método estático para calcular edad
+    static calcularEdad(fechaNacimiento) {
+        const hoy = new Date();
+        const nacimiento = new Date(fechaNacimiento);
+        let edad = hoy.getFullYear() - nacimiento.getFullYear();
+        const diferenciaMeses = hoy.getMonth() - nacimiento.getMonth();
+        
+        if (diferenciaMeses < 0 || (diferenciaMeses === 0 && hoy.getDate() < nacimiento.getDate())) {
+            edad--;
+        }
+        
+        return edad;
+    }
+}
+
+// Usar métodos estáticos directamente de la clase
+console.log(Utilidades.generarId()); // "id_1697648400000_abc123"
+console.log(Utilidades.validarEmail("test@email.com")); // true
+console.log(Utilidades.formatearFecha(new Date())); // "18/10/2025"
+
+// Los métodos estáticos NO están disponibles en instancias
+// console.log(empleado.generarId()); // Error: empleado.generarId is not a function</code></pre>
+                        </div>
+
+                        <h3>Propiedades estáticas</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>class Configuracion {
+    // Propiedades estáticas
+    static version = "1.2.0";
+    static nombre = "Mi Aplicación";
+    static entornos = ["desarrollo", "staging", "produccion"];
+    
+    // Objeto estático con configuraciones
+    static configuracionesPorDefecto = {
+        tema: "claro",
+        idioma: "es",
+        notificaciones: true,
+        timeoutAPI: 5000
+    };
+    
+    constructor(entorno = "desarrollo") {
+        this.entorno = entorno;
+        this.configuraciones = { ...Configuracion.configuracionesPorDefecto };
+        this.fechaInicializacion = new Date();
+    }
+    
+    // Método estático para obtener versión
+    static obtenerVersion() {
+        return this.version;
+    }
+    
+    // Método estático para validar entorno
+    static esEntornoValido(entorno) {
+        return this.entornos.includes(entorno);
+    }
+}
+
+// Acceder a propiedades estáticas
+console.log(Configuracion.version); // "1.2.0"
+console.log(Configuracion.obtenerVersion()); // "1.2.0"</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="herencia" class="section">
+                        <h2>🧬 Herencia con Clases</h2>
+                        <p>La herencia permite crear nuevas clases basadas en clases existentes, heredando sus propiedades y métodos mientras se añade nueva funcionalidad.</p>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Clase padre
+class Animal {
+    constructor(nombre, especie, edad) {
+        this.nombre = nombre;
+        this.especie = especie;
+        this.edad = edad;
+        this.vivo = true;
+        this.energia = 100;
+    }
+    
+    dormir(horas = 8) {
+        this.energia = Math.min(100, this.energia + horas * 10);
+        return `${this.nombre} durmió ${horas} horas. Energía: ${this.energia}`;
+    }
+    
+    comer(alimento, cantidad = 1) {
+        this.energia = Math.min(100, this.energia + cantidad * 5);
+        return `${this.nombre} comió ${cantidad} ${alimento}(s). Energía: ${this.energia}`;
+    }
+    
+    moverse() {
+        if (this.energia >= 10) {
+            this.energia -= 10;
+            return `${this.nombre} se movió. Energía restante: ${this.energia}`;
+        } else {
+            return `${this.nombre} está muy cansado para moverse`;
+        }
+    }
+    
+    obtenerInfo() {
+        return {
+            nombre: this.nombre,
+            especie: this.especie,
+            edad: this.edad,
+            energia: this.energia,
+            estado: this.vivo ? 'vivo' : 'muerto'
+        };
+    }
+}
+
+// Clase hija que hereda de Animal
+class Perro extends Animal {
+    constructor(nombre, raza, edad) {
+        // super() llama al constructor del padre
+        super(nombre, "Canis lupus", edad);
+        this.raza = raza;
+        this.entrenado = false;
+        this.trucos = [];
+    }
+    
+    ladrar(intensidad = "normal") {
+        const sonidos = {
+            suave: "guau",
+            normal: "¡Guau guau!",
+            fuerte: "¡GUAU GUAU GUAU!"
+        };
+        
+        this.energia -= 5;
+        return `${this.nombre} ladra: ${sonidos[intensidad] || sonidos.normal}`;
+    }
+    
+    aprenderTruco(truco) {
+        if (!this.trucos.includes(truco)) {
+            this.trucos.push(truco);
+            this.entrenado = true;
+            return `${this.nombre} aprendió: ${truco}`;
+        } else {
+            return `${this.nombre} ya conoce el truco: ${truco}`;
+        }
+    }
+    
+    // Sobrescribir método del padre
+    obtenerInfo() {
+        // Llamar al método del padre y extender la información
+        const infoBase = super.obtenerInfo();
+        return {
+            ...infoBase,
+            raza: this.raza,
+            entrenado: this.entrenado,
+            trucos: this.trucos,
+            totalTrucos: this.trucos.length
+        };
+    }
+}
+
+// Usar la herencia
+const perro = new Perro("Rex", "Labrador", 3);
+console.log(perro.dormir(6)); // Método heredado
+console.log(perro.ladrar("fuerte")); // Método específico</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="super-metodos" class="section">
+                        <h2>⬆️ Super en Métodos</h2>
+                        <p>La palabra clave <code>super</code> permite acceder a métodos de la clase padre y extender su funcionalidad.</p>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>class Vehiculo {
+    constructor(marca, modelo, año) {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.año = año;
+        this.velocidad = 0;
+        this.encendido = false;
+    }
+    
+    encender() {
+        this.encendido = true;
+        return `${this.marca} ${this.modelo} encendido`;
+    }
+    
+    acelerar(incremento = 10) {
+        if (this.encendido) {
+            this.velocidad += incremento;
+            return `Acelerando... Velocidad: ${this.velocidad} km/h`;
+        } else {
+            return "Debe encender el vehículo primero";
+        }
+    }
+    
+    obtenerEstado() {
+        return `${this.marca} ${this.modelo} (${this.año}) - ${this.velocidad} km/h`;
+    }
+}
+
+class Coche extends Vehiculo {
+    constructor(marca, modelo, año, puertas) {
+        super(marca, modelo, año);
+        this.puertas = puertas;
+        this.marchaActual = 0;
+    }
+    
+    encender() {
+        // Llamar al método del padre y agregar funcionalidad
+        const resultado = super.encender();
+        this.marchaActual = 0;
+        return `${resultado}. En neutral`;
+    }
+    
+    acelerar(incremento = 10) {
+        if (this.marchaActual === 0) {
+            return "No se puede acelerar en neutral";
+        }
+        
+        // Llamar al método del padre
+        const resultado = super.acelerar(incremento);
+        return `${resultado} (${this.marchaActual}ª marcha)`;
+    }
+    
+    obtenerEstado() {
+        // Extender el método del padre
+        const estadoBase = super.obtenerEstado();
+        return `${estadoBase} - ${this.puertas} puertas`;
+    }
+}
+
+const coche = new Coche("Toyota", "Corolla", 2023, 4);
+console.log(coche.encender()); // "Toyota Corolla encendido. En neutral"</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="campos-privados" class="section">
+                        <h2>🔒 Campos Privados (ES2022)</h2>
+                        <p>JavaScript moderno permite crear verdaderos campos privados usando la sintaxis <code>#</code>, proporcionando encapsulación real.</p>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>class CuentaBancaria {
+    // Campos privados (no accesibles desde fuera)
+    #saldo = 0;
+    #numeroCuenta;
+    #pin;
+    #movimientos = [];
+    
+    // Campo privado estático
+    static #contadorCuentas = 0;
+    
+    constructor(titular, pinInicial, saldoInicial = 0) {
+        this.titular = titular;
+        this.fechaApertura = new Date();
+        this.activa = true;
+        
+        // Asignar valores a campos privados
+        this.#numeroCuenta = this.#generarNumeroCuenta();
+        this.#pin = pinInicial;
+        this.#saldo = saldoInicial;
+        
+        CuentaBancaria.#contadorCuentas++;
+        this.#registrarMovimiento('apertura', saldoInicial);
+    }
+    
+    // Método privado
+    #generarNumeroCuenta() {
+        return 'ES' + Date.now().toString().slice(-10) + 
+               Math.random().toString(36).substr(2, 4);
+    }
+    
+    // Método privado para validar PIN
+    #validarPin(pinIngresado) {
+        return this.#pin === pinIngresado;
+    }
+    
+    // Método privado para registrar movimientos
+    #registrarMovimiento(tipo, cantidad, descripcion = '') {
+        this.#movimientos.push({
+            fecha: new Date(),
+            tipo: tipo,
+            cantidad: cantidad,
+            saldo: this.#saldo,
+            descripcion: descripcion
+        });
+    }
+    
+    // Método público para obtener saldo
+    obtenerSaldo(pin) {
+        if (!this.#validarPin(pin)) {
+            throw new Error('PIN incorrecto');
+        }
+        return this.#saldo;
+    }
+    
+    // Método público para depositar
+    depositar(cantidad, pin) {
+        if (!this.#validarPin(pin)) {
+            throw new Error('PIN incorrecto');
+        }
+        
+        if (cantidad <= 0) {
+            throw new Error('Cantidad debe ser positiva');
+        }
+        
+        this.#saldo += cantidad;
+        this.#registrarMovimiento('depósito', cantidad);
+        
+        return {
+            mensaje: `Depósito realizado correctamente`,
+            nuevoSaldo: this.#saldo
+        };
+    }
+    
+    // Método público para obtener información general (sin PIN)
+    obtenerInfoGeneral() {
+        return {
+            titular: this.titular,
+            numeroCuenta: this.#numeroCuenta.slice(0, 6) + '****',
+            fechaApertura: this.fechaApertura.toLocaleDateString(),
+            activa: this.activa,
+            totalMovimientos: this.#movimientos.length
+        };
+    }
+}
+
+// Uso de campos privados
+const cuenta = new CuentaBancaria("Juan Pérez", "1234", 1000);
+
+console.log(cuenta.obtenerSaldo("1234")); // 1000
+console.log(cuenta.depositar(500, "1234")); // Éxito
+
+// Los campos privados NO son accesibles desde fuera
+// console.log(cuenta.#saldo); // SyntaxError: Private field '#saldo' must be declared in an enclosing class</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="patrones-avanzados" class="section">
+                        <h2>🚀 Patrones Avanzados con Clases</h2>
+
+                        <h3>Patrón Singleton</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>class DatabaseConnection {
+    static #instance = null;
+    #connected = false;
+    
+    constructor() {
+        if (DatabaseConnection.#instance) {
+            return DatabaseConnection.#instance;
+        }
+        
+        this.host = 'localhost';
+        this.port = 5432;
+        this.database = 'myapp';
+        
+        DatabaseConnection.#instance = this;
+    }
+    
+    static getInstance() {
+        if (!DatabaseConnection.#instance) {
+            DatabaseConnection.#instance = new DatabaseConnection();
+        }
+        return DatabaseConnection.#instance;
+    }
+    
+    connect() {
+        if (!this.#connected) {
+            console.log(`Conectando a ${this.host}:${this.port}/${this.database}`);
+            this.#connected = true;
+        }
+        return this.#connected;
+    }
+}
+
+// Siempre devuelve la misma instancia
+const db1 = new DatabaseConnection();
+const db2 = new DatabaseConnection();
+const db3 = DatabaseConnection.getInstance();
+
+console.log(db1 === db2); // true
+console.log(db2 === db3); // true</code></pre>
+                        </div>
+
+                        <h3>Patrón Factory</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>class VehiculoFactory {
+    static crearVehiculo(tipo, ...args) {
+        switch (tipo.toLowerCase()) {
+            case 'coche':
+                return new Coche(...args);
+            case 'moto':
+                return new Moto(...args);
+            case 'camion':
+                return new Camion(...args);
+            default:
+                throw new Error(`Tipo de vehículo no soportado: ${tipo}`);
+        }
+    }
+    
+    static tiposDisponibles() {
+        return ['coche', 'moto', 'camion'];
+    }
+}
+
+// Crear vehículos usando el factory
+const vehiculos = [
+    VehiculoFactory.crearVehiculo('coche', 'Toyota', 'Corolla', 2023),
+    VehiculoFactory.crearVehiculo('moto', 'Honda', 'CBR', 2023),
+    VehiculoFactory.crearVehiculo('camion', 'Volvo', 'FH16', 2023)
+];</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="mejores-practicas" class="section">
+                        <h2>✅ Mejores Prácticas con Clases</h2>
+
+                        <div class="feature-card">
+                            <h3>🎯 Principios Fundamentales</h3>
+                            <ul>
+                                <li><strong>Responsabilidad única:</strong> Cada clase debe tener una sola responsabilidad</li>
+                                <li><strong>Encapsulación:</strong> Usar campos privados para ocultar implementación</li>
+                                <li><strong>Validación:</strong> Validar datos en constructores y setters</li>
+                                <li><strong>Inmutabilidad:</strong> Considerar hacer objetos inmutables cuando sea posible</li>
+                                <li><strong>Composición sobre herencia:</strong> Preferir composición para evitar jerarquías complejas</li>
+                            </ul>
+                        </div>
+
+                        <h3>Buenas prácticas en código</h3>
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <h4>✅ Bien estructurado</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>class Usuario {
+    #id;
+    #email;
+    
+    constructor(nombre, email) {
+        // Validación en constructor
+        if (!nombre?.trim()) {
+            throw new Error('Nombre requerido');
+        }
+        if (!this.#validarEmail(email)) {
+            throw new Error('Email inválido');
+        }
+        
+        this.#id = this.#generarId();
+        this.nombre = nombre.trim();
+        this.#email = email.toLowerCase();
+        this.fechaCreacion = new Date();
+    }
+    
+    // Método privado para validación
+    #validarEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+    
+    #generarId() {
+        return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    }
+    
+    // Getter público
+    get email() {
+        return this.#email;
+    }
+    
+    // Setter con validación
+    set email(nuevoEmail) {
+        if (!this.#validarEmail(nuevoEmail)) {
+            throw new Error('Email inválido');
+        }
+        this.#email = nuevoEmail.toLowerCase();
+    }
+}</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>❌ Mal estructurado</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>class Usuario {
+    constructor(nombre, email) {
+        // Sin validación
+        this.nombre = nombre;
+        this.email = email;
+        this.id = Math.random(); // ID inseguro
+    }
+    
+    // Todo público, sin encapsulación
+    cambiarEmail(email) {
+        this.email = email; // Sin validación
+    }
+    
+    // Lógica compleja en un solo método
+    procesarTodo() {
+        // Validar, guardar, enviar email, log, etc.
+        // Viola principio de responsabilidad única
+    }
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="comparacion" class="section">
+                        <h2>⚖️ Comparación: Clases vs Otros Enfoques</h2>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <h4>🏗️ Clases (ES6+)</h4>
+                                <ul>
+                                    <li>✅ Sintaxis clara y familiar</li>
+                                    <li>✅ Herencia simple con extends</li>
+                                    <li>✅ Métodos estáticos integrados</li>
+                                    <li>✅ Campos privados reales</li>
+                                    <li>❌ Solo en navegadores modernos</li>
+                                </ul>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>🔧 Funciones Constructoras</h4>
+                                <ul>
+                                    <li>✅ Compatible con navegadores antiguos</li>
+                                    <li>✅ Flexible y dinámico</li>
+                                    <li>❌ Sintaxis más verbosa</li>
+                                    <li>❌ Herencia más compleja</li>
+                                    <li>❌ Sin campos privados reales</li>
+                                </ul>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>📦 Factory Functions</h4>
+                                <ul>
+                                    <li>✅ Encapsulación natural</li>
+                                    <li>✅ Flexible en creación</li>
+                                    <li>✅ No necesita 'new'</li>
+                                    <li>❌ Mayor uso de memoria</li>
+                                    <li>❌ Sin herencia nativa</li>
+                                </ul>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>🎯 Object.create()</h4>
+                                <ul>
+                                    <li>✅ Control total sobre prototype</li>
+                                    <li>✅ Eficiente en memoria</li>
+                                    <li>❌ Sintaxis menos intuitiva</li>
+                                    <li>❌ Curva de aprendizaje mayor</li>
+                                    <li>❌ Menos usado en práctica</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="demo-interactivo" class="section">
+                        <h2>🎮 Demo Interactivo: Clases en Acción</h2>
+                        
+                        <div class="demo-section">
+                            <h4>Prueba las clases en tiempo real</h4>
+                            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 15px;">
+                                <button id="demo-basico" class="btn">Demo Básico</button>
+                                <button id="demo-herencia" class="btn btn-success">Herencia</button>
+                                <button id="demo-estaticos" class="btn btn-warning">Métodos Estáticos</button>
+                                <button id="demo-privados" class="btn btn-error">Campos Privados</button>
+                                <button id="clear-output" class="btn" style="background: #666;">Limpiar</button>
+                            </div>
+                            
+                            <div id="demo-results" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 15px; min-height: 200px; max-height: 400px; overflow-y: auto; font-family: monospace; white-space: pre-wrap; font-size: 0.9rem;"></div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <div class="footer">
+            <h3>📝 Resumen Final</h3>
+            <p><strong>🎯 Las Clases</strong> en JavaScript proporcionan una sintaxis moderna y limpia para la programación orientada a objetos. Combinan lo mejor de los prototypes tradicionales con características modernas como campos privados y métodos estáticos.</p>
+            
+            <p><strong>🚀 Próximos pasos:</strong> Una vez que domines las clases, puedes explorar patrones de diseño avanzados, TypeScript para tipado estático, y frameworks que hacen uso intensivo de clases como Angular.</p>
+        </div>
+    </div>
+
+    <script>
+        // Función para agregar output al demo
+        function addOutput(message, type = 'info') {
+            const resultsDiv = document.getElementById('demo-results');
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = type === 'error' ? '❌' : type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️';
+            resultsDiv.textContent += `[${timestamp}] ${prefix} ${message}\n`;
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        // Demo básico de clases
+        function demoBasico() {
+            addOutput("🚀 Demo Básico: Creando y usando una clase simple", 'info');
+            
+            try {
+                // Definir clase
+                class Persona {
+                    constructor(nombre, edad) {
+                        this.nombre = nombre;
+                        this.edad = edad;
+                    }
+                    
+                    saludar() {
+                        return `Hola, soy ${this.nombre} y tengo ${this.edad} años`;
+                    }
+                    
+                    cumplirAños() {
+                        this.edad++;
+                        return `¡Feliz cumpleaños! Ahora tengo ${this.edad} años`;
+                    }
+                }
+                
+                // Crear instancias
+                const persona1 = new Persona("Ana", 25);
+                const persona2 = new Persona("Carlos", 30);
+                
+                addOutput(`Persona 1: ${persona1.saludar()}`, 'success');
+                addOutput(`Persona 2: ${persona2.saludar()}`, 'success');
+                addOutput(`${persona1.nombre}: ${persona1.cumplirAños()}`, 'success');
+                addOutput(`Edad actualizada de ${persona1.nombre}: ${persona1.edad}`, 'info');
+                
+            } catch (error) {
+                addOutput(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Demo de herencia
+        function demoHerencia() {
+            addOutput("🧬 Demo Herencia: Clases padre e hijas", 'info');
+            
+            try {
+                // Clase padre
+                class Animal {
+                    constructor(nombre, especie) {
+                        this.nombre = nombre;
+                        this.especie = especie;
+                        this.energia = 100;
+                    }
+                    
+                    dormir() {
+                        this.energia = 100;
+                        return `${this.nombre} durmió y recuperó energía`;
+                    }
+                    
+                    moverse() {
+                        this.energia -= 10;
+                        return `${this.nombre} se movió. Energía: ${this.energia}`;
+                    }
+                }
+                
+                // Clase hija
+                class Perro extends Animal {
+                    constructor(nombre, raza) {
+                        super(nombre, "Canis lupus");
+                        this.raza = raza;
+                    }
+                    
+                    ladrar() {
+                        this.energia -= 5;
+                        return `${this.nombre} ladra: ¡Guau! Energía: ${this.energia}`;
+                    }
+                    
+                    moverse() {
+                        const resultado = super.moverse();
+                        return `🐕 ${resultado}`;
+                    }
+                }
+                
+                const perro = new Perro("Rex", "Labrador");
+                
+                addOutput(`Creado: ${perro.nombre} (${perro.raza})`, 'success');
+                addOutput(perro.ladrar(), 'success');
+                addOutput(perro.moverse(), 'success');
+                addOutput(perro.dormir(), 'success');
+                
+            } catch (error) {
+                addOutput(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Demo de métodos estáticos
+        function demoEstaticos() {
+            addOutput("🔧 Demo Métodos Estáticos: Utilidades a nivel de clase", 'info');
+            
+            try {
+                class Utilidades {
+                    static contador = 0;
+                    
+                    static generarId() {
+                        this.contador++;
+                        return `id_${this.contador}_${Date.now().toString(36)}`;
+                    }
+                    
+                    static validarEmail(email) {
+                        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+                    }
+                    
+                    static formatearFecha(fecha) {
+                        return fecha.toLocaleDateString('es-ES');
+                    }
+                }
+                
+                class Usuario {
+                    constructor(nombre, email) {
+                        this.id = Utilidades.generarId();
+                        this.nombre = nombre;
+                        
+                        if (!Utilidades.validarEmail(email)) {
+                            throw new Error('Email inválido');
+                        }
+                        this.email = email;
+                        this.fechaRegistro = new Date();
+                    }
+                    
+                    obtenerInfo() {
+                        return `${this.nombre} (${this.email}) - Registrado: ${Utilidades.formatearFecha(this.fechaRegistro)}`;
+                    }
+                }
+                
+                // Usar métodos estáticos
+                addOutput(`ID generado: ${Utilidades.generarId()}`, 'success');
+                addOutput(`Email válido: ${Utilidades.validarEmail('test@email.com')}`, 'success');
+                addOutput(`Email inválido: ${Utilidades.validarEmail('test')}`, 'warning');
+                
+                // Crear usuarios
+                const usuario1 = new Usuario("María", "maria@email.com");
+                const usuario2 = new Usuario("José", "jose@email.com");
+                
+                addOutput(`Usuario 1: ${usuario1.obtenerInfo()}`, 'success');
+                addOutput(`Usuario 2: ${usuario2.obtenerInfo()}`, 'success');
+                addOutput(`Total IDs generados: ${Utilidades.contador}`, 'info');
+                
+            } catch (error) {
+                addOutput(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Demo de campos privados
+        function demoPrivados() {
+            addOutput("🔒 Demo Campos Privados: Encapsulación real", 'info');
+            
+            try {
+                class CuentaBanco {
+                    #saldo = 0;
+                    #pin;
+                    
+                    constructor(titular, pin, saldoInicial = 0) {
+                        this.titular = titular;
+                        this.#pin = pin;
+                        this.#saldo = saldoInicial;
+                    }
+                    
+                    #validarPin(pinIngresado) {
+                        return this.#pin === pinIngresado;
+                    }
+                    
+                    obtenerSaldo(pin) {
+                        if (!this.#validarPin(pin)) {
+                            throw new Error('PIN incorrecto');
+                        }
+                        return this.#saldo;
+                    }
+                    
+                    depositar(cantidad, pin) {
+                        if (!this.#validarPin(pin)) {
+                            throw new Error('PIN incorrecto');
+                        }
+                        if (cantidad <= 0) {
+                            throw new Error('Cantidad debe ser positiva');
+                        }
+                        
+                        this.#saldo += cantidad;
+                        return `Depósito exitoso. Nuevo saldo: ${this.#saldo}€`;
+                    }
+                    
+                    retirar(cantidad, pin) {
+                        if (!this.#validarPin(pin)) {
+                            throw new Error('PIN incorrecto');
+                        }
+                        if (cantidad > this.#saldo) {
+                            throw new Error('Fondos insuficientes');
+                        }
+                        
+                        this.#saldo -= cantidad;
+                        return `Retiro exitoso. Nuevo saldo: ${this.#saldo}€`;
+                    }
+                }
+                
+                const cuenta = new CuentaBanco("Ana García", "1234", 1000);
+                
+                addOutput(`Cuenta creada para: ${cuenta.titular}`, 'success');
+                addOutput(`Saldo inicial: ${cuenta.obtenerSaldo("1234")}€`, 'success');
+                addOutput(cuenta.depositar(500, "1234"), 'success');
+                addOutput(cuenta.retirar(200, "1234"), 'success');
+                
+                // Intentar acceso con PIN incorrecto
+                try {
+                    cuenta.obtenerSaldo("0000");
+                } catch (e) {
+                    addOutput(`Acceso denegado: ${e.message}`, 'warning');
+                }
+                
+                addOutput("Los campos privados (#saldo, #pin) no son accesibles desde fuera", 'info');
+                
+            } catch (error) {
+                addOutput(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Función para copiar código
+        function copyCode(button) {
+            const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+            navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '¡Copiado!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Event listeners
+        document.getElementById('demo-basico').addEventListener('click', demoBasico);
+        document.getElementById('demo-herencia').addEventListener('click', demoHerencia);
+        document.getElementById('demo-estaticos').addEventListener('click', demoEstaticos);
+        document.getElementById('demo-privados').addEventListener('click', demoPrivados);
+        
+        document.getElementById('clear-output').addEventListener('click', () => {
+            document.getElementById('demo-results').textContent = '';
+        });
+
+        // Smooth scrolling para la navegación
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Inicializar demo
+        document.getElementById('demo-results').textContent = 'Selecciona un demo para comenzar...\n';
+    </script>
+</body>
+</html>

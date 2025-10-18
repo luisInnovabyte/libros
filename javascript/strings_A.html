@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strings en JavaScript - Parte I</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="two-column">
+            <!-- Navegación lateral -->
+            <aside class="navigation">
+                <h3>Contenido</h3>
+                <ul>
+                    <li><a href="#que-son">¿Qué son los Strings?</a></li>
+                    <li><a href="#declaracion">Declaración de Strings</a></li>
+                    <li><a href="#metodos-declaracion">Métodos de declaración</a></li>
+                    <li><a href="#diferencias">Diferencias importantes</a></li>
+                    <li><a href="#escape">Caracteres de Escape</a></li>
+                    <li><a href="#propiedades">Propiedades Básicas</a></li>
+                    <li><a href="#metodos-basicos">Métodos Básicos</a></li>
+                    <li><a href="#conversion-caso">Conversión de caso</a></li>
+                    <li><a href="#busqueda">Búsqueda en strings</a></li>
+                </ul>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main class="content">
+                <div class="header">
+                    <h1>Strings en JavaScript - Parte I</h1>
+                    <p class="alert">Los <strong>strings</strong> (cadenas de texto) en JavaScript son secuencias de caracteres utilizadas para representar y manipular texto.</p>
+                </div>
+
+                <section id="que-son" class="section">
+                    <h2>¿Qué son los Strings?</h2>
+                    <p>Un <strong>string</strong> es un tipo de dato primitivo que representa una secuencia de caracteres. En JavaScript, los strings son <strong>inmutables</strong>, lo que significa que no pueden ser modificados directamente, sino que se crean nuevos strings.</p>
+                    
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                        <pre><code class="javascript">const saludo = "Hola";
+const nombre = 'Juan';
+const mensaje = `Bienvenido`;</code></pre>
+                    </div>
+                </section>
+
+                <section id="declaracion" class="section">
+                    <h2>Declaración de Strings</h2>
+                    
+                    <div id="metodos-declaracion" class="subsection">
+                        <h3>Métodos de declaración:</h3>
+                        
+                        <div class="feature-card">
+                            <h4>1. Comillas simples (`'`):</h4>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                                <pre><code class="javascript">const texto1 = 'Hola mundo';
+const texto2 = 'Puedo incluir "comillas dobles" aquí';</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4>2. Comillas dobles (`"`):</h4>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                                <pre><code class="javascript">const texto3 = "Hola mundo";
+const texto4 = "Puedo incluir 'comillas simples' aquí";</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4>3. Template literals (`` ` ``):</h4>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                                <pre><code class="javascript">const nombre = "Ana";
+const edad = 25;
+const presentacion = `Mi nombre es ${nombre} y tengo ${edad} años`;</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4>4. Constructor String (menos común):</h4>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                                <pre><code class="javascript">const texto5 = new String("Hola"); // Crea un objeto String
+const texto6 = String(123);        // Convierte a string primitivo</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="diferencias" class="subsection">
+                        <h3>Diferencias importantes:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// String primitivo vs String objeto
+const primitivo = "Hola";
+const objeto = new String("Hola");
+
+console.log(typeof primitivo); // "string"
+console.log(typeof objeto);    // "object"
+
+console.log(primitivo === objeto);        // false
+console.log(primitivo === objeto.valueOf()); // true</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="escape" class="section">
+                    <h2>Caracteres de Escape</h2>
+                    <p>Para incluir caracteres especiales en strings:</p>
+                    
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                        <pre><code class="javascript">const ejemplos = {
+    nuevaLinea: "Primera línea\nSegunda línea",
+    tab: "Columna1\tColumna2",
+    comillaSimple: 'Don\'t worry',
+    comillaDoble: "Él dijo: \"Hola\"",
+    backslash: "Ruta: C:\\Users\\Documents",
+    unicode: "Corazón: \u2764",
+    emoji: "Sonrisa: \u{1F600}"
+};
+
+console.log(ejemplos.nuevaLinea);
+// Primera línea
+// Segunda línea</code></pre>
+                    </div>
+
+                    <div class="alert">
+                        <strong>Nota:</strong> Los caracteres de escape permiten incluir caracteres especiales que de otra manera serían difíciles de representar en un string.
+                    </div>
+                </section>
+
+                <section id="propiedades" class="section">
+                    <h2>Propiedades Básicas</h2>
+                    
+                    <div class="feature-card">
+                        <h3>Length (longitud):</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">const texto = "JavaScript";
+console.log(texto.length); // 10
+
+const vacio = "";
+console.log(vacio.length); // 0
+
+const espacios = "   ";
+console.log(espacios.length); // 3</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>Acceso a caracteres:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">const palabra = "Programación";
+
+// Notación de corchetes (recomendado)
+console.log(palabra[0]);  // "P"
+console.log(palabra[4]);  // "r"
+console.log(palabra[11]); // "n"
+
+// Método charAt()
+console.log(palabra.charAt(0));  // "P"
+console.log(palabra.charAt(15)); // "" (fuera de rango)
+
+// Último carácter
+console.log(palabra[palabra.length - 1]); // "n"</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="metodos-basicos" class="section">
+                    <h2>Métodos Básicos de Strings</h2>
+                    
+                    <div id="conversion-caso" class="subsection">
+                        <h3>1. Conversión de caso:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">const texto = "JavaScript es Genial";
+
+// Mayúsculas y minúsculas
+console.log(texto.toLowerCase());    // "javascript es genial"
+console.log(texto.toUpperCase());    // "JAVASCRIPT ES GENIAL"
+
+// Solo primera letra (no existe método nativo)
+function capitalizarPrimera(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+console.log(capitalizarPrimera(texto)); // "Javascript es genial"</code></pre>
+                        </div>
+
+                        <div class="alert">
+                            <strong>Prueba interactiva:</strong>
+                            <div style="margin-top: 10px;">
+                                <input type="text" id="textInput" placeholder="Escribe un texto..." style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <button onclick="transformarTexto()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Transformar</button>
+                            </div>
+                            <div id="resultadoTransformacion" style="margin-top: 10px; font-family: monospace;"></div>
+                        </div>
+                    </div>
+
+                    <div id="busqueda" class="subsection">
+                        <h3>2. Búsqueda en strings:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">const frase = "JavaScript es un lenguaje de programación";
+
+// indexOf() - devuelve la posición de la primera coincidencia
+console.log(frase.indexOf("Script"));      // 4
+console.log(frase.indexOf("Python"));      // -1 (no encontrado)
+console.log(frase.indexOf("a"));           // 1 (primera 'a')
+
+// lastIndexOf() - última coincidencia
+console.log(frase.lastIndexOf("a"));       // 35 (última 'a')
+
+// includes() - devuelve true/false
+console.log(frase.includes("JavaScript")); // true
+console.log(frase.includes("Python"));     // false
+
+// startsWith() y endsWith()
+console.log(frase.startsWith("Java"));     // true
+console.log(frase.endsWith("ción"));       // true
+console.log(frase.startsWith("Script"));   // false</code></pre>
+                        </div>
+
+                        <div class="alert">
+                            <strong>Prueba de búsqueda:</strong>
+                            <div style="margin-top: 10px;">
+                                <input type="text" id="searchInput" placeholder="¿Qué quieres buscar?" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <button onclick="buscarEnTexto()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Buscar</button>
+                            </div>
+                            <div id="resultadoBusqueda" style="margin-top: 10px; font-family: monospace;"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="comparison-grid" style="margin-top: 40px;">
+                    <div class="feature-card">
+                        <h3>🔍 Métodos de Búsqueda</h3>
+                        <ul>
+                            <li><code>indexOf()</code> - Primera posición</li>
+                            <li><code>lastIndexOf()</code> - Última posición</li>
+                            <li><code>includes()</code> - Existe o no</li>
+                            <li><code>startsWith()</code> - Comienza con</li>
+                            <li><code>endsWith()</code> - Termina con</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>📝 Propiedades Clave</h3>
+                        <ul>
+                            <li><code>length</code> - Longitud del string</li>
+                            <li><code>[index]</code> - Carácter en posición</li>
+                            <li><code>charAt()</code> - Carácter con método</li>
+                            <li>Inmutabilidad - No se pueden modificar</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🔤 Conversiones de Caso</h3>
+                        <ul>
+                            <li><code>toLowerCase()</code> - Minúsculas</li>
+                            <li><code>toUpperCase()</code> - Mayúsculas</li>
+                            <li>Funciones personalizadas</li>
+                            <li>Sensible a Unicode</li>
+                        </ul>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Función para copiar código
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling.querySelector('code');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✅ Copiado!';
+                button.style.background = 'var(--success-color)';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            });
+        }
+
+        // Navegación suave
+        document.querySelectorAll('.navigation a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Demo interactivo - Transformación de texto
+        function transformarTexto() {
+            const input = document.getElementById('textInput');
+            const resultado = document.getElementById('resultadoTransformacion');
+            const texto = input.value;
+            
+            if (texto.trim() === '') {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Por favor, escribe algo primero.</span>';
+                return;
+            }
+            
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Original:</strong> "${texto}"</div>
+                <div style="margin: 5px 0;"><strong>toLowerCase():</strong> "${texto.toLowerCase()}"</div>
+                <div style="margin: 5px 0;"><strong>toUpperCase():</strong> "${texto.toUpperCase()}"</div>
+                <div style="margin: 5px 0;"><strong>Capitalizada:</strong> "${texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase()}"</div>
+                <div style="margin: 5px 0;"><strong>Longitud:</strong> ${texto.length} caracteres</div>
+            `;
+        }
+
+        // Demo interactivo - Búsqueda en texto
+        function buscarEnTexto() {
+            const input = document.getElementById('searchInput');
+            const resultado = document.getElementById('resultadoBusqueda');
+            const busqueda = input.value;
+            const frase = "JavaScript es un lenguaje de programación";
+            
+            if (busqueda.trim() === '') {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Por favor, escribe algo para buscar.</span>';
+                return;
+            }
+            
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Texto:</strong> "${frase}"</div>
+                <div style="margin: 5px 0;"><strong>Buscando:</strong> "${busqueda}"</div>
+                <div style="margin: 5px 0;"><strong>indexOf():</strong> ${frase.indexOf(busqueda)}</div>
+                <div style="margin: 5px 0;"><strong>lastIndexOf():</strong> ${frase.lastIndexOf(busqueda)}</div>
+                <div style="margin: 5px 0;"><strong>includes():</strong> ${frase.includes(busqueda)}</div>
+                <div style="margin: 5px 0;"><strong>startsWith():</strong> ${frase.startsWith(busqueda)}</div>
+                <div style="margin: 5px 0;"><strong>endsWith():</strong> ${frase.endsWith(busqueda)}</div>
+            `;
+        }
+
+        // Activar demo con Enter
+        document.getElementById('textInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                transformarTexto();
+            }
+        });
+
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                buscarEnTexto();
+            }
+        });
+    </script>
+</body>
+</html>

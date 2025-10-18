@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototypes en JavaScript - Parte I</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="two-column">
+            <!-- Navegación lateral -->
+            <aside class="navigation">
+                <h3>Contenido</h3>
+                <ul>
+                    <li><a href="#que-es">¿Qué es un Prototype?</a></li>
+                    <li><a href="#cadena-prototipos">Cadena de Prototipos</a></li>
+                    <li><a href="#diferencias">Instancia vs Prototype</a></li>
+                    <li><a href="#propiedades-instancia">Propiedades en la instancia</a></li>
+                    <li><a href="#propiedades-prototype">Propiedades en el prototype</a></li>
+                    <li><a href="#metodos-prototype">Métodos de Prototype</a></li>
+                    <li><a href="#verificar-propiedades">Verificar propiedades</a></li>
+                    <li><a href="#object-create">Object.create()</a></li>
+                </ul>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main class="content">
+                <div class="header">
+                    <h1>Prototypes en JavaScript - Parte I</h1>
+                    <p class="alert">Los <strong>prototypes</strong> son uno de los conceptos más fundamentales y únicos de JavaScript. Entender cómo funcionan es esencial para dominar la programación orientada a objetos en JavaScript y comprender cómo funciona la herencia en el lenguaje.</p>
+                </div>
+
+                <section id="que-es" class="section">
+                    <h2>¿Qué es un Prototype?</h2>
+                    <p>Un <strong>prototype</strong> es un objeto del cual otros objetos pueden heredar propiedades y métodos. En JavaScript, cada objeto tiene una referencia interna a otro objeto llamado su "prototype". Cuando intentas acceder a una propiedad de un objeto, JavaScript primero busca en el objeto mismo, y si no la encuentra, busca en su prototype.</p>
+                    
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                        <pre><code class="javascript">// Cada función en JavaScript tiene una propiedad 'prototype'
+function Persona(nombre) {
+    this.nombre = nombre;
+}
+
+// El prototype de Persona es un objeto donde podemos agregar métodos
+console.log(typeof Persona.prototype); // "object"
+console.log(Persona.prototype); // { constructor: [Function: Persona] }
+
+// Agregar método al prototype
+Persona.prototype.saludar = function() {
+    return `Hola, soy ${this.nombre}`;
+};
+
+// Crear instancias
+const persona1 = new Persona("Ana");
+const persona2 = new Persona("Luis");
+
+// Ambas instancias pueden usar el método del prototype
+console.log(persona1.saludar()); // "Hola, soy Ana"
+console.log(persona2.saludar()); // "Hola, soy Luis"
+
+// El método no está en las instancias, está en el prototype
+console.log(persona1.hasOwnProperty('saludar')); // false
+console.log(Persona.prototype.hasOwnProperty('saludar')); // true</code></pre>
+                    </div>
+
+                    <div class="alert">
+                        <strong>Demo interactivo - Prototype básico:</strong>
+                        <div style="margin-top: 10px;">
+                            <input type="text" id="nombrePersona" placeholder="Nombre de la persona" value="Ana" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                            <button onclick="crearPersona()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Crear Persona</button>
+                            <button onclick="verificarMetodos()" style="padding: 8px 16px; background: var(--secondary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">Verificar Métodos</button>
+                        </div>
+                        <div id="resultadoPersona" style="margin-top: 10px; font-family: monospace;"></div>
+                    </div>
+                </section>
+
+                <section id="cadena-prototipos" class="section">
+                    <h2>La Cadena de Prototipos (Prototype Chain)</h2>
+                    <p>JavaScript utiliza una <strong>cadena de prototipos</strong> para la herencia. Cada objeto tiene un enlace interno a su prototype, y ese prototype puede tener su propio prototype, formando una cadena.</p>
+                    
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                        <pre><code class="javascript">function Animal(nombre) {
+    this.nombre = nombre;
+}
+
+Animal.prototype.respirar = function() {
+    return `${this.nombre} está respirando`;
+};
+
+function Perro(nombre, raza) {
+    Animal.call(this, nombre); // Llamar al constructor padre
+    this.raza = raza;
+}
+
+// Establecer la herencia: Perro hereda de Animal
+Perro.prototype = Object.create(Animal.prototype);
+Perro.prototype.constructor = Perro;
+
+// Agregar método específico de Perro
+Perro.prototype.ladrar = function() {
+    return `${this.nombre} dice: ¡Guau!`;
+};
+
+const miPerro = new Perro("Rex", "Labrador");
+
+// Busca en esta orden: miPerro → Perro.prototype → Animal.prototype → Object.prototype
+console.log(miPerro.ladrar());   // "Rex dice: ¡Guau!" (encontrado en Perro.prototype)
+console.log(miPerro.respirar()); // "Rex está respirando" (encontrado en Animal.prototype)
+console.log(miPerro.toString()); // "[object Object]" (encontrado en Object.prototype)
+
+// Verificar la cadena de prototipos
+console.log(miPerro.__proto__ === Perro.prototype); // true
+console.log(Perro.prototype.__proto__ === Animal.prototype); // true
+console.log(Animal.prototype.__proto__ === Object.prototype); // true
+console.log(Object.prototype.__proto__); // null (fin de la cadena)</code></pre>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>Demo Cadena de Prototipos:</h3>
+                        <div style="margin-top: 15px;">
+                            <input type="text" id="nombrePerro" placeholder="Nombre del perro" value="Rex" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                            <input type="text" id="razaPerro" placeholder="Raza" value="Labrador" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                            <br><br>
+                            <button onclick="crearPerro()" style="padding: 8px 12px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">Crear Perro</button>
+                            <button onclick="mostrarCadena()" style="padding: 8px 12px; background: var(--secondary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">Ver Cadena</button>
+                            <button onclick="probarMetodos()" style="padding: 8px 12px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Probar Métodos</button>
+                            <div id="resultadoPerro" style="margin-top: 10px; font-family: monospace;"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="diferencias" class="section">
+                    <h2>Diferencias: Propiedades en la Instancia vs Prototype</h2>
+                    
+                    <div id="propiedades-instancia" class="subsection">
+                        <h3>Propiedades en la instancia</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">function Vehiculo(marca, modelo) {
+    // Propiedades de instancia - cada objeto tiene su propia copia
+    this.marca = marca;
+    this.modelo = modelo;
+    this.velocidad = 0;
+    
+    // Método en la instancia - cada objeto tiene su propia copia (NO recomendado)
+    this.acelerar = function() {
+        this.velocidad += 10;
+        return `Acelerando... ${this.velocidad} km/h`;
+    };
+}
+
+const auto1 = new Vehiculo("Toyota", "Corolla");
+const auto2 = new Vehiculo("Honda", "Civic");
+
+// Cada instancia tiene sus propias propiedades
+console.log(auto1.marca); // "Toyota"
+console.log(auto2.marca); // "Honda"
+
+// Cada instancia tiene su propia función (ineficiente)
+console.log(auto1.acelerar === auto2.acelerar); // false (diferentes funciones)</code></pre>
+                        </div>
+                    </div>
+
+                    <div id="propiedades-prototype" class="subsection">
+                        <h3>Propiedades en el prototype</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">function VehiculoMejorado(marca, modelo) {
+    // Solo propiedades específicas de cada instancia
+    this.marca = marca;
+    this.modelo = modelo;
+    this.velocidad = 0;
+}
+
+// Métodos compartidos en el prototype (eficiente)
+VehiculoMejorado.prototype.acelerar = function() {
+    this.velocidad += 10;
+    return `${this.marca} ${this.modelo} acelerando... ${this.velocidad} km/h`;
+};
+
+VehiculoMejorado.prototype.frenar = function() {
+    this.velocidad = Math.max(0, this.velocidad - 15);
+    return `${this.marca} ${this.modelo} frenando... ${this.velocidad} km/h`;
+};
+
+VehiculoMejorado.prototype.obtenerInfo = function() {
+    return `${this.marca} ${this.modelo} - Velocidad: ${this.velocidad} km/h`;
+};
+
+const auto3 = new VehiculoMejorado("Ford", "Focus");
+const auto4 = new VehiculoMejorado("BMW", "X3");
+
+// Las funciones son compartidas (eficiente)
+console.log(auto3.acelerar === auto4.acelerar); // true (misma función)
+
+// Pero 'this' se refiere a cada instancia correctamente
+console.log(auto3.acelerar()); // "Ford Focus acelerando... 10 km/h"
+console.log(auto4.acelerar()); // "BMW X3 acelerando... 10 km/h"</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h3>Demo Comparación de Eficiencia:</h3>
+                            <div style="margin-top: 15px;">
+                                <button onclick="compararEficiencia()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Comparar Métodos</button>
+                                <div id="resultadoEficiencia" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="metodos-prototype" class="section">
+                    <h2>Métodos de Prototype</h2>
+                    
+                    <div id="verificar-propiedades" class="subsection">
+                        <h3>Verificar propiedades y prototypes</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">function Producto(nombre, precio) {
+    this.nombre = nombre;
+    this.precio = precio;
+}
+
+Producto.prototype.categoria = "General";
+Producto.prototype.mostrarInfo = function() {
+    return `${this.nombre} - $${this.precio}`;
+};
+
+const laptop = new Producto("Laptop", 999);
+
+// hasOwnProperty() - verifica propiedades propias (no del prototype)
+console.log(laptop.hasOwnProperty('nombre'));     // true (propiedad propia)
+console.log(laptop.hasOwnProperty('categoria'));  // false (está en prototype)
+console.log(laptop.hasOwnProperty('mostrarInfo')); // false (está en prototype)
+
+// in operator - verifica si existe en objeto o prototype
+console.log('nombre' in laptop);     // true
+console.log('categoria' in laptop);  // true
+console.log('mostrarInfo' in laptop); // true
+
+// isPrototypeOf() - verifica si un objeto es prototype de otro
+console.log(Producto.prototype.isPrototypeOf(laptop)); // true
+console.log(Object.prototype.isPrototypeOf(laptop)); // true
+
+// instanceof - verifica si un objeto es instancia de un constructor
+console.log(laptop instanceof Producto); // true
+console.log(laptop instanceof Object);   // true
+
+// getPrototypeOf() - obtiene el prototype de un objeto
+console.log(Object.getPrototypeOf(laptop) === Producto.prototype); // true</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h3>Verificador de Propiedades:</h3>
+                            <div style="margin-top: 15px;">
+                                <input type="text" id="nombreProducto" placeholder="Nombre del producto" value="Laptop" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <input type="number" id="precioProducto" placeholder="Precio" value="999" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 100px;">
+                                <button onclick="crearProducto()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Crear y Verificar</button>
+                                <div id="resultadoProducto" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="object-create" class="subsection">
+                        <h3>Object.create() - Crear objetos con prototype específico</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Crear objeto base que servirá como prototype
+const vehiculoBase = {
+    tipo: "Vehículo",
+    moverse: function() {
+        return `${this.nombre} se está moviendo`;
+    },
+    detenerse: function() {
+        return `${this.nombre} se ha detenido`;
+    }
+};
+
+// Crear objetos que heredan de vehiculoBase
+const bicicleta = Object.create(vehiculoBase);
+bicicleta.nombre = "Bicicleta";
+bicicleta.pedales = 2;
+
+const coche = Object.create(vehiculoBase);
+coche.nombre = "Coche";
+coche.ruedas = 4;
+coche.motor = "V6";
+
+// Ambos heredan métodos de vehiculoBase
+console.log(bicicleta.moverse());  // "Bicicleta se está moviendo"
+console.log(coche.detenerse());    // "Coche se ha detenido"
+
+// Verificar herencia
+console.log(vehiculoBase.isPrototypeOf(bicicleta)); // true
+console.log(vehiculoBase.isPrototypeOf(coche)); // true
+
+// Object.create() con propiedades definidas
+const moto = Object.create(vehiculoBase, {
+    nombre: {
+        value: "Motocicleta",
+        writable: true,
+        enumerable: true,
+        configurable: true
+    },
+    cilindrada: {
+        value: 600,
+        writable: false,  // No se puede modificar
+        enumerable: true,
+        configurable: false
+    }
+});
+
+console.log(moto.nombre);      // "Motocicleta"
+console.log(moto.cilindrada);  // 600
+// moto.cilindrada = 800;      // No tiene efecto (writable: false)
+console.log(moto.cilindrada);  // 600</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h3>Demo Object.create():</h3>
+                            <div style="margin-top: 15px;">
+                                <select id="tipoVehiculo" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <option value="bicicleta">Bicicleta</option>
+                                    <option value="coche">Coche</option>
+                                    <option value="moto">Motocicleta</option>
+                                </select>
+                                <input type="text" id="nombreVehiculo" placeholder="Nombre del vehículo" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <button onclick="crearVehiculo()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Crear Vehículo</button>
+                                <div id="resultadoVehiculo" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="comparison-grid" style="margin-top: 40px;">
+                    <div class="feature-card">
+                        <h3>🔗 Prototype Chain</h3>
+                        <ul>
+                            <li>Herencia basada en prototipos</li>
+                            <li>Búsqueda en cadena de prototipos</li>
+                            <li>Object.prototype al final</li>
+                            <li><code>__proto__</code> vs <code>prototype</code></li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>⚡ Eficiencia</h3>
+                        <ul>
+                            <li>Métodos en prototype = compartidos</li>
+                            <li>Métodos en instancia = duplicados</li>
+                            <li>Mejor uso de memoria</li>
+                            <li>Performance optimizada</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🔍 Verificación</h3>
+                        <ul>
+                            <li><code>hasOwnProperty()</code> - propias</li>
+                            <li><code>in</code> - propias + prototype</li>
+                            <li><code>instanceof</code> - tipo de objeto</li>
+                            <li><code>isPrototypeOf()</code> - herencia</li>
+                        </ul>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales para demos
+        let personaInstance = null;
+        let perroInstance = null;
+        let productoInstance = null;
+        let vehiculoInstance = null;
+
+        // Función para copiar código
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling.querySelector('code');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✅ Copiado!';
+                button.style.background = 'var(--success-color)';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            });
+        }
+
+        // Navegación suave
+        document.querySelectorAll('.navigation a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Demo: Crear Persona
+        function crearPersona() {
+            const nombre = document.getElementById('nombrePersona').value || 'Ana';
+            const resultado = document.getElementById('resultadoPersona');
+
+            // Recrear la función Persona
+            function Persona(nombre) {
+                this.nombre = nombre;
+            }
+
+            Persona.prototype.saludar = function() {
+                return `Hola, soy ${this.nombre}`;
+            };
+
+            personaInstance = new Persona(nombre);
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Persona creada:</strong> ${nombre}</div>
+                <div style="margin: 5px 0;"><strong>Saludo:</strong> "${personaInstance.saludar()}"</div>
+                <div style="margin: 5px 0;"><strong>Constructor:</strong> ${personaInstance.constructor.name}</div>
+            `;
+        }
+
+        function verificarMetodos() {
+            const resultado = document.getElementById('resultadoPersona');
+            
+            if (!personaInstance) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Primero crea una persona.</span>';
+                return;
+            }
+
+            resultado.innerHTML += `
+                <hr style="margin: 10px 0;">
+                <div style="margin: 5px 0;"><strong>Verificaciones:</strong></div>
+                <div style="margin: 5px 0;">• hasOwnProperty('nombre'): ${personaInstance.hasOwnProperty('nombre')}</div>
+                <div style="margin: 5px 0;">• hasOwnProperty('saludar'): ${personaInstance.hasOwnProperty('saludar')}</div>
+                <div style="margin: 5px 0;">• 'saludar' in instance: ${'saludar' in personaInstance}</div>
+                <div style="margin: 5px 0;">• Función.prototype.hasOwnProperty('saludar'): ${personaInstance.constructor.prototype.hasOwnProperty('saludar')}</div>
+            `;
+        }
+
+        // Demo: Crear Perro (herencia)
+        function crearPerro() {
+            const nombre = document.getElementById('nombrePerro').value || 'Rex';
+            const raza = document.getElementById('razaPerro').value || 'Labrador';
+            const resultado = document.getElementById('resultadoPerro');
+
+            // Recrear la jerarquía Animal -> Perro
+            function Animal(nombre) {
+                this.nombre = nombre;
+            }
+
+            Animal.prototype.respirar = function() {
+                return `${this.nombre} está respirando`;
+            };
+
+            function Perro(nombre, raza) {
+                Animal.call(this, nombre);
+                this.raza = raza;
+            }
+
+            Perro.prototype = Object.create(Animal.prototype);
+            Perro.prototype.constructor = Perro;
+
+            Perro.prototype.ladrar = function() {
+                return `${this.nombre} dice: ¡Guau!`;
+            };
+
+            perroInstance = new Perro(nombre, raza);
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Perro creado:</strong> ${nombre} (${raza})</div>
+                <div style="margin: 5px 0;"><strong>Puede ladrar:</strong> "${perroInstance.ladrar()}"</div>
+                <div style="margin: 5px 0;"><strong>Puede respirar:</strong> "${perroInstance.respirar()}"</div>
+            `;
+        }
+
+        function mostrarCadena() {
+            const resultado = document.getElementById('resultadoPerro');
+            
+            if (!perroInstance) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Primero crea un perro.</span>';
+                return;
+            }
+
+            resultado.innerHTML += `
+                <hr style="margin: 10px 0;">
+                <div style="margin: 5px 0;"><strong>Cadena de Prototipos:</strong></div>
+                <div style="margin: 5px 0;">1. ${perroInstance.constructor.name} instance</div>
+                <div style="margin: 5px 0;">2. ${perroInstance.constructor.name}.prototype</div>
+                <div style="margin: 5px 0;">3. ${Object.getPrototypeOf(perroInstance.constructor.prototype).constructor.name}.prototype</div>
+                <div style="margin: 5px 0;">4. Object.prototype</div>
+                <div style="margin: 5px 0;">5. null</div>
+            `;
+        }
+
+        function probarMetodos() {
+            const resultado = document.getElementById('resultadoPerro');
+            
+            if (!perroInstance) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Primero crea un perro.</span>';
+                return;
+            }
+
+            resultado.innerHTML += `
+                <hr style="margin: 10px 0;">
+                <div style="margin: 5px 0;"><strong>Verificación de métodos:</strong></div>
+                <div style="margin: 5px 0;">• hasOwnProperty('ladrar'): ${perroInstance.hasOwnProperty('ladrar')}</div>
+                <div style="margin: 5px 0;">• hasOwnProperty('respirar'): ${perroInstance.hasOwnProperty('respirar')}</div>
+                <div style="margin: 5px 0;">• instanceof Perro: ${perroInstance instanceof perroInstance.constructor}</div>
+                <div style="margin: 5px 0;">• toString(): "${perroInstance.toString()}"</div>
+            `;
+        }
+
+        // Demo: Comparar eficiencia
+        function compararEficiencia() {
+            const resultado = document.getElementById('resultadoEficiencia');
+
+            // Versión con métodos en instancia (ineficiente)
+            function VehiculoInstancia(marca) {
+                this.marca = marca;
+                this.acelerar = function() { return `${this.marca} acelera`; };
+            }
+
+            // Versión con métodos en prototype (eficiente)
+            function VehiculoPrototype(marca) {
+                this.marca = marca;
+            }
+            VehiculoPrototype.prototype.acelerar = function() { return `${this.marca} acelera`; };
+
+            const auto1 = new VehiculoInstancia("Toyota");
+            const auto2 = new VehiculoInstancia("Honda");
+            
+            const auto3 = new VehiculoPrototype("Ford");
+            const auto4 = new VehiculoPrototype("BMW");
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Métodos en Instancia:</strong></div>
+                <div style="margin: 5px 0;">• auto1.acelerar === auto2.acelerar: ${auto1.acelerar === auto2.acelerar}</div>
+                <div style="margin: 5px 0;">• Cada instancia tiene su propia función (ineficiente)</div>
+                <br>
+                <div style="margin: 5px 0;"><strong>Métodos en Prototype:</strong></div>
+                <div style="margin: 5px 0;">• auto3.acelerar === auto4.acelerar: ${auto3.acelerar === auto4.acelerar}</div>
+                <div style="margin: 5px 0;">• Todas las instancias comparten la misma función (eficiente)</div>
+                <br>
+                <div style="margin: 5px 0; color: var(--success-color);"><strong>✅ Recomendación:</strong> Usar métodos en prototype</div>
+            `;
+        }
+
+        // Demo: Crear Producto
+        function crearProducto() {
+            const nombre = document.getElementById('nombreProducto').value || 'Laptop';
+            const precio = parseFloat(document.getElementById('precioProducto').value) || 999;
+            const resultado = document.getElementById('resultadoProducto');
+
+            function Producto(nombre, precio) {
+                this.nombre = nombre;
+                this.precio = precio;
+            }
+
+            Producto.prototype.categoria = "General";
+            Producto.prototype.mostrarInfo = function() {
+                return `${this.nombre} - $${this.precio}`;
+            };
+
+            productoInstance = new Producto(nombre, precio);
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Producto:</strong> ${productoInstance.mostrarInfo()}</div>
+                <div style="margin: 5px 0;"><strong>Categoría:</strong> ${productoInstance.categoria}</div>
+                <hr style="margin: 10px 0;">
+                <div style="margin: 5px 0;"><strong>Verificaciones de propiedades:</strong></div>
+                <div style="margin: 5px 0;">• hasOwnProperty('nombre'): ${productoInstance.hasOwnProperty('nombre')}</div>
+                <div style="margin: 5px 0;">• hasOwnProperty('categoria'): ${productoInstance.hasOwnProperty('categoria')}</div>
+                <div style="margin: 5px 0;">• 'categoria' in producto: ${'categoria' in productoInstance}</div>
+                <div style="margin: 5px 0;">• instanceof Producto: ${productoInstance instanceof Producto}</div>
+                <div style="margin: 5px 0;">• Producto.prototype.isPrototypeOf(): ${Producto.prototype.isPrototypeOf(productoInstance)}</div>
+            `;
+        }
+
+        // Demo: Object.create()
+        function crearVehiculo() {
+            const tipo = document.getElementById('tipoVehiculo').value;
+            const nombre = document.getElementById('nombreVehiculo').value || tipo;
+            const resultado = document.getElementById('resultadoVehiculo');
+
+            // Objeto base
+            const vehiculoBase = {
+                tipo: "Vehículo",
+                moverse: function() {
+                    return `${this.nombre} se está moviendo`;
+                },
+                detenerse: function() {
+                    return `${this.nombre} se ha detenido`;
+                }
+            };
+
+            let vehiculo;
+
+            switch(tipo) {
+                case 'bicicleta':
+                    vehiculo = Object.create(vehiculoBase);
+                    vehiculo.nombre = nombre;
+                    vehiculo.pedales = 2;
+                    vehiculo.propiedadesExtra = 'pedales: 2';
+                    break;
+                case 'coche':
+                    vehiculo = Object.create(vehiculoBase);
+                    vehiculo.nombre = nombre;
+                    vehiculo.ruedas = 4;
+                    vehiculo.motor = "V6";
+                    vehiculo.propiedadesExtra = 'ruedas: 4, motor: V6';
+                    break;
+                case 'moto':
+                    vehiculo = Object.create(vehiculoBase, {
+                        nombre: { value: nombre, writable: true },
+                        cilindrada: { value: 600, writable: false }
+                    });
+                    vehiculo.propiedadesExtra = 'cilindrada: 600 (no modificable)';
+                    break;
+            }
+
+            vehiculoInstance = vehiculo;
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Vehículo creado:</strong> ${vehiculo.nombre}</div>
+                <div style="margin: 5px 0;"><strong>Propiedades extra:</strong> ${vehiculo.propiedadesExtra}</div>
+                <div style="margin: 5px 0;"><strong>Moverse:</strong> "${vehiculo.moverse()}"</div>
+                <div style="margin: 5px 0;"><strong>Detenerse:</strong> "${vehiculo.detenerse()}"</div>
+                <hr style="margin: 10px 0;">
+                <div style="margin: 5px 0;"><strong>Verificación de herencia:</strong></div>
+                <div style="margin: 5px 0;">• vehiculoBase.isPrototypeOf(): ${vehiculoBase.isPrototypeOf(vehiculo)}</div>
+                <div style="margin: 5px 0;">• hasOwnProperty('moverse'): ${vehiculo.hasOwnProperty('moverse')}</div>
+                <div style="margin: 5px 0;">• 'moverse' in vehiculo: ${'moverse' in vehiculo}</div>
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript - Guía Completa</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .index-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .hero-section {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 60px 20px;
+            margin: -20px -20px 40px -20px;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .progress-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            background: #f0f0f0;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(45deg, var(--success-color), #4CAF50);
+            height: 100%;
+            width: 0%;
+            transition: width 1s ease-in-out;
+            border-radius: 10px;
+        }
+
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .topic-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .topic-number {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .topic-title {
+            font-size: 1.4rem;
+            color: var(--text-color);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .topic-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .topic-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .topic-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-link:hover {
+            background: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        .topic-link.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .topic-link.disabled:hover {
+            transform: none;
+            background: #ccc;
+        }
+
+        .multi-part {
+            background: linear-gradient(45deg, var(--accent-color), #FF9800);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .coming-soon {
+            position: relative;
+            opacity: 0.7;
+        }
+
+        .coming-soon::after {
+            content: '🚧 Próximamente';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 193, 7, 0.9);
+            color: #856404;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .difficulty-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 2px;
+        }
+
+        .difficulty-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .difficulty-dot.active {
+            background: var(--warning-color);
+        }
+
+        .basic { border-left-color: var(--success-color); }
+        .intermediate { border-left-color: var(--warning-color); }
+        .advanced { border-left-color: var(--error-color); }
+
+        .search-container {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 1.2rem;
+        }
+
+        .footer-section {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 20px;
+            margin: 40px -20px -20px -20px;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
+        }
+
+        .learning-path {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .learning-path h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="index-container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1>JavaScript Completo</h1>
+            <p>Guía completa desde conceptos básicos hasta técnicas avanzadas. Aprende JavaScript paso a paso con ejemplos prácticos y ejercicios interactivos.</p>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="progress-container">
+            <h3>🎯 Tu Progreso de Aprendizaje</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p id="progressText">Progreso: 0% completado</p>
+        </div>
+
+        <!-- Learning Path -->
+        <div class="learning-path">
+            <h3>🗺️ Ruta de Aprendizaje Recomendada</h3>
+            <p>Sigue el orden sugerido para un aprendizaje óptimo. Cada tema se construye sobre los conocimientos anteriores.</p>
+        </div>
+
+        <!-- Search -->
+        <div class="search-container">
+            <input type="text" class="search-input" id="searchInput" placeholder="🔍 Buscar tema o concepto...">
+            <span class="search-icon">🔍</span>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <span class="stat-number" id="totalTopics">16</span>
+                <div class="stat-label">Temas Principales</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="availableFiles">0</span>
+                <div class="stat-label">Archivos Disponibles</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="completedTopics">0</span>
+                <div class="stat-label">Temas Completados</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">100%</span>
+                <div class="stat-label">Gratis y Completo</div>
+            </div>
+        </div>
+
+        <!-- Topics Grid -->
+        <div class="topics-grid" id="topicsGrid">
+            <!-- Topic 1: Variables -->
+            <div class="topic-card basic" data-topic="variables">
+                <div class="difficulty-indicator">
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot"></div>
+                    <div class="difficulty-dot"></div>
+                </div>
+                <div class="topic-number">1</div>
+                <h3 class="topic-title">Variables</h3>
+                <p class="topic-description">Aprende sobre var, let, const y el scope en JavaScript. Fundamentos esenciales para empezar.</p>
+                <div class="topic-links">
+                    <a href="variables.html" class="topic-link">📚 Variables</a>
+                </div>
+            </div>
+
+            <!-- Topic 2: Strings -->
+            <div class="topic-card basic" data-topic="strings">
+                <div class="difficulty-indicator">
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot"></div>
+                </div>
+                <div class="topic-number">2</div>
+                <h3 class="topic-title">Strings (Cadenas)</h3>
+                <p class="topic-description">Manipulación de cadenas de texto: métodos, búsquedas, reemplazos y más.</p>
+                <div class="topic-links">
+                    <a href="strings_A.html" class="topic-link multi-part">📖 Parte A</a>
+                    <a href="strings_B.html" class="topic-link multi-part">📖 Parte B</a>
+                    <a href="strings_C.html" class="topic-link multi-part">📖 Parte C</a>
+                    <a href="strings_D.html" class="topic-link multi-part">📖 Parte D</a>
+                </div>
+            </div>
+
+            <!-- Topic 3: Template Literals -->
+            <div class="topic-card basic" data-topic="concatenacion">
+                <div class="difficulty-indicator">
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot"></div>
+                    <div class="difficulty-dot"></div>
+                </div>
+                <div class="topic-number">3</div>
+                <h3 class="topic-title">Template Literals</h3>
+                <p class="topic-description">Concatenación moderna con template literals y interpolación de variables.</p>
+                <div class="topic-links">
+                    <a href="concatenacion_template.html" class="topic-link">🔗 Concatenación</a>
+                </div>
+            </div>
+
+            <!-- Topic 4: Numbers -->
+            <div class="topic-card basic" data-topic="numeros">
+                <div class="difficulty-indicator">
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot"></div>
+                    <div class="difficulty-dot"></div>
+                </div>
+                <div class="topic-number">4</div>
+                <h3 class="topic-title">Números</h3>
+                <p class="topic-description">Operaciones matemáticas, métodos de Number, Math y manejo de decimales.</p>
+                <div class="topic-links">
+                    <a href="numeros.html" class="topic-link">🔢 Números</a>
+                </div>
+            </div>
+
+            <!-- Topic 5: Booleans -->
+            <div class="topic-card basic" data-topic="boolean">
+                <div class="difficulty-indicator">
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot"></div>
+                    <div class="difficulty-dot"></div>
+                </div>
+                <div class="topic-number">5</div>
+                <h3 class="topic-title">Booleanos</h3>
+                <p class="topic-description">Valores true/false, operadores lógicos y evaluación de expresiones.</p>
+                <div class="topic-links">
+                    <a href="boolean.html" class="topic-link">✅ Booleanos</a>
+                </div>
+            </div>
+
+            <!-- Topic 6: Objects -->
+            <div class="topic-card intermediate" data-topic="objetos">
+                <div class="difficulty-indicator">
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot"></div>
+                </div>
+                <div class="topic-number">6</div>
+                <h3 class="topic-title">Objetos</h3>
+                <p class="topic-description">Creación y manipulación de objetos, propiedades, métodos y destructuring.</p>
+                <div class="topic-links">
+                    <a href="objetos.html" class="topic-link">🏗️ Objetos</a>
+                </div>
+            </div>
+
+            <!-- Topic 7: Arrays -->
+            <div class="topic-card intermediate" data-topic="arrays">
+                <div class="difficulty-indicator">
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot"></div>
+                </div>
+                <div class="topic-number">7</div>
+                <h3 class="topic-title">Arrays</h3>
+                <p class="topic-description">Arreglos, métodos de iteración, map, filter, reduce y manipulación de datos.</p>
+                <div class="topic-links">
+                    <a href="arrays.html" class="topic-link">📋 Arrays</a>
+                </div>
+            </div>
+
+            <!-- Topic 8: Functions -->
+            <div class="topic-card intermediate" data-topic="funciones">
+                <div class="difficulty-indicator">
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot"></div>
+                </div>
+                <div class="topic-number">8</div>
+                <h3 class="topic-title">Funciones</h3>
+                <p class="topic-description">Declaración, expresiones, arrow functions, closures y scope.</p>
+                <div class="topic-links">
+                    <a href="funciones.html" class="topic-link">⚡ Funciones</a>
+                </div>
+            </div>
+
+            <!-- Topic 9: Control Flow -->
+            <div class="topic-card intermediate" data-topic="control">
+                <div class="difficulty-indicator">
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot"></div>
+                </div>
+                <div class="topic-number">9</div>
+                <h3 class="topic-title">Estructuras de Control</h3>
+                <p class="topic-description">if/else, switch, bucles for, while, do-while y control de flujo.</p>
+                <div class="topic-links">
+                    <a href="control.html" class="topic-link">🔀 Control</a>
+                </div>
+            </div>
+
+            <!-- Topic 10: Prototypes -->
+            <div class="topic-card advanced" data-topic="prototypes">
+                <div class="difficulty-indicator">
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot active"></div>
+                </div>
+                <div class="topic-number">10</div>
+                <h3 class="topic-title">Prototypes</h3>
+                <p class="topic-description">Sistema de herencia de JavaScript, prototype chain y programación orientada a objetos.</p>
+                <div class="topic-links">
+                    <a href="prototypes_A.html" class="topic-link multi-part">🧬 Parte A</a>
+                    <a href="prototypes_B.html" class="topic-link multi-part">🧬 Parte B</a>
+                    <a href="prototypes_C.html" class="topic-link multi-part">🧬 Parte C</a>
+                    <a href="prototypes_D.html" class="topic-link multi-part">🧬 Parte D</a>
+                </div>
+            </div>
+
+            <!-- Topic 11: Classes -->
+            <div class="topic-card advanced" data-topic="clases">
+                <div class="difficulty-indicator">
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot active"></div>
+                </div>
+                <div class="topic-number">11</div>
+                <h3 class="topic-title">Clases ES6+</h3>
+                <p class="topic-description">Sintaxis moderna de clases, herencia, métodos estáticos y privados.</p>
+                <div class="topic-links">
+                    <a href="clases.html" class="topic-link">🏛️ Clases</a>
+                </div>
+            </div>
+
+            <!-- Topic 12: Promises -->
+            <div class="topic-card advanced" data-topic="promises">
+                <div class="difficulty-indicator">
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot active"></div>
+                </div>
+                <div class="topic-number">12</div>
+                <h3 class="topic-title">Promises</h3>
+                <p class="topic-description">Programación asíncrona con promesas, then, catch y manejo de errores.</p>
+                <div class="topic-links">
+                    <a href="promises.html" class="topic-link">🤝 Promises</a>
+                </div>
+            </div>
+
+            <!-- Topic 13: Async/Await -->
+            <div class="topic-card advanced" data-topic="asyncawait">
+                <div class="difficulty-indicator">
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot active"></div>
+                </div>
+                <div class="topic-number">13</div>
+                <h3 class="topic-title">Async/Await</h3>
+                <p class="topic-description">Sintaxis moderna para código asíncrono, más legible que las promesas.</p>
+                <div class="topic-links">
+                    <a href="asyncawait.html" class="topic-link">⏳ Async/Await</a>
+                </div>
+            </div>
+
+            <!-- Topic 14: API -->
+            <div class="topic-card advanced" data-topic="api">
+                <div class="difficulty-indicator">
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot active"></div>
+                </div>
+                <div class="topic-number">14</div>
+                <h3 class="topic-title">APIs y Fetch</h3>
+                <p class="topic-description">Consumo de APIs REST, fetch API, manejo de respuestas JSON.</p>
+                <div class="topic-links">
+                    <a href="api.html" class="topic-link">🌐 APIs</a>
+                </div>
+            </div>
+
+            <!-- Topic 15: JSON -->
+            <div class="topic-card intermediate" data-topic="json">
+                <div class="difficulty-indicator">
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot"></div>
+                </div>
+                <div class="topic-number">15</div>
+                <h3 class="topic-title">JSON</h3>
+                <p class="topic-description">Formato de intercambio de datos, parse, stringify y manejo de JSON.</p>
+                <div class="topic-links">
+                    <a href="json.html" class="topic-link">📄 JSON</a>
+                </div>
+            </div>
+
+            <!-- Topic 16: DataTables -->
+            <div class="topic-card intermediate coming-soon" data-topic="datatables">
+                <div class="difficulty-indicator">
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot active"></div>
+                    <div class="difficulty-dot"></div>
+                </div>
+                <div class="topic-number">16</div>
+                <h3 class="topic-title">DataTables</h3>
+                <p class="topic-description">Biblioteca para crear tablas interactivas con búsqueda, ordenamiento y paginación.</p>
+                <div class="topic-links">
+                    <a href="#" class="topic-link disabled">🗃️ DataTables</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-section">
+            <h3>🚀 ¡Empieza tu Viaje en JavaScript!</h3>
+            <p>Cada tema incluye ejemplos prácticos, ejercicios interactivos y explicaciones detalladas. ¡Comienza por Variables y avanza paso a paso!</p>
+            <p style="margin-top: 20px; opacity: 0.8;">📅 Actualizado: <span id="lastUpdate">18 de octubre de 2025</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let completedTopics = new Set();
+        let availableFiles = 0;
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeIndex();
+            setupSearch();
+            checkAvailableFiles();
+            loadProgress();
+            setupTopicTracking();
+            animateCounters();
+        });
+
+        function initializeIndex() {
+            console.log('🎯 JavaScript Learning Index initialized');
+            
+            // Animar entrada de cards
+            const cards = document.querySelectorAll('.topic-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        }
+
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const cards = document.querySelectorAll('.topic-card');
+
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                cards.forEach(card => {
+                    const title = card.querySelector('.topic-title').textContent.toLowerCase();
+                    const description = card.querySelector('.topic-description').textContent.toLowerCase();
+                    const topic = card.dataset.topic.toLowerCase();
+                    
+                    const matches = title.includes(searchTerm) || 
+                                  description.includes(searchTerm) || 
+                                  topic.includes(searchTerm);
+                    
+                    if (matches || searchTerm === '') {
+                        card.style.display = 'block';
+                        card.style.animation = 'fadeIn 0.3s ease';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Mostrar mensaje si no hay resultados
+                const visibleCards = Array.from(cards).filter(card => card.style.display !== 'none');
+                if (visibleCards.length === 0 && searchTerm !== '') {
+                    showNoResults();
+                } else {
+                    hideNoResults();
+                }
+            });
+        }
+
+        function showNoResults() {
+            let noResultsDiv = document.getElementById('no-results');
+            if (!noResultsDiv) {
+                noResultsDiv = document.createElement('div');
+                noResultsDiv.id = 'no-results';
+                noResultsDiv.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <h3>🔍 No se encontraron resultados</h3>
+                        <p>Intenta con otros términos de búsqueda</p>
+                    </div>
+                `;
+                document.getElementById('topicsGrid').appendChild(noResultsDiv);
+            }
+        }
+
+        function hideNoResults() {
+            const noResultsDiv = document.getElementById('no-results');
+            if (noResultsDiv) {
+                noResultsDiv.remove();
+            }
+        }
+
+        async function checkAvailableFiles() {
+            const fileMap = {
+                'variables': 'variables.html',
+                'strings_A': 'strings_A.html',
+                'strings_B': 'strings_B.html', 
+                'strings_C': 'strings_C.html',
+                'strings_D': 'strings_D.html',
+                'concatenacion_template': 'concatenacion_template.html',
+                'numeros': 'numeros.html',
+                'boolean': 'boolean.html',
+                'objetos': 'objetos.html',
+                'arrays': 'arrays.html',
+                'funciones': 'funciones.html',
+                'control': 'control.html',
+                'prototypes_A': 'prototypes_A.html',
+                'prototypes_B': 'prototypes_B.html',
+                'prototypes_C': 'prototypes_C.html',
+                'prototypes_D': 'prototypes_D.html',
+                'clases': 'clases.html',
+                'promises': 'promises.html',
+                'asyncawait': 'asyncawait.html',
+                'api': 'api.html',
+                'json': 'json.html'
+            };
+
+            let available = 0;
+            const links = document.querySelectorAll('.topic-link');
+            
+            for (const link of links) {
+                if (link.classList.contains('disabled')) continue;
+                
+                try {
+                    const response = await fetch(link.href, { method: 'HEAD' });
+                    if (response.ok) {
+                        available++;
+                        link.style.background = 'var(--success-color)';
+                        link.title = 'Disponible ✅';
+                    } else {
+                        link.classList.add('disabled');
+                        link.title = 'Próximamente 🚧';
+                    }
+                } catch (error) {
+                    link.classList.add('disabled');
+                    link.title = 'Próximamente 🚧';
+                }
+            }
+            
+            availableFiles = available;
+            document.getElementById('availableFiles').textContent = available;
+            updateProgress();
+        }
+
+        function setupTopicTracking() {
+            const links = document.querySelectorAll('.topic-link:not(.disabled)');
+            
+            links.forEach(link => {
+                link.addEventListener('click', function() {
+                    const card = this.closest('.topic-card');
+                    const topic = card.dataset.topic;
+                    
+                    // Marcar como visitado
+                    markTopicAsVisited(topic);
+                    
+                    // Efecto visual
+                    this.style.background = 'var(--success-color)';
+                    this.innerHTML += ' ✅';
+                    
+                    setTimeout(() => {
+                        this.innerHTML = this.innerHTML.replace(' ✅', '');
+                    }, 2000);
+                });
+            });
+        }
+
+        function markTopicAsVisited(topic) {
+            completedTopics.add(topic);
+            localStorage.setItem('completedTopics', JSON.stringify(Array.from(completedTopics)));
+            updateProgress();
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('completedTopics');
+            if (saved) {
+                completedTopics = new Set(JSON.parse(saved));
+                document.getElementById('completedTopics').textContent = completedTopics.size;
+                updateProgress();
+            }
+        }
+
+        function updateProgress() {
+            const totalTopics = 16;
+            const completed = completedTopics.size;
+            const percentage = Math.round((completed / totalTopics) * 100);
+            
+            document.getElementById('completedTopics').textContent = completed;
+            document.getElementById('progressText').textContent = `Progreso: ${percentage}% completado (${completed}/${totalTopics} temas)`;
+            
+            // Animar barra de progreso
+            setTimeout(() => {
+                document.getElementById('progressFill').style.width = percentage + '%';
+            }, 500);
+        }
+
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.textContent);
+                if (isNaN(target)) return;
+                
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        counter.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(current);
+                    }
+                }, 50);
+            });
+        }
+
+        // Funciones de utilidad
+        function resetProgress() {
+            if (confirm('¿Estás seguro de reiniciar tu progreso?')) {
+                localStorage.removeItem('completedTopics');
+                completedTopics.clear();
+                updateProgress();
+                location.reload();
+            }
+        }
+
+        // Agregar CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            .topic-card {
+                animation: slideInUp 0.6s ease forwards;
+            }
+            
+            @keyframes slideInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

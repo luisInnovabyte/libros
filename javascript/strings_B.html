@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strings en JavaScript - Parte II</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="two-column">
+            <!-- Navegación lateral -->
+            <aside class="navigation">
+                <h3>Contenido</h3>
+                <ul>
+                    <li><a href="#extraccion">Extracción de Substrings</a></li>
+                    <li><a href="#modificacion">Modificación de Strings</a></li>
+                    <li><a href="#division-union">División y Unión</a></li>
+                    <li><a href="#template-literals">Template Literals</a></li>
+                    <li><a href="#interpolacion">Interpolación de Variables</a></li>
+                    <li><a href="#expresiones">Expresiones en Templates</a></li>
+                    <li><a href="#multilinea">Strings Multilínea</a></li>
+                    <li><a href="#metodos-avanzados">Métodos Avanzados</a></li>
+                    <li><a href="#repeticion">Repetición</a></li>
+                    <li><a href="#padding">Relleno (Padding)</a></li>
+                    <li><a href="#normalizacion">Normalización</a></li>
+                    <li><a href="#regex">Expresiones Regulares</a></li>
+                </ul>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main class="content">
+                <div class="header">
+                    <h1>Strings en JavaScript - Parte II</h1>
+                    <p class="alert">Métodos avanzados y técnicas especializadas para manipular strings en JavaScript.</p>
+                </div>
+
+                <section id="extraccion" class="section">
+                    <h2>3. Extracción de Substrings</h2>
+                    
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                        <pre><code class="javascript">const texto = "JavaScript Programming";
+
+// slice(inicio, fin) - no modifica el original
+console.log(texto.slice(0, 4));    // "Java"
+console.log(texto.slice(4));       // "Script Programming"
+console.log(texto.slice(-11));     // "Programming" (desde el final)
+console.log(texto.slice(-11, -5)); // "Progra"
+
+// substring(inicio, fin) - similar a slice pero sin índices negativos
+console.log(texto.substring(0, 4)); // "Java"
+console.log(texto.substring(4, 0)); // "Java" (intercambia automáticamente)
+
+// substr(inicio, longitud) - OBSOLETO, usar slice()
+console.log(texto.substr(4, 6));    // "Script"</code></pre>
+                    </div>
+
+                    <div class="alert">
+                        <strong>Prueba los métodos de extracción:</strong>
+                        <div style="margin-top: 10px;">
+                            <input type="text" id="extractInput" placeholder="Texto para extraer..." value="JavaScript Programming" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 200px;">
+                            <input type="number" id="startIndex" placeholder="Inicio" value="0" style="padding: 8px; margin-right: 5px; border: 1px solid #ddd; border-radius: 4px; width: 60px;">
+                            <input type="number" id="endIndex" placeholder="Fin" value="4" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 60px;">
+                            <button onclick="probarExtraccion()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Extraer</button>
+                        </div>
+                        <div id="resultadoExtraccion" style="margin-top: 10px; font-family: monospace;"></div>
+                    </div>
+                </section>
+
+                <section id="modificacion" class="section">
+                    <h2>4. Modificación de Strings</h2>
+                    
+                    <div class="feature-card">
+                        <h3>Eliminar espacios (trim):</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">const nombre = "  Juan Carlos  ";
+
+// trim() - elimina espacios al inicio y final
+console.log(nombre.trim());       // "Juan Carlos"
+console.log(nombre.trimStart());  // "Juan Carlos  "
+console.log(nombre.trimEnd());    // "  Juan Carlos"</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>Reemplazar texto:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// replace() - reemplaza la primera coincidencia
+const frase = "Me gusta JavaScript y JavaScript es genial";
+console.log(frase.replace("JavaScript", "Python"));
+// "Me gusta Python y JavaScript es genial"
+
+// replaceAll() - reemplaza todas las coincidencias (ES2021)
+console.log(frase.replaceAll("JavaScript", "Python"));
+// "Me gusta Python y Python es genial"
+
+// Con expresiones regulares
+console.log(frase.replace(/JavaScript/g, "Python"));
+// "Me gusta Python y Python es genial"</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="alert">
+                        <strong>Prueba reemplazar texto:</strong>
+                        <div style="margin-top: 10px;">
+                            <input type="text" id="replaceText" placeholder="Texto original..." value="Me gusta JavaScript y JavaScript es genial" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 300px;">
+                            <br><br>
+                            <input type="text" id="searchText" placeholder="Buscar..." value="JavaScript" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 100px;">
+                            <input type="text" id="replaceWith" placeholder="Reemplazar con..." value="Python" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 120px;">
+                            <button onclick="probarReemplazo()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Reemplazar</button>
+                        </div>
+                        <div id="resultadoReemplazo" style="margin-top: 10px; font-family: monospace;"></div>
+                    </div>
+                </section>
+
+                <section id="division-union" class="section">
+                    <h2>5. División y Unión</h2>
+                    
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                        <pre><code class="javascript">// split() - convierte string en array
+const lista = "manzana,naranja,plátano,uva";
+const frutas = lista.split(",");
+console.log(frutas); // ["manzana", "naranja", "plátano", "uva"]
+
+const palabras = "Hola mundo JavaScript".split(" ");
+console.log(palabras); // ["Hola", "mundo", "JavaScript"]
+
+// Con límite
+const limitado = "a-b-c-d-e".split("-", 3);
+console.log(limitado); // ["a", "b", "c"]
+
+// join() es el método de array para unir
+const unido = frutas.join(" | ");
+console.log(unido); // "manzana | naranja | plátano | uva"</code></pre>
+                    </div>
+
+                    <div class="alert">
+                        <strong>Prueba split y join:</strong>
+                        <div style="margin-top: 10px;">
+                            <input type="text" id="splitInput" placeholder="Texto para dividir..." value="manzana,naranja,plátano,uva" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 200px;">
+                            <input type="text" id="separator" placeholder="Separador" value="," style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 60px;">
+                            <button onclick="probarSplit()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Dividir</button>
+                        </div>
+                        <div id="resultadoSplit" style="margin-top: 10px; font-family: monospace;"></div>
+                    </div>
+                </section>
+
+                <section id="template-literals" class="section">
+                    <h2>Template Literals (Plantillas de String)</h2>
+                    
+                    <div id="interpolacion" class="subsection">
+                        <h3>Interpolación de variables:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">const nombre = "María";
+const edad = 28;
+const profesion = "Desarrolladora";
+
+// Forma antigua
+const presentacion1 = "Hola, soy " + nombre + ", tengo " + edad + " años y soy " + profesion;
+
+// Con template literals
+const presentacion2 = `Hola, soy ${nombre}, tengo ${edad} años y soy ${profesion}`;
+
+console.log(presentacion2);
+// "Hola, soy María, tengo 28 años y soy Desarrolladora"</code></pre>
+                        </div>
+                    </div>
+
+                    <div id="expresiones" class="subsection">
+                        <h3>Expresiones en template literals:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">const a = 10;
+const b = 5;
+
+console.log(`La suma de ${a} y ${b} es ${a + b}`);
+// "La suma de 10 y 5 es 15"
+
+console.log(`El mayor entre ${a} y ${b} es ${a > b ? a : b}`);
+// "El mayor entre 10 y 5 es 10"
+
+// Llamadas a funciones
+function formatearFecha(fecha) {
+    return fecha.toLocaleDateString('es-ES');
+}
+
+const hoy = new Date();
+console.log(`Hoy es ${formatearFecha(hoy)}`);</code></pre>
+                        </div>
+
+                        <div class="alert">
+                            <strong>Prueba template literals:</strong>
+                            <div style="margin-top: 10px;">
+                                <input type="text" id="nombreTemplate" placeholder="Nombre" value="María" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <input type="number" id="edadTemplate" placeholder="Edad" value="28" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 80px;">
+                                <input type="text" id="profesionTemplate" placeholder="Profesión" value="Desarrolladora" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <button onclick="probarTemplate()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Generar</button>
+                            </div>
+                            <div id="resultadoTemplate" style="margin-top: 10px; font-family: monospace;"></div>
+                        </div>
+                    </div>
+
+                    <div id="multilinea" class="subsection">
+                        <h3>Strings multilínea:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Antes (complicado)
+const html1 = "&lt;div&gt;\n" +
+              "  &lt;h1&gt;Título&lt;/h1&gt;\n" +
+              "  &lt;p&gt;Párrafo&lt;/p&gt;\n" +
+              "&lt;/div&gt;";
+
+// Con template literals (fácil)
+const html2 = `
+&lt;div&gt;
+  &lt;h1&gt;Título&lt;/h1&gt;
+  &lt;p&gt;Párrafo&lt;/p&gt;
+&lt;/div&gt;
+`;
+
+const poema = `
+Roses are red,
+Violets are blue,
+JavaScript is awesome,
+And so are you!
+`;</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="metodos-avanzados" class="section">
+                    <h2>Métodos Avanzados</h2>
+                    
+                    <div id="repeticion" class="subsection">
+                        <h3>1. Repetición:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// repeat() - repite el string n veces
+console.log("Na".repeat(8) + " Batman!"); // "NaNaNaNaNaNaNaNa Batman!"
+console.log("-".repeat(20));              // "--------------------"
+console.log("🎉".repeat(5));              // "🎉🎉🎉🎉🎉"</code></pre>
+                        </div>
+
+                        <div class="alert">
+                            <strong>Prueba repeat():</strong>
+                            <div style="margin-top: 10px;">
+                                <input type="text" id="repeatText" placeholder="Texto a repetir" value="Na" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <input type="number" id="repeatCount" placeholder="Veces" value="8" min="0" max="50" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 80px;">
+                                <button onclick="probarRepeat()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Repetir</button>
+                            </div>
+                            <div id="resultadoRepeat" style="margin-top: 10px; font-family: monospace;"></div>
+                        </div>
+                    </div>
+
+                    <div id="padding" class="subsection">
+                        <h3>2. Relleno (padding):</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">const numero = "42";
+
+// padStart() - rellena al inicio
+console.log(numero.padStart(5, "0"));    // "00042"
+console.log(numero.padStart(10, "*"));   // "********42"
+
+// padEnd() - rellena al final
+console.log(numero.padEnd(5, "0"));      // "42000"
+console.log("ID:".padEnd(10, "-"));      // "ID:-------"
+
+// Casos prácticos
+const formatearId = (id) => String(id).padStart(6, "0");
+console.log(formatearId(123));           // "000123"
+
+const formatearPrecio = (precio) => `$${precio.toFixed(2).padStart(8)}`;
+console.log(formatearPrecio(12.5));      // "$   12.50"</code></pre>
+                        </div>
+
+                        <div class="alert">
+                            <strong>Prueba padding:</strong>
+                            <div style="margin-top: 10px;">
+                                <input type="text" id="padText" placeholder="Texto" value="42" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <input type="number" id="padLength" placeholder="Longitud" value="5" min="1" max="20" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 80px;">
+                                <input type="text" id="padChar" placeholder="Carácter" value="0" maxlength="1" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 60px;">
+                                <button onclick="probarPadding()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Rellenar</button>
+                            </div>
+                            <div id="resultadoPadding" style="margin-top: 10px; font-family: monospace;"></div>
+                        </div>
+                    </div>
+
+                    <div id="normalizacion" class="subsection">
+                        <h3>3. Normalización:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// normalize() - normaliza caracteres Unicode
+const texto1 = "café";
+const texto2 = "cafe\u0301"; // e + acento combinado
+
+console.log(texto1 === texto2);                    // false
+console.log(texto1.normalize() === texto2.normalize()); // true
+
+// Útil para comparaciones
+function compararTexto(str1, str2) {
+    return str1.normalize().toLowerCase() === str2.normalize().toLowerCase();
+}</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="regex" class="section">
+                    <h2>Expresiones Regulares con Strings</h2>
+                    
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                        <pre><code class="javascript">const texto = "Mi teléfono es 123-456-7890 y mi email es juan@example.com";
+
+// match() - encuentra coincidencias
+const telefonos = texto.match(/\d{3}-\d{3}-\d{4}/g);
+console.log(telefonos); // ["123-456-7890"]
+
+const emails = texto.match(/\w+@\w+\.\w+/g);
+console.log(emails); // ["juan@example.com"]
+
+// search() - encuentra la posición
+const posicionEmail = texto.search(/\w+@\w+\.\w+/);
+console.log(posicionEmail); // 38
+
+// test() es método de RegExp, no de String
+const esEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test("usuario@dominio.com");
+console.log(esEmail); // true</code></pre>
+                    </div>
+
+                    <div class="alert">
+                        <strong>Prueba regex:</strong>
+                        <div style="margin-top: 10px;">
+                            <input type="text" id="regexText" placeholder="Texto para buscar..." value="Mi teléfono es 123-456-7890 y mi email es juan@example.com" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 400px;">
+                            <br><br>
+                            <button onclick="buscarTelefonos()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">Buscar Teléfonos</button>
+                            <button onclick="buscarEmails()" style="padding: 8px 16px; background: var(--secondary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Buscar Emails</button>
+                        </div>
+                        <div id="resultadoRegex" style="margin-top: 10px; font-family: monospace;"></div>
+                    </div>
+                </section>
+
+                <div class="comparison-grid" style="margin-top: 40px;">
+                    <div class="feature-card">
+                        <h3>🔪 Extracción</h3>
+                        <ul>
+                            <li><code>slice()</code> - Método preferido</li>
+                            <li><code>substring()</code> - Sin negativos</li>
+                            <li><code>substr()</code> - Obsoleto</li>
+                            <li>Índices negativos permitidos</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🔄 Modificación</h3>
+                        <ul>
+                            <li><code>trim()</code> - Espacios</li>
+                            <li><code>replace()</code> - Primera coincidencia</li>
+                            <li><code>replaceAll()</code> - Todas</li>
+                            <li><code>split() / join()</code> - División/unión</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🎯 Avanzados</h3>
+                        <ul>
+                            <li><code>repeat()</code> - Repetición</li>
+                            <li><code>padStart() / padEnd()</code> - Relleno</li>
+                            <li><code>normalize()</code> - Unicode</li>
+                            <li><code>match()</code> - Regex</li>
+                        </ul>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Función para copiar código
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling.querySelector('code');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✅ Copiado!';
+                button.style.background = 'var(--success-color)';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            });
+        }
+
+        // Navegación suave
+        document.querySelectorAll('.navigation a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Demo: Extracción de substrings
+        function probarExtraccion() {
+            const texto = document.getElementById('extractInput').value;
+            const inicio = parseInt(document.getElementById('startIndex').value) || 0;
+            const fin = parseInt(document.getElementById('endIndex').value);
+            const resultado = document.getElementById('resultadoExtraccion');
+            
+            if (!texto) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Ingresa un texto primero.</span>';
+                return;
+            }
+            
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Texto:</strong> "${texto}"</div>
+                <div style="margin: 5px 0;"><strong>slice(${inicio}, ${fin || 'fin'}):</strong> "${texto.slice(inicio, fin)}"</div>
+                <div style="margin: 5px 0;"><strong>substring(${inicio}, ${fin || 'fin'}):</strong> "${texto.substring(inicio, fin)}"</div>
+                <div style="margin: 5px 0;"><strong>slice(${inicio}):</strong> "${texto.slice(inicio)}"</div>
+            `;
+        }
+
+        // Demo: Reemplazo de texto
+        function probarReemplazo() {
+            const texto = document.getElementById('replaceText').value;
+            const buscar = document.getElementById('searchText').value;
+            const reemplazar = document.getElementById('replaceWith').value;
+            const resultado = document.getElementById('resultadoReemplazo');
+            
+            if (!texto || !buscar) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Completa todos los campos.</span>';
+                return;
+            }
+            
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Original:</strong> "${texto}"</div>
+                <div style="margin: 5px 0;"><strong>replace() primera:</strong> "${texto.replace(buscar, reemplazar)}"</div>
+                <div style="margin: 5px 0;"><strong>replaceAll() todas:</strong> "${texto.replaceAll(buscar, reemplazar)}"</div>
+            `;
+        }
+
+        // Demo: Split
+        function probarSplit() {
+            const texto = document.getElementById('splitInput').value;
+            const separador = document.getElementById('separator').value;
+            const resultado = document.getElementById('resultadoSplit');
+            
+            if (!texto) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Ingresa un texto primero.</span>';
+                return;
+            }
+            
+            const array = texto.split(separador);
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Original:</strong> "${texto}"</div>
+                <div style="margin: 5px 0;"><strong>split("${separador}"):</strong> [${array.map(item => `"${item}"`).join(', ')}]</div>
+                <div style="margin: 5px 0;"><strong>join(" | "):</strong> "${array.join(' | ')}"</div>
+                <div style="margin: 5px 0;"><strong>Elementos:</strong> ${array.length}</div>
+            `;
+        }
+
+        // Demo: Template literals
+        function probarTemplate() {
+            const nombre = document.getElementById('nombreTemplate').value;
+            const edad = document.getElementById('edadTemplate').value;
+            const profesion = document.getElementById('profesionTemplate').value;
+            const resultado = document.getElementById('resultadoTemplate');
+            
+            if (!nombre || !edad || !profesion) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Completa todos los campos.</span>';
+                return;
+            }
+            
+            const template = `Hola, soy ${nombre}, tengo ${edad} años y soy ${profesion}`;
+            const suma = parseInt(edad) + 10;
+            
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Template literal:</strong> "${template}"</div>
+                <div style="margin: 5px 0;"><strong>Con expresión:</strong> "En 10 años ${nombre} tendrá ${suma} años"</div>
+                <div style="margin: 5px 0;"><strong>Fecha actual:</strong> "Hoy es ${new Date().toLocaleDateString('es-ES')}"</div>
+            `;
+        }
+
+        // Demo: Repeat
+        function probarRepeat() {
+            const texto = document.getElementById('repeatText').value;
+            const veces = parseInt(document.getElementById('repeatCount').value) || 0;
+            const resultado = document.getElementById('resultadoRepeat');
+            
+            if (!texto) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Ingresa un texto primero.</span>';
+                return;
+            }
+            
+            if (veces > 50) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Máximo 50 repeticiones.</span>';
+                return;
+            }
+            
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>repeat(${veces}):</strong> "${texto.repeat(veces)}"</div>
+                <div style="margin: 5px 0;"><strong>Longitud total:</strong> ${texto.repeat(veces).length} caracteres</div>
+            `;
+        }
+
+        // Demo: Padding
+        function probarPadding() {
+            const texto = document.getElementById('padText').value;
+            const longitud = parseInt(document.getElementById('padLength').value) || 0;
+            const caracter = document.getElementById('padChar').value || '0';
+            const resultado = document.getElementById('resultadoPadding');
+            
+            if (!texto) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Ingresa un texto primero.</span>';
+                return;
+            }
+            
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Original:</strong> "${texto}" (${texto.length} chars)</div>
+                <div style="margin: 5px 0;"><strong>padStart(${longitud}, "${caracter}"):</strong> "${texto.padStart(longitud, caracter)}"</div>
+                <div style="margin: 5px 0;"><strong>padEnd(${longitud}, "${caracter}"):</strong> "${texto.padEnd(longitud, caracter)}"</div>
+            `;
+        }
+
+        // Demo: Regex
+        function buscarTelefonos() {
+            const texto = document.getElementById('regexText').value;
+            const resultado = document.getElementById('resultadoRegex');
+            
+            if (!texto) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Ingresa un texto primero.</span>';
+                return;
+            }
+            
+            const telefonos = texto.match(/\d{3}-\d{3}-\d{4}/g);
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Patrón:</strong> /\\d{3}-\\d{3}-\\d{4}/g</div>
+                <div style="margin: 5px 0;"><strong>Teléfonos encontrados:</strong> ${telefonos ? JSON.stringify(telefonos) : 'ninguno'}</div>
+            `;
+        }
+
+        function buscarEmails() {
+            const texto = document.getElementById('regexText').value;
+            const resultado = document.getElementById('resultadoRegex');
+            
+            if (!texto) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Ingresa un texto primero.</span>';
+                return;
+            }
+            
+            const emails = texto.match(/\w+@\w+\.\w+/g);
+            const posicion = texto.search(/\w+@\w+\.\w+/);
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Patrón:</strong> /\\w+@\\w+\\.\\w+/g</div>
+                <div style="margin: 5px 0;"><strong>Emails encontrados:</strong> ${emails ? JSON.stringify(emails) : 'ninguno'}</div>
+                <div style="margin: 5px 0;"><strong>Primera posición:</strong> ${posicion !== -1 ? posicion : 'no encontrado'}</div>
+            `;
+        }
+    </script>
+</body>
+</html>

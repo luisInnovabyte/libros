@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototypes en JavaScript - Parte II</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="two-column">
+            <!-- Navegación lateral -->
+            <aside class="navigation">
+                <h3>Contenido</h3>
+                <ul>
+                    <li><a href="#modificar-prototypes">Modificar Prototypes Existentes</a></li>
+                    <li><a href="#extender-nativos">Extender prototypes nativos</a></li>
+                    <li><a href="#polyfills">Polyfills</a></li>
+                    <li><a href="#herencia">Herencia con Prototypes</a></li>
+                    <li><a href="#herencia-clasica">Herencia clásica</a></li>
+                    <li><a href="#mixin-pattern">Mixin Pattern</a></li>
+                </ul>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main class="content">
+                <div class="header">
+                    <h1>Prototypes en JavaScript - Parte II</h1>
+                    <p class="alert">Técnicas avanzadas de prototypes: modificación de prototypes nativos, polyfills, herencia compleja y patrones de mixin.</p>
+                </div>
+
+                <section id="modificar-prototypes" class="section">
+                    <h2>Modificar Prototypes Existentes</h2>
+                    
+                    <div id="extender-nativos" class="subsection">
+                        <h3>Extender prototypes nativos (usar con precaución)</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Agregar método a Array.prototype
+Array.prototype.ultimo = function() {
+    return this[this.length - 1];
+};
+
+Array.prototype.primero = function() {
+    return this[0];
+};
+
+// Agregar método a String.prototype
+String.prototype.capitalizar = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
+};
+
+// Usar los nuevos métodos
+const numeros = [1, 2, 3, 4, 5];
+console.log(numeros.primero()); // 1
+console.log(numeros.ultimo());  // 5
+
+const texto = "hola mundo";
+console.log(texto.capitalizar()); // "Hola mundo"
+
+// ⚠️ ADVERTENCIA: Modificar prototypes nativos puede causar problemas
+// - Conflictos con otras librerías
+// - Problemas de compatibilidad
+// - Efectos secundarios inesperados
+
+// Es mejor crear funciones utilitarias
+const ArrayUtils = {
+    ultimo: (arr) => arr[arr.length - 1],
+    primero: (arr) => arr[0]
+};
+
+console.log(ArrayUtils.ultimo(numeros)); // 5 (más seguro)</code></pre>
+                        </div>
+
+                        <div class="alert" style="background-color: var(--warning-bg); border-left: 4px solid var(--warning-color);">
+                            <strong>⚠️ Advertencia:</strong> Modificar prototypes nativos puede causar conflictos con otras librerías y problemas de compatibilidad. Se recomienda usar funciones utilitarias en su lugar.
+                        </div>
+
+                        <div class="feature-card">
+                            <h4>Demo Extensión de Prototypes:</h4>
+                            <div style="margin-top: 15px;">
+                                <input type="text" id="arrayInput" placeholder="1,2,3,4,5" value="1,2,3,4,5" style="padding: 8px; width: 200px; border: 1px solid #ddd; border-radius: 4px; margin-right: 10px;">
+                                <button onclick="probarArrayExtension()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Probar Array</button>
+                                <br><br>
+                                <input type="text" id="stringInput" placeholder="hola mundo" value="hola mundo" style="padding: 8px; width: 200px; border: 1px solid #ddd; border-radius: 4px; margin-right: 10px;">
+                                <button onclick="probarStringExtension()" style="padding: 8px 16px; background: var(--secondary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Probar String</button>
+                                <div id="resultadoExtension" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="polyfills" class="subsection">
+                        <h3>Polyfills - Implementar métodos faltantes</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Polyfill para Array.includes() (si no existe)
+if (!Array.prototype.includes) {
+    Array.prototype.includes = function(searchElement, fromIndex) {
+        'use strict';
+        
+        if (this == null) {
+            throw new TypeError('Array.prototype.includes called on null or undefined');
+        }
+        
+        const obj = Object(this);
+        const len = parseInt(obj.length) || 0;
+        
+        if (len === 0) {
+            return false;
+        }
+        
+        let n = parseInt(fromIndex) || 0;
+        let k;
+        
+        if (n >= 0) {
+            k = n;
+        } else {
+            k = len + n;
+            if (k < 0) k = 0;
+        }
+        
+        while (k < len) {
+            if (obj[k] === searchElement) {
+                return true;
+            }
+            k++;
+        }
+        
+        return false;
+    };
+}
+
+// Polyfill para String.startsWith() (si no existe)
+if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function(searchString, position) {
+        position = position || 0;
+        return this.substr(position, searchString.length) === searchString;
+    };
+}</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4>Verificador de Polyfills:</h4>
+                            <div style="margin-top: 15px;">
+                                <button onclick="verificarPolyfills()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Verificar Métodos Disponibles</button>
+                                <div id="resultadoPolyfills" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="herencia" class="section">
+                    <h2>Herencia con Prototypes</h2>
+                    
+                    <div id="herencia-clasica" class="subsection">
+                        <h3>Herencia clásica con prototypes</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Clase padre
+function Animal(nombre, especie) {
+    this.nombre = nombre;
+    this.especie = especie;
+    this.vivo = true;
+}
+
+Animal.prototype.dormir = function() {
+    return `${this.nombre} está durmiendo`;
+};
+
+Animal.prototype.comer = function(alimento) {
+    return `${this.nombre} está comiendo ${alimento}`;
+};
+
+Animal.prototype.mostrarInfo = function() {
+    return `${this.nombre} es un ${this.especie}`;
+};
+
+// Clase hija - Mamifero
+function Mamifero(nombre, especie, tipoPelaje) {
+    // Llamar al constructor padre
+    Animal.call(this, nombre, especie);
+    this.tipoPelaje = tipoPelaje;
+    this.temperatura = "caliente";
+}
+
+// Establecer herencia
+Mamifero.prototype = Object.create(Animal.prototype);
+Mamifero.prototype.constructor = Mamifero;
+
+// Agregar métodos específicos de Mamifero
+Mamifero.prototype.amamantar = function() {
+    return `${this.nombre} está amamantando a sus crías`;
+};
+
+// Sobrescribir método del padre
+Mamifero.prototype.mostrarInfo = function() {
+    // Llamar al método del padre y extenderlo
+    const infoBase = Animal.prototype.mostrarInfo.call(this);
+    return `${infoBase} con pelaje ${this.tipoPelaje}`;
+};
+
+// Clase nieta - Perro
+function Perro(nombre, raza, tipoPelaje) {
+    // Llamar al constructor padre
+    Mamifero.call(this, nombre, "Canis lupus", tipoPelaje);
+    this.raza = raza;
+}
+
+// Establecer herencia
+Perro.prototype = Object.create(Mamifero.prototype);
+Perro.prototype.constructor = Perro;
+
+// Métodos específicos de Perro
+Perro.prototype.ladrar = function() {
+    return `${this.nombre} dice: ¡Guau guau!`;
+};
+
+Perro.prototype.jugar = function(juguete) {
+    return `${this.nombre} está jugando con ${juguete}`;
+};
+
+// Sobrescribir método
+Perro.prototype.mostrarInfo = function() {
+    const infoMamifero = Mamifero.prototype.mostrarInfo.call(this);
+    return `${infoMamifero}, raza ${this.raza}`;
+};
+
+// Usar la herencia
+const miPerro = new Perro("Rex", "Labrador", "corto");
+
+console.log(miPerro.mostrarInfo()); // "Rex es un Canis lupus con pelaje corto, raza Labrador"
+console.log(miPerro.dormir());      // "Rex está durmiendo" (de Animal)
+console.log(miPerro.amamantar());   // "Rex está amamantando a sus crías" (de Mamifero)
+console.log(miPerro.ladrar());      // "Rex dice: ¡Guau guau!" (de Perro)
+
+// Verificar instanceof
+console.log(miPerro instanceof Perro);    // true
+console.log(miPerro instanceof Mamifero); // true
+console.log(miPerro instanceof Animal);   // true
+console.log(miPerro instanceof Object);   // true</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h3>Demo Herencia Multinivel:</h3>
+                            <div style="margin-top: 15px;">
+                                <input type="text" id="nombreAnimal" placeholder="Nombre del perro" value="Rex" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <input type="text" id="razaAnimal" placeholder="Raza" value="Labrador" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <select id="pelajeAnimal" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <option value="corto">Pelaje corto</option>
+                                    <option value="largo">Pelaje largo</option>
+                                    <option value="rizado">Pelaje rizado</option>
+                                </select>
+                                <br><br>
+                                <button onclick="crearAnimalCompleto()" style="padding: 8px 12px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">Crear Perro</button>
+                                <button onclick="probarMetodosAnimal()" style="padding: 8px 12px; background: var(--secondary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">Probar Métodos</button>
+                                <button onclick="verificarHerenciaAnimal()" style="padding: 8px 12px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Verificar Herencia</button>
+                                <div id="resultadoAnimal" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="mixin-pattern" class="subsection">
+                        <h3>Mixin Pattern con Prototypes</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Mixins - comportamientos que se pueden "mezclar" en otros objetos
+const Volador = {
+    volar: function() {
+        return `${this.nombre} está volando`;
+    },
+    aterrizar: function() {
+        return `${this.nombre} ha aterrizado`;
+    }
+};
+
+const Nadador = {
+    nadar: function() {
+        return `${this.nombre} está nadando`;
+    },
+    bucear: function() {
+        return `${this.nombre} está buceando`;
+    }
+};
+
+const Corredor = {
+    correr: function() {
+        return `${this.nombre} está corriendo`;
+    },
+    saltar: function() {
+        return `${this.nombre} está saltando`;
+    }
+};
+
+// Función para mezclar comportamientos
+function mezclar(constructorDestino, ...mixins) {
+    mixins.forEach(mixin => {
+        Object.keys(mixin).forEach(prop => {
+            constructorDestino.prototype[prop] = mixin[prop];
+        });
+    });
+}
+
+// Clase base
+function Ave(nombre, especie) {
+    Animal.call(this, nombre, especie);
+}
+
+Ave.prototype = Object.create(Animal.prototype);
+Ave.prototype.constructor = Ave;
+
+// Mezclar comportamiento de Volador
+mezclar(Ave, Volador);
+
+// Clase Pato que hereda de Ave
+function Pato(nombre) {
+    Ave.call(this, nombre, "Pato");
+}
+
+Pato.prototype = Object.create(Ave.prototype);
+Pato.prototype.constructor = Pato;
+
+// Los patos también nadan
+mezclar(Pato, Nadador);
+
+// Crear instancias
+const aguila = new Ave("Águila", "Águila real");
+const pato = new Pato("Donald");
+
+console.log(aguila.volar());     // "Águila está volando"
+console.log(pato.volar());       // "Donald está volando"
+console.log(pato.nadar());       // "Donald está nadando"
+// console.log(aguila.nadar());  // Error: no tiene este método</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h3>Constructor de Animales con Mixins:</h3>
+                            <div style="margin-top: 15px;">
+                                <select id="tipoAnimalMixin" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <option value="ave">Ave (solo vuela)</option>
+                                    <option value="pato">Pato (vuela y nada)</option>
+                                    <option value="perro-terrestre">Perro terrestre (corre)</option>
+                                    <option value="delfin">Delfín (nada)</option>
+                                </select>
+                                <input type="text" id="nombreMixin" placeholder="Nombre" value="Águila" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <br><br>
+                                <button onclick="crearAnimalMixin()" style="padding: 8px 12px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">Crear Animal</button>
+                                <button onclick="probarHabilidadesMixin()" style="padding: 8px 12px; background: var(--secondary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Probar Habilidades</button>
+                                <div id="resultadoMixin" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="comparison-grid" style="margin-top: 40px;">
+                    <div class="feature-card">
+                        <h3>⚠️ Modificar Prototypes Nativos</h3>
+                        <ul>
+                            <li><strong>Ventajas:</strong> Sintaxis natural</li>
+                            <li><strong>Desventajas:</strong> Conflictos, compatibilidad</li>
+                            <li><strong>Alternativa:</strong> Funciones utilitarias</li>
+                            <li><strong>Uso válido:</strong> Polyfills</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🧬 Herencia Multinivel</h3>
+                        <ul>
+                            <li>Animal → Mamífero → Perro</li>
+                            <li><code>Object.create()</code> para prototype</li>
+                            <li><code>Constructor.call()</code> para propiedades</li>
+                            <li>Sobrescribir métodos del padre</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🔀 Mixin Pattern</h3>
+                        <ul>
+                            <li>Comportamientos reutilizables</li>
+                            <li>Composición sobre herencia</li>
+                            <li>Flexibilidad en capacidades</li>
+                            <li>Evita jerarquías complejas</li>
+                        </ul>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales para demos
+        let animalInstance = null;
+        let mixinInstances = {};
+
+        // Función para copiar código
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling.querySelector('code');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✅ Copiado!';
+                button.style.background = 'var(--success-color)';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            });
+        }
+
+        // Navegación suave
+        document.querySelectorAll('.navigation a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Demo: Extensión de prototypes nativos
+        function probarArrayExtension() {
+            const input = document.getElementById('arrayInput').value;
+            const resultado = document.getElementById('resultadoExtension');
+
+            try {
+                // Simular extensión de Array prototype (sin modificar realmente el global)
+                const numeros = input.split(',').map(n => parseInt(n.trim()));
+                
+                // Simular métodos personalizados
+                const primero = numeros[0];
+                const ultimo = numeros[numeros.length - 1];
+
+                resultado.innerHTML = `
+                    <div style="margin: 5px 0;"><strong>Array:</strong> [${numeros.join(', ')}]</div>
+                    <div style="margin: 5px 0;"><strong>primero():</strong> ${primero}</div>
+                    <div style="margin: 5px 0;"><strong>ultimo():</strong> ${ultimo}</div>
+                    <div style="margin: 10px 0; color: var(--success-color);"><strong>✅ Métodos personalizados funcionando</strong></div>
+                `;
+            } catch (error) {
+                resultado.innerHTML = `<span style="color: var(--error-color);">Error: ${error.message}</span>`;
+            }
+        }
+
+        function probarStringExtension() {
+            const texto = document.getElementById('stringInput').value;
+            const resultado = document.getElementById('resultadoExtension');
+
+            // Simular método capitalizar
+            const capitalizado = texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Texto original:</strong> "${texto}"</div>
+                <div style="margin: 5px 0;"><strong>capitalizar():</strong> "${capitalizado}"</div>
+                <div style="margin: 10px 0; color: var(--success-color);"><strong>✅ Método personalizado funcionando</strong></div>
+            `;
+        }
+
+        // Demo: Verificar polyfills
+        function verificarPolyfills() {
+            const resultado = document.getElementById('resultadoPolyfills');
+
+            const metodos = [
+                { nombre: 'Array.prototype.includes', existe: typeof Array.prototype.includes === 'function' },
+                { nombre: 'String.prototype.startsWith', existe: typeof String.prototype.startsWith === 'function' },
+                { nombre: 'String.prototype.endsWith', existe: typeof String.prototype.endsWith === 'function' },
+                { nombre: 'Array.prototype.find', existe: typeof Array.prototype.find === 'function' },
+                { nombre: 'Object.assign', existe: typeof Object.assign === 'function' },
+                { nombre: 'Array.prototype.forEach', existe: typeof Array.prototype.forEach === 'function' }
+            ];
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Estado de métodos en este navegador:</strong></div>
+                ${metodos.map(metodo => `
+                    <div style="margin: 5px 0;">
+                        • <strong>${metodo.nombre}:</strong> 
+                        <span style="color: ${metodo.existe ? 'var(--success-color)' : 'var(--error-color)'};">
+                            ${metodo.existe ? '✅ Disponible' : '❌ No disponible (necesita polyfill)'}
+                        </span>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        // Demo: Herencia multinivel
+        function crearAnimalCompleto() {
+            const nombre = document.getElementById('nombreAnimal').value || 'Rex';
+            const raza = document.getElementById('razaAnimal').value || 'Labrador';
+            const pelaje = document.getElementById('pelajeAnimal').value || 'corto';
+            const resultado = document.getElementById('resultadoAnimal');
+
+            // Recrear jerarquía Animal → Mamífero → Perro
+            function Animal(nombre, especie) {
+                this.nombre = nombre;
+                this.especie = especie;
+                this.vivo = true;
+            }
+
+            Animal.prototype.dormir = function() {
+                return `${this.nombre} está durmiendo`;
+            };
+
+            Animal.prototype.comer = function(alimento) {
+                return `${this.nombre} está comiendo ${alimento}`;
+            };
+
+            Animal.prototype.mostrarInfo = function() {
+                return `${this.nombre} es un ${this.especie}`;
+            };
+
+            function Mamifero(nombre, especie, tipoPelaje) {
+                Animal.call(this, nombre, especie);
+                this.tipoPelaje = tipoPelaje;
+                this.temperatura = "caliente";
+            }
+
+            Mamifero.prototype = Object.create(Animal.prototype);
+            Mamifero.prototype.constructor = Mamifero;
+
+            Mamifero.prototype.amamantar = function() {
+                return `${this.nombre} está amamantando a sus crías`;
+            };
+
+            Mamifero.prototype.mostrarInfo = function() {
+                const infoBase = Animal.prototype.mostrarInfo.call(this);
+                return `${infoBase} con pelaje ${this.tipoPelaje}`;
+            };
+
+            function Perro(nombre, raza, tipoPelaje) {
+                Mamifero.call(this, nombre, "Canis lupus", tipoPelaje);
+                this.raza = raza;
+            }
+
+            Perro.prototype = Object.create(Mamifero.prototype);
+            Perro.prototype.constructor = Perro;
+
+            Perro.prototype.ladrar = function() {
+                return `${this.nombre} dice: ¡Guau guau!`;
+            };
+
+            Perro.prototype.jugar = function(juguete) {
+                return `${this.nombre} está jugando con ${juguete}`;
+            };
+
+            Perro.prototype.mostrarInfo = function() {
+                const infoMamifero = Mamifero.prototype.mostrarInfo.call(this);
+                return `${infoMamifero}, raza ${this.raza}`;
+            };
+
+            animalInstance = new Perro(nombre, raza, pelaje);
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Perro creado:</strong> ${nombre}</div>
+                <div style="margin: 5px 0;"><strong>Información:</strong> ${animalInstance.mostrarInfo()}</div>
+                <div style="margin: 5px 0;"><strong>Propiedades:</strong></div>
+                <div style="margin-left: 20px;">• Nombre: ${animalInstance.nombre}</div>
+                <div style="margin-left: 20px;">• Raza: ${animalInstance.raza}</div>
+                <div style="margin-left: 20px;">• Pelaje: ${animalInstance.tipoPelaje}</div>
+                <div style="margin-left: 20px;">• Especie: ${animalInstance.especie}</div>
+            `;
+        }
+
+        function probarMetodosAnimal() {
+            const resultado = document.getElementById('resultadoAnimal');
+            
+            if (!animalInstance) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Primero crea un perro.</span>';
+                return;
+            }
+
+            resultado.innerHTML += `
+                <hr style="margin: 10px 0;">
+                <div style="margin: 5px 0;"><strong>Métodos heredados y propios:</strong></div>
+                <div style="margin: 5px 0;">• Dormir (Animal): ${animalInstance.dormir()}</div>
+                <div style="margin: 5px 0;">• Comer (Animal): ${animalInstance.comer('croquetas')}</div>
+                <div style="margin: 5px 0;">• Amamantar (Mamífero): ${animalInstance.amamantar()}</div>
+                <div style="margin: 5px 0;">• Ladrar (Perro): ${animalInstance.ladrar()}</div>
+                <div style="margin: 5px 0;">• Jugar (Perro): ${animalInstance.jugar('pelota')}</div>
+            `;
+        }
+
+        function verificarHerenciaAnimal() {
+            const resultado = document.getElementById('resultadoAnimal');
+            
+            if (!animalInstance) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Primero crea un perro.</span>';
+                return;
+            }
+
+            resultado.innerHTML += `
+                <hr style="margin: 10px 0;">
+                <div style="margin: 5px 0;"><strong>Verificación instanceof:</strong></div>
+                <div style="margin: 5px 0;">• instanceof Perro: ${animalInstance.constructor.name === 'Perro'}</div>
+                <div style="margin: 5px 0;">• instanceof Mamifero: ${Object.getPrototypeOf(animalInstance.constructor.prototype).constructor.name === 'Mamifero'}</div>
+                <div style="margin: 5px 0;">• instanceof Animal: ${Object.getPrototypeOf(Object.getPrototypeOf(animalInstance.constructor.prototype)).constructor.name === 'Animal'}</div>
+                <div style="margin: 5px 0;">• instanceof Object: ${animalInstance instanceof Object}</div>
+            `;
+        }
+
+        // Demo: Mixin pattern
+        function crearAnimalMixin() {
+            const tipo = document.getElementById('tipoAnimalMixin').value;
+            const nombre = document.getElementById('nombreMixin').value || 'Animal';
+            const resultado = document.getElementById('resultadoMixin');
+
+            // Mixins
+            const Volador = {
+                volar: function() { return `${this.nombre} está volando`; },
+                aterrizar: function() { return `${this.nombre} ha aterrizado`; }
+            };
+
+            const Nadador = {
+                nadar: function() { return `${this.nombre} está nadando`; },
+                bucear: function() { return `${this.nombre} está buceando`; }
+            };
+
+            const Corredor = {
+                correr: function() { return `${this.nombre} está corriendo`; },
+                saltar: function() { return `${this.nombre} está saltando`; }
+            };
+
+            function mezclar(constructorDestino, ...mixins) {
+                mixins.forEach(mixin => {
+                    Object.keys(mixin).forEach(prop => {
+                        constructorDestino.prototype[prop] = mixin[prop];
+                    });
+                });
+            }
+
+            // Clase base
+            function AnimalBase(nombre) {
+                this.nombre = nombre;
+            }
+
+            let animal;
+            let habilidades = [];
+
+            switch(tipo) {
+                case 'ave':
+                    function Ave(nombre) { AnimalBase.call(this, nombre); }
+                    Ave.prototype = Object.create(AnimalBase.prototype);
+                    Ave.prototype.constructor = Ave;
+                    mezclar(Ave, Volador);
+                    animal = new Ave(nombre);
+                    habilidades = ['volar', 'aterrizar'];
+                    break;
+                case 'pato':
+                    function Pato(nombre) { AnimalBase.call(this, nombre); }
+                    Pato.prototype = Object.create(AnimalBase.prototype);
+                    Pato.prototype.constructor = Pato;
+                    mezclar(Pato, Volador, Nadador);
+                    animal = new Pato(nombre);
+                    habilidades = ['volar', 'aterrizar', 'nadar', 'bucear'];
+                    break;
+                case 'perro-terrestre':
+                    function PerroTerrestre(nombre) { AnimalBase.call(this, nombre); }
+                    PerroTerrestre.prototype = Object.create(AnimalBase.prototype);
+                    PerroTerrestre.prototype.constructor = PerroTerrestre;
+                    mezclar(PerroTerrestre, Corredor);
+                    animal = new PerroTerrestre(nombre);
+                    habilidades = ['correr', 'saltar'];
+                    break;
+                case 'delfin':
+                    function Delfin(nombre) { AnimalBase.call(this, nombre); }
+                    Delfin.prototype = Object.create(AnimalBase.prototype);
+                    Delfin.prototype.constructor = Delfin;
+                    mezclar(Delfin, Nadador);
+                    animal = new Delfin(nombre);
+                    habilidades = ['nadar', 'bucear'];
+                    break;
+            }
+
+            mixinInstances[tipo] = animal;
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Animal creado:</strong> ${animal.nombre} (${animal.constructor.name})</div>
+                <div style="margin: 5px 0;"><strong>Habilidades disponibles:</strong> ${habilidades.join(', ')}</div>
+                <div style="margin: 5px 0;"><strong>Tipo de mixin:</strong> ${tipo.replace('-', ' ')}</div>
+            `;
+        }
+
+        function probarHabilidadesMixin() {
+            const tipo = document.getElementById('tipoAnimalMixin').value;
+            const resultado = document.getElementById('resultadoMixin');
+            
+            const animal = mixinInstances[tipo];
+            if (!animal) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Primero crea un animal.</span>';
+                return;
+            }
+
+            let pruebas = [];
+
+            // Probar todas las habilidades posibles
+            if (typeof animal.volar === 'function') {
+                pruebas.push(`• Volar: ${animal.volar()}`);
+            }
+            if (typeof animal.aterrizar === 'function') {
+                pruebas.push(`• Aterrizar: ${animal.aterrizar()}`);
+            }
+            if (typeof animal.nadar === 'function') {
+                pruebas.push(`• Nadar: ${animal.nadar()}`);
+            }
+            if (typeof animal.bucear === 'function') {
+                pruebas.push(`• Bucear: ${animal.bucear()}`);
+            }
+            if (typeof animal.correr === 'function') {
+                pruebas.push(`• Correr: ${animal.correr()}`);
+            }
+            if (typeof animal.saltar === 'function') {
+                pruebas.push(`• Saltar: ${animal.saltar()}`);
+            }
+
+            resultado.innerHTML += `
+                <hr style="margin: 10px 0;">
+                <div style="margin: 5px 0;"><strong>Probando habilidades:</strong></div>
+                ${pruebas.join('<br>')}
+                <div style="margin: 10px 0; color: var(--success-color);"><strong>✅ Mixins funcionando correctamente</strong></div>
+            `;
+        }
+    </script>
+</body>
+</html>

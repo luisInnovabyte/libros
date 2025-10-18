@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estructuras de Control en JavaScript - Tutorial Completo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="two-column">
+            <!-- Navegación lateral -->
+            <nav class="navigation">
+                <h3>📚 Índice de Contenidos</h3>
+                <ul>
+                    <li><a href="#introduccion" class="nav-link">🎯 Introducción</a></li>
+                    <li><a href="#condicionales" class="nav-link">🔄 Estructuras Condicionales</a></li>
+                    <li><a href="#if-else" class="nav-link">📝 if...else</a></li>
+                    <li><a href="#operador-ternario" class="nav-link">❓ Operador Ternario</a></li>
+                    <li><a href="#switch" class="nav-link">🔀 Switch</a></li>
+                    <li><a href="#bucles-for" class="nav-link">🔁 Bucles For</a></li>
+                    <li><a href="#while-dowhile" class="nav-link">⭕ While y Do...While</a></li>
+                    <li><a href="#foreach-map" class="nav-link">📋 forEach y map</a></li>
+                    <li><a href="#break-continue" class="nav-link">⏭️ break y continue</a></li>
+                    <li><a href="#try-catch" class="nav-link">⚠️ try...catch...finally</a></li>
+                    <li><a href="#estructuras-avanzadas" class="nav-link">🚀 Estructuras Avanzadas</a></li>
+                    <li><a href="#casos-practicos" class="nav-link">💼 Casos Prácticos</a></li>
+                    <li><a href="#demo-interactivo" class="nav-link">🎮 Demo Interactivo</a></li>
+                </ul>
+            </nav>
+
+            <!-- Contenido principal -->
+            <main class="content">
+                <header class="header">
+                    <h1>🎛️ Estructuras de Control en JavaScript</h1>
+                    <p class="header-description">
+                        Guía completa sobre estructuras de control - Domina el flujo de ejecución en JavaScript
+                    </p>
+                </header>
+
+                <div class="content-sections">
+                    <section id="introduccion" class="section">
+                        <h2>🎯 ¿Qué son las Estructuras de Control?</h2>
+                        <p>Las <strong>estructuras de control</strong> son fundamentales en JavaScript para dirigir el flujo de ejecución del programa. Permiten tomar decisiones, repetir código y manejar diferentes situaciones según las condiciones que se presenten.</p>
+                        
+                        <div class="feature-card">
+                            <h3>🎛️ Las estructuras de control nos permiten:</h3>
+                            <ul>
+                                <li><strong>Tomar decisiones:</strong> Ejecutar código según condiciones (if, switch)</li>
+                                <li><strong>Repetir código:</strong> Bucles para iterar (for, while, forEach)</li>
+                                <li><strong>Saltar o interrumpir:</strong> Control de flujo (break, continue)</li>
+                                <li><strong>Manejar errores:</strong> Gestión de excepciones (try...catch)</li>
+                                <li><strong>Selección múltiple:</strong> Múltiples opciones (switch)</li>
+                            </ul>
+                        </div>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <h4>❌ Sin estructuras de control</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>// Ejecución secuencial simple
+console.log("Línea 1");
+console.log("Línea 2");
+console.log("Línea 3");
+// Siempre se ejecuta todo</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>✅ Con estructuras de control</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>const edad = 18;
+if (edad >= 18) {
+    console.log("Es mayor de edad");
+    // Solo se ejecuta si la condición es verdadera
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="condicionales" class="section">
+                        <h2>🔄 Estructuras Condicionales</h2>
+                        <p>Las condicionales permiten ejecutar diferentes bloques de código según se cumplan o no ciertas condiciones.</p>
+                    </section>
+
+                    <section id="if-else" class="section">
+                        <h2>📝 if...else</h2>
+
+                        <h3>if básico</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const edad = 20;
+
+// if simple
+if (edad >= 18) {
+    console.log("Puedes votar");
+}
+
+// if con múltiples declaraciones
+if (edad >= 21) {
+    console.log("Puedes beber alcohol en EE.UU.");
+    console.log("Eres completamente adulto");
+}</code></pre>
+                        </div>
+
+                        <h3>if...else</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const temperatura = 25;
+
+if (temperatura > 30) {
+    console.log("Hace calor");
+} else {
+    console.log("Temperatura agradable");
+}
+
+// Ejemplo más complejo
+const puntuacion = 85;
+
+if (puntuacion >= 90) {
+    console.log("Excelente - A");
+} else {
+    console.log("Buen trabajo - B o menos");
+}</code></pre>
+                        </div>
+
+                        <h3>if...else if...else</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const nota = 75;
+
+if (nota >= 90) {
+    console.log("Sobresaliente (A)");
+} else if (nota >= 80) {
+                        console.log("Notable (B)");
+} else if (nota >= 70) {
+    console.log("Bien (C)");
+} else if (nota >= 60) {
+    console.log("Suficiente (D)");
+} else {
+    console.log("Insuficiente (F)");
+}
+
+// Ejemplo con diferentes tipos de condiciones
+const usuario = {
+    nombre: "Ana",
+    edad: 25,
+    premium: true,
+    activo: true
+};
+
+if (!usuario.activo) {
+    console.log("Usuario inactivo");
+} else if (!usuario.premium && usuario.edad < 18) {
+    console.log("Usuario menor, acceso limitado");
+} else if (usuario.premium) {
+    console.log("Usuario premium, acceso completo");
+} else {
+    console.log("Usuario estándar");
+}</code></pre>
+                        </div>
+
+                        <h3>Operadores lógicos en condicionales</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const usuario = {
+    edad: 25,
+    premium: true,
+    activo: true,
+    pais: "España"
+};
+
+// AND (&&) - todas las condiciones deben ser verdaderas
+if (usuario.edad >= 18 && usuario.activo && usuario.premium) {
+    console.log("Acceso completo permitido");
+}
+
+// OR (||) - al menos una condición debe ser verdadera
+if (usuario.premium || usuario.edad >= 65) {
+    console.log("Tiene descuento especial");
+}
+
+// NOT (!) - invierte el valor boolean
+if (!usuario.activo) {
+    console.log("Usuario inactivo");
+}
+
+// Combinaciones complejas
+if ((usuario.premium && usuario.activo) || usuario.pais === "España") {
+    console.log("Acceso a contenido especial");
+}</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="operador-ternario" class="section">
+                        <h2>❓ Operador Ternario</h2>
+                        <p>El operador ternario <code>condición ? valor1 : valor2</code> es una forma concisa de escribir condicionales simples.</p>
+
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Sintaxis básica
+const edad = 20;
+const mensaje = edad >= 18 ? "Adulto" : "Menor";
+console.log(mensaje); // "Adulto"
+
+// Comparación con if...else
+// Usando if...else
+let tipo;
+if (edad >= 18) {
+    tipo = "Adulto";
+} else {
+    tipo = "Menor";
+}
+
+// Usando operador ternario (más conciso)
+const tipo2 = edad >= 18 ? "Adulto" : "Menor";
+
+// Ternarios anidados
+const puntos = 1250;
+const nivel = puntos >= 1000 ? "Experto" : 
+              puntos >= 500 ? "Intermedio" : 
+              puntos >= 100 ? "Principiante" : "Novato";
+
+console.log(nivel); // "Experto"
+
+// En funciones
+const obtenerDescuento = (esPremium) => esPremium ? 0.2 : 0.05;
+
+// En asignación de propiedades
+const producto = {
+    nombre: "Laptop",
+    precio: 1000,
+    descuento: usuario.premium ? 100 : 50
+};</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="switch" class="section">
+                        <h2>🔀 Switch - Selección Múltiple</h2>
+                        <p>Switch es ideal cuando tienes múltiples opciones basadas en el valor de una variable.</p>
+
+                        <h3>Switch básico</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const diaSemana = 3;
+let nombreDia;
+
+switch (diaSemana) {
+    case 1:
+        nombreDia = "Lunes";
+        break;
+    case 2:
+        nombreDia = "Martes";
+        break;
+    case 3:
+        nombreDia = "Miércoles";
+        break;
+    case 4:
+        nombreDia = "Jueves";
+        break;
+    case 5:
+        nombreDia = "Viernes";
+        break;
+    case 6:
+        nombreDia = "Sábado";
+        break;
+    case 7:
+        nombreDia = "Domingo";
+        break;
+    default:
+        nombreDia = "Día inválido";
+}
+
+console.log(nombreDia); // "Miércoles"</code></pre>
+                        </div>
+
+                        <h3>Switch sin break (fall-through)</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const mes = "enero";
+let estacion;
+
+switch (mes) {
+    case "diciembre":
+    case "enero":
+    case "febrero":
+        estacion = "Invierno";
+        break;
+    case "marzo":
+    case "abril":
+    case "mayo":
+        estacion = "Primavera";
+        break;
+    case "junio":
+    case "julio":
+    case "agosto":
+        estacion = "Verano";
+        break;
+    case "septiembre":
+    case "octubre":
+    case "noviembre":
+        estacion = "Otoño";
+        break;
+    default:
+        estacion = "Mes no válido";
+}
+
+console.log(estacion); // "Invierno"</code></pre>
+                        </div>
+
+                        <h3>Comparación: switch vs if...else</h3>
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <h4>✅ Con switch</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>const accion = "guardar";
+
+switch (accion) {
+    case "guardar":
+        console.log("Guardando datos...");
+        break;
+    case "cargar":
+        console.log("Cargando datos...");
+        break;
+    case "eliminar":
+        console.log("Eliminando datos...");
+        break;
+    default:
+        console.log("Acción no reconocida");
+}</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>✅ Con if...else (equivalente)</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>if (accion === "guardar") {
+    console.log("Guardando datos...");
+} else if (accion === "cargar") {
+    console.log("Cargando datos...");
+} else if (accion === "eliminar") {
+    console.log("Eliminando datos...");
+} else {
+    console.log("Acción no reconocida");
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="bucles-for" class="section">
+                        <h2>🔁 Bucles For</h2>
+                        <p>Los bucles for permiten repetir código un número determinado de veces o iterar sobre colecciones.</p>
+
+                        <h3>for básico</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Sintaxis: for (inicialización; condición; incremento)
+for (let i = 0; i < 5; i++) {
+    console.log(`Iteración: ${i}`);
+}
+// Salida: 0, 1, 2, 3, 4
+
+// Recorrer un array
+const frutas = ["manzana", "banana", "naranja"];
+for (let i = 0; i < frutas.length; i++) {
+    console.log(`${i}: ${frutas[i]}`);
+}
+// 0: manzana
+// 1: banana
+// 2: naranja
+
+// Bucle hacia atrás
+for (let i = frutas.length - 1; i >= 0; i--) {
+    console.log(frutas[i]);
+}
+// naranja, banana, manzana
+
+// Incremento personalizado
+for (let i = 0; i <= 10; i += 2) {
+    console.log(i); // 0, 2, 4, 6, 8, 10
+}</code></pre>
+                        </div>
+
+                        <h3>for...in (para propiedades de objetos)</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const persona = {
+    nombre: "Juan",
+    edad: 30,
+    profesion: "Desarrollador",
+    ciudad: "Madrid"
+};
+
+// Iterar sobre propiedades de objeto
+for (let propiedad in persona) {
+    console.log(`${propiedad}: ${persona[propiedad]}`);
+}
+// nombre: Juan
+// edad: 30
+// profesion: Desarrollador
+// ciudad: Madrid
+
+// Verificar propiedades propias (no heredadas)
+for (let prop in persona) {
+    if (persona.hasOwnProperty(prop)) {
+        console.log(`${prop}: ${persona[prop]}`);
+    }
+}</code></pre>
+                        </div>
+
+                        <h3>for...of (para elementos iterables) - ES2015</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const numeros = [1, 2, 3, 4, 5];
+
+// Iterar sobre valores
+for (let numero of numeros) {
+    console.log(numero * 2);
+}
+// 2, 4, 6, 8, 10
+
+// Con strings
+const texto = "Hola";
+for (let letra of texto) {
+    console.log(letra);
+}
+// H, o, l, a
+
+// Con Set
+const conjunto = new Set([1, 2, 3, 3, 4]);
+for (let valor of conjunto) {
+    console.log(valor);
+}
+// 1, 2, 3, 4
+
+// Obtener tanto índice como valor con entries()
+const animales = ["gato", "perro", "pájaro"];
+for (let [indice, animal] of animales.entries()) {
+    console.log(`${indice}: ${animal}`);
+}
+// 0: gato, 1: perro, 2: pájaro</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="while-dowhile" class="section">
+                        <h2>⭕ Bucles While y Do...While</h2>
+
+                        <h3>while</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Sintaxis básica
+let contador = 0;
+while (contador < 5) {
+    console.log(`Contador: ${contador}`);
+    contador++; // ¡Importante! Evitar bucle infinito
+}
+// 0, 1, 2, 3, 4
+
+// Búsqueda hasta encontrar elemento
+const lista = [5, 8, 12, 3, 18, 7];
+let posicion = 0;
+let valorBuscado = 12;
+let encontrado = false;
+
+while (posicion < lista.length && !encontrado) {
+    if (lista[posicion] === valorBuscado) {
+        encontrado = true;
+        console.log(`Encontrado en posición: ${posicion}`);
+    } else {
+        posicion++;
+    }
+}</code></pre>
+                        </div>
+
+                        <h3>do...while</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Se ejecuta al menos una vez, luego verifica la condición
+let respuesta;
+do {
+    respuesta = prompt("¿Quieres continuar? (s/n)");
+    console.log(`Respuesta: ${respuesta}`);
+} while (respuesta !== "n" && respuesta !== "s");
+
+// Ejemplo: validación de entrada
+let numero;
+do {
+    numero = parseInt(prompt("Ingresa un número entre 1 y 10:"));
+    if (numero < 1 || numero > 10 || isNaN(numero)) {
+        console.log("Número inválido, intenta de nuevo");
+    }
+} while (numero < 1 || numero > 10 || isNaN(numero));
+
+console.log(`Número válido: ${numero}`);</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="foreach-map" class="section">
+                        <h2>📋 forEach y map (Métodos de Array)</h2>
+
+                        <h3>forEach - Iterar sin retornar</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const numeros = [1, 2, 3, 4, 5];
+
+// forEach básico
+numeros.forEach(function(numero) {
+    console.log(numero * 2);
+});
+// 2, 4, 6, 8, 10
+
+// forEach con arrow function
+numeros.forEach(numero => console.log(numero * 2));
+
+// forEach con índice y array completo
+numeros.forEach((numero, indice, array) => {
+    console.log(`Posición ${indice}: ${numero} (Array de ${array.length} elementos)`);
+});
+
+// Ejemplo práctico: procesar lista de usuarios
+const usuarios = [
+    { nombre: "Ana", edad: 25 },
+    { nombre: "Luis", edad: 30 },
+    { nombre: "María", edad: 28 }
+];
+
+usuarios.forEach(usuario => {
+    console.log(`${usuario.nombre} tiene ${usuario.edad} años`);
+    // Realizar operaciones como enviar emails, actualizar BD, etc.
+});</code></pre>
+                        </div>
+
+                        <h3>map - Transformar y retornar nuevo array</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const numeros = [1, 2, 3, 4, 5];
+
+// map básico - crear nuevo array transformado
+const duplicados = numeros.map(function(numero) {
+    return numero * 2;
+});
+console.log(duplicados); // [2, 4, 6, 8, 10]
+
+// map con arrow function
+const cuadrados = numeros.map(numero => numero ** 2);
+console.log(cuadrados); // [1, 4, 9, 16, 25]
+
+// map con objetos
+const usuarios = [
+    { nombre: "Ana", edad: 25 },
+    { nombre: "Luis", edad: 30 },
+    { nombre: "María", edad: 28 }
+];
+
+// Extraer solo los nombres
+const nombres = usuarios.map(usuario => usuario.nombre);
+console.log(nombres); // ["Ana", "Luis", "María"]
+
+// Transformar objetos
+const usuariosConCategoria = usuarios.map(usuario => ({
+    ...usuario,
+    categoria: usuario.edad >= 30 ? "Senior" : "Junior"
+}));
+console.log(usuariosConCategoria);</code></pre>
+                        </div>
+
+                        <h3>Diferencias entre forEach y map</h3>
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <h4>✅ forEach para efectos secundarios</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>const numeros = [1, 2, 3, 4, 5];
+
+// ✅ Uso correcto de forEach
+numeros.forEach(numero => {
+    console.log(numero); // Efecto secundario apropiado
+    // No necesita retornar nada
+});</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item">
+                                <h4>✅ map para transformaciones</h4>
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                                    <pre><code>// ✅ Uso correcto de map (transformación)
+const duplicados = numeros.map(numero => numero * 2);
+console.log(duplicados); // [2, 4, 6, 8, 10]
+
+// forEach: hacer algo CON cada elemento
+// map: crear nuevo array BASADO en cada elemento</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="break-continue" class="section">
+                        <h2>⏭️ Control de Flujo - break y continue</h2>
+
+                        <h3>break - Salir del bucle</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// break en for
+for (let i = 0; i < 10; i++) {
+    if (i === 5) {
+        break; // Sale del bucle cuando i es 5
+    }
+    console.log(i);
+}
+// Salida: 0, 1, 2, 3, 4
+
+// break en while
+let numero = 0;
+while (true) { // Bucle infinito controlado
+    console.log(numero);
+    numero++;
+    
+    if (numero >= 5) {
+        break; // Sale cuando numero es 5
+    }
+}
+
+// break en búsqueda
+const lista = [1, 3, 5, 7, 9, 2, 4, 6];
+let encontrado = false;
+
+for (let i = 0; i < lista.length; i++) {
+    if (lista[i] % 2 === 0) { // Buscar primer número par
+        console.log(`Primer par encontrado: ${lista[i]} en posición ${i}`);
+        encontrado = true;
+        break; // Sale en cuanto encuentra uno
+    }
+}</code></pre>
+                        </div>
+
+                        <h3>continue - Saltar iteración actual</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// continue en for
+for (let i = 0; i < 10; i++) {
+    if (i % 2 === 0) {
+        continue; // Salta números pares
+    }
+    console.log(i);
+}
+// Salida: 1, 3, 5, 7, 9
+
+// Procesar solo elementos válidos
+const datos = [1, null, 3, undefined, 5, "", 7, 0, 9];
+
+for (let i = 0; i < datos.length; i++) {
+    if (!datos[i]) { // Si es falsy, saltar
+        continue;
+    }
+    console.log(`Procesando: ${datos[i]}`);
+}
+// Salida: 1, 3, 5, 7, 9</code></pre>
+                        </div>
+
+                        <h3>Etiquetas (labels) para bucles anidados</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// Etiquetas para control preciso en bucles anidados
+exterior: for (let i = 0; i < 3; i++) {
+    interior: for (let j = 0; j < 3; j++) {
+        if (i === 1 && j === 1) {
+            console.log("Saliendo de ambos bucles");
+            break exterior; // Sale del bucle exterior
+        }
+        console.log(`i: ${i}, j: ${j}`);
+    }
+}
+
+// Ejemplo práctico: búsqueda en matriz
+const matriz = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+];
+
+let valorBuscado = 5;
+let encontradoEnMatriz = false;
+
+busqueda: for (let fila = 0; fila < matriz.length; fila++) {
+    for (let col = 0; col < matriz[fila].length; col++) {
+        if (matriz[fila][col] === valorBuscado) {
+            console.log(`Encontrado ${valorBuscado} en fila ${fila}, columna ${col}`);
+            encontradoEnMatriz = true;
+            break busqueda; // Sale de ambos bucles
+        }
+    }
+}</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="try-catch" class="section">
+                        <h2>⚠️ try...catch...finally - Manejo de Errores</h2>
+
+                        <h3>try...catch básico</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>try {
+    // Código que puede fallar
+    let resultado = 10 / 0;
+    console.log(resultado); // Infinity (no es error en JS)
+    
+    // Esto sí genera error
+    let objeto = null;
+    console.log(objeto.propiedad); // TypeError
+    
+} catch (error) {
+    // Se ejecuta si hay error en try
+    console.log("Error capturado:", error.message);
+    console.log("Tipo de error:", error.name);
+}
+
+console.log("El programa continúa..."); // Se ejecuta normalmente</code></pre>
+                        </div>
+
+                        <h3>try...catch...finally</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>function procesarDatos(datos) {
+    console.log("Iniciando procesamiento...");
+    
+    try {
+        if (!datos) {
+            throw new Error("Datos no proporcionados");
+        }
+        
+        if (!Array.isArray(datos)) {
+            throw new Error("Los datos deben ser un array");
+        }
+        
+        // Procesar datos
+        let resultado = datos.map(item => item * 2);
+        console.log("Datos procesados:", resultado);
+        return resultado;
+        
+    } catch (error) {
+        console.log("Error en el procesamiento:", error.message);
+        return null;
+        
+    } finally {
+        // SIEMPRE se ejecuta, haya error o no
+        console.log("Limpieza completada");
+    }
+}
+
+// Pruebas
+procesarDatos([1, 2, 3]); // Éxito
+procesarDatos(null);       // Error controlado
+procesarDatos("texto");    // Error controlado</code></pre>
+                        </div>
+
+                        <h3>Manejo específico de errores</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>function dividir(a, b) {
+    try {
+        if (typeof a !== "number" || typeof b !== "number") {
+            throw new TypeError("Los argumentos deben ser números");
+        }
+        
+        if (b === 0) {
+            throw new Error("División por cero no permitida");
+        }
+        
+        return a / b;
+        
+    } catch (error) {
+        if (error instanceof TypeError) {
+            console.log("Error de tipo:", error.message);
+        } else if (error instanceof Error) {
+            console.log("Error general:", error.message);
+        }
+        
+        return null;
+    }
+}
+
+console.log(dividir(10, 2));     // 5
+console.log(dividir("10", 2));   // Error de tipo
+console.log(dividir(10, 0));     // Error de división</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="estructuras-avanzadas" class="section">
+                        <h2>🚀 Estructuras Avanzadas</h2>
+
+                        <h3>Operadores de Cortocircuito</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>// AND (&&) - Evaluación perezosa
+const usuario = { nombre: "Ana", premium: true };
+
+// Solo ejecuta la función si el usuario es premium
+usuario.premium && console.log("Usuario premium detectado");
+
+// Asignación condicional
+const descuento = usuario.premium && 0.2; // false o 0.2
+
+// OR (||) - Valor por defecto
+const nombre = usuario.nombre || "Usuario Anónimo";
+const configuracion = usuario.config || { tema: "claro" };
+
+// Nullish coalescing (??) - ES2020
+const puerto = process.env.PORT ?? 3000; // Solo null/undefined
+const valor = 0 ?? 5; // 0 (no se considera null/undefined)</code></pre>
+                        </div>
+
+                        <h3>Optional Chaining - ES2020</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>const usuario = {
+    nombre: "Ana",
+    direccion: {
+        calle: "Main St",
+        ciudad: "Madrid"
+    }
+};
+
+// Sin optional chaining (riesgo de error)
+// console.log(usuario.contacto.telefono); // Error!
+
+// Con optional chaining
+console.log(usuario.contacto?.telefono);        // undefined
+console.log(usuario.direccion?.ciudad);         // "Madrid"
+console.log(usuario.direccion?.pais?.codigo);   // undefined
+
+// Con arrays
+const lista = usuario.hobbies?.[0] ?? "Sin hobbies";
+
+// Con funciones
+usuario.saludar?.() ?? console.log("No hay método saludar");</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="casos-practicos" class="section">
+                        <h2>💼 Casos Prácticos Complejos</h2>
+
+                        <h3>1. Validador de formulario completo</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>function validarFormulario(datos) {
+    const errores = [];
+    
+    // Validar nombre
+    if (!datos.nombre || datos.nombre.trim().length < 2) {
+        errores.push("Nombre debe tener al menos 2 caracteres");
+    }
+    
+    // Validar email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!datos.email || !emailRegex.test(datos.email)) {
+        errores.push("Email no válido");
+    }
+    
+    // Validar edad
+    if (!datos.edad || datos.edad < 18 || datos.edad > 120) {
+        errores.push("Edad debe estar entre 18 y 120 años");
+    }
+    
+    // Validar contraseña
+    if (!datos.password || datos.password.length < 8) {
+        errores.push("Contraseña debe tener al menos 8 caracteres");
+    }
+    
+    // Verificar caracteres especiales en contraseña
+    const tieneEspecial = /[!@#$%^&*(),.?":{}|<>]/.test(datos.password);
+    if (datos.password && !tieneEspecial) {
+        errores.push("Contraseña debe contener al menos un caracter especial");
+    }
+    
+    return {
+        valido: errores.length === 0,
+        errores: errores
+    };
+}
+
+// Uso del validador
+const datosUsuario = {
+    nombre: "Ana García",
+    email: "ana@email.com",
+    edad: 25,
+    password: "MiPassword123!"
+};
+
+const resultado = validarFormulario(datosUsuario);
+if (resultado.valido) {
+    console.log("Formulario válido, procesando...");
+} else {
+    console.log("Errores encontrados:", resultado.errores);
+}</code></pre>
+                        </div>
+
+                        <h3>2. Sistema de paginación y filtros</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                            <pre><code>function procesarDatos(datos, opciones = {}) {
+    const {
+        pagina = 1,
+        elementosPorPagina = 10,
+        filtros = {},
+        ordenamiento = {}
+    } = opciones;
+    
+    let datosProcesados = [...datos];
+    
+    // Aplicar filtros
+    for (const [campo, valor] of Object.entries(filtros)) {
+        if (valor !== undefined && valor !== null && valor !== "") {
+            datosProcesados = datosProcesados.filter(item => {
+                if (typeof valor === "string") {
+                    return item[campo]?.toString().toLowerCase().includes(valor.toLowerCase());
+                } else {
+                    return item[campo] === valor;
+                }
+            });
+        }
+    }
+    
+    // Aplicar ordenamiento
+    if (ordenamiento.campo) {
+        datosProcesados.sort((a, b) => {
+            const valorA = a[ordenamiento.campo];
+            const valorB = b[ordenamiento.campo];
+            
+            let comparacion = 0;
+            if (valorA > valorB) comparacion = 1;
+            if (valorA < valorB) comparacion = -1;
+            
+            return ordenamiento.direccion === "desc" ? -comparacion : comparacion;
+        });
+    }
+    
+    // Aplicar paginación
+    const inicio = (pagina - 1) * elementosPorPagina;
+    const fin = inicio + elementosPorPagina;
+    const datosPaginados = datosProcesados.slice(inicio, fin);
+    
+    return {
+        datos: datosPaginados,
+        paginacion: {
+            paginaActual: pagina,
+            elementosPorPagina: elementosPorPagina,
+            totalElementos: datosProcesados.length,
+            totalPaginas: Math.ceil(datosProcesados.length / elementosPorPagina)
+        }
+    };
+}</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="demo-interactivo" class="section">
+                        <h2>🎮 Demo Interactivo: Estructuras de Control</h2>
+                        
+                        <div class="demo-section">
+                            <h4>Prueba las estructuras de control en tiempo real</h4>
+                            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 15px;">
+                                <button id="demo-condicionales" class="btn">Condicionales</button>
+                                <button id="demo-bucles" class="btn btn-success">Bucles</button>
+                                <button id="demo-control-flujo" class="btn btn-warning">Control de Flujo</button>
+                                <button id="demo-manejo-errores" class="btn btn-error">Manejo de Errores</button>
+                                <button id="clear-output" class="btn" style="background: #666;">Limpiar</button>
+                            </div>
+                            
+                            <div id="demo-results" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 15px; min-height: 200px; max-height: 400px; overflow-y: auto; font-family: monospace; white-space: pre-wrap; font-size: 0.9rem;"></div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <div class="footer">
+            <h3>📝 Resumen Final</h3>
+            <p><strong>🎛️ Las Estructuras de Control</strong> son fundamentales para crear programas dinámicos y funcionales. Dominar estas estructuras te permitirá manejar cualquier lógica de programación de manera eficiente y elegante.</p>
+            
+            <div class="feature-card">
+                <h4>🎯 Puntos clave a recordar:</h4>
+                <ul>
+                    <li><strong>Condicionales:</strong> if/else para decisiones, switch para múltiples opciones</li>
+                    <li><strong>Bucles:</strong> for para iteraciones conocidas, while para condiciones dinámicas</li>
+                    <li><strong>Control de flujo:</strong> break para salir, continue para saltar</li>
+                    <li><strong>Manejo de errores:</strong> try/catch para códig robusto</li>
+                    <li><strong>Métodos modernos:</strong> forEach/map para arrays, optional chaining para seguridad</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para agregar output al demo
+        function addOutput(message, type = 'info') {
+            const resultsDiv = document.getElementById('demo-results');
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = type === 'error' ? '❌' : type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️';
+            resultsDiv.textContent += `[${timestamp}] ${prefix} ${message}\n`;
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        // Demo de condicionales
+        function demoCondicionales() {
+            addOutput("🔄 Demo: Estructuras Condicionales", 'info');
+            
+            // if...else
+            const edad = 25;
+            if (edad >= 18) {
+                addOutput(`Edad ${edad}: Es mayor de edad`, 'success');
+            } else {
+                addOutput(`Edad ${edad}: Es menor de edad`, 'warning');
+            }
+            
+            // if...else if...else
+            const nota = 85;
+            let calificacion;
+            if (nota >= 90) {
+                calificacion = "Sobresaliente (A)";
+            } else if (nota >= 80) {
+                calificacion = "Notable (B)";
+            } else if (nota >= 70) {
+                calificacion = "Bien (C)";
+            } else if (nota >= 60) {
+                calificacion = "Suficiente (D)";
+            } else {
+                calificacion = "Insuficiente (F)";
+            }
+            addOutput(`Nota ${nota}: ${calificacion}`, 'success');
+            
+            // Operador ternario
+            const usuario = { premium: true };
+            const descuento = usuario.premium ? "20%" : "5%";
+            addOutput(`Usuario ${usuario.premium ? 'premium' : 'estándar'}: Descuento ${descuento}`, 'success');
+            
+            // Switch
+            const dia = 3;
+            let nombreDia;
+            switch (dia) {
+                case 1: nombreDia = "Lunes"; break;
+                case 2: nombreDia = "Martes"; break;
+                case 3: nombreDia = "Miércoles"; break;
+                case 4: nombreDia = "Jueves"; break;
+                case 5: nombreDia = "Viernes"; break;
+                default: nombreDia = "Fin de semana";
+            }
+            addOutput(`Día ${dia}: ${nombreDia}`, 'success');
+            
+            // Operadores lógicos
+            const datos = { activo: true, premium: false, edad: 25 };
+            if (datos.activo && datos.edad >= 18) {
+                addOutput("Usuario activo y mayor de edad", 'success');
+            }
+            if (datos.premium || datos.edad >= 65) {
+                addOutput("Usuario con descuento especial", 'info');
+            } else {
+                addOutput("Usuario sin descuento especial", 'warning');
+            }
+        }
+
+        // Demo de bucles
+        function demoBucles() {
+            addOutput("🔁 Demo: Bucles", 'info');
+            
+            // for básico
+            addOutput("Bucle for básico:", 'info');
+            for (let i = 0; i < 5; i++) {
+                addOutput(`  Iteración ${i}`, 'success');
+            }
+            
+            // for...of con array
+            const frutas = ["manzana", "banana", "naranja"];
+            addOutput("for...of con array:", 'info');
+            for (let fruta of frutas) {
+                addOutput(`  Fruta: ${fruta}`, 'success');
+            }
+            
+            // for...in con objeto
+            const persona = { nombre: "Juan", edad: 30, ciudad: "Madrid" };
+            addOutput("for...in con objeto:", 'info');
+            for (let propiedad in persona) {
+                addOutput(`  ${propiedad}: ${persona[propiedad]}`, 'success');
+            }
+            
+            // while
+            addOutput("Bucle while (búsqueda):", 'info');
+            const numeros = [2, 4, 7, 8, 10];
+            let indice = 0;
+            let encontradoPar = false;
+            while (indice < numeros.length && !encontradoPar) {
+                if (numeros[indice] % 2 === 0) {
+                    addOutput(`  Primer par encontrado: ${numeros[indice]} en posición ${indice}`, 'success');
+                    encontradoPar = true;
+                } else {
+                    indice++;
+                }
+            }
+            
+            // forEach
+            addOutput("forEach con efectos secundarios:", 'info');
+            const productos = [
+                { nombre: "Laptop", precio: 1000 },
+                { nombre: "Mouse", precio: 25 }
+            ];
+            productos.forEach((producto, i) => {
+                addOutput(`  ${i + 1}. ${producto.nombre}: $${producto.precio}`, 'success');
+            });
+            
+            // map
+            addOutput("map para transformación:", 'info');
+            const precios = [100, 200, 300];
+            const preciosConIVA = precios.map(precio => precio * 1.21);
+            addOutput(`  Precios originales: [${precios.join(', ')}]`, 'info');
+            addOutput(`  Precios con IVA: [${preciosConIVA.map(p => p.toFixed(2)).join(', ')}]`, 'success');
+        }
+
+        // Demo de control de flujo
+        function demoControlFlujo() {
+            addOutput("⏭️ Demo: Control de Flujo (break y continue)", 'info');
+            
+            // break
+            addOutput("Ejemplo de break (buscar primer par):", 'info');
+            const numeros = [1, 3, 5, 8, 9, 12, 15];
+            for (let i = 0; i < numeros.length; i++) {
+                if (numeros[i] % 2 === 0) {
+                    addOutput(`  Primer número par encontrado: ${numeros[i]}`, 'success');
+                    break; // Sale del bucle
+                }
+                addOutput(`  ${numeros[i]} es impar, continuando...`, 'info');
+            }
+            
+            // continue
+            addOutput("Ejemplo de continue (solo números impares):", 'info');
+            for (let i = 1; i <= 10; i++) {
+                if (i % 2 === 0) {
+                    continue; // Salta números pares
+                }
+                addOutput(`  Número impar: ${i}`, 'success');
+            }
+            
+            // Etiquetas en bucles anidados
+            addOutput("Ejemplo de etiquetas (break exterior):", 'info');
+            let encontrado = false;
+            exterior: for (let i = 1; i <= 3; i++) {
+                for (let j = 1; j <= 3; j++) {
+                    if (i === 2 && j === 2) {
+                        addOutput(`  Condición especial encontrada en i=${i}, j=${j}`, 'warning');
+                        addOutput(`  Saliendo de ambos bucles`, 'info');
+                        encontrado = true;
+                        break exterior; // Sale de ambos bucles
+                    }
+                    addOutput(`  Procesando i=${i}, j=${j}`, 'success');
+                }
+            }
+            
+            // Filtrar datos con continue
+            addOutput("Filtrar datos con continue:", 'info');
+            const datos = [1, null, 3, undefined, 5, "", 7, 0, 9];
+            addOutput(`  Datos originales: [${datos.map(d => d === null ? 'null' : d === undefined ? 'undefined' : d === '' ? "''" : d).join(', ')}]`, 'info');
+            addOutput("  Datos válidos:", 'info');
+            for (let i = 0; i < datos.length; i++) {
+                if (!datos[i]) { // Si es falsy, saltar
+                    continue;
+                }
+                addOutput(`    ${datos[i]}`, 'success');
+            }
+        }
+
+        // Demo de manejo de errores
+        function demoManejoErrores() {
+            addOutput("⚠️ Demo: Manejo de Errores", 'info');
+            
+            // try...catch básico
+            addOutput("try...catch básico:", 'info');
+            try {
+                const objeto = null;
+                console.log(objeto.propiedad); // Esto generará un error
+            } catch (error) {
+                addOutput(`  Error capturado: ${error.name} - ${error.message}`, 'error');
+                addOutput("  El programa continúa ejecutándose normalmente", 'success');
+            }
+            
+            // Función con manejo de errores específicos
+            function dividir(a, b) {
+                try {
+                    if (typeof a !== "number" || typeof b !== "number") {
+                        throw new TypeError("Los argumentos deben ser números");
+                    }
+                    
+                    if (b === 0) {
+                        throw new Error("División por cero no permitida");
+                    }
+                    
+                    return a / b;
+                    
+                } catch (error) {
+                    if (error instanceof TypeError) {
+                        addOutput(`  Error de tipo: ${error.message}`, 'error');
+                    } else if (error instanceof Error) {
+                        addOutput(`  Error general: ${error.message}`, 'error');
+                    }
+                    return null;
+                }
+            }
+            
+            // Probar función con diferentes casos
+            addOutput("Probando función dividir:", 'info');
+            
+            const casos = [
+                [10, 2],
+                ["10", 2],
+                [10, 0],
+                [15, 3]
+            ];
+            
+            casos.forEach(([a, b]) => {
+                const resultado = dividir(a, b);
+                if (resultado !== null) {
+                    addOutput(`  ${a} ÷ ${b} = ${resultado}`, 'success');
+                } else {
+                    addOutput(`  ${a} ÷ ${b} = Error (ver arriba)`, 'warning');
+                }
+            });
+            
+            // try...catch...finally
+            addOutput("try...catch...finally:", 'info');
+            function procesarArchivo(nombre) {
+                addOutput(`  Abriendo archivo: ${nombre}`, 'info');
+                try {
+                    if (!nombre) {
+                        throw new Error("Nombre de archivo requerido");
+                    }
+                    if (nombre === "corrupto.txt") {
+                        throw new Error("Archivo corrupto");
+                    }
+                    addOutput(`  Archivo ${nombre} procesado correctamente`, 'success');
+                    return true;
+                } catch (error) {
+                    addOutput(`  Error procesando ${nombre}: ${error.message}`, 'error');
+                    return false;
+                } finally {
+                    addOutput(`  Cerrando archivo ${nombre || 'undefined'}`, 'info');
+                }
+            }
+            
+            // Probar con diferentes archivos
+            const archivos = ["documento.txt", "corrupto.txt", null, "imagen.jpg"];
+            archivos.forEach(archivo => {
+                procesarArchivo(archivo);
+            });
+        }
+
+        // Función para copiar código
+        function copyCode(button) {
+            const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+            navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '¡Copiado!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Event listeners
+        document.getElementById('demo-condicionales').addEventListener('click', demoCondicionales);
+        document.getElementById('demo-bucles').addEventListener('click', demoBucles);
+        document.getElementById('demo-control-flujo').addEventListener('click', demoControlFlujo);
+        document.getElementById('demo-manejo-errores').addEventListener('click', demoManejoErrores);
+        
+        document.getElementById('clear-output').addEventListener('click', () => {
+            document.getElementById('demo-results').textContent = '';
+        });
+
+        // Smooth scrolling para la navegación
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Inicializar demo
+        document.getElementById('demo-results').textContent = 'Selecciona un demo para comenzar...\n';
+    </script>
+</body>
+</html>

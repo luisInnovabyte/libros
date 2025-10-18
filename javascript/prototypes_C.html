@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototypes en JavaScript - Parte III</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="two-column">
+            <!-- Navegación lateral -->
+            <aside class="navigation">
+                <h3>Contenido</h3>
+                <ul>
+                    <li><a href="#prototype-vs-class">Prototype vs Class (ES2015+)</a></li>
+                    <li><a href="#sintaxis-tradicional">Sintaxis tradicional con Prototype</a></li>
+                    <li><a href="#sintaxis-moderna">Sintaxis moderna con Class</a></li>
+                    <li><a href="#casos-practicos">Casos Prácticos Avanzados</a></li>
+                    <li><a href="#sistema-plugins">Sistema de Plugins</a></li>
+                </ul>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main class="content">
+                <div class="header">
+                    <h1>Prototypes en JavaScript - Parte III</h1>
+                    <p class="alert">Comparación entre sintaxis tradicional de prototypes y clases ES6+, además de casos prácticos avanzados como sistemas de plugins extensibles.</p>
+                </div>
+
+                <section id="prototype-vs-class" class="section">
+                    <h2>Prototype vs Class (ES2015+)</h2>
+                    
+                    <div id="sintaxis-tradicional" class="subsection">
+                        <h3>Sintaxis tradicional con Prototype</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Usando prototypes (ES5)
+function CuentaBancaria(titular, saldoInicial) {
+    this.numero = Math.random().toString(36).substr(2, 10);
+    this.titular = titular;
+    this.saldo = saldoInicial || 0;
+    this.movimientos = [];
+    this.fechaApertura = new Date();
+}
+
+CuentaBancaria.prototype.depositar = function(cantidad) {
+    if (cantidad <= 0) {
+        throw new Error('Cantidad debe ser positiva');
+    }
+    
+    this.saldo += cantidad;
+    this.movimientos.push({
+        tipo: 'depósito',
+        cantidad: cantidad,
+        fecha: new Date(),
+        saldo: this.saldo
+    });
+    
+    return this.saldo;
+};
+
+CuentaBancaria.prototype.retirar = function(cantidad) {
+    if (cantidad <= 0) {
+        throw new Error('Cantidad debe ser positiva');
+    }
+    
+    if (cantidad > this.saldo) {
+        throw new Error('Fondos insuficientes');
+    }
+    
+    this.saldo -= cantidad;
+    this.movimientos.push({
+        tipo: 'retiro',
+        cantidad: cantidad,
+        fecha: new Date(),
+        saldo: this.saldo
+    });
+    
+    return this.saldo;
+};
+
+CuentaBancaria.prototype.obtenerBalance = function() {
+    return {
+        titular: this.titular,
+        numero: this.numero,
+        saldo: this.saldo,
+        movimientos: this.movimientos.length
+    };
+};</code></pre>
+                        </div>
+                    </div>
+
+                    <div id="sintaxis-moderna" class="subsection">
+                        <h3>Sintaxis moderna con Class (ES2015+)</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Usando class (ES6+) - syntactic sugar sobre prototypes
+class CuentaBancariaModerna {
+    constructor(titular, saldoInicial = 0) {
+        this.numero = Math.random().toString(36).substr(2, 10);
+        this.titular = titular;
+        this.saldo = saldoInicial;
+        this.movimientos = [];
+        this.fechaApertura = new Date();
+    }
+    
+    depositar(cantidad) {
+        if (cantidad <= 0) {
+            throw new Error('Cantidad debe ser positiva');
+        }
+        
+        this.saldo += cantidad;
+        this.movimientos.push({
+            tipo: 'depósito',
+            cantidad: cantidad,
+            fecha: new Date(),
+            saldo: this.saldo
+        });
+        
+        return this.saldo;
+    }
+    
+    retirar(cantidad) {
+        if (cantidad <= 0) {
+            throw new Error('Cantidad debe ser positiva');
+        }
+        
+        if (cantidad > this.saldo) {
+            throw new Error('Fondos insuficientes');
+        }
+        
+        this.saldo -= cantidad;
+        this.movimientos.push({
+            tipo: 'retiro',
+            cantidad: cantidad,
+            fecha: new Date(),
+            saldo: this.saldo
+        });
+        
+        return this.saldo;
+    }
+    
+    obtenerBalance() {
+        return {
+            titular: this.titular,
+            numero: this.numero,
+            saldo: this.saldo,
+            movimientos: this.movimientos.length
+        };
+    }
+}
+
+// Ambas implementaciones son funcionalmente equivalentes
+const cuenta1 = new CuentaBancaria("Juan", 1000);
+const cuenta2 = new CuentaBancariaModerna("María", 1000);
+
+// Los métodos están en el prototype en ambos casos
+console.log(cuenta1.depositar === CuentaBancaria.prototype.depositar); // true
+console.log(cuenta2.depositar === CuentaBancariaModerna.prototype.depositar); // true</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h3>Comparador de Sintaxis:</h3>
+                            <div style="margin-top: 15px;">
+                                <input type="text" id="titularCuenta" placeholder="Titular de la cuenta" value="Juan Pérez" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 200px;">
+                                <input type="number" id="saldoInicial" placeholder="Saldo inicial" value="1000" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 120px;">
+                                <br><br>
+                                <button onclick="crearCuentaPrototype()" style="padding: 8px 12px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">Crear con Prototype</button>
+                                <button onclick="crearCuentaClass()" style="padding: 8px 12px; background: var(--secondary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">Crear con Class</button>
+                                <button onclick="compararImplementaciones()" style="padding: 8px 12px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Comparar</button>
+                                <div id="resultadoComparacion" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+
+                        <div class="alert">
+                            <strong>💡 Nota importante:</strong> Las clases ES6+ son "syntactic sugar" sobre prototypes. Internamente, JavaScript sigue usando el sistema de prototypes.
+                        </div>
+                    </div>
+                </section>
+
+                <section id="casos-practicos" class="section">
+                    <h2>Casos Prácticos Avanzados</h2>
+                    
+                    <div id="sistema-plugins" class="subsection">
+                        <h3>Sistema de Plugins con Prototypes</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Sistema base extensible
+function Editor(contenido = "") {
+    this.contenido = contenido;
+    this.historial = [contenido];
+    this.posicionHistorial = 0;
+}
+
+Editor.prototype.escribir = function(texto) {
+    this.contenido += texto;
+    this._guardarEnHistorial();
+    return this;
+};
+
+Editor.prototype.borrar = function(cantidad = 1) {
+    this.contenido = this.contenido.slice(0, -cantidad);
+    this._guardarEnHistorial();
+    return this;
+};
+
+Editor.prototype.obtenerContenido = function() {
+    return this.contenido;
+};
+
+Editor.prototype._guardarEnHistorial = function() {
+    this.historial = this.historial.slice(0, this.posicionHistorial + 1);
+    this.historial.push(this.contenido);
+    this.posicionHistorial++;
+};
+
+// Plugin de Deshacer/Rehacer
+const UndoRedoPlugin = {
+    deshacer: function() {
+        if (this.posicionHistorial > 0) {
+            this.posicionHistorial--;
+            this.contenido = this.historial[this.posicionHistorial];
+        }
+        return this;
+    },
+    
+    rehacer: function() {
+        if (this.posicionHistorial < this.historial.length - 1) {
+            this.posicionHistorial++;
+            this.contenido = this.historial[this.posicionHistorial];
+        }
+        return this;
+    }
+};
+
+// Plugin de Formato
+const FormatPlugin = {
+    enNegritas: function(texto) {
+        return this.escribir(`**${texto}**`);
+    },
+    
+    enCursiva: function(texto) {
+        return this.escribir(`*${texto}*`);
+    },
+    
+    crearEnlace: function(texto, url) {
+        return this.escribir(`[${texto}](${url})`);
+    }
+};
+
+// Plugin de Estadísticas
+const StatsPlugin = {
+    contarPalabras: function() {
+        return this.contenido.split(/\s+/).filter(palabra => palabra.length > 0).length;
+    },
+    
+    contarCaracteres: function() {
+        return this.contenido.length;
+    },
+    
+    obtenerEstadisticas: function() {
+        return {
+            caracteres: this.contarCaracteres(),
+            palabras: this.contarPalabras(),
+            lineas: this.contenido.split('\n').length
+        };
+    }
+};
+
+// Función para instalar plugins
+function instalarPlugin(Constructor, plugin) {
+    Object.keys(plugin).forEach(metodo => {
+        Constructor.prototype[metodo] = plugin[metodo];
+    });
+}
+
+// Instalar plugins
+instalarPlugin(Editor, UndoRedoPlugin);
+instalarPlugin(Editor, FormatPlugin);
+instalarPlugin(Editor, StatsPlugin);
+
+// Usar el editor con plugins
+const editor = new Editor("Hola mundo\n");
+
+editor
+    .escribir("Este es un ")
+    .enNegritas("texto en negritas")
+    .escribir(" y esto es ")
+    .enCursiva("en cursiva")
+    .escribir(".\n")
+    .crearEnlace("Google", "https://google.com");
+
+console.log(editor.obtenerContenido());
+console.log(editor.obtenerEstadisticas());
+
+// Probar deshacer
+editor.deshacer().deshacer();
+console.log("Después de deshacer:", editor.obtenerContenido());
+
+// Rehacer
+editor.rehacer();
+console.log("Después de rehacer:", editor.obtenerContenido());</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h3>Editor Extensible en Vivo:</h3>
+                            <div style="margin-top: 15px;">
+                                <div style="margin-bottom: 15px;">
+                                    <strong>Contenido del Editor:</strong>
+                                    <div id="editorDisplay" style="border: 1px solid #ddd; padding: 10px; min-height: 100px; background: #f9f9f9; margin: 5px 0; white-space: pre-wrap; font-family: monospace;"></div>
+                                </div>
+                                
+                                <div style="margin-bottom: 15px;">
+                                    <input type="text" id="textoEscribir" placeholder="Texto a escribir..." style="padding: 8px; width: 200px; border: 1px solid #ddd; border-radius: 4px; margin-right: 10px;">
+                                    <button onclick="escribirTexto()" style="padding: 8px 12px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Escribir</button>
+                                    <button onclick="borrarTexto()" style="padding: 8px 12px; background: var(--warning-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 5px;">Borrar</button>
+                                </div>
+
+                                <div style="margin-bottom: 15px;">
+                                    <strong>Formato:</strong><br>
+                                    <input type="text" id="textoFormato" placeholder="Texto a formatear..." style="padding: 8px; width: 150px; border: 1px solid #ddd; border-radius: 4px; margin-right: 5px;">
+                                    <button onclick="aplicarNegritas()" style="padding: 8px 12px; background: var(--secondary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px;">**Negritas**</button>
+                                    <button onclick="aplicarCursiva()" style="padding: 8px 12px; background: var(--secondary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px;">*Cursiva*</button>
+                                </div>
+
+                                <div style="margin-bottom: 15px;">
+                                    <strong>Enlace:</strong><br>
+                                    <input type="text" id="textoEnlace" placeholder="Texto del enlace" value="Google" style="padding: 8px; width: 120px; border: 1px solid #ddd; border-radius: 4px; margin-right: 5px;">
+                                    <input type="url" id="urlEnlace" placeholder="URL" value="https://google.com" style="padding: 8px; width: 150px; border: 1px solid #ddd; border-radius: 4px; margin-right: 5px;">
+                                    <button onclick="crearEnlaceEditor()" style="padding: 8px 12px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Crear Enlace</button>
+                                </div>
+
+                                <div style="margin-bottom: 15px;">
+                                    <strong>Historial:</strong><br>
+                                    <button onclick="deshacerEditor()" style="padding: 8px 12px; background: var(--error-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px;">↶ Deshacer</button>
+                                    <button onclick="rehacerEditor()" style="padding: 8px 12px; background: var(--success-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">↷ Rehacer</button>
+                                    <button onclick="mostrarEstadisticas()" style="padding: 8px 12px; background: var(--info-color); color: white; border: none; border-radius: 4px; cursor: pointer;">📊 Estadísticas</button>
+                                </div>
+
+                                <div id="estadisticasEditor" style="margin-top: 10px; font-family: monospace; background: #f0f8ff; padding: 10px; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="comparison-grid" style="margin-top: 40px;">
+                    <div class="feature-card">
+                        <h3>🏗️ Prototype (ES5)</h3>
+                        <ul>
+                            <li><strong>Sintaxis:</strong> Function constructor</li>
+                            <li><strong>Métodos:</strong> Constructor.prototype.method</li>
+                            <li><strong>Flexibilidad:</strong> Muy alta</li>
+                            <li><strong>Compatibilidad:</strong> Todos los browsers</li>
+                            <li><strong>Hoisting:</strong> Completo</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🆕 Class (ES6+)</h3>
+                        <ul>
+                            <li><strong>Sintaxis:</strong> class keyword</li>
+                            <li><strong>Métodos:</strong> Dentro de class body</li>
+                            <li><strong>Flexibilidad:</strong> Estructurada</li>
+                            <li><strong>Compatibilidad:</strong> ES6+ (transpilable)</li>
+                            <li><strong>Hoisting:</strong> No disponible antes de declaración</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🔌 Sistema de Plugins</h3>
+                        <ul>
+                            <li><strong>Base extensible:</strong> Constructor function</li>
+                            <li><strong>Plugins:</strong> Objetos con métodos</li>
+                            <li><strong>Instalación:</strong> Copia a prototype</li>
+                            <li><strong>Método chaining:</strong> return this</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="alert" style="margin-top: 30px;">
+                    <h3>🎯 Cuándo usar cada uno:</h3>
+                    <ul>
+                        <li><strong>Prototypes:</strong> Máxima flexibilidad, compatibilidad total, sistemas extensibles</li>
+                        <li><strong>Classes:</strong> Código más limpio, familiaridad para desarrolladores OOP, proyectos modernos</li>
+                        <li><strong>Plugins:</strong> Sistemas modulares, funcionalidad opcional, arquitecturas extensibles</li>
+                    </ul>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales para demos
+        let cuentaPrototype = null;
+        let cuentaClass = null;
+        let editorInstance = null;
+
+        // Función para copiar código
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling.querySelector('code');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✅ Copiado!';
+                button.style.background = 'var(--success-color)';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            });
+        }
+
+        // Navegación suave
+        document.querySelectorAll('.navigation a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Demo: Crear cuenta con prototype
+        function crearCuentaPrototype() {
+            const titular = document.getElementById('titularCuenta').value || 'Juan Pérez';
+            const saldo = parseFloat(document.getElementById('saldoInicial').value) || 1000;
+            const resultado = document.getElementById('resultadoComparacion');
+
+            // Recrear CuentaBancaria con prototype
+            function CuentaBancaria(titular, saldoInicial) {
+                this.numero = Math.random().toString(36).substr(2, 10);
+                this.titular = titular;
+                this.saldo = saldoInicial || 0;
+                this.movimientos = [];
+                this.fechaApertura = new Date();
+            }
+
+            CuentaBancaria.prototype.depositar = function(cantidad) {
+                if (cantidad <= 0) throw new Error('Cantidad debe ser positiva');
+                this.saldo += cantidad;
+                this.movimientos.push({ tipo: 'depósito', cantidad, fecha: new Date(), saldo: this.saldo });
+                return this.saldo;
+            };
+
+            CuentaBancaria.prototype.obtenerBalance = function() {
+                return {
+                    titular: this.titular,
+                    numero: this.numero,
+                    saldo: this.saldo,
+                    movimientos: this.movimientos.length
+                };
+            };
+
+            cuentaPrototype = new CuentaBancaria(titular, saldo);
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Cuenta con Prototype creada:</strong></div>
+                <div style="margin: 5px 0;">• Titular: ${cuentaPrototype.titular}</div>
+                <div style="margin: 5px 0;">• Número: ${cuentaPrototype.numero}</div>
+                <div style="margin: 5px 0;">• Saldo: $${cuentaPrototype.saldo}</div>
+                <div style="margin: 5px 0;">• Método en prototype: ${cuentaPrototype.depositar === CuentaBancaria.prototype.depositar}</div>
+            `;
+        }
+
+        // Demo: Crear cuenta con class
+        function crearCuentaClass() {
+            const titular = document.getElementById('titularCuenta').value || 'Juan Pérez';
+            const saldo = parseFloat(document.getElementById('saldoInicial').value) || 1000;
+            const resultado = document.getElementById('resultadoComparacion');
+
+            // Recrear CuentaBancariaModerna con class
+            class CuentaBancariaModerna {
+                constructor(titular, saldoInicial = 0) {
+                    this.numero = Math.random().toString(36).substr(2, 10);
+                    this.titular = titular;
+                    this.saldo = saldoInicial;
+                    this.movimientos = [];
+                    this.fechaApertura = new Date();
+                }
+                
+                depositar(cantidad) {
+                    if (cantidad <= 0) throw new Error('Cantidad debe ser positiva');
+                    this.saldo += cantidad;
+                    this.movimientos.push({ tipo: 'depósito', cantidad, fecha: new Date(), saldo: this.saldo });
+                    return this.saldo;
+                }
+                
+                obtenerBalance() {
+                    return {
+                        titular: this.titular,
+                        numero: this.numero,
+                        saldo: this.saldo,
+                        movimientos: this.movimientos.length
+                    };
+                }
+            }
+
+            cuentaClass = new CuentaBancariaModerna(titular, saldo);
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Cuenta con Class creada:</strong></div>
+                <div style="margin: 5px 0;">• Titular: ${cuentaClass.titular}</div>
+                <div style="margin: 5px 0;">• Número: ${cuentaClass.numero}</div>
+                <div style="margin: 5px 0;">• Saldo: $${cuentaClass.saldo}</div>
+                <div style="margin: 5px 0;">• Método en prototype: ${cuentaClass.depositar === CuentaBancariaModerna.prototype.depositar}</div>
+            `;
+        }
+
+        // Demo: Comparar implementaciones
+        function compararImplementaciones() {
+            const resultado = document.getElementById('resultadoComparacion');
+            
+            if (!cuentaPrototype || !cuentaClass) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Primero crea ambas cuentas.</span>';
+                return;
+            }
+
+            // Probar operaciones
+            cuentaPrototype.depositar(500);
+            cuentaClass.depositar(500);
+
+            resultado.innerHTML += `
+                <hr style="margin: 10px 0;">
+                <div style="margin: 5px 0;"><strong>Comparación después de depositar $500:</strong></div>
+                <div style="margin: 5px 0;">• Prototype - Saldo: $${cuentaPrototype.saldo}</div>
+                <div style="margin: 5px 0;">• Class - Saldo: $${cuentaClass.saldo}</div>
+                <div style="margin: 5px 0;">• Ambas usan prototypes internamente: ${typeof cuentaPrototype.__proto__ === 'object' && typeof cuentaClass.__proto__ === 'object'}</div>
+                <div style="margin: 10px 0; color: var(--success-color);"><strong>✅ Ambas implementaciones son funcionalmente idénticas</strong></div>
+            `;
+        }
+
+        // Sistema de Editor con Plugins
+        function inicializarEditor() {
+            if (editorInstance) return editorInstance;
+
+            // Recrear sistema de editor
+            function Editor(contenido = "") {
+                this.contenido = contenido;
+                this.historial = [contenido];
+                this.posicionHistorial = 0;
+            }
+
+            Editor.prototype.escribir = function(texto) {
+                this.contenido += texto;
+                this._guardarEnHistorial();
+                return this;
+            };
+
+            Editor.prototype.borrar = function(cantidad = 1) {
+                this.contenido = this.contenido.slice(0, -cantidad);
+                this._guardarEnHistorial();
+                return this;
+            };
+
+            Editor.prototype.obtenerContenido = function() {
+                return this.contenido;
+            };
+
+            Editor.prototype._guardarEnHistorial = function() {
+                this.historial = this.historial.slice(0, this.posicionHistorial + 1);
+                this.historial.push(this.contenido);
+                this.posicionHistorial++;
+            };
+
+            // Plugins
+            const UndoRedoPlugin = {
+                deshacer: function() {
+                    if (this.posicionHistorial > 0) {
+                        this.posicionHistorial--;
+                        this.contenido = this.historial[this.posicionHistorial];
+                    }
+                    return this;
+                },
+                rehacer: function() {
+                    if (this.posicionHistorial < this.historial.length - 1) {
+                        this.posicionHistorial++;
+                        this.contenido = this.historial[this.posicionHistorial];
+                    }
+                    return this;
+                }
+            };
+
+            const FormatPlugin = {
+                enNegritas: function(texto) {
+                    return this.escribir(`**${texto}**`);
+                },
+                enCursiva: function(texto) {
+                    return this.escribir(`*${texto}*`);
+                },
+                crearEnlace: function(texto, url) {
+                    return this.escribir(`[${texto}](${url})`);
+                }
+            };
+
+            const StatsPlugin = {
+                contarPalabras: function() {
+                    return this.contenido.split(/\s+/).filter(palabra => palabra.length > 0).length;
+                },
+                contarCaracteres: function() {
+                    return this.contenido.length;
+                },
+                obtenerEstadisticas: function() {
+                    return {
+                        caracteres: this.contarCaracteres(),
+                        palabras: this.contarPalabras(),
+                        lineas: this.contenido.split('\n').length
+                    };
+                }
+            };
+
+            // Instalar plugins
+            function instalarPlugin(Constructor, plugin) {
+                Object.keys(plugin).forEach(metodo => {
+                    Constructor.prototype[metodo] = plugin[metodo];
+                });
+            }
+
+            instalarPlugin(Editor, UndoRedoPlugin);
+            instalarPlugin(Editor, FormatPlugin);
+            instalarPlugin(Editor, StatsPlugin);
+
+            editorInstance = new Editor("Hola mundo!\n");
+            actualizarDisplay();
+            return editorInstance;
+        }
+
+        function actualizarDisplay() {
+            if (!editorInstance) return;
+            document.getElementById('editorDisplay').textContent = editorInstance.obtenerContenido();
+        }
+
+        function escribirTexto() {
+            const texto = document.getElementById('textoEscribir').value;
+            if (!texto) return;
+            
+            if (!editorInstance) inicializarEditor();
+            editorInstance.escribir(texto);
+            actualizarDisplay();
+            document.getElementById('textoEscribir').value = '';
+        }
+
+        function borrarTexto() {
+            if (!editorInstance) inicializarEditor();
+            editorInstance.borrar(5); // Borrar 5 caracteres
+            actualizarDisplay();
+        }
+
+        function aplicarNegritas() {
+            const texto = document.getElementById('textoFormato').value;
+            if (!texto) return;
+            
+            if (!editorInstance) inicializarEditor();
+            editorInstance.enNegritas(texto);
+            actualizarDisplay();
+            document.getElementById('textoFormato').value = '';
+        }
+
+        function aplicarCursiva() {
+            const texto = document.getElementById('textoFormato').value;
+            if (!texto) return;
+            
+            if (!editorInstance) inicializarEditor();
+            editorInstance.enCursiva(texto);
+            actualizarDisplay();
+            document.getElementById('textoFormato').value = '';
+        }
+
+        function crearEnlaceEditor() {
+            const texto = document.getElementById('textoEnlace').value;
+            const url = document.getElementById('urlEnlace').value;
+            if (!texto || !url) return;
+            
+            if (!editorInstance) inicializarEditor();
+            editorInstance.crearEnlace(texto, url);
+            actualizarDisplay();
+        }
+
+        function deshacerEditor() {
+            if (!editorInstance) inicializarEditor();
+            editorInstance.deshacer();
+            actualizarDisplay();
+        }
+
+        function rehacerEditor() {
+            if (!editorInstance) inicializarEditor();
+            editorInstance.rehacer();
+            actualizarDisplay();
+        }
+
+        function mostrarEstadisticas() {
+            if (!editorInstance) inicializarEditor();
+            const stats = editorInstance.obtenerEstadisticas();
+            
+            document.getElementById('estadisticasEditor').innerHTML = `
+                <div style="margin: 5px 0;"><strong>📊 Estadísticas del Editor:</strong></div>
+                <div style="margin: 5px 0;">• Caracteres: ${stats.caracteres}</div>
+                <div style="margin: 5px 0;">• Palabras: ${stats.palabras}</div>
+                <div style="margin: 5px 0;">• Líneas: ${stats.lineas}</div>
+                <div style="margin: 5px 0;">• Posición en historial: ${editorInstance.posicionHistorial}/${editorInstance.historial.length - 1}</div>
+            `;
+        }
+
+        // Inicializar editor al cargar la página
+        window.addEventListener('load', function() {
+            inicializarEditor();
+        });
+    </script>
+</body>
+</html>

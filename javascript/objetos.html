@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objetos en JavaScript - Tutorial Completo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container two-column">
+        <nav class="navigation">
+            <div class="nav-header">
+                <h3>📚 Objetos en JavaScript</h3>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#introduccion" class="nav-link">🔍 Introducción</a></li>
+                <li><a href="#sintaxis" class="nav-link">⚡ Sintaxis Básica</a></li>
+                <li><a href="#acceso-propiedades" class="nav-link">🔑 Acceso a Propiedades</a></li>
+                <li><a href="#objetos-anidados" class="nav-link">🏗️ Objetos Anidados</a></li>
+                <li><a href="#metodos" class="nav-link">🔧 Métodos</a></li>
+                <li><a href="#ejemplos-practicos" class="nav-link">💡 Ejemplos Prácticos</a></li>
+                <li><a href="#verificacion" class="nav-link">✅ Verificación de Propiedades</a></li>
+                <li><a href="#modificacion" class="nav-link">🔄 Modificación de Objetos</a></li>
+                <li><a href="#copia-referencia" class="nav-link">📋 Copia vs Referencia</a></li>
+                <li><a href="#casos-practicos" class="nav-link">🎯 Casos Prácticos</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <!-- Introducción -->
+            <section id="introduccion" class="section">
+                <div class="header">
+                    <h1>Objetos en JavaScript</h1>
+                    <p>Los objetos son una de las estructuras de datos más importantes en JavaScript. Permiten agrupar datos relacionados y funcionalidades en una sola entidad.</p>
+                </div>
+
+                <div class="alert">
+                    <strong>💡 Concepto clave:</strong> Un objeto es una colección de propiedades, donde cada propiedad es un par clave-valor. Los valores pueden ser primitivos, otros objetos o funciones (métodos).
+                </div>
+
+                <div class="feature-card">
+                    <h3>¿Qué son los objetos?</h3>
+                    <p>Los objetos son estructuras de datos que nos permiten:</p>
+                    <ul>
+                        <li><strong>Agrupar datos relacionados:</strong> Como propiedades de una persona (nombre, edad, email)</li>
+                        <li><strong>Modelar entidades del mundo real:</strong> Usuarios, productos, configuraciones</li>
+                        <li><strong>Organizar código:</strong> Métodos relacionados con los datos</li>
+                        <li><strong>Crear estructuras complejas:</strong> Objetos dentro de objetos</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Sintaxis Básica -->
+            <section id="sintaxis" class="section">
+                <div class="header">
+                    <h2>⚡ Sintaxis Básica</h2>
+                    <p>Aprende las diferentes formas de crear y definir objetos en JavaScript.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>🔧 Literal de Objeto (Recomendado)</h4>
+                        <div class="code-container">
+                            <pre><code>// Sintaxis básica
+const objeto = {
+    clave: "valor",
+    numero: 42,
+    activo: true
+};
+
+// Ejemplo real
+const persona = {
+    nombre: "Juan",
+    edad: 30,
+    email: "juan@example.com",
+    activo: true
+};
+
+console.log(persona.nombre); // "Juan"</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>🏗️ Constructor Object()</h4>
+                        <div class="code-container">
+                            <pre><code>// Usando constructor
+const persona = new Object();
+persona.nombre = "Juan";
+persona.edad = 30;
+persona.email = "juan@example.com";
+
+// O con propiedades iniciales
+const config = new Object({
+    tema: "claro",
+    idioma: "es"
+});
+
+console.log(persona.edad); // 30</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert">
+                    <strong>⚠️ Recomendación:</strong> Usa la sintaxis literal <code>{ }</code> siempre que sea posible. Es más clara, concisa y eficiente.
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Creación de Objetos</h3>
+                    <div class="demo-container">
+                        <button onclick="crearObjetoDemo()" class="demo-button">Crear Objeto Persona</button>
+                        <div id="objeto-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Acceso a Propiedades -->
+            <section id="acceso-propiedades" class="section">
+                <div class="header">
+                    <h2>🔑 Acceso a Propiedades</h2>
+                    <p>Dos métodos principales para acceder y manipular las propiedades de un objeto.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>📍 Notación de Punto (.)</h4>
+                        <div class="code-container">
+                            <pre><code>const usuario = {
+    nombre: "Ana",
+    edad: 25,
+    email: "ana@example.com"
+};
+
+// Leer propiedades
+console.log(usuario.nombre);  // "Ana"
+console.log(usuario.edad);    // 25
+
+// Modificar propiedades
+usuario.edad = 26;
+usuario.activo = true;  // Añadir nueva
+
+console.log(usuario.edad);    // 26
+console.log(usuario.activo);  // true</code></pre>
+                        </div>
+                        <p class="feature-description">✅ Usa cuando conozcas el nombre de la propiedad</p>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>🔧 Notación de Corchetes ([])</h4>
+                        <div class="code-container">
+                            <pre><code>const usuario = {
+    nombre: "Ana",
+    "apellido completo": "García López",
+    edad: 25
+};
+
+// Leer con corchetes
+console.log(usuario["nombre"]);           // "Ana"
+console.log(usuario["apellido completo"]); // "García López"
+
+// Con variables
+const propiedad = "edad";
+console.log(usuario[propiedad]);  // 25
+
+// Propiedades dinámicas
+const prefijo = "user";
+usuario[prefijo + "_id"] = 123;
+console.log(usuario.user_id);     // 123</code></pre>
+                        </div>
+                        <p class="feature-description">✅ Usa con espacios, variables o propiedades dinámicas</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Acceso a Propiedades</h3>
+                    <div class="demo-container">
+                        <input type="text" id="propiedad-input" placeholder="Escribe: nombre, edad, email" style="margin-right: 10px;">
+                        <button onclick="accederPropiedadDemo()" class="demo-button">Acceder Propiedad</button>
+                        <div id="acceso-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Objetos Anidados -->
+            <section id="objetos-anidados" class="section">
+                <div class="header">
+                    <h2>🏗️ Objetos Anidados</h2>
+                    <p>Los objetos pueden contener otros objetos, creando estructuras de datos complejas.</p>
+                </div>
+
+                <div class="code-container">
+                    <pre><code>const empresa = {
+    nombre: "TechCorp",
+    fundacion: 2020,
+    direccion: {
+        calle: "Calle Mayor 123",
+        ciudad: "Madrid",
+        pais: "España",
+        codigoPostal: "28001"
+    },
+    empleados: [
+        {
+            id: 1,
+            nombre: "Juan",
+            puesto: "Desarrollador",
+            contacto: {
+                email: "juan@techcorp.com",
+                telefono: "+34123456789"
+            }
+        },
+        {
+            id: 2,
+            nombre: "María",
+            puesto: "Diseñadora",
+            contacto: {
+                email: "maria@techcorp.com",
+                telefono: "+34987654321"
+            }
+        }
+    ]
+};
+
+// Acceso a propiedades anidadas
+console.log(empresa.nombre);                    // "TechCorp"
+console.log(empresa.direccion.ciudad);          // "Madrid"
+console.log(empresa.empleados[0].nombre);       // "Juan"
+console.log(empresa.empleados[0].contacto.email); // "juan@techcorp.com"</code></pre>
+                </div>
+
+                <div class="alert">
+                    <strong>💡 Optional Chaining (?.):</strong> Usa el operador de encadenamiento opcional para evitar errores cuando una propiedad podría no existir.
+                </div>
+
+                <div class="code-container">
+                    <pre><code>// Con optional chaining (ES2020)
+console.log(empresa.empleados?.[0]?.contacto?.email);
+console.log(empresa.departamento?.rrhh?.jefe);  // undefined (sin error)
+
+// Sin optional chaining (puede dar error)
+// console.log(empresa.departamento.rrhh.jefe);  // ❌ Error!
+
+// Verificación manual
+if (empresa.departamento && empresa.departamento.rrhh) {
+    console.log(empresa.departamento.rrhh.jefe);
+}</code></pre>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Objetos Anidados</h3>
+                    <div class="demo-container">
+                        <button onclick="objetosAnidadosDemo()" class="demo-button">Explorar Estructura</button>
+                        <div id="anidados-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Métodos -->
+            <section id="metodos" class="section">
+                <div class="header">
+                    <h2>🔧 Métodos</h2>
+                    <p>Los métodos son funciones que pertenecen a un objeto y pueden acceder a sus propiedades usando <code>this</code>.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>📝 Sintaxis Tradicional</h4>
+                        <div class="code-container">
+                            <pre><code>const calculadora = {
+    valor: 0,
+    
+    sumar: function(numero) {
+        this.valor += numero;
+        return this; // Para encadenamiento
+    },
+    
+    restar: function(numero) {
+        this.valor -= numero;
+        return this;
+    },
+    
+    obtenerResultado: function() {
+        return this.valor;
+    }
+};
+
+// Uso
+calculadora.sumar(10).restar(3).sumar(5);
+console.log(calculadora.obtenerResultado()); // 12</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>⚡ Sintaxis ES6+ (Recomendada)</h4>
+                        <div class="code-container">
+                            <pre><code>const persona = {
+    nombre: "Ana",
+    edad: 25,
+    
+    // Método ES6
+    saludar() {
+        return `Hola, soy ${this.nombre}`;
+    },
+    
+    cumplirAnos() {
+        this.edad++;
+        return `Ahora tengo ${this.edad} años`;
+    },
+    
+    // Getter
+    get info() {
+        return `${this.nombre}, ${this.edad} años`;
+    },
+    
+    // Setter
+    set nuevaEdad(edad) {
+        if (edad > 0) {
+            this.edad = edad;
+        }
+    }
+};
+
+console.log(persona.saludar());     // "Hola, soy Ana"
+console.log(persona.info);          // "Ana, 25 años"
+persona.nuevaEdad = 26;             // Usar setter</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert">
+                    <strong>⚠️ Cuidado con Arrow Functions:</strong> No uses arrow functions para métodos si necesitas acceder a <code>this</code>, ya que no tienen su propio contexto.
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Métodos</h3>
+                    <div class="demo-container">
+                        <button onclick="metodosDemo()" class="demo-button">Probar Métodos</button>
+                        <div id="metodos-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ejemplos Prácticos -->
+            <section id="ejemplos-practicos" class="section">
+                <div class="header">
+                    <h2>💡 Ejemplos Prácticos</h2>
+                    <p>Casos de uso comunes de objetos en aplicaciones reales.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>👤 Sistema de Usuarios</h4>
+                        <div class="code-container">
+                            <pre><code>const usuario = {
+    id: 123,
+    nombre: "Ana García",
+    email: "ana@example.com",
+    fechaRegistro: new Date("2023-01-15"),
+    activo: true,
+    preferencias: {
+        tema: "oscuro",
+        idioma: "es",
+        notificaciones: {
+            email: true,
+            push: false,
+            sms: true
+        }
+    },
+    
+    obtenerEdadCuenta() {
+        const ahora = new Date();
+        const diferencia = ahora - this.fechaRegistro;
+        return Math.floor(diferencia / (1000 * 60 * 60 * 24));
+    },
+    
+    cambiarTema(nuevoTema) {
+        this.preferencias.tema = nuevoTema;
+    }
+};
+
+console.log(usuario.obtenerEdadCuenta()); // días desde registro</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>🛍️ Catálogo de Productos</h4>
+                        <div class="code-container">
+                            <pre><code>const producto = {
+    id: "PROD-001",
+    nombre: "Laptop Gaming",
+    precio: 1299.99,
+    moneda: "EUR",
+    categoria: "tecnologia",
+    especificaciones: {
+        marca: "TechBrand",
+        modelo: "XPro 2023",
+        ram: "16GB",
+        almacenamiento: "512GB SSD",
+        procesador: "Intel i7"
+    },
+    disponible: true,
+    stock: 15,
+    
+    obtenerPrecioConIVA(iva = 21) {
+        return this.precio * (1 + iva / 100);
+    },
+    
+    aplicarDescuento(porcentaje) {
+        const descuento = this.precio * (porcentaje / 100);
+        return this.precio - descuento;
+    },
+    
+    estaDisponible() {
+        return this.disponible && this.stock > 0;
+    }
+};
+
+console.log(producto.obtenerPrecioConIVA()); // 1572.99</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h3>⚙️ Configuración de Aplicación</h3>
+                    <div class="code-container">
+                        <pre><code>const configuracionApp = {
+    version: "1.2.3",
+    entorno: "produccion",
+    api: {
+        baseUrl: "https://api.miapp.com",
+        timeout: 5000,
+        reintentos: 3,
+        endpoints: {
+            usuarios: "/api/users",
+            productos: "/api/products",
+            pedidos: "/api/orders"
+        }
+    },
+    ui: {
+        tema: "claro",
+        idioma: "es",
+        animaciones: true,
+        itemsPorPagina: 20
+    },
+    funciones: {
+        debug: false,
+        analytics: true,
+        notificacionesPush: true
+    },
+    
+    obtenerUrlCompleta(endpoint) {
+        return this.api.baseUrl + this.api.endpoints[endpoint];
+    },
+    
+    esProduccion() {
+        return this.entorno === "produccion";
+    },
+    
+    actualizar(nuevaConfig) {
+        Object.assign(this, nuevaConfig);
+    }
+};</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Verificación de Propiedades -->
+            <section id="verificacion" class="section">
+                <div class="header">
+                    <h2>✅ Verificación de Propiedades</h2>
+                    <p>Métodos para comprobar si una propiedad existe en un objeto.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>🔍 Operador 'in'</h4>
+                        <div class="code-container">
+                            <pre><code>const usuario = {
+    nombre: "Juan",
+    edad: 30,
+    email: undefined
+};
+
+// Verifica si la propiedad existe (incluso si es undefined)
+console.log("nombre" in usuario);     // true
+console.log("edad" in usuario);       // true  
+console.log("email" in usuario);      // true (existe pero es undefined)
+console.log("telefono" in usuario);   // false
+
+// También funciona con propiedades heredadas
+console.log("toString" in usuario);   // true (heredada de Object)</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>🔑 hasOwnProperty()</h4>
+                        <div class="code-container">
+                            <pre><code>const usuario = {
+    nombre: "Juan",
+    edad: 30
+};
+
+// Solo propiedades propias (no heredadas)
+console.log(usuario.hasOwnProperty("nombre"));    // true
+console.log(usuario.hasOwnProperty("edad"));      // true
+console.log(usuario.hasOwnProperty("toString"));  // false
+
+// Forma más segura
+console.log(Object.prototype.hasOwnProperty.call(usuario, "nombre")); // true</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>📊 Comparación undefined</h4>
+                        <div class="code-container">
+                            <pre><code>const config = {
+    tema: "claro",
+    debug: false,
+    version: undefined
+};
+
+// Verificar si tiene valor (no undefined)
+console.log(config.tema !== undefined);     // true
+console.log(config.debug !== undefined);    // true  
+console.log(config.version !== undefined);  // false
+console.log(config.inexistente !== undefined); // false
+
+// Cuidado: false, 0, "", null son valores válidos
+console.log(config.debug !== undefined);    // true (false es válido)</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>🎯 Método personalizado</h4>
+                        <div class="code-container">
+                            <pre><code>function tienePropiedad(objeto, propiedad) {
+    return propiedad in objeto && objeto[propiedad] !== undefined;
+}
+
+function tienePropiedadConValor(objeto, propiedad) {
+    return propiedad in objeto && 
+           objeto[propiedad] !== undefined && 
+           objeto[propiedad] !== null;
+}
+
+const datos = {
+    nombre: "Ana",
+    edad: null,
+    activo: false
+};
+
+console.log(tienePropiedad(datos, "nombre"));  // true
+console.log(tienePropiedad(datos, "edad"));    // false (es null)
+console.log(tienePropiedadConValor(datos, "activo")); // true</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Verificación</h3>
+                    <div class="demo-container">
+                        <input type="text" id="verificar-input" placeholder="Propiedad a verificar" style="margin-right: 10px;">
+                        <button onclick="verificarPropiedadDemo()" class="demo-button">Verificar</button>
+                        <div id="verificar-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Modificación de Objetos -->
+            <section id="modificacion" class="section">
+                <div class="header">
+                    <h2>🔄 Modificación de Objetos</h2>
+                    <p>Diferentes formas de modificar, actualizar y extender objetos.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>➕ Añadir/Modificar Propiedades</h4>
+                        <div class="code-container">
+                            <pre><code>const usuario = {
+    nombre: "Ana",
+    edad: 25
+};
+
+// Añadir nuevas propiedades
+usuario.email = "ana@example.com";
+usuario.activo = true;
+
+// Modificar existentes
+usuario.edad = 26;
+
+// Propiedades dinámicas
+const propiedad = "ultimoAcceso";
+usuario[propiedad] = new Date();
+
+// Con template literals
+const prefijo = "user";
+usuario[`${prefijo}_id`] = 12345;
+
+console.log(usuario);
+// {
+//   nombre: "Ana",
+//   edad: 26,
+//   email: "ana@example.com",
+//   activo: true,
+//   ultimoAcceso: 2023-12-07T10:30:00.000Z,
+//   user_id: 12345
+// }</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>🗑️ Eliminar Propiedades</h4>
+                        <div class="code-container">
+                            <pre><code>const usuario = {
+    nombre: "Ana",
+    edad: 25,
+    email: "ana@example.com",
+    temporal: "borrar",
+    debug: true
+};
+
+// Eliminar con delete
+delete usuario.temporal;
+delete usuario.debug;
+
+console.log(usuario);
+// {
+//   nombre: "Ana", 
+//   edad: 25,
+//   email: "ana@example.com"
+// }
+
+// Verificar que se eliminó
+console.log("temporal" in usuario); // false
+
+// Eliminar múltiples (con destructuring)
+const { debug, temporal, ...usuarioLimpio } = usuario;
+console.log(usuarioLimpio); // Sin debug ni temporal</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert">
+                    <strong>⚠️ Performance:</strong> El operador <code>delete</code> puede ser lento. Para mejor rendimiento, considera crear un nuevo objeto sin las propiedades no deseadas.
+                </div>
+
+                <div class="feature-card">
+                    <h3>🔄 Object.assign() y Spread Operator</h3>
+                    <div class="code-container">
+                        <pre><code>const base = {
+    id: 1,
+    nombre: "Producto"
+};
+
+const actualizacion = {
+    precio: 99.99,
+    disponible: true
+};
+
+// Con Object.assign()
+const resultado1 = Object.assign({}, base, actualizacion, {
+    categoria: "tecnologia"
+});
+
+// Con spread operator (ES2018)
+const resultado2 = {
+    ...base,
+    ...actualizacion,
+    categoria: "tecnologia",
+    nombre: "Producto Premium"  // Sobrescribe
+};
+
+console.log(resultado2);
+// {
+//   id: 1,
+//   nombre: "Producto Premium",
+//   precio: 99.99,
+//   disponible: true,
+//   categoria: "tecnologia"
+// }</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Copia vs Referencia -->
+            <section id="copia-referencia" class="section">
+                <div class="header">
+                    <h2>📋 Copia vs Referencia</h2>
+                    <p>Comprende la diferencia entre asignación por referencia y copia de objetos.</p>
+                </div>
+
+                <div class="alert">
+                    <strong>⚠️ Importante:</strong> Los objetos se asignan por referencia, no por valor. Esto significa que múltiples variables pueden apuntar al mismo objeto en memoria.
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>🔗 Asignación por Referencia</h4>
+                        <div class="code-container">
+                            <pre><code>const original = {
+    nombre: "Juan",
+    edad: 30
+};
+
+// Asignación por referencia
+const referencia = original;
+referencia.edad = 31;
+
+console.log(original.edad);    // 31 (¡se modificó!)
+console.log(referencia.edad);  // 31
+
+// Ambas variables apuntan al mismo objeto
+console.log(original === referencia); // true</code></pre>
+                        </div>
+                        <p class="feature-description">❌ Modifica el objeto original</p>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>📄 Copia Superficial</h4>
+                        <div class="code-container">
+                            <pre><code>const original = {
+    nombre: "Juan",
+    edad: 30,
+    activo: true
+};
+
+// Copia superficial con spread
+const copia1 = { ...original };
+
+// Copia superficial con Object.assign
+const copia2 = Object.assign({}, original);
+
+copia1.edad = 32;
+console.log(original.edad);  // 30 (no se modificó)
+console.log(copia1.edad);    // 32
+
+// Son objetos diferentes
+console.log(original === copia1); // false</code></pre>
+                        </div>
+                        <p class="feature-description">✅ Crea una copia independiente (primer nivel)</p>
+                    </div>
+                </div>
+
+                <div class="alert">
+                    <strong>⚠️ Cuidado con objetos anidados:</strong> La copia superficial solo copia el primer nivel. Los objetos anidados siguen siendo referencias.
+                </div>
+
+                <div class="code-container">
+                    <pre><code>const complejo = {
+    usuario: {
+        nombre: "Ana",
+        configuracion: {
+            tema: "oscuro"
+        }
+    },
+    activo: true
+};
+
+// Copia superficial
+const copiaSuperficial = { ...complejo };
+copiaSuperficial.usuario.nombre = "María"; // ¡Modifica el original!
+
+console.log(complejo.usuario.nombre); // "María" (se modificó)
+
+// Para copia profunda (objetos simples sin funciones/fechas)
+const copiaProfunda = JSON.parse(JSON.stringify(complejo));
+copiaProfunda.usuario.nombre = "Laura"; // No modifica el original
+
+console.log(complejo.usuario.nombre);     // "María" (no se modificó)
+console.log(copiaProfunda.usuario.nombre); // "Laura"</code></pre>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Interactiva: Copia vs Referencia</h3>
+                    <div class="demo-container">
+                        <button onclick="copiaReferenciaDemo()" class="demo-button">Probar Diferencias</button>
+                        <div id="copia-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Casos Prácticos -->
+            <section id="casos-practicos" class="section">
+                <div class="header">
+                    <h2>🎯 Casos Prácticos</h2>
+                    <p>Aplicaciones reales de objetos en desarrollo web.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h4>📱 Estado de Componente</h4>
+                        <div class="code-container">
+                            <pre><code>const estado = {
+    usuario: null,
+    cargando: false,
+    error: null,
+    configuracion: {
+        tema: "claro",
+        idioma: "es"
+    }
+};
+
+// Función para actualizar estado inmutablemente
+function actualizarEstado(estadoActual, cambios) {
+    return {
+        ...estadoActual,
+        ...cambios
+    };
+}
+
+// Función para configuración anidada
+function actualizarConfiguracion(estadoActual, nuevaConfig) {
+    return {
+        ...estadoActual,
+        configuracion: {
+            ...estadoActual.configuracion,
+            ...nuevaConfig
+        }
+    };
+}
+
+// Uso
+const estadoConUsuario = actualizarEstado(estado, {
+    usuario: { id: 123, nombre: "Ana" },
+    cargando: false
+});
+
+const estadoConTema = actualizarConfiguracion(estadoConUsuario, {
+    tema: "oscuro"
+});</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="comparison-item">
+                        <h4>📝 Manejo de Formularios</h4>
+                        <div class="code-container">
+                            <pre><code>const formulario = {
+    campos: {
+        nombre: "",
+        email: "",
+        edad: ""
+    },
+    errores: {},
+    valido: false
+};
+
+// Función para actualizar campo
+function actualizarCampo(form, campo, valor) {
+    return {
+        ...form,
+        campos: {
+            ...form.campos,
+            [campo]: valor
+        }
+    };
+}
+
+// Función para validar
+function validarFormulario(form) {
+    const errores = {};
+    
+    if (!form.campos.nombre) {
+        errores.nombre = "Nombre es requerido";
+    }
+    
+    if (!form.campos.email.includes("@")) {
+        errores.email = "Email inválido";
+    }
+    
+    return {
+        ...form,
+        errores,
+        valido: Object.keys(errores).length === 0
+    };
+}
+
+// Uso
+let formActual = formulario;
+formActual = actualizarCampo(formActual, "nombre", "Juan");
+formActual = actualizarCampo(formActual, "email", "juan@example.com");
+formActual = validarFormulario(formActual);</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h3>💾 Sistema de Cache</h3>
+                    <div class="code-container">
+                        <pre><code>const cache = {};
+
+// Añadir al cache con expiración
+function agregarAlCache(clave, valor, expiracion = null) {
+    cache[clave] = {
+        valor,
+        timestamp: Date.now(),
+        expiracion: expiracion ? Date.now() + expiracion : null
+    };
+}
+
+// Obtener del cache
+function obtenerDelCache(clave) {
+    const entrada = cache[clave];
+    if (!entrada) return null;
+    
+    // Verificar expiración
+    if (entrada.expiracion && Date.now() > entrada.expiracion) {
+        delete cache[clave];
+        return null;
+    }
+    
+    return entrada.valor;
+}
+
+// Limpiar cache expirado
+function limpiarCacheExpirado() {
+    const ahora = Date.now();
+    Object.keys(cache).forEach(clave => {
+        const entrada = cache[clave];
+        if (entrada.expiracion && ahora > entrada.expiracion) {
+            delete cache[clave];
+        }
+    });
+}
+
+// Uso
+agregarAlCache("usuario_123", { nombre: "Ana" }, 300000); // 5 min
+agregarAlCache("configuracion", { tema: "oscuro" });
+
+const usuario = obtenerDelCache("usuario_123");
+console.log(usuario); // { nombre: "Ana" } o null si expiró</code></pre>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎮 Demo Final: Sistema Completo</h3>
+                    <div class="demo-container">
+                        <button onclick="sistemaCompletoDemo()" class="demo-button">Probar Sistema</button>
+                        <div id="sistema-result" class="demo-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conclusión -->
+            <section class="section">
+                <div class="alert">
+                    <strong>🎯 Resumen:</strong> Los objetos son fundamentales en JavaScript. Dominar su creación, manipulación y las diferencias entre copia y referencia es esencial para el desarrollo web moderno.
+                </div>
+
+                <div class="feature-card">
+                    <h3>📚 Próximos Pasos</h3>
+                    <ul>
+                        <li><strong>Destructuring:</strong> Aprende a extraer propiedades de objetos</li>
+                        <li><strong>Métodos de Object:</strong> keys(), values(), entries(), freeze(), etc.</li>
+                        <li><strong>Clases:</strong> Sintaxis moderna para crear objetos</li>
+                        <li><strong>Prototipos:</strong> Comprende la herencia en JavaScript</li>
+                        <li><strong>JSON:</strong> Serialización y deserialización de objetos</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Smooth scrolling para navegación
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                document.querySelector(targetId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Demo: Creación de objetos
+        function crearObjetoDemo() {
+            const persona = {
+                nombre: "María González",
+                edad: 28,
+                profesion: "Desarrolladora",
+                activo: true,
+                saludar() {
+                    return `¡Hola! Soy ${this.nombre}, ${this.profesion}`;
+                }
+            };
+
+            const resultado = `
+                <h4>Objeto creado:</h4>
+                <pre>${JSON.stringify(persona, null, 2)}</pre>
+                <p><strong>Método saludar():</strong> "${persona.saludar()}"</p>
+                <p><strong>Acceso a propiedades:</strong></p>
+                <ul>
+                    <li>persona.nombre → "${persona.nombre}"</li>
+                    <li>persona.edad → ${persona.edad}</li>
+                    <li>persona.profesion → "${persona.profesion}"</li>
+                </ul>
+            `;
+            
+            document.getElementById('objeto-result').innerHTML = resultado;
+        }
+
+        // Demo: Acceso a propiedades
+        function accederPropiedadDemo() {
+            const usuario = {
+                nombre: "Ana García",
+                edad: 25,
+                email: "ana@example.com",
+                "apellido completo": "García López",
+                activo: true
+            };
+
+            const propiedad = document.getElementById('propiedad-input').value.trim();
+            
+            if (!propiedad) {
+                document.getElementById('acceso-result').innerHTML = 
+                    '<p class="error">⚠️ Escribe el nombre de una propiedad</p>';
+                return;
+            }
+
+            const valorPunto = usuario[propiedad];
+            const valorCorchetes = usuario[propiedad];
+            const existe = propiedad in usuario;
+
+            const resultado = `
+                <h4>Acceso a la propiedad "${propiedad}":</h4>
+                <ul>
+                    <li><strong>Existe:</strong> ${existe ? '✅ Sí' : '❌ No'}</li>
+                    <li><strong>Valor:</strong> ${existe ? JSON.stringify(valorPunto) : 'undefined'}</li>
+                    <li><strong>Tipo:</strong> ${typeof valorPunto}</li>
+                </ul>
+                <p><strong>Propiedades disponibles:</strong> ${Object.keys(usuario).join(', ')}</p>
+            `;
+
+            document.getElementById('acceso-result').innerHTML = resultado;
+        }
+
+        // Demo: Objetos anidados
+        function objetosAnidadosDemo() {
+            const empresa = {
+                nombre: "TechCorp",
+                empleados: [
+                    {
+                        nombre: "Juan",
+                        puesto: "Desarrollador",
+                        contacto: { email: "juan@techcorp.com" }
+                    },
+                    {
+                        nombre: "María", 
+                        puesto: "Diseñadora",
+                        contacto: { email: "maria@techcorp.com" }
+                    }
+                ],
+                direccion: {
+                    ciudad: "Madrid",
+                    pais: "España"
+                }
+            };
+
+            const resultado = `
+                <h4>Estructura de empresa:</h4>
+                <pre>${JSON.stringify(empresa, null, 2)}</pre>
+                <h4>Acceso a datos anidados:</h4>
+                <ul>
+                    <li><strong>Nombre empresa:</strong> ${empresa.nombre}</li>
+                    <li><strong>Ciudad:</strong> ${empresa.direccion?.ciudad}</li>
+                    <li><strong>Primer empleado:</strong> ${empresa.empleados?.[0]?.nombre}</li>
+                    <li><strong>Email segundo empleado:</strong> ${empresa.empleados?.[1]?.contacto?.email}</li>
+                    <li><strong>Departamento (no existe):</strong> ${empresa.departamento?.rrhh?.jefe || 'undefined'}</li>
+                </ul>
+            `;
+
+            document.getElementById('anidados-result').innerHTML = resultado;
+        }
+
+        // Demo: Métodos
+        function metodosDemo() {
+            const contador = {
+                valor: 0,
+                
+                incrementar() {
+                    this.valor++;
+                    return this;
+                },
+                
+                decrementar() {
+                    this.valor--;
+                    return this;
+                },
+                
+                sumar(cantidad) {
+                    this.valor += cantidad;
+                    return this;
+                },
+                
+                obtener() {
+                    return this.valor;
+                },
+                
+                reset() {
+                    this.valor = 0;
+                    return this;
+                }
+            };
+
+            // Demostrar encadenamiento de métodos
+            contador.incrementar().incrementar().sumar(5).decrementar();
+
+            const resultado = `
+                <h4>Demostración de métodos:</h4>
+                <p><strong>Operaciones realizadas:</strong></p>
+                <code>contador.incrementar().incrementar().sumar(5).decrementar()</code>
+                <p><strong>Valor final:</strong> ${contador.obtener()}</p>
+                
+                <h4>Probemos más operaciones:</h4>
+                <button onclick="probarMetodos()" style="margin: 10px 0; padding: 5px 10px;">Hacer más operaciones</button>
+                <div id="metodos-extra"></div>
+            `;
+
+            document.getElementById('metodos-result').innerHTML = resultado;
+        }
+
+        function probarMetodos() {
+            const calc = {
+                valor: 10,
+                multiplicar(x) { this.valor *= x; return this; },
+                dividir(x) { this.valor /= x; return this; },
+                obtener() { return this.valor; }
+            };
+
+            calc.multiplicar(3).dividir(2);
+
+            document.getElementById('metodos-extra').innerHTML = `
+                <p>Empezamos con 10 → multiplicar(3) → dividir(2) = ${calc.obtener()}</p>
+            `;
+        }
+
+        // Demo: Verificación de propiedades
+        function verificarPropiedadDemo() {
+            const testObj = {
+                nombre: "Test",
+                edad: null,
+                activo: false,
+                email: undefined
+            };
+
+            const propiedad = document.getElementById('verificar-input').value.trim();
+            
+            if (!propiedad) {
+                document.getElementById('verificar-result').innerHTML = 
+                    '<p class="error">⚠️ Escribe el nombre de una propiedad</p>';
+                return;
+            }
+
+            const resultados = {
+                'in': propiedad in testObj,
+                'hasOwnProperty': testObj.hasOwnProperty(propiedad),
+                'undefined': testObj[propiedad] !== undefined,
+                'valor': testObj[propiedad]
+            };
+
+            const resultado = `
+                <h4>Verificación de "${propiedad}":</h4>
+                <table style="border-collapse: collapse; width: 100%;">
+                    <tr>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Método</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Resultado</th>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #ddd; padding: 8px;">"${propiedad}" in objeto</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">${resultados.in ? '✅' : '❌'}</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #ddd; padding: 8px;">hasOwnProperty()</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">${resultados.hasOwnProperty ? '✅' : '❌'}</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #ddd; padding: 8px;">!== undefined</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">${resultados.undefined ? '✅' : '❌'}</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #ddd; padding: 8px;">Valor</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">${JSON.stringify(resultados.valor)}</td>
+                    </tr>
+                </table>
+                <p><strong>Propiedades disponibles:</strong> ${Object.keys(testObj).join(', ')}</p>
+            `;
+
+            document.getElementById('verificar-result').innerHTML = resultado;
+        }
+
+        // Demo: Copia vs Referencia
+        function copiaReferenciaDemo() {
+            const original = {
+                nombre: "Juan",
+                edad: 30,
+                configuracion: {
+                    tema: "claro"
+                }
+            };
+
+            // Referencia
+            const referencia = original;
+            referencia.edad = 31;
+
+            // Copia superficial
+            const copiaSuperficial = { ...original };
+            copiaSuperficial.nombre = "Pedro";
+            copiaSuperficial.configuracion.tema = "oscuro"; // ¡Modifica el original!
+
+            // Copia profunda
+            const copiaProfunda = JSON.parse(JSON.stringify(original));
+            copiaProfunda.configuracion.tema = "azul"; // No modifica el original
+
+            const resultado = `
+                <h4>Demostración de Copia vs Referencia:</h4>
+                
+                <h5>1. Objeto Original (después de modificaciones):</h5>
+                <pre>${JSON.stringify(original, null, 2)}</pre>
+                
+                <h5>2. Referencia:</h5>
+                <p>Cambió edad a 31 → <strong>Modifica el original</strong> ✅</p>
+                <p>original === referencia: ${original === referencia}</p>
+                
+                <h5>3. Copia Superficial:</h5>
+                <pre>${JSON.stringify(copiaSuperficial, null, 2)}</pre>
+                <p>Cambió nombre → <strong>No afecta original</strong> ✅</p>
+                <p>Cambió tema anidado → <strong>Sí afecta original</strong> ⚠️</p>
+                
+                <h5>4. Copia Profunda:</h5>
+                <pre>${JSON.stringify(copiaProfunda, null, 2)}</pre>
+                <p>Cambió tema anidado → <strong>No afecta original</strong> ✅</p>
+            `;
+
+            document.getElementById('copia-result').innerHTML = resultado;
+        }
+
+        // Demo: Sistema completo
+        function sistemaCompletoDemo() {
+            // Sistema de gestión de usuarios
+            const sistema = {
+                usuarios: [],
+                configuracion: {
+                    maxUsuarios: 100,
+                    tema: "claro"
+                },
+                
+                agregarUsuario(datos) {
+                    if (this.usuarios.length >= this.configuracion.maxUsuarios) {
+                        return { exito: false, mensaje: "Límite de usuarios alcanzado" };
+                    }
+                    
+                    const usuario = {
+                        id: Date.now(),
+                        fechaCreacion: new Date(),
+                        activo: true,
+                        ...datos
+                    };
+                    
+                    this.usuarios.push(usuario);
+                    return { exito: true, usuario };
+                },
+                
+                buscarUsuario(criterio) {
+                    return this.usuarios.find(user => 
+                        user.nombre?.toLowerCase().includes(criterio.toLowerCase()) ||
+                        user.email?.toLowerCase().includes(criterio.toLowerCase())
+                    );
+                },
+                
+                obtenerEstadisticas() {
+                    return {
+                        total: this.usuarios.length,
+                        activos: this.usuarios.filter(u => u.activo).length,
+                        inactivos: this.usuarios.filter(u => !u.activo).length,
+                        ultimoRegistro: this.usuarios[this.usuarios.length - 1]?.fechaCreacion
+                    };
+                }
+            };
+
+            // Agregar usuarios de prueba
+            sistema.agregarUsuario({ nombre: "Ana García", email: "ana@example.com", rol: "admin" });
+            sistema.agregarUsuario({ nombre: "Juan Pérez", email: "juan@example.com", rol: "usuario" });
+            sistema.agregarUsuario({ nombre: "María López", email: "maria@example.com", rol: "editor" });
+
+            const stats = sistema.obtenerEstadisticas();
+            const busqueda = sistema.buscarUsuario("ana");
+
+            const resultado = `
+                <h4>Sistema de Gestión de Usuarios:</h4>
+                
+                <h5>Estadísticas:</h5>
+                <ul>
+                    <li><strong>Total usuarios:</strong> ${stats.total}</li>
+                    <li><strong>Activos:</strong> ${stats.activos}</li>
+                    <li><strong>Último registro:</strong> ${stats.ultimoRegistro?.toLocaleString()}</li>
+                </ul>
+                
+                <h5>Búsqueda "ana":</h5>
+                <pre>${JSON.stringify(busqueda, null, 2)}</pre>
+                
+                <h5>Todos los usuarios:</h5>
+                <pre>${JSON.stringify(sistema.usuarios, null, 2)}</pre>
+            `;
+
+            document.getElementById('sistema-result').innerHTML = resultado;
+        }
+
+        // Función para copiar código
+        function copiarCodigo(button) {
+            const codeBlock = button.nextElementSibling.querySelector('code');
+            const text = codeBlock.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                button.textContent = '✅ Copiado!';
+                setTimeout(() => {
+                    button.textContent = '📋 Copiar';
+                }, 2000);
+            });
+        }
+
+        // Añadir botones de copiar a todos los bloques de código
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.code-container').forEach(container => {
+                const button = document.createElement('button');
+                button.textContent = '📋 Copiar';
+                button.className = 'copy-button';
+                button.onclick = function() { copiarCodigo(this); };
+                container.insertBefore(button, container.firstChild);
+            });
+        });
+    </script>
+</body>
+</html>

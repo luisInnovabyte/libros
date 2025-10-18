@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strings en JavaScript - Parte IV</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="two-column">
+            <!-- Navegación lateral -->
+            <aside class="navigation">
+                <h3>Contenido</h3>
+                <ul>
+                    <li><a href="#rendimiento">Comparaciones de Rendimiento</a></li>
+                    <li><a href="#metodos-modernos">Métodos Modernos (ES2020+)</a></li>
+                    <li><a href="#matchall">matchAll()</a></li>
+                    <li><a href="#replaceall">replaceAll()</a></li>
+                    <li><a href="#casos-especiales">Casos Especiales y Trucos</a></li>
+                    <li><a href="#strings-vacios">Strings vacíos y falsy</a></li>
+                    <li><a href="#unicode">Caracteres Unicode</a></li>
+                    <li><a href="#strings-arrays">Strings como arrays</a></li>
+                    <li><a href="#errores-comunes">Errores Comunes</a></li>
+                    <li><a href="#modificar-directamente">Modificar strings directamente</a></li>
+                    <li><a href="#comparaciones-eq">Comparaciones con ==</a></li>
+                    <li><a href="#indexof-includes">indexOf vs includes</a></li>
+                    <li><a href="#resumen">Resumen Final</a></li>
+                </ul>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main class="content">
+                <div class="header">
+                    <h1>Strings en JavaScript - Parte IV</h1>
+                    <p class="alert">Métodos modernos, casos especiales, errores comunes y mejores prácticas para el manejo avanzado de strings.</p>
+                </div>
+
+                <section id="rendimiento" class="section">
+                    <h2>3. Comparaciones de Rendimiento</h2>
+                    
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                        <pre><code class="javascript">// Template literals vs concatenación
+const nombre = "Juan";
+const edad = 30;
+
+// Ambas formas son eficientes para pocos strings
+const metodo1 = `Hola ${nombre}, tienes ${edad} años`;
+const metodo2 = "Hola " + nombre + ", tienes " + edad + " años";
+
+// Para muchas operaciones, medir y optimizar según el caso</code></pre>
+                    </div>
+
+                    <div class="alert">
+                        <strong>Prueba de rendimiento Template Literals vs Concatenación:</strong>
+                        <div style="margin-top: 10px;">
+                            <input type="text" id="nombrePerf" placeholder="Nombre" value="Juan" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                            <input type="number" id="edadPerf" placeholder="Edad" value="30" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 80px;">
+                            <input type="number" id="iteraciones" placeholder="Iteraciones" value="100000" min="1000" max="1000000" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 100px;">
+                            <button onclick="compararRendimientoStrings()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Comparar</button>
+                        </div>
+                        <div id="resultadoRendimientoStrings" style="margin-top: 10px; font-family: monospace;"></div>
+                    </div>
+                </section>
+
+                <section id="metodos-modernos" class="section">
+                    <h2>Métodos Modernos (ES2020+)</h2>
+                    
+                    <div id="matchall" class="subsection">
+                        <h3>1. String.prototype.matchAll():</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">const texto = "Fecha: 2024-01-15, Fecha: 2024-02-20";
+const regex = /(\d{4})-(\d{2})-(\d{2})/g;
+
+// matchAll devuelve un iterador
+const matches = [...texto.matchAll(regex)];
+console.log(matches[0]); // ["2024-01-15", "2024", "01", "15", ...]
+console.log(matches[1]); // ["2024-02-20", "2024", "02", "20", ...]
+
+// Extraer todas las fechas
+const fechas = matches.map(match => ({
+    fecha: match[0],
+    año: match[1],
+    mes: match[2],
+    dia: match[3]
+}));</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4>Demo matchAll():</h4>
+                            <div style="margin-top: 15px;">
+                                <textarea id="matchAllText" placeholder="Texto con fechas..." rows="3" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">Fecha: 2024-01-15, Otra fecha: 2024-02-20, Final: 2024-12-31</textarea>
+                                <br><br>
+                                <button onclick="probarMatchAll()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Extraer Fechas</button>
+                                <div id="resultadoMatchAll" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="replaceall" class="subsection">
+                        <h3>2. String.prototype.replaceAll():</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Antes tenías que usar regex o múltiples replace()
+const texto = "JavaScript y JavaScript y JavaScript";
+
+// ES2021: replaceAll()
+const nuevo = texto.replaceAll("JavaScript", "TypeScript");
+console.log(nuevo); // "TypeScript y TypeScript y TypeScript"</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4>Demo replaceAll():</h4>
+                            <div style="margin-top: 15px;">
+                                <input type="text" id="replaceAllText" placeholder="Texto original..." value="JavaScript y JavaScript y JavaScript" style="padding: 8px; width: 300px; border: 1px solid #ddd; border-radius: 4px;">
+                                <br><br>
+                                <input type="text" id="searchAll" placeholder="Buscar..." value="JavaScript" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <input type="text" id="replaceAllWith" placeholder="Reemplazar con..." value="TypeScript" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <button onclick="probarReplaceAll()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Reemplazar Todo</button>
+                                <div id="resultadoReplaceAll" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="casos-especiales" class="section">
+                    <h2>Casos Especiales y Trucos</h2>
+                    
+                    <div id="strings-vacios" class="subsection">
+                        <h3>1. Strings vacíos y falsy:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Verificar string vacío
+const verificarVacio = (str) => {
+    return str === "";                    // Exactamente vacío
+    // return str.trim() === "";          // Vacío o solo espacios
+    // return !str;                       // Falsy (incluye null, undefined)
+    // return !str || !str.trim();        // Falsy o solo espacios
+};
+
+console.log(verificarVacio(""));     // true
+console.log(verificarVacio("   "));  // false (con primera opción)</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4>Verificador de strings vacíos:</h4>
+                            <div style="margin-top: 15px;">
+                                <input type="text" id="emptyTest" placeholder="Prueba diferentes valores..." style="padding: 8px; width: 250px; border: 1px solid #ddd; border-radius: 4px;">
+                                <button onclick="verificarVacio()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">Verificar</button>
+                                <div id="resultadoVacio" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="unicode" class="subsection">
+                        <h3>2. Trabajo con caracteres Unicode:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Emojis y caracteres especiales
+const emoji = "👨‍👩‍👧‍👦";
+console.log(emoji.length);           // 11 (¡no es 1!)
+
+// Para contar correctamente caracteres Unicode
+console.log([...emoji].length);     // 1
+console.log(Array.from(emoji).length); // 1
+
+// Iterar correctamente sobre caracteres
+for (const char of emoji) {
+    console.log(char); // Muestra el emoji completo
+}</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4>Analizador de caracteres Unicode:</h4>
+                            <div style="margin-top: 15px;">
+                                <input type="text" id="unicodeTest" placeholder="Prueba emojis: 👨‍👩‍👧‍👦🌟" value="👨‍👩‍👧‍👦🌟" style="padding: 8px; width: 250px; border: 1px solid #ddd; border-radius: 4px;">
+                                <button onclick="analizarUnicode()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">Analizar</button>
+                                <div id="resultadoUnicode" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="strings-arrays" class="subsection">
+                        <h3>3. Strings como arrays:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">const texto = "JavaScript";
+
+// Usar métodos de array con strings
+const vocales = [...texto].filter(char => 'aeiouAEIOU'.includes(char));
+console.log(vocales); // ["a", "a", "i"]
+
+// Reversar un string
+const alReves = [...texto].reverse().join('');
+console.log(alReves); // "tpircSavaJ"
+
+// Contar caracteres
+const conteo = [...texto].reduce((acc, char) => {
+    acc[char] = (acc[char] || 0) + 1;
+    return acc;
+}, {});
+console.log(conteo); // {J: 1, a: 2, v: 1, S: 1, c: 1, r: 1, i: 1, p: 1, t: 1}</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4>Manipulador de strings como arrays:</h4>
+                            <div style="margin-top: 15px;">
+                                <input type="text" id="arrayTest" placeholder="Texto para manipular..." value="JavaScript" style="padding: 8px; width: 250px; border: 1px solid #ddd; border-radius: 4px;">
+                                <br><br>
+                                <button onclick="extraerVocales()" style="padding: 8px 12px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">Extraer Vocales</button>
+                                <button onclick="revertirTexto()" style="padding: 8px 12px; background: var(--secondary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">Revertir</button>
+                                <button onclick="contarCaracteres()" style="padding: 8px 12px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Contar Chars</button>
+                                <div id="resultadoArray" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="errores-comunes" class="section">
+                    <h2>Errores Comunes</h2>
+                    
+                    <div id="modificar-directamente" class="subsection">
+                        <h3>1. Modificar strings directamente:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// ❌ Esto NO funciona
+let texto = "Hola";
+texto[0] = "h"; // No hace nada
+console.log(texto); // Sigue siendo "Hola"
+
+// ✅ Forma correcta
+texto = "h" + texto.slice(1);
+console.log(texto); // "hola"</code></pre>
+                        </div>
+
+                        <div class="alert">
+                            <strong>⚠️ Recuerda:</strong> Los strings en JavaScript son inmutables. No se pueden modificar caracteres individuales directamente.
+                        </div>
+                    </div>
+
+                    <div id="comparaciones-eq" class="subsection">
+                        <h3>2. Comparaciones con ==:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Cuidado con las conversiones automáticas
+console.log("5" == 5);   // true (conversión automática)
+console.log("5" === 5);  // false (comparación estricta)
+
+// Siempre usar === para strings
+const esNumero = (str) => str === String(Number(str)) && !isNaN(Number(str));</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4>Demo comparaciones == vs ===:</h4>
+                            <div style="margin-top: 15px;">
+                                <input type="text" id="valor1" placeholder="Primer valor" value="5" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <input type="text" id="valor2" placeholder="Segundo valor" value="5" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <button onclick="compararIgualdad()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Comparar</button>
+                                <div id="resultadoIgualdad" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="indexof-includes" class="subsection">
+                        <h3>3. indexOf vs includes:</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">const texto = "JavaScript";
+
+// ❌ Puede fallar
+if (texto.indexOf("Script")) {
+    // Este bloque NO se ejecuta porque indexOf devuelve 4 (truthy)
+    // pero estamos buscando si existe, no la posición
+}
+
+// ✅ Formas correctas
+if (texto.indexOf("Script") !== -1) { /* existe */ }
+if (texto.includes("Script")) { /* existe */ }</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4>Demo indexOf vs includes:</h4>
+                            <div style="margin-top: 15px;">
+                                <input type="text" id="textoIndexOf" placeholder="Texto donde buscar..." value="JavaScript" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 200px;">
+                                <input type="text" id="buscarIndexOf" placeholder="Qué buscar..." value="Script" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                <button onclick="compararBusqueda()" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Buscar</button>
+                                <div id="resultadoBusquedaComp" style="margin-top: 10px; font-family: monospace;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="resumen" class="section">
+                    <h2>Resumen Final</h2>
+                    
+                    <div class="comparison-grid">
+                        <div class="feature-card">
+                            <h3>🔧 Métodos más utilizados</h3>
+                            <ul>
+                                <li><strong>Conversión:</strong> <code>toLowerCase()</code>, <code>toUpperCase()</code>, <code>trim()</code></li>
+                                <li><strong>Búsqueda:</strong> <code>indexOf()</code>, <code>includes()</code>, <code>startsWith()</code>, <code>endsWith()</code></li>
+                                <li><strong>Extracción:</strong> <code>slice()</code>, <code>substring()</code></li>
+                                <li><strong>Modificación:</strong> <code>replace()</code>, <code>replaceAll()</code>, <code>split()</code></li>
+                                <li><strong>Template literals:</strong> Para interpolación y strings multilínea</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <h3>✅ Mejores prácticas</h3>
+                            <ul>
+                                <li>Usa <strong>template literals</strong> para interpolación</li>
+                                <li>Usa <strong>métodos de búsqueda apropiados</strong> (<code>includes()</code> vs <code>indexOf()</code>)</li>
+                                <li>Recuerda que los strings son <strong>inmutables</strong></li>
+                                <li>Usa <strong>comparación estricta</strong> (<code>===</code>)</li>
+                                <li>Ten cuidado con <strong>caracteres Unicode</strong> y emojis</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="alert" style="margin-top: 30px;">
+                        <strong>🎯 Conclusión:</strong> Los strings son fundamentales en JavaScript y dominar estos métodos te permitirá manipular texto de manera efectiva en tus aplicaciones.
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Función para copiar código
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling.querySelector('code');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✅ Copiado!';
+                button.style.background = 'var(--success-color)';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            });
+        }
+
+        // Navegación suave
+        document.querySelectorAll('.navigation a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Demo: Comparar rendimiento strings
+        function compararRendimientoStrings() {
+            const nombre = document.getElementById('nombrePerf').value;
+            const edad = document.getElementById('edadPerf').value;
+            const iteraciones = parseInt(document.getElementById('iteraciones').value) || 100000;
+            const resultado = document.getElementById('resultadoRendimientoStrings');
+
+            // Template literals
+            const inicio1 = performance.now();
+            for (let i = 0; i < iteraciones; i++) {
+                const temp = `Hola ${nombre}, tienes ${edad} años`;
+            }
+            const tiempo1 = (performance.now() - inicio1).toFixed(2);
+
+            // Concatenación
+            const inicio2 = performance.now();
+            for (let i = 0; i < iteraciones; i++) {
+                const temp = "Hola " + nombre + ", tienes " + edad + " años";
+            }
+            const tiempo2 = (performance.now() - inicio2).toFixed(2);
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Iteraciones:</strong> ${iteraciones.toLocaleString()}</div>
+                <div style="margin: 5px 0;"><strong>Template literals:</strong> ${tiempo1}ms</div>
+                <div style="margin: 5px 0;"><strong>Concatenación:</strong> ${tiempo2}ms</div>
+                <div style="margin: 5px 0; color: var(--success-color);"><strong>Más rápido:</strong> ${tiempo1 < tiempo2 ? 'Template literals' : 'Concatenación'}</div>
+            `;
+        }
+
+        // Demo: matchAll
+        function probarMatchAll() {
+            const texto = document.getElementById('matchAllText').value;
+            const resultado = document.getElementById('resultadoMatchAll');
+
+            if (!texto) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Ingresa texto con fechas.</span>';
+                return;
+            }
+
+            const regex = /(\d{4})-(\d{2})-(\d{2})/g;
+            const matches = [...texto.matchAll(regex)];
+
+            if (matches.length === 0) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">No se encontraron fechas con formato YYYY-MM-DD.</span>';
+                return;
+            }
+
+            const fechas = matches.map((match, index) => `
+                <div style="margin: 5px 0;">
+                    <strong>Fecha ${index + 1}:</strong> ${match[0]} 
+                    (Año: ${match[1]}, Mes: ${match[2]}, Día: ${match[3]})
+                </div>
+            `).join('');
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Fechas encontradas:</strong> ${matches.length}</div>
+                ${fechas}
+            `;
+        }
+
+        // Demo: replaceAll
+        function probarReplaceAll() {
+            const texto = document.getElementById('replaceAllText').value;
+            const buscar = document.getElementById('searchAll').value;
+            const reemplazar = document.getElementById('replaceAllWith').value;
+            const resultado = document.getElementById('resultadoReplaceAll');
+
+            if (!texto || !buscar) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Completa texto y término a buscar.</span>';
+                return;
+            }
+
+            const original = texto;
+            const conReplace = texto.replace(buscar, reemplazar);
+            const conReplaceAll = texto.replaceAll(buscar, reemplazar);
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Original:</strong> "${original}"</div>
+                <div style="margin: 5px 0;"><strong>replace() (solo primera):</strong> "${conReplace}"</div>
+                <div style="margin: 5px 0;"><strong>replaceAll() (todas):</strong> "${conReplaceAll}"</div>
+            `;
+        }
+
+        // Demo: verificar vacío
+        function verificarVacio() {
+            const valor = document.getElementById('emptyTest').value;
+            const resultado = document.getElementById('resultadoVacio');
+
+            const pruebas = {
+                'Exactamente vacío': valor === "",
+                'Vacío o solo espacios': valor.trim() === "",
+                'Falsy': !valor,
+                'Falsy o solo espacios': !valor || !valor.trim()
+            };
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Valor:</strong> "${valor}" (longitud: ${valor.length})</div>
+                ${Object.entries(pruebas).map(([test, result]) => 
+                    `<div style="margin: 5px 0;"><strong>${test}:</strong> ${result ? '✅' : '❌'}</div>`
+                ).join('')}
+            `;
+        }
+
+        // Demo: Unicode
+        function analizarUnicode() {
+            const texto = document.getElementById('unicodeTest').value;
+            const resultado = document.getElementById('resultadoUnicode');
+
+            if (!texto) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Ingresa texto con caracteres Unicode.</span>';
+                return;
+            }
+
+            const caracteres = [...texto];
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Texto:</strong> "${texto}"</div>
+                <div style="margin: 5px 0;"><strong>Length normal:</strong> ${texto.length}</div>
+                <div style="margin: 5px 0;"><strong>Length Unicode:</strong> ${caracteres.length}</div>
+                <div style="margin: 5px 0;"><strong>Caracteres individuales:</strong></div>
+                ${caracteres.map((char, i) => `<div style="margin-left: 20px;">${i + 1}. "${char}"</div>`).join('')}
+            `;
+        }
+
+        // Demo: extraer vocales
+        function extraerVocales() {
+            const texto = document.getElementById('arrayTest').value;
+            const resultado = document.getElementById('resultadoArray');
+
+            if (!texto) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Ingresa texto primero.</span>';
+                return;
+            }
+
+            const vocales = [...texto].filter(char => 'aeiouAEIOU'.includes(char));
+            
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Texto:</strong> "${texto}"</div>
+                <div style="margin: 5px 0;"><strong>Vocales encontradas:</strong> [${vocales.map(v => `"${v}"`).join(', ')}]</div>
+                <div style="margin: 5px 0;"><strong>Total:</strong> ${vocales.length} vocales</div>
+            `;
+        }
+
+        // Demo: revertir texto
+        function revertirTexto() {
+            const texto = document.getElementById('arrayTest').value;
+            const resultado = document.getElementById('resultadoArray');
+
+            if (!texto) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Ingresa texto primero.</span>';
+                return;
+            }
+
+            const alReves = [...texto].reverse().join('');
+            
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Original:</strong> "${texto}"</div>
+                <div style="margin: 5px 0;"><strong>Revertido:</strong> "${alReves}"</div>
+            `;
+        }
+
+        // Demo: contar caracteres
+        function contarCaracteres() {
+            const texto = document.getElementById('arrayTest').value;
+            const resultado = document.getElementById('resultadoArray');
+
+            if (!texto) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Ingresa texto primero.</span>';
+                return;
+            }
+
+            const conteo = [...texto].reduce((acc, char) => {
+                acc[char] = (acc[char] || 0) + 1;
+                return acc;
+            }, {});
+            
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Texto:</strong> "${texto}"</div>
+                <div style="margin: 5px 0;"><strong>Conteo de caracteres:</strong></div>
+                ${Object.entries(conteo).map(([char, count]) => 
+                    `<div style="margin-left: 20px;">"${char}": ${count}</div>`
+                ).join('')}
+            `;
+        }
+
+        // Demo: comparar igualdad
+        function compararIgualdad() {
+            const valor1 = document.getElementById('valor1').value;
+            const valor2 = document.getElementById('valor2').value;
+            const resultado = document.getElementById('resultadoIgualdad');
+
+            // Intentar convertir a números si es posible
+            const num1 = Number(valor1);
+            const num2 = Number(valor2);
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Valores:</strong> "${valor1}" vs "${valor2}"</div>
+                <div style="margin: 5px 0;"><strong>Tipos:</strong> ${typeof valor1} vs ${typeof valor2}</div>
+                <div style="margin: 5px 0;"><strong>"${valor1}" == "${valor2}":</strong> ${valor1 == valor2}</div>
+                <div style="margin: 5px 0;"><strong>"${valor1}" === "${valor2}":</strong> ${valor1 === valor2}</div>
+                ${!isNaN(num1) && !isNaN(num2) ? 
+                    `<div style="margin: 5px 0;"><strong>Como números:</strong> ${num1} === ${num2} = ${num1 === num2}</div>` : 
+                    ''}
+            `;
+        }
+
+        // Demo: comparar búsqueda
+        function compararBusqueda() {
+            const texto = document.getElementById('textoIndexOf').value;
+            const buscar = document.getElementById('buscarIndexOf').value;
+            const resultado = document.getElementById('resultadoBusquedaComp');
+
+            if (!texto || !buscar) {
+                resultado.innerHTML = '<span style="color: var(--warning-color);">Completa ambos campos.</span>';
+                return;
+            }
+
+            const indexOfResult = texto.indexOf(buscar);
+            const includesResult = texto.includes(buscar);
+
+            resultado.innerHTML = `
+                <div style="margin: 5px 0;"><strong>Texto:</strong> "${texto}"</div>
+                <div style="margin: 5px 0;"><strong>Buscando:</strong> "${buscar}"</div>
+                <div style="margin: 5px 0;"><strong>indexOf():</strong> ${indexOfResult} ${indexOfResult === -1 ? '(no encontrado)' : '(posición)'}</div>
+                <div style="margin: 5px 0;"><strong>includes():</strong> ${includesResult}</div>
+                <div style="margin: 10px 0; color: var(--primary-color);"><strong>⚠️ Error común:</strong></div>
+                <div style="margin: 5px 0;"><strong>if(indexOf()):</strong> ${indexOfResult ? 'true' : 'false'} ${indexOfResult === 0 ? '← ¡ERROR! (posición 0 = falsy)' : ''}</div>
+                <div style="margin: 5px 0;"><strong>if(includes()):</strong> ${includesResult ? 'true' : 'false'} ← ✅ Correcto</div>
+            `;
+        }
+    </script>
+</body>
+</html>

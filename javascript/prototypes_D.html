@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototypes en JavaScript - Parte IV</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="two-column">
+            <!-- Navegación lateral -->
+            <aside class="navigation">
+                <h3>Contenido</h3>
+                <ul>
+                    <li><a href="#cache-inteligente">Cache Inteligente</a></li>
+                    <li><a href="#implementacion-cache">Implementación del Cache</a></li>
+                    <li><a href="#uso-cache">Uso del Cache</a></li>
+                    <li><a href="#mejores-practicas">Mejores Prácticas</a></li>
+                    <li><a href="#buenas-practicas">✅ Buenas Prácticas</a></li>
+                    <li><a href="#malas-practicas">❌ Prácticas a Evitar</a></li>
+                </ul>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main class="content">
+                <div class="header">
+                    <h1>Prototypes en JavaScript - Parte IV</h1>
+                    <p class="alert">Implementación de cache inteligente con prototypes y mejores prácticas para el desarrollo con el sistema de prototypes de JavaScript.</p>
+                </div>
+
+                <section id="cache-inteligente" class="section">
+                    <h2>Cache Inteligente con Prototype</h2>
+                    
+                    <div id="implementacion-cache" class="subsection">
+                        <h3>Implementación del Cache</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">function CacheInteligente(maxSize = 100, ttl = 300000) { // 5 minutos por defecto
+    this.cache = new Map();
+    this.accesos = new Map();
+    this.maxSize = maxSize;
+    this.ttl = ttl;
+    this.stats = {
+        hits: 0,
+        misses: 0,
+        evictions: 0
+    };
+}
+
+CacheInteligente.prototype.set = function(clave, valor, ttlPersonalizado) {
+    const tiempoExpiracion = Date.now() + (ttlPersonalizado || this.ttl);
+    
+    // Si el cache está lleno, hacer espacio
+    if (this.cache.size >= this.maxSize && !this.cache.has(clave)) {
+        this._evictLeastRecentlyUsed();
+    }
+    
+    this.cache.set(clave, {
+        valor: valor,
+        expiracion: tiempoExpiracion,
+        fechaCreacion: Date.now()
+    });
+    
+    this.accesos.set(clave, Date.now());
+    return this;
+};
+
+CacheInteligente.prototype.get = function(clave) {
+    if (!this.cache.has(clave)) {
+        this.stats.misses++;
+        return null;
+    }
+    
+    const entrada = this.cache.get(clave);
+    
+    // Verificar expiración
+    if (Date.now() > entrada.expiracion) {
+        this.delete(clave);
+        this.stats.misses++;
+        return null;
+    }
+    
+    // Actualizar último acceso
+    this.accesos.set(clave, Date.now());
+    this.stats.hits++;
+    
+    return entrada.valor;
+};
+
+CacheInteligente.prototype.delete = function(clave) {
+    this.cache.delete(clave);
+    this.accesos.delete(clave);
+    return this;
+};
+
+CacheInteligente.prototype._evictLeastRecentlyUsed = function() {
+    let claveAntigua = null;
+    let tiempoAntiguo = Date.now();
+    
+    for (const [clave, tiempoAcceso] of this.accesos.entries()) {
+        if (tiempoAcceso < tiempoAntiguo) {
+            tiempoAntiguo = tiempoAcceso;
+            claveAntigua = clave;
+        }
+    }
+    
+    if (claveAntigua) {
+        this.delete(claveAntigua);
+        this.stats.evictions++;
+    }
+};
+
+CacheInteligente.prototype.clear = function() {
+    this.cache.clear();
+    this.accesos.clear();
+    return this;
+};
+
+CacheInteligente.prototype.size = function() {
+    return this.cache.size;
+};
+
+CacheInteligente.prototype.obtenerEstadisticas = function() {
+    const totalAccesos = this.stats.hits + this.stats.misses;
+    return {
+        ...this.stats,
+        hitRate: totalAccesos > 0 ? (this.stats.hits / totalAccesos * 100).toFixed(2) + '%' : '0%',
+        size: this.cache.size,
+        maxSize: this.maxSize
+    };
+};
+
+CacheInteligente.prototype.limpiarExpirados = function() {
+    const ahora = Date.now();
+    let eliminados = 0;
+    
+    for (const [clave, entrada] of this.cache.entries()) {
+        if (ahora > entrada.expiracion) {
+            this.delete(clave);
+            eliminados++;
+        }
+    }
+    
+    return eliminados;
+};</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h3>🚀 Cache Inteligente en Vivo:</h3>
+                            <div style="margin-top: 15px;">
+                                <div style="margin-bottom: 15px;">
+                                    <strong>Configuración del Cache:</strong><br>
+                                    <input type="number" id="maxSize" placeholder="Tamaño máximo" value="5" min="1" max="20" style="padding: 8px; width: 120px; border: 1px solid #ddd; border-radius: 4px; margin-right: 10px;">
+                                    <input type="number" id="ttl" placeholder="TTL (segundos)" value="10" min="1" max="300" style="padding: 8px; width: 120px; border: 1px solid #ddd; border-radius: 4px; margin-right: 10px;">
+                                    <button onclick="inicializarCache()" style="padding: 8px 12px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Crear Cache</button>
+                                </div>
+
+                                <div style="margin-bottom: 15px;">
+                                    <strong>Agregar al Cache:</strong><br>
+                                    <input type="text" id="cacheKey" placeholder="Clave" style="padding: 8px; width: 120px; border: 1px solid #ddd; border-radius: 4px; margin-right: 5px;">
+                                    <input type="text" id="cacheValue" placeholder="Valor" style="padding: 8px; width: 150px; border: 1px solid #ddd; border-radius: 4px; margin-right: 5px;">
+                                    <input type="number" id="customTtl" placeholder="TTL personalizado (s)" style="padding: 8px; width: 140px; border: 1px solid #ddd; border-radius: 4px; margin-right: 5px;">
+                                    <button onclick="agregarAlCache()" style="padding: 8px 12px; background: var(--success-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Agregar</button>
+                                </div>
+
+                                <div style="margin-bottom: 15px;">
+                                    <strong>Obtener del Cache:</strong><br>
+                                    <input type="text" id="getCacheKey" placeholder="Clave a buscar" style="padding: 8px; width: 150px; border: 1px solid #ddd; border-radius: 4px; margin-right: 5px;">
+                                    <button onclick="obtenerDelCache()" style="padding: 8px 12px; background: var(--info-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px;">Obtener</button>
+                                    <button onclick="eliminarDelCache()" style="padding: 8px 12px; background: var(--error-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px;">Eliminar</button>
+                                    <button onclick="limpiarCache()" style="padding: 8px 12px; background: var(--warning-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Limpiar Todo</button>
+                                </div>
+
+                                <div style="margin-bottom: 15px;">
+                                    <button onclick="mostrarEstadisticas()" style="padding: 8px 12px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px;">📊 Estadísticas</button>
+                                    <button onclick="limpiarExpirados()" style="padding: 8px 12px; background: var(--secondary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px;">🧹 Limpiar Expirados</button>
+                                    <button onclick="simularUso()" style="padding: 8px 12px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">🎯 Simular Uso</button>
+                                </div>
+
+                                <div id="cacheOutput" style="margin-top: 15px; font-family: monospace; background: #f9f9f9; padding: 15px; border-radius: 4px; border: 1px solid #ddd; min-height: 100px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="uso-cache" class="subsection">
+                        <h3>Uso del Cache</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// Uso del cache inteligente
+const cache = new CacheInteligente(5, 10000); // máximo 5 elementos, 10 segundos TTL
+
+// Agregar datos
+cache.set('usuario:1', { nombre: 'Ana', edad: 25 });
+cache.set('usuario:2', { nombre: 'Luis', edad: 30 });
+cache.set('producto:1', { nombre: 'Laptop', precio: 999 });
+
+// Obtener datos
+console.log(cache.get('usuario:1')); // { nombre: 'Ana', edad: 25 }
+console.log(cache.get('inexistente')); // null
+
+// Ver estadísticas
+console.log(cache.obtenerEstadisticas());
+
+// Probar evicción por tamaño
+cache.set('item:1', 'valor1');
+cache.set('item:2', 'valor2');
+cache.set('item:3', 'valor3'); // Debería evictar el menos usado
+
+console.log('Después de llenar el cache:', cache.obtenerEstadisticas());</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="mejores-practicas" class="section">
+                    <h2>Mejores Prácticas con Prototypes</h2>
+                    
+                    <div id="buenas-practicas" class="subsection">
+                        <h3>✅ Buenas Prácticas</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// 1. Usar prototypes para métodos compartidos
+function MiClase(valor) {
+    this.valor = valor; // Propiedades específicas en la instancia
+}
+
+MiClase.prototype.metodoCompartido = function() {
+    return this.valor * 2; // Métodos en el prototype
+};
+
+// 2. Verificar tipo antes de extender prototypes nativos
+if (typeof Array.prototype.includes !== 'function') {
+    Array.prototype.includes = function(elemento) {
+        return this.indexOf(elemento) !== -1;
+    };
+}
+
+// 3. Usar Object.create() para herencia limpia
+function Padre() {
+    this.tipo = 'padre';
+}
+
+function Hijo() {
+    Padre.call(this);
+    this.subtipo = 'hijo';
+}
+
+Hijo.prototype = Object.create(Padre.prototype);
+Hijo.prototype.constructor = Hijo;
+
+// 4. Preservar el constructor al modificar prototypes
+function MiConstructor() {}
+MiConstructor.prototype = {};
+MiConstructor.prototype.constructor = MiConstructor; // ¡Importante!</code></pre>
+                        </div>
+
+                        <div class="feature-card">
+                            <h3>🧪 Demostración de Buenas Prácticas:</h3>
+                            <div style="margin-top: 15px;">
+                                <button onclick="demoBuenasPracticas()" style="padding: 8px 12px; background: var(--success-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">✅ Ejecutar Buenas Prácticas</button>
+                                <button onclick="demoHerencia()" style="padding: 8px 12px; background: var(--info-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">👨‍👩‍👧‍👦 Herencia Limpia</button>
+                                <button onclick="demoConstructor()" style="padding: 8px 12px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer;">🔧 Constructor</button>
+                                <div id="demoBuenasOutput" style="margin-top: 15px; font-family: monospace; background: #f0f8ff; padding: 15px; border-radius: 4px; border: 1px solid #007acc; min-height: 80px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="malas-practicas" class="subsection">
+                        <h3>❌ Prácticas a Evitar</h3>
+                        <div class="code-container">
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre><code class="javascript">// 1. NO modificar Object.prototype (afecta todos los objetos)
+// Object.prototype.miMetodo = function() {}; // ¡NO HACER!
+
+// 2. NO usar asignación directa para herencia
+function Padre() {}
+function Hijo() {}
+// Hijo.prototype = Padre.prototype; // ¡NO! Ambos comparten el mismo objeto
+
+// 3. NO poner métodos en el constructor (ineficiente)
+function Ineficiente() {
+    this.metodo = function() { // Nueva función en cada instancia
+        return "ineficiente";
+    };
+}
+
+// 4. NO asumir que hasOwnProperty existe
+const obj = Object.create(null); // Sin prototype
+// obj.hasOwnProperty('prop'); // Error!
+// Usar: Object.prototype.hasOwnProperty.call(obj, 'prop');</code></pre>
+                        </div>
+
+                        <div class="feature-card" style="background: #ffe6e6; border: 1px solid #ff6b6b;">
+                            <h3>⚠️ Demostración de Malas Prácticas:</h3>
+                            <div style="margin-top: 15px;">
+                                <button onclick="demoMalasPracticas()" style="padding: 8px 12px; background: var(--error-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">❌ Ver Problemas</button>
+                                <button onclick="demoHerenciaIncorrecta()" style="padding: 8px 12px; background: var(--warning-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">⚠️ Herencia Incorrecta</button>
+                                <button onclick="demoIneficiencia()" style="padding: 8px 12px; background: #ff9800; color: white; border: none; border-radius: 4px; cursor: pointer;">📉 Ineficiencia</button>
+                                <div id="demoMalasOutput" style="margin-top: 15px; font-family: monospace; background: #fff5f5; padding: 15px; border-radius: 4px; border: 1px solid #ff6b6b; min-height: 80px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="comparison-grid" style="margin-top: 40px;">
+                    <div class="feature-card">
+                        <h3>🎯 Cache Inteligente</h3>
+                        <ul>
+                            <li><strong>TTL:</strong> Tiempo de vida configurable</li>
+                            <li><strong>LRU:</strong> Evicción por uso reciente</li>
+                            <li><strong>Estadísticas:</strong> Hits, misses, hit rate</li>
+                            <li><strong>Límite de tamaño:</strong> Control de memoria</li>
+                            <li><strong>Limpieza automática:</strong> Elementos expirados</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>✅ Buenas Prácticas</h3>
+                        <ul>
+                            <li><strong>Métodos en prototype:</strong> Eficiencia de memoria</li>
+                            <li><strong>Verificar antes de extender:</strong> Compatibilidad</li>
+                            <li><strong>Object.create():</strong> Herencia limpia</li>
+                            <li><strong>Preservar constructor:</strong> Integridad</li>
+                            <li><strong>Propiedades en instancia:</strong> Datos específicos</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>❌ Evitar</h3>
+                        <ul>
+                            <li><strong>Object.prototype:</strong> Contamina todo</li>
+                            <li><strong>Asignación directa:</strong> Referencias compartidas</li>
+                            <li><strong>Métodos en constructor:</strong> Desperdicio memoria</li>
+                            <li><strong>Asumir hasOwnProperty:</strong> Puede no existir</li>
+                            <li><strong>Modificar nativos:</strong> Sin verificar</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="alert" style="margin-top: 30px;">
+                    <h3>🎓 Conclusión:</h3>
+                    <p>Los prototypes son la base de la herencia en JavaScript y entender su funcionamiento te permite escribir código más eficiente y crear arquitecturas de objetos más elegantes. Aunque las clases de ES2015+ proporcionan una sintaxis más familiar, internamente siguen usando el sistema de prototypes de JavaScript.</p>
+                    
+                    <p><strong>Recuerda:</strong> Los prototypes te permiten crear sistemas extensibles como caches inteligentes, sistemas de plugins, y arquitecturas escalables. Siguiendo las mejores prácticas, puedes aprovechar al máximo este poderoso sistema de JavaScript.</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let cacheInstance = null;
+
+        // Función para copiar código
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling.querySelector('code');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✅ Copiado!';
+                button.style.background = 'var(--success-color)';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            });
+        }
+
+        // Navegación suave
+        document.querySelectorAll('.navigation a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Sistema de Cache Inteligente
+        function CacheInteligente(maxSize = 100, ttl = 300000) {
+            this.cache = new Map();
+            this.accesos = new Map();
+            this.maxSize = maxSize;
+            this.ttl = ttl;
+            this.stats = {
+                hits: 0,
+                misses: 0,
+                evictions: 0
+            };
+        }
+
+        CacheInteligente.prototype.set = function(clave, valor, ttlPersonalizado) {
+            const tiempoExpiracion = Date.now() + (ttlPersonalizado || this.ttl);
+            
+            if (this.cache.size >= this.maxSize && !this.cache.has(clave)) {
+                this._evictLeastRecentlyUsed();
+            }
+            
+            this.cache.set(clave, {
+                valor: valor,
+                expiracion: tiempoExpiracion,
+                fechaCreacion: Date.now()
+            });
+            
+            this.accesos.set(clave, Date.now());
+            return this;
+        };
+
+        CacheInteligente.prototype.get = function(clave) {
+            if (!this.cache.has(clave)) {
+                this.stats.misses++;
+                return null;
+            }
+            
+            const entrada = this.cache.get(clave);
+            
+            if (Date.now() > entrada.expiracion) {
+                this.delete(clave);
+                this.stats.misses++;
+                return null;
+            }
+            
+            this.accesos.set(clave, Date.now());
+            this.stats.hits++;
+            
+            return entrada.valor;
+        };
+
+        CacheInteligente.prototype.delete = function(clave) {
+            this.cache.delete(clave);
+            this.accesos.delete(clave);
+            return this;
+        };
+
+        CacheInteligente.prototype._evictLeastRecentlyUsed = function() {
+            let claveAntigua = null;
+            let tiempoAntiguo = Date.now();
+            
+            for (const [clave, tiempoAcceso] of this.accesos.entries()) {
+                if (tiempoAcceso < tiempoAntiguo) {
+                    tiempoAntiguo = tiempoAcceso;
+                    claveAntigua = clave;
+                }
+            }
+            
+            if (claveAntigua) {
+                this.delete(claveAntigua);
+                this.stats.evictions++;
+            }
+        };
+
+        CacheInteligente.prototype.clear = function() {
+            this.cache.clear();
+            this.accesos.clear();
+            return this;
+        };
+
+        CacheInteligente.prototype.size = function() {
+            return this.cache.size;
+        };
+
+        CacheInteligente.prototype.obtenerEstadisticas = function() {
+            const totalAccesos = this.stats.hits + this.stats.misses;
+            return {
+                ...this.stats,
+                hitRate: totalAccesos > 0 ? (this.stats.hits / totalAccesos * 100).toFixed(2) + '%' : '0%',
+                size: this.cache.size,
+                maxSize: this.maxSize
+            };
+        };
+
+        CacheInteligente.prototype.limpiarExpirados = function() {
+            const ahora = Date.now();
+            let eliminados = 0;
+            
+            for (const [clave, entrada] of this.cache.entries()) {
+                if (ahora > entrada.expiracion) {
+                    this.delete(clave);
+                    eliminados++;
+                }
+            }
+            
+            return eliminados;
+        };
+
+        // Funciones del demo del cache
+        function inicializarCache() {
+            const maxSize = parseInt(document.getElementById('maxSize').value) || 5;
+            const ttl = (parseInt(document.getElementById('ttl').value) || 10) * 1000;
+            
+            cacheInstance = new CacheInteligente(maxSize, ttl);
+            
+            document.getElementById('cacheOutput').innerHTML = `
+                <div style="color: var(--success-color);"><strong>✅ Cache inicializado:</strong></div>
+                <div>• Tamaño máximo: ${maxSize}</div>
+                <div>• TTL: ${ttl/1000} segundos</div>
+                <div>• Estado: Listo para usar</div>
+            `;
+        }
+
+        function agregarAlCache() {
+            if (!cacheInstance) {
+                inicializarCache();
+            }
+            
+            const clave = document.getElementById('cacheKey').value;
+            const valor = document.getElementById('cacheValue').value;
+            const customTtl = document.getElementById('customTtl').value;
+            
+            if (!clave || !valor) {
+                document.getElementById('cacheOutput').innerHTML = '<span style="color: var(--error-color);">Error: Debe proporcionar clave y valor</span>';
+                return;
+            }
+            
+            const ttlMs = customTtl ? parseInt(customTtl) * 1000 : undefined;
+            cacheInstance.set(clave, valor, ttlMs);
+            
+            document.getElementById('cacheOutput').innerHTML = `
+                <div style="color: var(--success-color);"><strong>✅ Elemento agregado:</strong></div>
+                <div>• Clave: "${clave}"</div>
+                <div>• Valor: "${valor}"</div>
+                <div>• TTL: ${customTtl ? customTtl + ' segundos' : 'Predeterminado'}</div>
+                <div>• Tamaño actual: ${cacheInstance.size()}/${cacheInstance.maxSize}</div>
+            `;
+            
+            // Limpiar campos
+            document.getElementById('cacheKey').value = '';
+            document.getElementById('cacheValue').value = '';
+            document.getElementById('customTtl').value = '';
+        }
+
+        function obtenerDelCache() {
+            if (!cacheInstance) {
+                document.getElementById('cacheOutput').innerHTML = '<span style="color: var(--warning-color);">Cache no inicializado</span>';
+                return;
+            }
+            
+            const clave = document.getElementById('getCacheKey').value;
+            if (!clave) {
+                document.getElementById('cacheOutput').innerHTML = '<span style="color: var(--error-color);">Error: Debe proporcionar una clave</span>';
+                return;
+            }
+            
+            const valor = cacheInstance.get(clave);
+            
+            if (valor !== null) {
+                document.getElementById('cacheOutput').innerHTML = `
+                    <div style="color: var(--success-color);"><strong>✅ Cache HIT:</strong></div>
+                    <div>• Clave: "${clave}"</div>
+                    <div>• Valor: "${valor}"</div>
+                    <div>• Estado: Encontrado y válido</div>
+                `;
+            } else {
+                document.getElementById('cacheOutput').innerHTML = `
+                    <div style="color: var(--error-color);"><strong>❌ Cache MISS:</strong></div>
+                    <div>• Clave: "${clave}"</div>
+                    <div>• Estado: No encontrado o expirado</div>
+                `;
+            }
+        }
+
+        function eliminarDelCache() {
+            if (!cacheInstance) {
+                document.getElementById('cacheOutput').innerHTML = '<span style="color: var(--warning-color);">Cache no inicializado</span>';
+                return;
+            }
+            
+            const clave = document.getElementById('getCacheKey').value;
+            if (!clave) {
+                document.getElementById('cacheOutput').innerHTML = '<span style="color: var(--error-color);">Error: Debe proporcionar una clave</span>';
+                return;
+            }
+            
+            cacheInstance.delete(clave);
+            
+            document.getElementById('cacheOutput').innerHTML = `
+                <div style="color: var(--info-color);"><strong>🗑️ Elemento eliminado:</strong></div>
+                <div>• Clave: "${clave}"</div>
+                <div>• Estado: Eliminado del cache</div>
+                <div>• Tamaño actual: ${cacheInstance.size()}/${cacheInstance.maxSize}</div>
+            `;
+        }
+
+        function limpiarCache() {
+            if (!cacheInstance) {
+                document.getElementById('cacheOutput').innerHTML = '<span style="color: var(--warning-color);">Cache no inicializado</span>';
+                return;
+            }
+            
+            cacheInstance.clear();
+            
+            document.getElementById('cacheOutput').innerHTML = `
+                <div style="color: var(--warning-color);"><strong>🧹 Cache limpiado:</strong></div>
+                <div>• Todos los elementos eliminados</div>
+                <div>• Tamaño actual: 0/${cacheInstance.maxSize}</div>
+                <div>• Estado: Cache vacío</div>
+            `;
+        }
+
+        function mostrarEstadisticas() {
+            if (!cacheInstance) {
+                document.getElementById('cacheOutput').innerHTML = '<span style="color: var(--warning-color);">Cache no inicializado</span>';
+                return;
+            }
+            
+            const stats = cacheInstance.obtenerEstadisticas();
+            
+            document.getElementById('cacheOutput').innerHTML = `
+                <div style="color: var(--accent-color);"><strong>📊 Estadísticas del Cache:</strong></div>
+                <div>• Hits: ${stats.hits}</div>
+                <div>• Misses: ${stats.misses}</div>
+                <div>• Hit Rate: ${stats.hitRate}</div>
+                <div>• Evictions: ${stats.evictions}</div>
+                <div>• Tamaño actual: ${stats.size}/${stats.maxSize}</div>
+                <div>• Utilización: ${((stats.size / stats.maxSize) * 100).toFixed(1)}%</div>
+            `;
+        }
+
+        function limpiarExpirados() {
+            if (!cacheInstance) {
+                document.getElementById('cacheOutput').innerHTML = '<span style="color: var(--warning-color);">Cache no inicializado</span>';
+                return;
+            }
+            
+            const eliminados = cacheInstance.limpiarExpirados();
+            
+            document.getElementById('cacheOutput').innerHTML = `
+                <div style="color: var(--secondary-color);"><strong>🧹 Limpieza de expirados:</strong></div>
+                <div>• Elementos eliminados: ${eliminados}</div>
+                <div>• Tamaño actual: ${cacheInstance.size()}/${cacheInstance.maxSize}</div>
+                <div>• Estado: Limpieza completada</div>
+            `;
+        }
+
+        function simularUso() {
+            if (!cacheInstance) {
+                inicializarCache();
+            }
+            
+            // Simular datos
+            const datos = [
+                ['usuario:1', '{ nombre: "Ana", edad: 25 }'],
+                ['usuario:2', '{ nombre: "Luis", edad: 30 }'],
+                ['producto:1', '{ nombre: "Laptop", precio: 999 }'],
+                ['producto:2', '{ nombre: "Mouse", precio: 25 }'],
+                ['sesion:abc', '{ token: "xyz123", expira: "2025-10-18" }'],
+                ['config:app', '{ tema: "oscuro", idioma: "es" }']
+            ];
+            
+            // Agregar datos
+            datos.forEach(([clave, valor]) => {
+                cacheInstance.set(clave, valor);
+            });
+            
+            // Simular accesos
+            cacheInstance.get('usuario:1'); // hit
+            cacheInstance.get('producto:1'); // hit
+            cacheInstance.get('inexistente'); // miss
+            cacheInstance.get('usuario:2'); // hit
+            cacheInstance.get('otro_inexistente'); // miss
+            
+            document.getElementById('cacheOutput').innerHTML = `
+                <div style="color: var(--primary-color);"><strong>🎯 Simulación completada:</strong></div>
+                <div>• Datos agregados: ${datos.length} elementos</div>
+                <div>• Accesos simulados: 5 (3 hits, 2 misses)</div>
+                <div>• Estado: ${cacheInstance.size()}/${cacheInstance.maxSize} elementos</div>
+                <div style="margin-top: 10px;">
+                    <button onclick="mostrarEstadisticas()" style="padding: 4px 8px; background: var(--accent-color); color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 12px;">Ver estadísticas detalladas</button>
+                </div>
+            `;
+        }
+
+        // Demos de mejores prácticas
+        function demoBuenasPracticas() {
+            function MiClase(valor) {
+                this.valor = valor;
+            }
+            
+            MiClase.prototype.metodoCompartido = function() {
+                return this.valor * 2;
+            };
+            
+            const instancia1 = new MiClase(10);
+            const instancia2 = new MiClase(20);
+            
+            document.getElementById('demoBuenasOutput').innerHTML = `
+                <div style="color: var(--success-color);"><strong>✅ Métodos en prototype - Eficiencia de memoria:</strong></div>
+                <div>• instancia1.metodoCompartido(): ${instancia1.metodoCompartido()}</div>
+                <div>• instancia2.metodoCompartido(): ${instancia2.metodoCompartido()}</div>
+                <div>• Mismo método: ${instancia1.metodoCompartido === instancia2.metodoCompartido}</div>
+                <div>• Memoria: Un solo método compartido entre instancias</div>
+            `;
+        }
+
+        function demoHerencia() {
+            function Padre() {
+                this.tipo = 'padre';
+            }
+            
+            Padre.prototype.saludar = function() {
+                return `Hola, soy un ${this.tipo}`;
+            };
+            
+            function Hijo() {
+                Padre.call(this);
+                this.subtipo = 'hijo';
+            }
+            
+            Hijo.prototype = Object.create(Padre.prototype);
+            Hijo.prototype.constructor = Hijo;
+            
+            Hijo.prototype.presentarse = function() {
+                return `${this.saludar()} y mi subtipo es ${this.subtipo}`;
+            };
+            
+            const hijo = new Hijo();
+            
+            document.getElementById('demoBuenasOutput').innerHTML = `
+                <div style="color: var(--info-color);"><strong>👨‍👩‍👧‍👦 Herencia limpia con Object.create():</strong></div>
+                <div>• hijo.saludar(): "${hijo.saludar()}"</div>
+                <div>• hijo.presentarse(): "${hijo.presentarse()}"</div>
+                <div>• Constructor preservado: ${hijo.constructor.name}</div>
+                <div>• Herencia válida: ${hijo instanceof Padre && hijo instanceof Hijo}</div>
+            `;
+        }
+
+        function demoConstructor() {
+            function MiConstructor(valor) {
+                this.valor = valor;
+            }
+            
+            // Modificar prototype correctamente
+            MiConstructor.prototype = {
+                metodo: function() {
+                    return this.valor;
+                }
+            };
+            
+            // Preservar constructor
+            MiConstructor.prototype.constructor = MiConstructor;
+            
+            const instancia = new MiConstructor('test');
+            
+            document.getElementById('demoBuenasOutput').innerHTML = `
+                <div style="color: var(--accent-color);"><strong>🔧 Constructor preservado correctamente:</strong></div>
+                <div>• instancia.constructor.name: "${instancia.constructor.name}"</div>
+                <div>• instancia instanceof MiConstructor: ${instancia instanceof MiConstructor}</div>
+                <div>• instancia.metodo(): "${instancia.metodo()}"</div>
+                <div>• Integridad mantenida: Constructor apunta a la función correcta</div>
+            `;
+        }
+
+        // Demos de malas prácticas
+        function demoMalasPracticas() {
+            function Ineficiente() {
+                this.metodo = function() {
+                    return "nueva función en cada instancia";
+                };
+            }
+            
+            const inst1 = new Ineficiente();
+            const inst2 = new Ineficiente();
+            
+            document.getElementById('demoMalasOutput').innerHTML = `
+                <div style="color: var(--error-color);"><strong>❌ Problema: Métodos en constructor</strong></div>
+                <div>• inst1.metodo === inst2.metodo: ${inst1.metodo === inst2.metodo}</div>
+                <div>• Problema: Cada instancia tiene su propia copia del método</div>
+                <div>• Impacto: Desperdicio de memoria</div>
+                <div>• Solución: Mover métodos al prototype</div>
+            `;
+        }
+
+        function demoHerenciaIncorrecta() {
+            function Padre() {}
+            Padre.prototype.metodo = function() { return 'padre'; };
+            
+            function Hijo() {}
+            // INCORRECTO: Asignación directa
+            Hijo.prototype = Padre.prototype;
+            
+            // Modificar hijo afecta al padre
+            Hijo.prototype.metodoPeligroso = function() { return 'modificado'; };
+            
+            document.getElementById('demoMalasOutput').innerHTML = `
+                <div style="color: var(--warning-color);"><strong>⚠️ Problema: Asignación directa de prototype</strong></div>
+                <div>• Padre.prototype === Hijo.prototype: ${Padre.prototype === Hijo.prototype}</div>
+                <div>• Problema: Ambos comparten el mismo objeto prototype</div>
+                <div>• Padre.prototype.metodoPeligroso: ${typeof Padre.prototype.metodoPeligroso}</div>
+                <div>• Impacto: Modificar hijo afecta al padre</div>
+                <div>• Solución: Usar Object.create(Padre.prototype)</div>
+            `;
+        }
+
+        function demoIneficiencia() {
+            // Simular problema de hasOwnProperty
+            const objSinPrototype = Object.create(null);
+            let error = '';
+            
+            try {
+                objSinPrototype.hasOwnProperty('prop');
+            } catch (e) {
+                error = e.message;
+            }
+            
+            // Solución correcta
+            const tienePropiedad = Object.prototype.hasOwnProperty.call(objSinPrototype, 'prop');
+            
+            document.getElementById('demoMalasOutput').innerHTML = `
+                <div style="color: var(--error-color);"><strong>📉 Problema: Asumir hasOwnProperty existe</strong></div>
+                <div>• Error al llamar hasOwnProperty: "${error}"</div>
+                <div>• Objeto sin prototype: Object.getPrototypeOf(obj) === null</div>
+                <div>• Solución: Object.prototype.hasOwnProperty.call(obj, 'prop')</div>
+                <div>• Resultado seguro: ${tienePropiedad}</div>
+            `;
+        }
+
+        // Inicializar cache al cargar la página
+        window.addEventListener('load', function() {
+            inicializarCache();
+        });
+    </script>
+</body>
+</html>

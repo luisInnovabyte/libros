@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrays en JavaScript</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Arrays en JavaScript</h1>
+            <p>Domina las estructuras de datos más fundamentales de JavaScript. Aprende a crear, manipular e iterar arrays de manera eficiente para construir aplicaciones web poderosas</p>
+        </div>
+
+        <div class="two-column">
+            <div class="navigation">
+                <div class="nav-title">📋 Contenido</div>
+                <a href="#introduccion" class="nav-link">¿Qué es un Array?</a>
+                <a href="#caracteristicas" class="nav-link">Características principales</a>
+                <a href="#creacion" class="nav-link">Creación de Arrays</a>
+                <a href="#acceso" class="nav-link">Acceso a elementos</a>
+                <a href="#propiedades" class="nav-link">Propiedades importantes</a>
+                <a href="#modificacion" class="nav-link">Modificación de arrays</a>
+                <a href="#metodos-basicos" class="nav-link">Métodos básicos</a>
+                <a href="#verificacion" class="nav-link">Verificar si es un array</a>
+                <a href="#multidimensionales" class="nav-link">Arrays multidimensionales</a>
+                <a href="#iteracion" class="nav-link">Iteración de arrays</a>
+                <a href="#busqueda" class="nav-link">Búsqueda en arrays</a>
+                <a href="#conversion" class="nav-link">Conversión de arrays</a>
+                <a href="#concatenacion" class="nav-link">Concatenación</a>
+                <a href="#extraccion" class="nav-link">Extracción de porciones</a>
+                <a href="#copia-referencia" class="nav-link">Copia vs Referencia</a>
+                <a href="#casos-practicos" class="nav-link">🎯 Casos Prácticos</a>
+                <a href="#demo" class="nav-link">🎮 Demo Interactivo</a>
+            </div>
+
+            <div class="main-content">
+                <div class="content">
+                    <section id="introduccion" class="section">
+                        <h2>🔤 ¿Qué es un Array?</h2>
+                        <p>Un <span class="highlight">array</span> es una lista ordenada de elementos donde cada elemento tiene un <strong>índice</strong> (posición) que comienza desde 0. Los arrays son estructuras de datos fundamentales que permiten almacenar múltiples valores en una sola variable.</p>
+                        
+                        <div class="array-visualization">
+                            <div class="array-item">
+                                <div class="array-index">0</div>
+                                "manzana"
+                            </div>
+                            <div class="array-item">
+                                <div class="array-index">1</div>
+                                "banana"
+                            </div>
+                            <div class="array-item">
+                                <div class="array-index">2</div>
+                                "naranja"
+                            </div>
+                        </div>
+
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Array simple</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>// Array simple
+const frutas = ["manzana", "banana", "naranja"];
+
+// Los índices van de 0 a length-1
+// Índice:     0         1        2
+// Valor:   "manzana" "banana" "naranja"</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="caracteristicas" class="section">
+                        <h2>✨ Características principales</h2>
+                        
+                        <div class="features">
+                            <div class="feature-card">
+                                <h4>📝 Ordenados</h4>
+                                <p>Los elementos mantienen su posición y orden de inserción</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>🔢 Indexados</h4>
+                                <p>Cada elemento tiene un índice numérico (0, 1, 2...)</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>🔄 Dinámicos</h4>
+                                <p>Pueden crecer o reducirse durante la ejecución</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>🌈 Heterogéneos</h4>
+                                <p>Pueden contener diferentes tipos de datos</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>✏️ Mutables</h4>
+                                <p>Se pueden modificar después de su creación</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="creacion" class="section">
+                        <h2>🏗️ Creación de Arrays</h2>
+
+                        <h3>Literal de array (más común)</h3>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Diferentes formas de crear arrays</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>// Array vacío
+const arrayVacio = [];
+
+// Array con elementos
+const numeros = [1, 2, 3, 4, 5];
+const colores = ["rojo", "verde", "azul"];
+const mixto = [1, "texto", true, null, undefined];
+
+// Array con diferentes tipos de datos
+const variado = [
+    42,                    // number
+    "JavaScript",          // string
+    true,                  // boolean
+    { nombre: "Juan" },    // object
+    [1, 2, 3],            // array anidado
+    function() { return "hola"; }  // function
+];</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="acceso" class="section">
+                        <h2>👆 Acceso a elementos</h2>
+
+                        <h3>Índices positivos (desde el inicio)</h3>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Acceso por índice</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>const frutas = ["manzana", "banana", "naranja", "uva"];
+
+console.log(frutas[0]);   // "manzana" (primer elemento)
+console.log(frutas[1]);   // "banana"
+console.log(frutas[2]);   // "naranja"
+console.log(frutas[3]);   // "uva" (último elemento)
+
+// Acceso a índice que no existe
+console.log(frutas[10]);  // undefined</code></pre>
+                        </div>
+
+                        <h3>Acceso dinámico</h3>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Usando variables y expresiones</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>const datos = ["a", "b", "c", "d", "e"];
+
+// Usando variables como índices
+const indice = 2;
+console.log(datos[indice]);  // "c"
+
+// En bucles
+for (let i = 0; i < datos.length; i++) {
+    console.log(`Índice ${i}: ${datos[i]}`);
+}
+
+// Con expresiones
+const mitad = Math.floor(datos.length / 2);
+console.log(datos[mitad]);  // "c"</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="propiedades" class="section">
+                        <h2>📏 Propiedades importantes</h2>
+
+                        <h3>length - Longitud del array</h3>
+                        <div class="alert alert-info">
+                            <strong>💡 Importante:</strong> La propiedad <span class="inline-code">length</span> no solo indica el tamaño del array, sino que también puede modificarse para cambiar el array.
+                        </div>
+
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Manipulando la propiedad length</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>const colores = ["rojo", "verde", "azul"];
+
+console.log(colores.length);  // 3
+
+// Modificar length cambia el array
+colores.length = 2;
+console.log(colores);  // ["rojo", "verde"]
+
+colores.length = 5;
+console.log(colores);  // ["rojo", "verde", undefined, undefined, undefined]
+
+// Vaciar array con length
+colores.length = 0;
+console.log(colores);  // []</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="modificacion" class="section">
+                        <h2>✏️ Modificación de arrays</h2>
+
+                        <h3>Cambiar elementos existentes</h3>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Modificar elementos por índice</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>const frutas = ["manzana", "banana", "naranja"];
+
+// Cambiar elemento por índice
+frutas[1] = "kiwi";
+console.log(frutas);  // ["manzana", "kiwi", "naranja"]
+
+// Cambiar múltiples elementos
+frutas[0] = "fresa";
+frutas[2] = "piña";
+console.log(frutas);  // ["fresa", "kiwi", "piña"]</code></pre>
+                        </div>
+
+                        <h3>Añadir elementos</h3>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Añadir elementos directamente</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>const numeros = [1, 2, 3];
+
+// Añadir al final con índice
+numeros[3] = 4;
+numeros[4] = 5;
+console.log(numeros);  // [1, 2, 3, 4, 5]
+
+// Crear "huecos" (sparse arrays)
+numeros[10] = 11;
+console.log(numeros);        // [1, 2, 3, 4, 5, undefined, ..., 11]
+console.log(numeros.length); // 11</code></pre>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <strong>⚠️ Cuidado:</strong> Crear "huecos" en arrays puede causar comportamientos inesperados. Es mejor usar métodos como <span class="inline-code">push()</span> para añadir elementos.
+                        </div>
+                    </section>
+
+                    <section id="metodos-basicos" class="section">
+                        <h2>🔧 Métodos básicos de arrays</h2>
+
+                        <div class="comparison-grid">
+                            <div class="method-demo">
+                                <h5>push() - Añadir al final</h5>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Añadir elementos al final</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                                    </div>
+                                    <pre><code>const animales = ["gato", "perro"];
+
+// Añadir uno o más elementos al final
+animales.push("pájaro");
+console.log(animales);  // ["gato", "perro", "pájaro"]
+
+animales.push("pez", "hamster");
+console.log(animales);  // ["gato", "perro", "pájaro", "pez", "hamster"]
+
+// push() devuelve la nueva longitud
+const nuevaLongitud = animales.push("conejo");
+console.log(nuevaLongitud);  // 6</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="method-demo">
+                                <h5>pop() - Eliminar del final</h5>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Eliminar último elemento</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                                    </div>
+                                    <pre><code>const frutas = ["manzana", "banana", "naranja"];
+
+// Eliminar y obtener último elemento
+const ultimaFruta = frutas.pop();
+console.log(ultimaFruta);  // "naranja"
+console.log(frutas);       // ["manzana", "banana"]
+
+// pop() en array vacío devuelve undefined
+const vacio = [];
+console.log(vacio.pop());  // undefined</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="method-demo">
+                                <h5>unshift() - Añadir al inicio</h5>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Añadir elementos al inicio</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                                    </div>
+                                    <pre><code>const numeros = [2, 3, 4];
+
+// Añadir al inicio
+numeros.unshift(1);
+console.log(numeros);  // [1, 2, 3, 4]
+
+numeros.unshift(-1, 0);
+console.log(numeros);  // [-1, 0, 1, 2, 3, 4]
+
+// unshift() devuelve la nueva longitud
+const longitud = numeros.unshift(-2);
+console.log(longitud);  // 7</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="method-demo">
+                                <h5>shift() - Eliminar del inicio</h5>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Eliminar primer elemento</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                                    </div>
+                                    <pre><code>const colores = ["rojo", "verde", "azul"];
+
+// Eliminar y obtener primer elemento
+const primerColor = colores.shift();
+console.log(primerColor);  // "rojo"
+console.log(colores);      // ["verde", "azul"]
+
+// shift() en array vacío devuelve undefined
+const vacio = [];
+console.log(vacio.shift());  // undefined</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="verificacion" class="section">
+                        <h2>✅ Verificar si es un array</h2>
+                        <p>Es importante poder distinguir entre arrays y otros tipos de objetos similares:</p>
+
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Array.isArray() - Método recomendado</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>const array = [1, 2, 3];
+const objeto = { 0: 1, 1: 2, length: 2 };
+const string = "hola";
+
+// Método recomendado
+console.log(Array.isArray(array));   // true
+console.log(Array.isArray(objeto));  // false
+console.log(Array.isArray(string));  // false</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="busqueda" class="section">
+                        <h2>🔍 Búsqueda en arrays</h2>
+
+                        <h3>indexOf() y lastIndexOf()</h3>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Buscar índices de elementos</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>const frutas = ["manzana", "banana", "manzana", "naranja"];
+
+// Buscar primera aparición
+console.log(frutas.indexOf("manzana"));     // 0
+console.log(frutas.indexOf("banana"));      // 1
+console.log(frutas.indexOf("kiwi"));        // -1 (no encontrado)
+
+// Buscar desde posición específica
+console.log(frutas.indexOf("manzana", 1));  // 2
+
+// Buscar última aparición
+console.log(frutas.lastIndexOf("manzana")); // 2</code></pre>
+                        </div>
+
+                        <h3>includes() - ES2016</h3>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Verificar si contiene un elemento</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>const numeros = [1, 2, 3, 4, 5];
+
+console.log(numeros.includes(3));     // true
+console.log(numeros.includes(10));    // false
+console.log(numeros.includes(2, 2));  // false (buscar desde índice 2)
+
+// Con NaN
+const arrayConNaN = [1, NaN, 3];
+console.log(arrayConNaN.includes(NaN));      // true
+console.log(arrayConNaN.indexOf(NaN));       // -1 (indexOf no encuentra NaN)</code></pre>
+                        </div>
+
+                        <h3>find() y findIndex() - ES2015</h3>
+                        <p>Estos métodos son muy potentes para buscar elementos que cumplan condiciones específicas:</p>
+
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Buscar con condiciones personalizadas</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>const usuarios = [
+    { id: 1, nombre: "Ana", activo: true },
+    { id: 2, nombre: "Luis", activo: false },
+    { id: 3, nombre: "María", activo: true }
+];
+
+// Encontrar primer elemento que cumple condición
+const usuarioActivo = usuarios.find(user => user.activo);
+console.log(usuarioActivo);  // { id: 1, nombre: "Ana", activo: true }
+
+// Encontrar índice del primer elemento que cumple condición
+const indiceInactivo = usuarios.findIndex(user => !user.activo);
+console.log(indiceInactivo);  // 1
+
+// Si no encuentra, devuelve undefined y -1 respectivamente
+const noEncontrado = usuarios.find(user => user.edad > 50);
+console.log(noEncontrado);  // undefined</code></pre>
+                        </div>
+
+                        <div class="alert alert-success">
+                            <strong>✨ Consejo pro:</strong> <span class="inline-code">find()</span> devuelve el elemento completo, mientras que <span class="inline-code">findIndex()</span> devuelve solo su posición. <span class="inline-code">find()</span> se detiene en cuanto encuentra el primer elemento que cumple la condición.
+                        </div>
+                    </section>
+
+                    <section id="iteracion" class="section">
+                        <h2>🔄 Iteración de arrays</h2>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-item good">
+                                <h5>✅ for...of (Recomendado)</h5>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Iteración moderna</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                                    </div>
+                                    <pre><code>const numeros = [10, 20, 30];
+
+// Obtener valores
+for (const numero of numeros) {
+    console.log(numero);  // 10, 20, 30
+}
+
+// Con índice usando entries()
+for (const [indice, valor] of numeros.entries()) {
+    console.log(`${indice}: ${valor}`);
+}</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="comparison-item bad">
+                                <h5>❌ for...in (No recomendado)</h5>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Puede causar problemas</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                                    </div>
+                                    <pre><code>const colores = ["rojo", "verde", "azul"];
+
+// for...in itera sobre índices (como strings)
+for (const indice in colores) {
+    console.log(`${indice}: ${colores[indice]}`);
+}
+// ⚠️ Puede incluir propiedades heredadas</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>forEach() - Método funcional</h3>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Iteración funcional</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>const nombres = ["Ana", "Luis", "María"];
+
+// Función de callback recibe (elemento, índice, array)
+nombres.forEach((nombre, indice) => {
+    console.log(`${indice}: ${nombre}`);
+});
+
+// Con función separada
+function mostrarElemento(elemento, indice, array) {
+    console.log(`Posición ${indice}: ${elemento} (Array de ${array.length} elementos)`);
+}
+
+nombres.forEach(mostrarElemento);</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="casos-practicos" class="section">
+                        <h2>🎯 Casos Prácticos</h2>
+
+                        <h3>1. Lista de tareas</h3>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Sistema de gestión de tareas</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>let tareas = [];
+
+// Añadir tareas
+function agregarTarea(descripcion) {
+    const tarea = {
+        id: Date.now(),
+        descripcion: descripcion,
+        completada: false,
+        fecha: new Date()
+    };
+    tareas.push(tarea);
+    return tarea;
+}
+
+// Marcar como completada
+function completarTarea(id) {
+    const tarea = tareas.find(t => t.id === id);
+    if (tarea) {
+        tarea.completada = true;
+    }
+}
+
+// Eliminar tarea
+function eliminarTarea(id) {
+    const indice = tareas.findIndex(t => t.id === id);
+    if (indice !== -1) {
+        tareas.splice(indice, 1);
+    }
+}
+
+// Uso
+agregarTarea("Comprar leche");
+agregarTarea("Estudiar JavaScript");
+agregarTarea("Hacer ejercicio");</code></pre>
+                        </div>
+
+                        <h3>2. Carrito de compras</h3>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>Sistema de carrito de compras</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            </div>
+                            <pre><code>let carrito = [];
+
+function agregarProducto(producto, cantidad = 1) {
+    const existente = carrito.find(item => item.producto.id === producto.id);
+    
+    if (existente) {
+        existente.cantidad += cantidad;
+    } else {
+        carrito.push({
+            producto: producto,
+            cantidad: cantidad
+        });
+    }
+}
+
+function calcularTotal() {
+    return carrito.reduce((total, item) => {
+        return total + (item.producto.precio * item.cantidad);
+    }, 0);
+}
+
+// Productos de ejemplo
+const productos = [
+    { id: 1, nombre: "Laptop", precio: 999.99 },
+    { id: 2, nombre: "Mouse", precio: 25.50 },
+    { id: 3, nombre: "Teclado", precio: 79.99 }
+];
+
+// Uso
+agregarProducto(productos[0], 1);
+agregarProducto(productos[1], 2);
+console.log("Total:", calcularTotal());</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="demo" class="section">
+                        <h2>🎮 Demo Interactivo</h2>
+                        <p>Experimenta con arrays directamente desde esta página:</p>
+
+                        <div class="demo-section">
+                            <h4>🧪 Laboratorio de Arrays</h4>
+                            <p>Array actual: <span id="current-array" class="inline-code">[]</span></p>
+                            <p>Longitud: <span id="array-length" class="inline-code">0</span></p>
+                            
+                            <div style="margin: 20px 0; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+                                <input type="text" id="new-element" placeholder="Nuevo elemento" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; flex: 1; min-width: 150px; max-width: 200px;">
+                                <button class="btn btn-success" onclick="addElement()">➕ Push</button>
+                                <button class="btn btn-warning" onclick="removeLastElement()">➖ Pop</button>
+                                <button class="btn" onclick="addToStart()">⬅️ Unshift</button>
+                                <button class="btn" onclick="removeFirstElement()">➡️ Shift</button>
+                            </div>
+
+                            <div style="margin: 20px 0; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+                                <input type="text" id="search-element" placeholder="Buscar elemento" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; flex: 1; min-width: 150px; max-width: 200px;">
+                                <button class="btn" onclick="searchElement()">🔍 Buscar</button>
+                                <button class="btn btn-error" onclick="clearArray()">🗑️ Limpiar Array</button>
+                            </div>
+
+                            <div id="demo-result" style="margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 6px; min-height: 50px;">
+                                <strong>Resultado:</strong> <span id="result-text">Listo para empezar</span>
+                            </div>
+
+                            <div class="array-visualization" id="array-visual" style="margin-top: 20px;">
+                                <div style="text-align: center; color: #666; padding: 20px;">
+                                    Array vacío - añade algunos elementos
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <strong>💡 Experimenta:</strong> Usa el laboratorio de arrays para ver cómo funcionan los métodos básicos en tiempo real.
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>🚀 ¡Domina los Arrays en JavaScript!</h3>
+            <p>Los arrays son la base de la manipulación de datos en JavaScript. Con estos fundamentos podrás construir aplicaciones web dinámicas y eficientes.</p>
+            <p style="margin-top: 20px; opacity: 0.8;">
+                📚 Guía de JavaScript - Arrays | 
+                Creado con ❤️ para desarrolladores
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Demo interactivo de arrays
+        let demoArray = [];
+
+        function updateDisplay() {
+            const arrayDisplay = document.getElementById('current-array');
+            const lengthDisplay = document.getElementById('array-length');
+            const visual = document.getElementById('array-visual');
+
+            arrayDisplay.textContent = JSON.stringify(demoArray);
+            lengthDisplay.textContent = demoArray.length;
+
+            // Actualizar visualización
+            if (demoArray.length === 0) {
+                visual.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">Array vacío - añade algunos elementos</div>';
+            } else {
+                visual.innerHTML = demoArray.map((item, index) => `
+                    <div class="array-item">
+                        <div class="array-index">${index}</div>
+                        ${JSON.stringify(item)}
+                    </div>
+                `).join('');
+            }
+        }
+
+        function showResult(message, type = 'info') {
+            const resultText = document.getElementById('result-text');
+            resultText.textContent = message;
+            resultText.style.color = type === 'error' ? '#f44336' : type === 'success' ? '#4CAF50' : '#333';
+        }
+
+        function addElement() {
+            const input = document.getElementById('new-element');
+            const value = input.value.trim();
+            
+            if (value === '') {
+                showResult('Por favor, introduce un elemento', 'error');
+                return;
+            }
+
+            // Intentar convertir a número si es posible
+            const finalValue = !isNaN(value) && !isNaN(parseFloat(value)) ? parseFloat(value) : value;
+            
+            demoArray.push(finalValue);
+            input.value = '';
+            updateDisplay();
+            showResult(`Elemento "${finalValue}" añadido al final del array`, 'success');
+        }
+
+        function removeLastElement() {
+            if (demoArray.length === 0) {
+                showResult('El array está vacío', 'error');
+                return;
+            }
+
+            const removed = demoArray.pop();
+            updateDisplay();
+            showResult(`Elemento "${removed}" eliminado del final`, 'success');
+        }
+
+        function addToStart() {
+            const input = document.getElementById('new-element');
+            const value = input.value.trim();
+            
+            if (value === '') {
+                showResult('Por favor, introduce un elemento', 'error');
+                return;
+            }
+
+            const finalValue = !isNaN(value) && !isNaN(parseFloat(value)) ? parseFloat(value) : value;
+            
+            demoArray.unshift(finalValue);
+            input.value = '';
+            updateDisplay();
+            showResult(`Elemento "${finalValue}" añadido al inicio del array`, 'success');
+        }
+
+        function removeFirstElement() {
+            if (demoArray.length === 0) {
+                showResult('El array está vacío', 'error');
+                return;
+            }
+
+            const removed = demoArray.shift();
+            updateDisplay();
+            showResult(`Elemento "${removed}" eliminado del inicio`, 'success');
+        }
+
+        function searchElement() {
+            const input = document.getElementById('search-element');
+            const value = input.value.trim();
+            
+            if (value === '') {
+                showResult('Por favor, introduce un elemento para buscar', 'error');
+                return;
+            }
+
+            const finalValue = !isNaN(value) && !isNaN(parseFloat(value)) ? parseFloat(value) : value;
+            const index = demoArray.indexOf(finalValue);
+            
+            if (index !== -1) {
+                showResult(`Elemento "${finalValue}" encontrado en el índice ${index}`, 'success');
+            } else {
+                showResult(`Elemento "${finalValue}" no encontrado en el array`, 'error');
+            }
+        }
+
+        function clearArray() {
+            const length = demoArray.length;
+            demoArray = [];
+            updateDisplay();
+            showResult(`Array limpiado. Se eliminaron ${length} elementos`, 'success');
+        }
+
+        // Función para copiar código
+        function copyCode(button) {
+            const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = "✅ Copiado";
+                button.style.background = "#4CAF50";
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = "";
+                }, 2000);
+            }).catch(err => {
+                console.error('Error copiando código:', err);
+                alert('Error al copiar el código');
+            });
+        }
+
+        // Permitir añadir elementos con Enter
+        document.getElementById('new-element').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addElement();
+            }
+        });
+
+        document.getElementById('search-element').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchElement();
+            }
+        });
+
+        // Smooth scrolling para navegación
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Inicializar display
+        updateDisplay();
+    </script>
+</body>
+</html>
